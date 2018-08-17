@@ -106,6 +106,57 @@ int main(int argc, char* argv[])
 			else
 				std::cout << "Hardware Revision: " << major << "." << minor << "\n";
 
+			if (!is_started)
+			{
+				std::cout << "Starting app...\n";
+				if (neoradio2_app_start(&handle, bank) != NEORADIO2_SUCCESS)
+					std::cout << "Failed to start app...\n";
+
+				//std::this_thread::sleep_for(2s);
+			}
+
+
+			// APPLICATION LEVEL
+
+			is_identified = 0;
+			std::cout << "Identifying Chain on " << deviceName(device) << "\n";
+			if (neoradio2_chain_identify(&handle, bank) != NEORADIO2_SUCCESS)
+			{
+				std::cerr << "neoradio2_chain_identify() failed: " << deviceName(device) << "!\n";
+			}
+			if (neoradio2_chain_is_identified(&handle, 0xFF, &is_identified) != NEORADIO2_SUCCESS)
+			{
+				std::cerr << "neoradio2_is_chain_identified() failed: " << deviceName(device) << "!\n";
+			}
+			std::cout << "Chain is identified: " << (is_identified ? "True" : "False") << "\n";
+			is_started = 0;
+			if (neoradio2_app_is_started(&handle, bank, &is_started) != NEORADIO2_SUCCESS)
+			{
+				std::cerr << "neoradio2_app_is_started() failed: " << deviceName(device) << "!\n";
+			}
+			std::cout << "Firmware State: " << (is_started ? "Application Level" : "Bootloader Level") << "\n";
+
+			if (neoradio2_get_manufacturer_date(&handle, bank, &year, &month, &day) != NEORADIO2_SUCCESS)
+			{
+				std::cerr << "neoradio2_get_manufacturer_date() failed: " << deviceName(device) << "!\n";
+			}
+			else
+				std::cout << "Manufacturer Date: " << month << "/" << day << "/" << year << "\n";
+
+			if (neoradio2_get_firmware_version(&handle, bank, &major, &minor) != NEORADIO2_SUCCESS)
+			{
+				std::cerr << "neoradio2_get_firmware_version() failed: " << deviceName(device) << "!\n";
+			}
+			else
+				std::cout << "Firmware Version: " << major << "." << minor << "\n";
+
+			if (neoradio2_get_hardware_revision(&handle, bank, &major, &minor) != NEORADIO2_SUCCESS)
+			{
+				std::cerr << "neoradio2_get_hardware_revision() failed: " << deviceName(device) << "!\n";
+			}
+			else
+				std::cout << "Hardware Revision: " << major << "." << minor << "\n";
+
 			std::this_thread::sleep_for(120s);
 			std::cout << "Closing " << deviceName(device) << "\n";
 			if (neoradio2_close(&handle) != NEORADIO2_SUCCESS)

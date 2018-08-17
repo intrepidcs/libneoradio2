@@ -1,0 +1,7 @@
+libneoradio2 todo:
+    -Support more in the chain
+    -reset command statuses when we switch back and forth from bootloader to app
+    -Firmware state is still bootloader when we are in app
+    -CRC failure issue
+    -Dropping 2 bytes at end for some reason
+    -Can't identify chain in app once it has already been identified.
