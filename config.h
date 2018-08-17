@@ -7,7 +7,7 @@
 //#define FIFO_INSPECT_PTRS
 
 // libneoradio2
-#define DEBUG_ANNOYING
+//#define DEBUG_ANNOYING
 //#define SKIP_CHECKSUM_VERIFY
 //#define FT260_REPORT_ID_ALL
 //#define ENABLE_EXTENDED_BLOCKING_TIMEOUT

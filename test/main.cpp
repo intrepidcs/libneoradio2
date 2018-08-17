@@ -67,16 +67,13 @@ int main(int argc, char* argv[])
 			int bank = 0xFF;
 			int is_identified = 0;
 			std::cout << "Identifying Chain on " << deviceName(device) << "\n";
-			while (neoradio2_chain_identify(&handle, bank) == NEORADIO2_SUCCESS && (!is_identified))
+			if (neoradio2_chain_identify(&handle, bank) != NEORADIO2_SUCCESS)
 			{
-				std::this_thread::sleep_for(1s);
-				if (!neoradio2_chain_is_identified(&handle, 0xFF, &is_identified) != NEORADIO2_SUCCESS)
-				{
-					std::cerr << "neoradio2_is_chain_identified() failed: " << deviceName(device) << "!\n";
-					continue;
-				}
-				if (is_identified)
-					break;
+				std::cerr << "neoradio2_chain_identify() failed: " << deviceName(device) << "!\n";
+			}
+			if (neoradio2_chain_is_identified(&handle, 0xFF, &is_identified) != NEORADIO2_SUCCESS)
+			{
+				std::cerr << "neoradio2_is_chain_identified() failed: " << deviceName(device) << "!\n";
 			}
 			std::cout << "Chain is identified: " << (is_identified ? "True" : "False") << "\n";
 			int is_started = 0;

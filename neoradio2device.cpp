@@ -160,6 +160,8 @@ void neoRADIO2Device::start()
 	uint8_t* header_ptr;
 	uint8_t calculated_checksum = 0;
 	bool identify_at_least_once = false;
+	bool checksum_passed = false;
+	int i=0;
 	while (!mQuit)
 	{
 #if defined(DEBUG_RADIO2_THREAD_DO_NOTHING)
@@ -218,6 +220,11 @@ void neoRADIO2Device::start()
 			// Increment the pointer past the start of frame since we already have it
 			header_ptr += sizeof(mLastframe.frame()->header.start_of_frame);
 			memcpy(header_ptr, buffer, buffer_size);
+
+			// The bank is an index and not a bitmask when the response comes back from the device
+			// lets change that here
+			mLastframe.frame()->header.bank = (1 << mLastframe.frame()->header.bank);
+			DEBUG_PRINT("mLastframe.frame()->header.bank = 0x%x", mLastframe.frame()->header.bank);
 			// Copy the command_status into the correct CommandHandler
 			mBankCmds.updateBankCmd(mLastframe.frame(), COMMAND_STATE_RECEIVED_HEADER);
 			if (isHostHeaderId(mLastframe.frame()->header.start_of_frame))
@@ -274,20 +281,19 @@ void neoRADIO2Device::start()
 			// add the crc to the frame
 			mLastframe.frame()->crc = buffer[0];
 #if !defined(SKIP_CHECKSUM_VERIFY)
-			// Calculate the crc to make sure we match
+			// CRC is going to fail since we changed the bank from index, lets put it back for calculation
+			for (i=0; mLastframe.frame()->header.bank >>= 1; ++i) {}
+			mLastframe.frame()->header.bank = i;
 			calculated_checksum = 0;
-			if (!verifyFrameChecksum(mLastframe.frame(), &calculated_checksum))
+			checksum_passed = verifyFrameChecksum(mLastframe.frame(), &calculated_checksum);
+			mLastframe.frame()->header.bank = (1 << mLastframe.frame()->header.bank);
+			mBankCmds.updateBankCmd(mLastframe.frame(), (checksum_passed ? COMMAND_STATE_FINISHED : COMMAND_STATE_CRC_ERROR));
+			mLastState = PROCESS_STATE_FINISHED;
+			if (!checksum_passed)
 			{
 				DEBUG_PRINT("ERROR: CRC Failure: Got %d, Expected %d", mLastframe.frame()->crc, calculated_checksum);
-				mBankCmds.updateBankCmd(mLastframe.frame(), COMMAND_STATE_CRC_ERROR);
-
-				mLastState = PROCESS_STATE_FINISHED;
-				break;
 			}
 #endif
-			mBankCmds.updateBankCmd(mLastframe.frame(), COMMAND_STATE_FINISHED);
-
-			mLastState = PROCESS_STATE_FINISHED;
 			break;
 		case PROCESS_STATE_FINISHED:
 			auto bank = 0;
@@ -420,7 +426,7 @@ bool neoRADIO2Device::isChainIdentified(int bank, std::chrono::milliseconds time
 bool neoRADIO2Device::getIdentifyResponse(int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds timeout)
 {
 	// reset the frame
-	memcpy(&response, 0, sizeof(response));
+	//memcpy(&response, 0, sizeof(response));
 	// can't do anything without the chain identified
 	if (!isChainIdentified(bank, timeout))
 		return false;
