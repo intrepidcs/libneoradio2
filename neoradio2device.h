@@ -1,0 +1,191 @@
+#ifndef __NEORADIO2_DEVICE_H_
+#define __NEORADIO2_DEVICE_H_
+
+#include "hiddevice.h"
+#include "command_handler.h"
+#include "commandhandlerbank.h"
+#include "neoradio2framehandler.h"
+#include <unordered_map>
+
+#include "radio2_frame.h"
+
+
+class neoRADIO2Device : public HidDevice
+{
+public:
+
+	neoRADIO2Device(DeviceInfoEx& di)
+		: HidDevice(di)
+	{
+		// Host frame commands
+		mBankCmds.addCmdOffset(0xAA, 255);
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_START, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_IDENTIFY, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_DATA, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_DATA, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_SETTINGS, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_SETTINGS, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_CAL, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_CAL, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_TOGGLE_LED, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITEBUFFER, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITETOFLASH, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_VERIFY, 255));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_ENTERBOOT, 255));
+
+		// Device Report frame commands
+		mBankCmds.addCmdOffset(0x55, 0);
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_OK, 0));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_ERROR, 0));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_IDENTIFY, 0));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_READ_SETTINGS, 0));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_NEED_ID, 0));
+
+		mIsRunning = false;
+		mThread = new std::thread(&neoRADIO2Device::start, this);
+	}
+	virtual ~neoRADIO2Device();
+
+	bool quit(bool wait_for_quit=true);
+
+
+	static std::vector<neoRADIO2Device*> _findAll()
+	{
+		std::vector<neoRADIO2Device*> devs;
+
+		hid_device_info* hdi = NULL;
+		hid_device_info* first_hdi = hdi;
+		if (hdi = hid_enumerate(0x93C, 0x1300))
+			while (hdi != NULL)
+			{
+				auto interface_number = hdi->interface_number;
+#ifdef __APPLE__
+				// https://github.com/signal11/hidapi/issues/326
+				// hidapi after 02/11/17 shouldn't have this problem
+				if (interface_number == -1)
+				{
+					interface_number = hdi->path[strlen(hdi->path)-1] - 0x30;
+				}
+#endif
+				//hdi->serial_number
+				DeviceInfoEx di;
+				di.is_open = false;
+				di.is_blocking = true;
+				memset(&di.di, 0, sizeof(di.di));
+				if (hdi->product_string)
+				{
+					di.di.name = new char[64]{0};
+					std::wcstombs(di.di.name, hdi->product_string, 64);
+				}
+				if (hdi->serial_number)
+				{
+					di.di.serial_str = new char[64]{0};
+					std::wcstombs(di.di.serial_str, hdi->serial_number, 64);
+				}
+				di.di.product_id = hdi->product_id;
+				di.di.vendor_id = hdi->vendor_id;
+
+				auto hid_dev = new neoRADIO2Device(di);
+				if (interface_number == 0)
+				{
+					hid_dev->addPath(CHANNEL_0, hdi->path);
+					if (hdi->next)
+						hid_dev->addPath(CHANNEL_1, hdi->next->path);
+					hdi = hdi->next->next;
+				}
+				else if (interface_number == 1)
+				{
+					if (hdi->next)
+						hid_dev->addPath(CHANNEL_0, hdi->next->path);
+					hid_dev->addPath(CHANNEL_1, hdi->path);
+					hdi = hdi->next->next;
+				}
+				else
+					hdi = hdi->next;
+				devs.push_back(hid_dev);
+			}
+		hid_free_enumeration(first_hdi);
+		return devs;
+	}
+
+	// this code will loop forever until you return false or user requested a quit()
+	virtual bool runIdle();
+	virtual bool runConnecting();
+	virtual bool runConnected();
+	virtual bool runDisconnecting();
+
+	virtual bool isOpen();
+
+	//virtual bool readUart(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel);
+	bool writeUartFrame(neoRADIO2frame* frame, DeviceChannel channel);
+
+	bool identifyChain(int bank, std::chrono::milliseconds timeout);
+	bool isChainIdentified(int bank, std::chrono::milliseconds timeout);
+	bool getIdentifyResponse(int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds);
+
+	bool startApplication(int bank, std::chrono::milliseconds timeout);
+	bool isApplicationStarted(int bank, std::chrono::milliseconds timeout);
+
+	bool getSerialNumber(int bank, unsigned int& sn, std::chrono::milliseconds timeout);
+	bool getManufacturerDate(int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout);
+	bool getDeviceType(int bank, int device_type, std::chrono::milliseconds timeout);
+	bool getFirmwareVersion(int bank, int& major, int& minor, std::chrono::milliseconds timeout);
+	bool getHardwareRevision(int bank, int& major, int& minor, std::chrono::milliseconds timeout);
+	/*
+	typedef struct _neoRADIO2frame_identifyResponse {
+		uint32_t	serial_number;
+		uint16_t	manufacture_year;
+		uint8_t     manufacture_month;
+		uint8_t	    manufacture_day;
+		uint8_t		device_type;
+		uint8_t		device_number;
+		uint8_t		device_bank;
+		uint8_t		firmwareVersion_major;
+		uint8_t		firmwareVersion_minor;
+		uint8_t		hardware_revMinor;
+		uint8_t		hardware_revMajor;
+		uint8_t     current_state;
+	} neoRADIO2frame_identifyResponse;
+	*/
+
+protected:
+
+	typedef enum _CommandStates
+	{
+		COMMAND_STATE_RESET = 0,
+		COMMAND_STATE_RECEIVED_HEADER,
+		COMMAND_STATE_RECEIVED_DATA,
+		COMMAND_STATE_ERROR,
+		COMMAND_STATE_CRC_ERROR,
+		COMMAND_STATE_FINISHED,
+	} CommandStates;
+
+	typedef enum _ProcessStates
+	{
+		PROCESS_STATE_IDLE = 0,
+		PROCESS_STATE_HEADER,
+		PROCESS_STATE_DATA,
+		PROCESS_STATE_CRC,
+		PROCESS_STATE_FINISHED,
+	} ProcessStates;
+
+	ProcessStates mLastState;
+	neoRADIO2FrameHandler<neoRADIO2frame> mLastframe;
+	CommandHandlerBanks<unsigned int, _CommandStates> mBankCmds;
+
+private:
+	bool mIsRunning;
+	bool mQuit;
+	std::thread* mThread;
+	std::mutex mMutex;
+
+	// this is the actual thread loop that calls run()
+	void start();
+
+	// Calculate the CRC, this was stolen from firmware in crc8.c
+	uint8_t crc8_Calc(uint8_t* data, int len);
+	bool generateFrameChecksum(neoRADIO2frame* frame);
+	bool verifyFrameChecksum(neoRADIO2frame* frame, uint8_t* calculated_checksum=nullptr);
+};
+
+#endif // __NEORADIO2_DEVICE_H_

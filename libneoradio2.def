@@ -1,0 +1,20 @@
+LIBRARY
+
+EXPORTS
+	find_hid_devices @99
+	neoradio2_set_blocking @ 1
+	neoradio2_is_blocking @ 2
+	neoradio2_find_devices @ 3
+	neoradio2_open @ 4
+	neoradio2_is_opened @ 5
+	neoradio2_close @ 6
+	neoradio2_is_closed @ 7
+	neoradio2_chain_is_identified @ 8
+	neoradio2_chain_identify @ 9
+	neoradio2_app_is_started @ 10
+	neoradio2_app_start @ 11
+	neoradio2_get_serial_number @ 12
+	neoradio2_get_manufacturer_date @ 13
+	neoradio2_get_firmware_version @ 14
+	neoradio2_get_hardware_revision @ 15
+	neoradio2_get_device_type @ 16

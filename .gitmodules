@@ -1,0 +1,6 @@
+[submodule "hidapi"]
+	path = hidapi
+	url = https://github.com/signal11/hidapi.git
+[submodule "test/ice"]
+	path = test/ice
+	url = https://github.com/ic3man5/ice.git
