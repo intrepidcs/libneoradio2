@@ -140,6 +140,17 @@ public:
 		return setState((T)cmd, state);
 	}
 
+	bool setAllState(S state)
+	{
+		
+		for (auto& cmd : mSentCmds)
+		{
+			std::lock_guard<std::mutex> lock(cmd.second->lock);
+			cmd.second->state = state;
+		}
+		return true;
+	}
+
 	S getState(T cmd)
 	{
 		auto status = find(cmd);

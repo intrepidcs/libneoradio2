@@ -18,20 +18,20 @@ public:
 		: HidDevice(di)
 	{
 		// Host frame commands
-		mBankCmds.addCmdOffset(0xAA, 255);
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_START, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_IDENTIFY, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_DATA, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_DATA, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_SETTINGS, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_SETTINGS, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_CAL, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_CAL, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_TOGGLE_LED, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITEBUFFER, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITETOFLASH, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_VERIFY, 255));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_ENTERBOOT, 255));
+		mBankCmds.addCmdOffset(0xAA, 0x100);
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_START, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_IDENTIFY, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_DATA, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_DATA, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_SETTINGS, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_SETTINGS, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_CAL, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_CAL, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_TOGGLE_LED, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITEBUFFER, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITETOFLASH, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_VERIFY, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_ENTERBOOT, 0x100));
 
 		// Device Report frame commands
 		mBankCmds.addCmdOffset(0x55, 0);
@@ -121,10 +121,14 @@ public:
 
 	bool identifyChain(int bank, std::chrono::milliseconds timeout);
 	bool isChainIdentified(int bank, std::chrono::milliseconds timeout);
+	bool doesChainNeedIdentify(std::chrono::milliseconds timeout);
 	bool getIdentifyResponse(int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds);
 
 	bool startApplication(int bank, std::chrono::milliseconds timeout);
 	bool isApplicationStarted(int bank, std::chrono::milliseconds timeout);
+	bool enterBootloader(int bank, std::chrono::milliseconds timeout);
+
+	
 
 	bool getSerialNumber(int bank, unsigned int& sn, std::chrono::milliseconds timeout);
 	bool getManufacturerDate(int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout);

@@ -140,6 +140,22 @@ public:
 		return success_count == mBanks.size();
 	}
 
+	bool setCommandStateForAll(S state, bool clear_data)
+	{
+		int success_count = 0;
+		for (auto cmd_handler : mBanks)
+		{
+			if (cmd_handler.second)
+			{
+				if (cmd_handler.second->setAllState(state))
+					++success_count;
+				if (clear_data)
+					cmd_handler.second->clearData(cmd_handler.first);
+			}
+		}
+		return success_count == mBanks.size();
+	}
+
 	template <typename P>
 	bool isStateSet(T cmd, S state, P timeout)
 	{
