@@ -248,6 +248,18 @@ LIBNEORADIO2_API int neoradio2_app_start(neoradio2_handle* handle, int bank)
 	return radio_dev->startApplication(bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
+LIBNEORADIO2_API int neoradio2_enter_bootloader(neoradio2_handle* handle, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	return radio_dev->enterBootloader(bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
 LIBNEORADIO2_API int neoradio2_get_serial_number(neoradio2_handle* handle, int bank, unsigned int* serial_number)
 {
 	if (!serial_number)

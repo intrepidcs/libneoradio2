@@ -387,7 +387,7 @@ bool neoRADIO2Device::identifyChain(int bank, std::chrono::milliseconds timeout)
 			0xAA, // start_of_frame
 			NEORADIO2_COMMAND_IDENTIFY, // command_status
 			0xFF, // device
-			bank, // bank
+			(uint8_t)bank, // bank
 			3, // len
 		},
 		{ // data
@@ -423,10 +423,17 @@ bool neoRADIO2Device::isChainIdentified(int bank, std::chrono::milliseconds time
 	return success;
 }
 
+bool neoRADIO2Device::doesChainNeedIdentify(std::chrono::milliseconds timeout)
+{
+	// We don't need a bank here because if we are broadcasting STATUS_NEED_ID its all set to zero because its unknown.
+	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_NEED_ID);
+	return mBankCmds[0]->isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
+}
+
 bool neoRADIO2Device::getIdentifyResponse(int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds timeout)
 {
 	// reset the frame
-	//memcpy(&response, 0, sizeof(response));
+	memset(&response, 0, sizeof(response));
 	// can't do anything without the chain identified
 	if (!isChainIdentified(bank, timeout))
 		return false;
@@ -445,7 +452,6 @@ bool neoRADIO2Device::getIdentifyResponse(int bank, neoRADIO2frame_identifyRespo
 bool neoRADIO2Device::startApplication(int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
-	const int buffer_size = 64;
 	neoRADIO2frame frame =
 	{
 		{ // header
@@ -459,12 +465,42 @@ bool neoRADIO2Device::startApplication(int bank, std::chrono::milliseconds timeo
 		},
 		0 // crc
 	};
-	// Reset the command
-	mBankCmds.updateBankCmd(&frame, COMMAND_STATE_RESET);
-	mBankCmds.updateBankData(&frame);
+	// Reset all commands as we are technically resetting the processor
+	mBankCmds.setCommandStateForAll(COMMAND_STATE_RESET, true);
 	// send the packets
-	bool success = writeUartFrame(&frame, CHANNEL_1);
-	return success && isApplicationStarted(bank, timeout);
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Give the device time to boot
+	std::this_thread::sleep_for(50ms);
+	// Identify the chain again
+	return identifyChain(bank, timeout) && isApplicationStarted(bank, timeout);
+}
+
+bool neoRADIO2Device::enterBootloader(int bank, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_ENTERBOOT, // command_status
+			0xFF, // device
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	// Reset all commands as we are technically resetting the processor
+	mBankCmds.setCommandStateForAll(COMMAND_STATE_RESET, true);
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Give the device time to boot
+	std::this_thread::sleep_for(100ms);
+	// Identify the chain again
+	return identifyChain(bank, timeout) && !isApplicationStarted(bank, 0s);
 }
 
 bool neoRADIO2Device::isApplicationStarted(int bank, std::chrono::milliseconds timeout)
