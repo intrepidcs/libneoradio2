@@ -28,6 +28,7 @@ public:
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_CAL, 0x100));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_CAL, 0x100));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_TOGGLE_LED, 0x100));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_PCBSN, 0x100));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITEBUFFER, 0x100));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITETOFLASH, 0x100));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_VERIFY, 0x100));
@@ -35,11 +36,12 @@ public:
 
 		// Device Report frame commands
 		mBankCmds.addCmdOffset(0x55, 0);
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_OK, 0));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_ERROR, 0));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_SENSOR, 0));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_FIRMWARE, 0));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_IDENTIFY, 0));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_READ_SETTINGS, 0));
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_NEED_ID, 0));
+		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_READ_PCBSN, 0));
 
 		mIsRunning = false;
 		mThread = new std::thread(&neoRADIO2Device::start, this);
@@ -119,38 +121,27 @@ public:
 	//virtual bool readUart(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel);
 	bool writeUartFrame(neoRADIO2frame* frame, DeviceChannel channel);
 
-	bool identifyChain(int bank, std::chrono::milliseconds timeout);
-	bool isChainIdentified(int bank, std::chrono::milliseconds timeout);
+	bool identifyChain(std::chrono::milliseconds timeout);
+	bool isChainIdentified(std::chrono::milliseconds timeout);
 	bool doesChainNeedIdentify(std::chrono::milliseconds timeout);
-	bool getIdentifyResponse(int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds);
+	bool getIdentifyResponse(int device, int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds);
 
-	bool startApplication(int bank, std::chrono::milliseconds timeout);
-	bool isApplicationStarted(int bank, std::chrono::milliseconds timeout);
-	bool enterBootloader(int bank, std::chrono::milliseconds timeout);
+	bool startApplication(int device, int bank, std::chrono::milliseconds timeout);
+	bool isApplicationStarted(int device, int bank, std::chrono::milliseconds timeout);
+	bool enterBootloader(int device, int bank, std::chrono::milliseconds timeout);	
 
-	
+	bool getSerialNumber(int device, int bank, unsigned int& sn, std::chrono::milliseconds timeout);
+	bool getManufacturerDate(int device, int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout);
+	bool getDeviceType(int device, int bank, int device_type, std::chrono::milliseconds timeout);
+	bool getFirmwareVersion(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout);
+	bool getHardwareRevision(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout);
+	bool getPCBSN(int device, int bank, std::string& pcb_sn, std::chrono::milliseconds timeout);
 
-	bool getSerialNumber(int bank, unsigned int& sn, std::chrono::milliseconds timeout);
-	bool getManufacturerDate(int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout);
-	bool getDeviceType(int bank, int device_type, std::chrono::milliseconds timeout);
-	bool getFirmwareVersion(int bank, int& major, int& minor, std::chrono::milliseconds timeout);
-	bool getHardwareRevision(int bank, int& major, int& minor, std::chrono::milliseconds timeout);
-	/*
-	typedef struct _neoRADIO2frame_identifyResponse {
-		uint32_t	serial_number;
-		uint16_t	manufacture_year;
-		uint8_t     manufacture_month;
-		uint8_t	    manufacture_day;
-		uint8_t		device_type;
-		uint8_t		device_number;
-		uint8_t		device_bank;
-		uint8_t		firmwareVersion_major;
-		uint8_t		firmwareVersion_minor;
-		uint8_t		hardware_revMinor;
-		uint8_t		hardware_revMajor;
-		uint8_t     current_state;
-	} neoRADIO2frame_identifyResponse;
-	*/
+	bool readSensor(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
+
+	// neoRADIO2_deviceSettings
+	bool readSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
+	bool writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
 
 protected:
 
@@ -190,6 +181,8 @@ private:
 	uint8_t crc8_Calc(uint8_t* data, int len);
 	bool generateFrameChecksum(neoRADIO2frame* frame);
 	bool verifyFrameChecksum(neoRADIO2frame* frame, uint8_t* calculated_checksum=nullptr);
+
+	bool resetCommands(int start_of_frame, int cmd, int banks);
 };
 
 #endif // __NEORADIO2_DEVICE_H_

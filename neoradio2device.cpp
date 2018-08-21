@@ -3,6 +3,8 @@
 #include "radio2_frame.h"
 
 #include <cassert>
+#include <string>
+#include <sstream>
 
 //#define DEBUG_RADIO2_THREAD_DO_NOTHING
 
@@ -51,7 +53,10 @@ bool neoRADIO2Device::runConnecting()
 	const int baudrate = 250000;
 	auto success =  HidDevice::runConnecting();
 	if (!success)
+	{
+		DEBUG_PRINT("HidDevice::runConnecting() failed!");
 		return success;
+	}
 
 	uint8_t buffer[64]{0};
 	uint16_t buffer_size = sizeof(buffer);
@@ -67,7 +72,10 @@ bool neoRADIO2Device::runConnecting()
 	buffer_size = sizeof(buffer);
 	success = write(buffer, &buffer_size, CHANNEL_SPECIAL) && buffer_size == sizeof(buffer);
 	if (!success)
+	{
+		DEBUG_PRINT("Setup FT260 Clock failed!");
 		return success;
+	}
 
 	// http://www.ftdichip.com/Support/Documents/ProgramGuides/AN_394_User_Guide_for_FT260.pdf
 	// 4.4.8 Select GPIOA Function
@@ -79,7 +87,10 @@ bool neoRADIO2Device::runConnecting()
 	buffer_size = sizeof(buffer);
 	success = write(buffer, &buffer_size, CHANNEL_SPECIAL) && buffer_size == sizeof(buffer);
 	if (!success)
+	{
+		DEBUG_PRINT("Select GPIOA Function TX_LED failed!");
 		return success;
+	}
 
 	// http://www.ftdichip.com/Support/Documents/ProgramGuides/AN_394_User_Guide_for_FT260.pdf
 	// 4.4.9 Select GPIOG Function
@@ -91,7 +102,10 @@ bool neoRADIO2Device::runConnecting()
 	buffer_size = sizeof(buffer);
 	success = write(buffer, &buffer_size, CHANNEL_SPECIAL) && buffer_size == sizeof(buffer);
 	if (!success)
+	{
+		DEBUG_PRINT("Select GPIOG Function RX_LED failed!");
 		return success;
+	}
 
 	// http://www.ftdichip.com/Support/Documents/ProgramGuides/AN_394_User_Guide_for_FT260.pdf
 	// 4.7.1 GPIO Write Request
@@ -105,7 +119,10 @@ bool neoRADIO2Device::runConnecting()
 	buffer_size = sizeof(buffer);
 	success = write(buffer, &buffer_size, CHANNEL_SPECIAL) && buffer_size == sizeof(buffer);
 	if (!success)
+	{
+		DEBUG_PRINT("GPIO Write Request - GPIOH Output failed!");
 		return success;
+	}
 
 	// http://www.ftdichip.com/Support/Documents/ProgramGuides/AN_394_User_Guide_for_FT260.pdf
 	// 4.4.17 Configure UART 
@@ -125,8 +142,22 @@ bool neoRADIO2Device::runConnecting()
 	buffer_size = sizeof(buffer);
 	success = write(buffer, &buffer_size, CHANNEL_SPECIAL) && buffer_size == sizeof(buffer);
 	if (!success)
+	{
+		DEBUG_PRINT("Configure UART - %d baudrate failed!", baudrate);
 		return success;
+	}
 
+	/*
+	// Identify the chain before we do anything
+	using namespace std::chrono;
+	DEBUG_PRINT("Configure Chain - Initial");
+	if (!identifyChain(0xFF, 3s))
+	{
+		changeState(DeviceStateDisconnecting);
+		return false;
+	}
+	*/
+	DEBUG_PRINT("Changing state to connected!");
 	changeState(DeviceStateConnected);
 	return success;
 #else
@@ -148,6 +179,13 @@ bool neoRADIO2Device::runDisconnecting()
 
 void neoRADIO2Device::start()
 {
+	
+#ifdef ENABLE_DEBUG_PRINT
+	auto id = std::this_thread::get_id();
+	std::stringstream temp;
+	temp << "THREAD ID: " << id;
+	DEBUG_PRINT("Started... %s", temp.str().c_str());
+#endif // ENABLE_DEBUG_PRINT
 	using namespace std::chrono;
 
 	mMutex.lock();
@@ -171,6 +209,9 @@ void neoRADIO2Device::start()
 		// Nothing to do if we aren't connected
 		if (state() != DeviceStateConnected)
 		{
+#ifdef DEBUG_ANNOYING
+			DEBUG_PRINT("NOT CONNECTED!");
+#endif // DEBUG_ANNOYING
 			std::this_thread::sleep_for(1ms);
 			continue;
 		}
@@ -182,6 +223,8 @@ void neoRADIO2Device::start()
 #endif // IDENTIFY_CHAIN_ON_CONNECT
 		auto start_time = std::chrono::high_resolution_clock::now();
 		bool success = false;
+		// If you hate yourself, uncomment this line:
+		//DEBUG_PRINT("Last State: %d", mLastState);
 		switch (mLastState)
 		{
 		case PROCESS_STATE_IDLE:
@@ -302,11 +345,12 @@ void neoRADIO2Device::start()
 					bank = i;
 			if (bank >= 8)
 				bank = 0;
+			auto cmd = mBankCmds.getCmdOffset(mLastframe.frame());
 			if (isHostHeaderId(mLastframe.frame()->header.start_of_frame))
-				DEBUG_PRINT("Finalized Host command:          %s - status: %d (bank: %d)", mBankCmds[0]->name(mLastframe.frame()->header.command_status).c_str(),
+				DEBUG_PRINT("Finalized Host command:          %s - status: %d (bank: %d)", mBankCmds[0]->name(cmd).c_str(),
 					mBankCmds[bank]->getState(mLastframe.frame()->header.command_status), bank);
 			else
-				DEBUG_PRINT("Finalized Device Report command: %s - status: %d (bank: %d)", mBankCmds[0]->name(mLastframe.frame()->header.command_status).c_str(),
+				DEBUG_PRINT("Finalized Device Report command: %s - status: %d (bank: %d)", mBankCmds[0]->name(cmd).c_str(),
 					mBankCmds[bank]->getState(mLastframe.frame()->header.command_status), bank);
 			/* TODO
 			if (isHostHeaderId(mLastframe.frame()->header.start_of_frame))
@@ -334,6 +378,13 @@ void neoRADIO2Device::start()
 	mMutex.lock();
 	mIsRunning = false;
 	mMutex.unlock();
+
+#ifdef ENABLE_DEBUG_PRINT
+	auto id2 = std::this_thread::get_id();
+	std::stringstream temp2;
+	temp2 << "THREAD ID: " << id2;
+	DEBUG_PRINT("Stopping... %s", temp2.str().c_str());
+#endif // ENABLE_DEBUG_PRINT
 }
 
 bool neoRADIO2Device::isOpen()
@@ -377,7 +428,7 @@ bool neoRADIO2Device::writeUartFrame(neoRADIO2frame* frame, DeviceChannel channe
 	return write(buffer, &size, channel) && size == sent_size;
 }
 
-bool neoRADIO2Device::identifyChain(int bank, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::identifyChain(std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	const int buffer_size = 64;
@@ -386,8 +437,8 @@ bool neoRADIO2Device::identifyChain(int bank, std::chrono::milliseconds timeout)
 		{ // header
 			0xAA, // start_of_frame
 			NEORADIO2_COMMAND_IDENTIFY, // command_status
-			0xFF, // device
-			(uint8_t)bank, // bank
+			0xFF, 
+			0xFF, // bank
 			3, // len
 		},
 		{ // data
@@ -404,23 +455,14 @@ bool neoRADIO2Device::identifyChain(int bank, std::chrono::milliseconds timeout)
 
 	bool success = writeUartFrame(&frame, CHANNEL_1);
 	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_IDENTIFY);
-	if (bank >= 0xFF)
-		success = success && mBankCmds.isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
-	else
-		success = success && mBankCmds[bank]->isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
-	return success;
+	return success && mBankCmds.isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
 }
 
-bool neoRADIO2Device::isChainIdentified(int bank, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::isChainIdentified(std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_IDENTIFY);
-	bool success = false;
-	if (bank >= 0xFF)
-		success = mBankCmds.isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
-	else
-		success = mBankCmds[bank]->isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
-	return success;
+	return  mBankCmds.isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
 }
 
 bool neoRADIO2Device::doesChainNeedIdentify(std::chrono::milliseconds timeout)
@@ -430,17 +472,15 @@ bool neoRADIO2Device::doesChainNeedIdentify(std::chrono::milliseconds timeout)
 	return mBankCmds[0]->isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
 }
 
-bool neoRADIO2Device::getIdentifyResponse(int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::getIdentifyResponse(int device, int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds timeout)
 {
 	// reset the frame
 	memset(&response, 0, sizeof(response));
 	// can't do anything without the chain identified
-	if (!isChainIdentified(bank, timeout))
+	if (!isChainIdentified(timeout))
 		return false;
 	// Grab the data received from the chain response
 	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_COMMAND_IDENTIFY);
-	if (bank >= 0xFF)
-		bank = 0; // TODO
 	std::vector<uint8_t> data = mBankCmds[bank]->getData(cmd);
 	// Check size and finally copy data into response struct
 	if (data.size() != sizeof(response))
@@ -449,7 +489,7 @@ bool neoRADIO2Device::getIdentifyResponse(int bank, neoRADIO2frame_identifyRespo
 	return true;
 }
 
-bool neoRADIO2Device::startApplication(int bank, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::startApplication(int device, int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	neoRADIO2frame frame =
@@ -457,8 +497,8 @@ bool neoRADIO2Device::startApplication(int bank, std::chrono::milliseconds timeo
 		{ // header
 			0xAA, // start_of_frame
 			NEORADIO2_COMMAND_START, // command_status
-			0xFF, // device
-			(uint8_t)bank, // bank
+			device, 
+			(1 << bank), // bank
 			0, // len
 		},
 		{ // data
@@ -473,10 +513,10 @@ bool neoRADIO2Device::startApplication(int bank, std::chrono::milliseconds timeo
 	// Give the device time to boot
 	std::this_thread::sleep_for(50ms);
 	// Identify the chain again
-	return identifyChain(bank, timeout) && isApplicationStarted(bank, timeout);
+	return identifyChain(timeout) && isApplicationStarted(device, bank, timeout);
 }
 
-bool neoRADIO2Device::enterBootloader(int bank, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::enterBootloader(int device, int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	neoRADIO2frame frame =
@@ -484,8 +524,8 @@ bool neoRADIO2Device::enterBootloader(int bank, std::chrono::milliseconds timeou
 		{ // header
 			0xAA, // start_of_frame
 			NEORADIO2_COMMAND_ENTERBOOT, // command_status
-			0xFF, // device
-			(uint8_t)bank, // bank
+			device, 
+			(1 << bank), // bank
 			0, // len
 		},
 		{ // data
@@ -500,39 +540,39 @@ bool neoRADIO2Device::enterBootloader(int bank, std::chrono::milliseconds timeou
 	// Give the device time to boot
 	std::this_thread::sleep_for(100ms);
 	// Identify the chain again
-	return identifyChain(bank, timeout) && !isApplicationStarted(bank, 0s);
+	return identifyChain(timeout) && !isApplicationStarted(device, bank, 0s);
 }
 
-bool neoRADIO2Device::isApplicationStarted(int bank, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::isApplicationStarted(int device, int bank, std::chrono::milliseconds timeout)
 {
 	// Chain needs to be identified in order to see if we are in bootloader
-	if (!isChainIdentified(bank, timeout))
+	if (!isChainIdentified(timeout))
 		return false;
 	neoRADIO2frame_identifyResponse response;
-	if (!getIdentifyResponse(bank, response, timeout))
+	if (!getIdentifyResponse(device, bank, response, timeout))
 		return false;
 	return (response.current_state == NEORADIO2STATE_RUNNING);
 }
 
-bool neoRADIO2Device::getSerialNumber(int bank, unsigned int& sn, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::getSerialNumber(int device, int bank, unsigned int& sn, std::chrono::milliseconds timeout)
 {
 	// Chain needs to be identified in order to see if we are in bootloader
-	if (!isChainIdentified(bank, timeout))
+	if (!isChainIdentified(timeout))
 		return false;
 	neoRADIO2frame_identifyResponse response;
-	if (!getIdentifyResponse(bank, response, timeout))
+	if (!getIdentifyResponse(device, bank, response, timeout))
 		return false;
 	sn = response.serial_number;
 	return true;
 }
 
-bool neoRADIO2Device::getManufacturerDate(int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::getManufacturerDate(int device, int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout)
 {
 	// Chain needs to be identified in order to see if we are in bootloader
-	if (!isChainIdentified(bank, timeout))
+	if (!isChainIdentified(timeout))
 		return false;
 	neoRADIO2frame_identifyResponse response;
-	if (!getIdentifyResponse(bank, response, timeout))
+	if (!getIdentifyResponse(device, bank, response, timeout))
 		return false;
 	year = response.manufacture_year;
 	month = response.manufacture_month;
@@ -540,42 +580,184 @@ bool neoRADIO2Device::getManufacturerDate(int bank, int& year, int& month, int& 
 	return true;
 }
 
-bool neoRADIO2Device::getDeviceType(int bank, int device_type, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::getDeviceType(int device, int bank, int device_type, std::chrono::milliseconds timeout)
 {
 	// Chain needs to be identified in order to see if we are in bootloader
-	if (!isChainIdentified(bank, timeout))
+	if (!isChainIdentified(timeout))
 		return false;
 	neoRADIO2frame_identifyResponse response;
-	if (!getIdentifyResponse(bank, response, timeout))
+	if (!getIdentifyResponse(device, bank, response, timeout))
 		return false;
 	device_type = response.device_type;
 	return true;
 }
 
-bool neoRADIO2Device::getFirmwareVersion(int bank, int& major, int& minor, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::getFirmwareVersion(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout)
 {
 	// Chain needs to be identified in order to see if we are in bootloader
-	if (!isChainIdentified(bank, timeout))
+	if (!isChainIdentified(timeout))
 		return false;
 	neoRADIO2frame_identifyResponse response;
-	if (!getIdentifyResponse(bank, response, timeout))
+	if (!getIdentifyResponse(device, bank, response, timeout))
 		return false;
 	major = response.firmwareVersion_major;
 	minor = response.firmwareVersion_minor;
 	return true;
 }
 
-bool neoRADIO2Device::getHardwareRevision(int bank, int& major, int& minor, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::getHardwareRevision(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout)
 {
 	// Chain needs to be identified in order to see if we are in bootloader
-	if (!isChainIdentified(bank, timeout))
+	if (!isChainIdentified(timeout))
 		return false;
 	neoRADIO2frame_identifyResponse response;
-	if (!getIdentifyResponse(bank, response, timeout))
+	if (!getIdentifyResponse(device, bank, response, timeout))
 		return false;
 	major = response.hardware_revMajor;
 	minor = response.hardware_revMinor;
 	return true;
+}
+
+bool neoRADIO2Device::getPCBSN(int device, int bank, std::string& pcb_sn, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	pcb_sn.clear();
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_READ_PCBSN, // command_status
+			device, 
+			(1 << bank), // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	// Reset command
+	auto cmd = mBankCmds.getCmdOffset(0xAA, NEORADIO2_COMMAND_READ_PCBSN);
+	auto response_cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_READ_PCBSN);
+
+	mBankCmds[bank]->setState(response_cmd, COMMAND_STATE_RESET);
+
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Is the command set?
+	bool success = false;
+	success = mBankCmds[bank]->isStateSet(response_cmd, COMMAND_STATE_FINISHED, timeout);
+	if (success)
+	{
+		std::stringstream ss;
+		auto cmd_data = mBankCmds[bank]->getData(response_cmd);
+		for (unsigned int i=0; i < cmd_data.size(); ++i)
+			ss << (char)cmd_data[i];
+		pcb_sn = ss.str();
+	}
+	return success;
+}
+
+bool neoRADIO2Device::readSensor(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	data.clear();
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_READ_DATA, // command_status
+			device, 
+			(1 << bank), // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	// Reset command
+	auto cmd = mBankCmds.getCmdOffset(0xAA, NEORADIO2_COMMAND_READ_DATA);
+	auto response_cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_SENSOR);
+	mBankCmds[bank]->setState(response_cmd, COMMAND_STATE_RESET);
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Is the command set?
+	bool success = mBankCmds[bank]->isStateSet(response_cmd, COMMAND_STATE_FINISHED, timeout);
+	if (success)
+	{
+		auto cmd_data = mBankCmds[bank]->getData(response_cmd);
+		std::copy(cmd_data.begin(), cmd_data.end(), std::back_inserter(data));
+	}
+	return success;
+}
+
+bool neoRADIO2Device::readSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	memset(&settings, 0, sizeof(settings));
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_READ_SETTINGS, // command_status
+			device, 
+			(1 << bank), // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	// Reset command
+	auto cmd = mBankCmds.getCmdOffset(0xAA, NEORADIO2_COMMAND_READ_SETTINGS);
+	auto response_cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_READ_SETTINGS);
+	mBankCmds[bank]->setState(response_cmd, COMMAND_STATE_RESET);
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Is the command set?
+	bool success = false;
+	success = mBankCmds[bank]->isStateSet(response_cmd, COMMAND_STATE_FINISHED, timeout);
+	if (success)
+	{
+		auto cmd_data = mBankCmds[bank]->getData(response_cmd);
+		if (cmd_data.size() != sizeof(settings))
+			return false;
+		memcpy(&settings, cmd_data.data(), cmd_data.size());
+	}
+	return success;
+}
+
+bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_WRITE_SETTINGS, // command_status
+			device, 
+			(1 << bank), // bank
+			sizeof(settings), // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	// copy the settings into the frame
+	memcpy(frame.data, &settings, sizeof(settings));
+
+	// Reset command
+	auto cmd = mBankCmds.getCmdOffset(0xAA, NEORADIO2_COMMAND_WRITE_SETTINGS);
+	//auto response_cmd = mBankCmds.getCmdOffset(0xAA, NEORADIO2_COMMAND_WRITE_SETTINGS);
+	mBankCmds[bank]->setState(cmd, COMMAND_STATE_RESET);
+
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Is the command set?
+	return mBankCmds[bank]->isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
 }
 
 
@@ -629,4 +811,20 @@ bool neoRADIO2Device::verifyFrameChecksum(neoRADIO2frame* frame, uint8_t* calcul
 	if (calculated_checksum)
 		*calculated_checksum = checksum;
 	return checksum == frame->crc;
+}
+
+bool neoRADIO2Device::resetCommands(int start_of_frame, int cmd, int banks)
+{
+	if (!mBankCmds.areBankMasksValid(banks))
+		return false;
+	for (int i=0; i < 8; ++i)
+	{
+		if ((1 << i) & banks)
+		{
+			auto cmd_offset = mBankCmds.getCmdOffset(start_of_frame, cmd);
+			mBankCmds[i]->setState(cmd_offset, COMMAND_STATE_RESET);
+			mBankCmds[i]->clearData(cmd_offset);
+		}
+	}
+	return true;
 }

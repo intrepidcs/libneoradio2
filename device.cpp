@@ -5,6 +5,7 @@
 Device::Device(DeviceInfoEx& di)
 {
 	memcpy(&mDevInfo, &di, sizeof(mDevInfo));
+	mState = DeviceStateIdle;
 	
 }
 

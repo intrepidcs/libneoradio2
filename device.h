@@ -8,15 +8,14 @@
 #include <map>
 
 #include "config.h"
-#include "neoradio2.h"
-
+#include "libneoradio2.h"
 
 
 #ifdef _MSC_VER
 
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
-#if defined(DEBUG) || defined(_DEBUG)
+#if defined(ENABLE_DEBUG_PRINT) && (defined(DEBUG) || defined(_DEBUG))
 #define DEBUG_PRINT(fmt, ...) fprintf(stderr, "\tDEBUG: %s:%d:%s(): " fmt "\n", \
     __FILENAME__, __LINE__, __func__, ##__VA_ARGS__)
 #else
@@ -25,7 +24,7 @@
 
 #else
 
-#if defined(DEBUG)  || defined(_DEBUG)
+#if defined(ENABLE_DEBUG_PRINT) && (defined(DEBUG) || defined(_DEBUG))
 #define DEBUG_PRINT(fmt, args...) fprintf(stderr, "DEBUG: %s:%d:%s(): " fmt "\n", \
     __FILE__, __LINE__, __func__, ##args)
 #else
@@ -133,6 +132,15 @@ protected:
 	DeviceState state()
 	{
 		std::lock_guard<std::mutex> lock(mMutex);
+#ifdef DEBUG_ANNOYING
+		// Report every time we change
+		static auto last_state = mState;
+		if (mState != last_state)
+		{
+			DEBUG_PRINT("State: %d", mState);
+			last_state = mState;
+		}
+#endif // DEBUG_ANNOYING
 		return mState;
 	}
 

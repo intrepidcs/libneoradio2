@@ -34,6 +34,20 @@ public:
 		mBanks.clear();
 	}
 
+	bool areBankMasksValid(int banks)
+	{
+		if (banks > 0xFF)
+			return false;
+		for (int i=0; i < MaxBankSize; ++i)
+		{
+			if (!((banks >> i) & 0x1))
+				continue; // Bank isn't enabled
+			if (mBanks.find(i) == mBanks.end())
+				return false;
+		}
+		return true;
+	}
+
 	void addCmdOffset(int start_of_frame, int offset)
 	{
 		mCmdOffset[start_of_frame] = offset;
@@ -53,18 +67,18 @@ public:
 		return getCmdOffset(frame->header.start_of_frame, frame->header.command_status);
 	}
 
-	CommandHandler<T, S>* getBank(int bank)
+	CommandHandler<T, S>* getBank(int bank_index)
 	{
-		if (mBanks.find(bank) == mBanks.end())
+		if (mBanks.find(bank_index) == mBanks.end())
 			return nullptr;
-		return mBanks[bank];
+		return mBanks[bank_index];
 	}
 
-	CommandHandler<T, S>* operator[](int bank)
+	CommandHandler<T, S>* operator[](int bank_index)
 	{
-		if (mBanks.find(bank) == mBanks.end())
+		if (mBanks.find(bank_index) == mBanks.end())
 			return nullptr;
-		return mBanks[bank];
+		return mBanks[bank_index];
 	}
 
 	bool updateBankCmd(neoRADIO2frame* frame, S state)
@@ -89,13 +103,14 @@ public:
 	{
 		if (!frame)
 			return false;
-		int cmd = getCmdOffset(frame)+frame->header.command_status;
+		int cmd = getCmdOffset(frame); //+frame->header.command_status;
+									   // The bank returned is an index if response message
 		for (unsigned int i=0; i < mBanks.size(); ++i)
 		{
 			if (frame->header.bank & (1 << i))
 			{	// This bank is enabled so lets update it
-				mBanks[i]->clearData(getCmdOffset(frame));
-				mBanks[i]->addData(getCmdOffset(frame), frame->data, frame->header.len);
+				mBanks[i]->clearData(cmd);
+				mBanks[i]->addData(cmd, frame->data, frame->header.len);
 			}
 		}
 		return true;
