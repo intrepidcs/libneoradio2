@@ -44,7 +44,8 @@ public:
 		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_READ_PCBSN, 0));
 
 		mIsRunning = false;
-		mThread = new std::thread(&neoRADIO2Device::start, this);
+		mQuit = false;
+		mLastState = PROCESS_STATE_IDLE;
 	}
 	virtual ~neoRADIO2Device();
 

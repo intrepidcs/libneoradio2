@@ -1,11 +1,13 @@
 #include "device.h"
 
 #include <string>
+#include <sstream>
 
 Device::Device(DeviceInfoEx& di)
 {
 	memcpy(&mDevInfo, &di, sizeof(mDevInfo));
 	mState = DeviceStateIdle;
+	mQuit = false;
 	
 }
 
@@ -36,6 +38,13 @@ bool Device::close()
 
 void Device::start()
 {
+#ifdef ENABLE_DEBUG_PRINT
+	auto id = std::this_thread::get_id();
+	std::stringstream temp;
+	temp << "THREAD ID: " << id;
+	DEBUG_PRINT("Started... %s", temp.str().c_str());
+#endif // ENABLE_DEBUG_PRINT
+
 	using namespace std::chrono;
 
 	mMutex.lock();
@@ -70,6 +79,13 @@ void Device::start()
 	mMutex.lock();
 	mIsRunning = false;
 	mMutex.unlock();
+
+#ifdef ENABLE_DEBUG_PRINT
+	auto id2 = std::this_thread::get_id();
+	std::stringstream temp2;
+	temp2 << "THREAD ID: " << id2;
+	DEBUG_PRINT("Stopping... %s", temp2.str().c_str());
+#endif // ENABLE_DEBUG_PRINT
 }
 
 bool Device::isOpen()

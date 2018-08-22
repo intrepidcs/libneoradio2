@@ -157,6 +157,7 @@ bool neoRADIO2Device::runConnecting()
 		return false;
 	}
 	*/
+	mThread = new std::thread(&neoRADIO2Device::start, this);
 	DEBUG_PRINT("Changing state to connected!");
 	changeState(DeviceStateConnected);
 	return success;
@@ -450,11 +451,13 @@ bool neoRADIO2Device::identifyChain(std::chrono::milliseconds timeout)
 	};
 	// send the packets
 	DEBUG_PRINT("Identifying chain...");
+	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_IDENTIFY);
+	mBankCmds.setCommandState(cmd, COMMAND_STATE_RESET);
 	mBankCmds.updateBankCmd(&frame, COMMAND_STATE_RESET);
 	mBankCmds.updateBankData(&frame);
 
 	bool success = writeUartFrame(&frame, CHANNEL_1);
-	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_IDENTIFY);
+	
 	return success && mBankCmds.isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
 }
 
@@ -511,7 +514,7 @@ bool neoRADIO2Device::startApplication(int device, int bank, std::chrono::millis
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Give the device time to boot
-	std::this_thread::sleep_for(50ms);
+	std::this_thread::sleep_for(100ms);
 	// Identify the chain again
 	return identifyChain(timeout) && isApplicationStarted(device, bank, timeout);
 }
