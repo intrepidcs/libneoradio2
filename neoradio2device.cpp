@@ -273,11 +273,11 @@ void neoRADIO2Device::start()
 			mBankCmds.updateBankCmd(mLastframe.frame(), COMMAND_STATE_RECEIVED_HEADER);
 			if (isHostHeaderId(mLastframe.frame()->header.start_of_frame))
 			{
-				DEBUG_PRINT("Received Host Header          (cmd: %d, data_len: %d, bank: %d)", mLastframe.frame()->header.command_status, mLastframe.frame()->header.len, mLastframe.frame()->header.bank);
+				DEBUG_PRINT("Received Host Header          (cmd: %d, data_len: %d, device: %d, bank: %d)", mLastframe.frame()->header.command_status, mLastframe.frame()->header.len, mLastframe.frame()->header.device, mLastframe.frame()->header.bank);
 			}
 			else
 			{
-				DEBUG_PRINT("Received Device Report Header (cmd: %d, data_len: %d, bank: %d)", mLastframe.frame()->header.command_status, mLastframe.frame()->header.len, mLastframe.frame()->header.bank);
+				DEBUG_PRINT("Received Device Report Header (cmd: %d, data_len: %d, device: %d, bank: %d)", mLastframe.frame()->header.command_status, mLastframe.frame()->header.len, mLastframe.frame()->header.device, mLastframe.frame()->header.bank);
 			}
 			mLastState = PROCESS_STATE_DATA;
 			break;
@@ -348,11 +348,11 @@ void neoRADIO2Device::start()
 				bank = 0;
 			auto cmd = mBankCmds.getCmdOffset(mLastframe.frame());
 			if (isHostHeaderId(mLastframe.frame()->header.start_of_frame))
-				DEBUG_PRINT("Finalized Host command:          %s - status: %d (bank: %d)", mBankCmds[0]->name(cmd).c_str(),
-					mBankCmds[bank]->getState(mLastframe.frame()->header.command_status), bank);
+				DEBUG_PRINT("Finalized Host command:          %s - status: %d (device: %d bank: %d)", mBankCmds[0]->name(cmd).c_str(),
+					mBankCmds[bank]->getState(mLastframe.frame()->header.command_status), mLastframe.frame()->header.device, bank);
 			else
-				DEBUG_PRINT("Finalized Device Report command: %s - status: %d (bank: %d)", mBankCmds[0]->name(cmd).c_str(),
-					mBankCmds[bank]->getState(mLastframe.frame()->header.command_status), bank);
+				DEBUG_PRINT("Finalized Device Report command: %s - status: %d (device: %d bank: %d)", mBankCmds[0]->name(cmd).c_str(),
+					mBankCmds[bank]->getState(mLastframe.frame()->header.command_status), mLastframe.frame()->header.device, bank);
 			/* TODO
 			if (isHostHeaderId(mLastframe.frame()->header.start_of_frame))
 			{
