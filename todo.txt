@@ -1,7 +1,67 @@
 libneoradio2 todo:
-    -Support more in the chain
+    -Support more in the chain - it "works" but all the bank data is overwritten and can't tell the difference between the devices in the chain
     -reset command statuses when we switch back and forth from bootloader to app
-    -Firmware state is still bootloader when we are in app
-    -CRC failure issue
-    -Dropping 2 bytes at end for some reason
-    -Can't identify chain in app once it has already been identified.
+    -CRC failure when switching bootloader on first bank
+        DEBUG: libneoradio2.cpp:34:_getDevice(): _device_map size: 1
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x2
+        DEBUG: neoradio2device.cpp:276:start(): Received Host Header          (cmd: 255, data_len: 0, device: 0, bank: 2)
+        DEBUG: neoradio2device.cpp:352:start(): Finalized Host command:          NEORADIO2_COMMAND_ENTERBOOT - status: 0 (device: 0 bank: 1)
+        DEBUG: neoradio2device.cpp:245:start(): WARNING: Dropping 1 bytes due to invalid start of frame (data: 0x0)
+        DEBUG: neoradio2device.cpp:245:start(): WARNING: Dropping 1 bytes due to invalid start of frame (data: 0x0)
+        DEBUG: neoradio2device.cpp:453:identifyChain(): Identifying chain...
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x0
+        DEBUG: neoradio2device.cpp:276:start(): Received Host Header          (cmd: 2, data_len: 3, device: 255, bank: 0)
+        DEBUG: neoradio2device.cpp:338:start(): ERROR: CRC Failure: Got 3, Expected 58
+        DEBUG: neoradio2device.cpp:352:start(): Finalized Host command:          NEORADIO2_COMMAND_IDENTIFY - status: 0 (device: 255 bank: 0)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x40
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 1, bank: 64)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 1 bank: 6)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x20
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 1, bank: 32)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 1 bank: 5)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x10
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 1, bank: 16)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 1 bank: 4)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x8
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 1, bank: 8)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 1 bank: 3)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x4
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 1, bank: 4)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 1 bank: 2)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x2
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 1, bank: 2)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 1 bank: 1)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x1
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 1, bank: 1)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 1 bank: 0)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x0
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 0)
+        DEBUG: neoradio2device.cpp:338:start(): ERROR: CRC Failure: Got 197, Expected 146
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 4 (device: 0 bank: 0)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x80
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 128)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 7)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x40
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 64)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 6)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x20
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 32)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 5)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x10
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 16)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 4)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x8
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 8)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 3)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x4
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 4)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 2)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x2
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 2)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 1)
+        DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x1
+        DEBUG: neoradio2device.cpp:280:start(): Received Device Report Header (cmd: 2, data_len: 16, device: 0, bank: 1)
+        DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 0)
+        DEBUG: neoradio2device.cpp:245:start(): WARNING: Dropping 1 bytes due to invalid start of frame (data: 0x0)
+        DEBUG: neoradio2device.cpp:245:start(): WARNING: Dropping 1 bytes due to invalid start of frame (data: 0x0)
+    -Dropping 2 bytes at end for some reason (see above log)
