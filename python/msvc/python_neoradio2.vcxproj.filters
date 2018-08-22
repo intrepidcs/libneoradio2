@@ -81,4 +81,9 @@
       <Filter>Header Files\libneoradio2</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\test.py">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
