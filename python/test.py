@@ -34,6 +34,7 @@ def get_sensor_info(handle, device, bank):
     
     
 if __name__ == "__main__":
+    import time
     input("Press any key to start...")
     try:
         devices = neoradio2.find_devices()
@@ -43,26 +44,36 @@ if __name__ == "__main__":
             print("Opened {} {}.".format(device.name, device.serial_str))
         
             print("Handle: {}".format(handle))
-        
-            for x in range(8):
-                print("Entering Bootloader on bank {}...".format(x+1))
-                neoradio2.enter_bootloader(handle, 0, x)
-        
-            for x in range(8):
-                print("Getting Info of bank {}...".format(x+1))
-                get_bank_info(handle, 0, x)
-        
-            for x in range(8):
-                print("Entering Application on bank {}...".format(x+1))
-                neoradio2.app_start(handle, 0, x)
             
-            for x in range(8):
-                print("Getting Info of bank {}...".format(x+1))
-                get_bank_info(handle, 0, x)
+            neoradio2.enter_bootloader(handle, 0, 0)
+            time.sleep(6)
+
+            how_many_in_chain = 2
+            for d  in range(how_many_in_chain):
+                for x in range(8):
+                    print("Entering Bootloader on device {} bank {}...".format(d+1, x+1))
+                    neoradio2.enter_bootloader(handle, d, x)
+            
+            time.sleep(10)
+            for d  in range(how_many_in_chain):
+                for x in range(8):
+                    print("Getting Info of device {} bank {}...".format(d+1, x+1))
+                    get_bank_info(handle, d, x)
         
-            for x in range(8):
-                print("Getting Sensor info of bank {}...".format(x+1))
-                get_sensor_info(handle, 0, x)
+            for d  in range(how_many_in_chain):
+                for x in range(8):
+                    print("Entering Application on device {} bank {}...".format(d+1, x+1))
+                    neoradio2.app_start(handle, d, x)
+            
+            for d  in range(how_many_in_chain):
+                for x in range(8):
+                    print("Getting Info of device {} bank {}...".format(d+1, x+1))
+                    get_bank_info(handle, d, x)
+        
+            for d  in range(how_many_in_chain):
+                for x in range(8):
+                    print("Getting Sensor info of device {} bank {}...".format(d+1, x+1))
+                    get_sensor_info(handle, d, x)
         
             print("Closing {} {}...".format(device.name, device.serial_str))
             neoradio2.close(handle)
