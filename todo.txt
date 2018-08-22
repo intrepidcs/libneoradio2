@@ -1,7 +1,8 @@
 libneoradio2 todo:
     -Support more in the chain - it "works" but all the bank data is overwritten and can't tell the difference between the devices in the chain
-    -reset command statuses when we switch back and forth from bootloader to app
-    -CRC failure when switching bootloader on first bank
+    -Look into CRC failures:
+    -Look into "WARNING: Dropping 1 bytes due to invalid start of frame":
+    -Look into Device 1 Bank 7 missing from NEORADIO2_STATUS_IDENTIFY:
         DEBUG: libneoradio2.cpp:34:_getDevice(): _device_map size: 1
         DEBUG: neoradio2device.cpp:271:start(): mLastframe.frame()->header.bank = 0x2
         DEBUG: neoradio2device.cpp:276:start(): Received Host Header          (cmd: 255, data_len: 0, device: 0, bank: 2)
@@ -64,4 +65,3 @@ libneoradio2 todo:
         DEBUG: neoradio2device.cpp:355:start(): Finalized Device Report command: NEORADIO2_STATUS_IDENTIFY - status: 5 (device: 0 bank: 0)
         DEBUG: neoradio2device.cpp:245:start(): WARNING: Dropping 1 bytes due to invalid start of frame (data: 0x0)
         DEBUG: neoradio2device.cpp:245:start(): WARNING: Dropping 1 bytes due to invalid start of frame (data: 0x0)
-    -Dropping 2 bytes at end for some reason (see above log)
