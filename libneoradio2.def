@@ -23,3 +23,4 @@ EXPORTS
 	neoradio2_read_sensor_array @ 20
 	neoradio2_read_settings @ 21
 	neoradio2_write_settings @ 22
+	neoradio2_get_chain_count @ 23

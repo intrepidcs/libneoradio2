@@ -346,6 +346,13 @@ void neoRADIO2Device::start()
 					bank = i;
 			if (bank >= 8)
 				bank = 0;
+			// Figure out how many devices are on the chain here
+			if (isDeviceHeaderId(mLastframe.frame()->header.start_of_frame) && mLastframe.frame()->header.command_status == NEORADIO2_STATUS_IDENTIFY)
+			{
+				auto device_count = mLastframe.frame()->header.device + 1;
+				updateDeviceCount(device_count > mDeviceCount ? device_count : mDeviceCount);
+				DEBUG_PRINT("Device Count = %d", mDeviceCount);
+			}
 			auto cmd = mBankCmds.getCmdOffset(mLastframe.frame());
 			if (isHostHeaderId(mLastframe.frame()->header.start_of_frame))
 				DEBUG_PRINT("Finalized Host command:          %s - status: %d (device: %d bank: %d)", mBankCmds[0]->name(cmd).c_str(),
@@ -489,6 +496,21 @@ bool neoRADIO2Device::getIdentifyResponse(int device, int bank, neoRADIO2frame_i
 	if (data.size() != sizeof(response))
 		return false;
 	memcpy(&response, data.data(), sizeof(response));
+	return true;
+}
+
+bool neoRADIO2Device::getChainCount(int& count, bool identify, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	if (!isChainIdentified(0s))
+	{
+		if (!identify)
+			return false;
+		if (!identifyChain(timeout))
+			return false;
+	}
+	std::lock_guard<std::mutex> lock(mMutex);
+	count = mDeviceCount;
 	return true;
 }
 
@@ -763,6 +785,12 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_deviceSettin
 	return mBankCmds[bank]->isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
 }
 
+void neoRADIO2Device::updateDeviceCount(int device_count)
+{
+	mMutex.lock();
+	mDeviceCount = device_count;
+	mMutex.unlock();
+}
 
 uint8_t neoRADIO2Device::crc8_Calc(uint8_t* data, int len)
 {

@@ -397,3 +397,18 @@ LIBNEORADIO2_API int neoradio2_write_settings(neoradio2_handle* handle, int devi
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
+
+LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* count, int identify)
+{
+	if (!count)
+		return NEORADIO2_FAILURE;
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	bool success = radio_dev->getChainCount(*count, (bool)identify, _blocking_timeout);
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}

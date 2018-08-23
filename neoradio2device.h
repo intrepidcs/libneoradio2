@@ -46,6 +46,8 @@ public:
 		mIsRunning = false;
 		mQuit = false;
 		mLastState = PROCESS_STATE_IDLE;
+
+		mDeviceCount = 1;
 	}
 	virtual ~neoRADIO2Device();
 
@@ -127,6 +129,8 @@ public:
 	bool doesChainNeedIdentify(std::chrono::milliseconds timeout);
 	bool getIdentifyResponse(int device, int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds);
 
+	bool getChainCount(int& count, bool identify, std::chrono::milliseconds timeout);
+
 	bool startApplication(int device, int bank, std::chrono::milliseconds timeout);
 	bool isApplicationStarted(int device, int bank, std::chrono::milliseconds timeout);
 	bool enterBootloader(int device, int bank, std::chrono::milliseconds timeout);	
@@ -174,6 +178,10 @@ private:
 	bool mQuit;
 	std::thread* mThread;
 	std::mutex mMutex;
+
+	int mDeviceCount;
+
+	void updateDeviceCount(int device_count);
 
 	// this is the actual thread loop that calls run()
 	void start();
