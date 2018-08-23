@@ -459,7 +459,9 @@ bool neoRADIO2Device::identifyChain(std::chrono::milliseconds timeout)
 	// send the packets
 	DEBUG_PRINT("Identifying chain...");
 	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_IDENTIFY);
+	auto need_id_cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_NEED_ID);
 	mBankCmds.setCommandState(cmd, COMMAND_STATE_RESET);
+	mBankCmds.setCommandState(need_id_cmd, COMMAND_STATE_RESET);
 	mBankCmds.updateBankCmd(&frame, COMMAND_STATE_RESET);
 	mBankCmds.updateBankData(&frame);
 
@@ -472,7 +474,11 @@ bool neoRADIO2Device::isChainIdentified(std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	auto cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_IDENTIFY);
-	return  mBankCmds.isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
+	auto need_id_cmd = mBankCmds.getCmdOffset(0x55, NEORADIO2_STATUS_NEED_ID);
+	bool needs_id = !mBankCmds.getBank(0)->isStateSet(need_id_cmd, COMMAND_STATE_RESET, 0s);
+	bool is_identified = mBankCmds.isStateSet(cmd, COMMAND_STATE_FINISHED, timeout);
+	DEBUG_PRINT("Identified: %d\t Needs ID: %d", is_identified, needs_id);
+	return is_identified && !needs_id;
 }
 
 bool neoRADIO2Device::doesChainNeedIdentify(std::chrono::milliseconds timeout)
@@ -517,6 +523,11 @@ bool neoRADIO2Device::getChainCount(int& count, bool identify, std::chrono::mill
 bool neoRADIO2Device::startApplication(int device, int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
+
+	if (!isChainIdentified(timeout))
+		if (!identifyChain(timeout))
+			return NEORADIO2_FAILURE;
+
 	neoRADIO2frame frame =
 	{
 		{ // header
@@ -532,11 +543,12 @@ bool neoRADIO2Device::startApplication(int device, int bank, std::chrono::millis
 	};
 	// Reset all commands as we are technically resetting the processor
 	mBankCmds.setCommandStateForAll(COMMAND_STATE_RESET, true);
+	updateDeviceCount(1);
 	// send the packets
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Give the device time to boot
-	std::this_thread::sleep_for(100ms);
+	std::this_thread::sleep_for(250ms);
 	// Identify the chain again
 	return identifyChain(timeout) && isApplicationStarted(device, bank, timeout);
 }
@@ -544,6 +556,17 @@ bool neoRADIO2Device::startApplication(int device, int bank, std::chrono::millis
 bool neoRADIO2Device::enterBootloader(int device, int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
+	DEBUG_PRINT("Entering Bootloader on device %d bank %d", device, bank);
+	if (!isChainIdentified(0s))
+	{
+		DEBUG_PRINT("Chain not identified, trying to identify...");
+		if (!identifyChain(timeout))
+		{
+			DEBUG_PRINT("Failed to identify chain...");
+			return NEORADIO2_FAILURE;
+		}
+	}
+
 	neoRADIO2frame frame =
 	{
 		{ // header
@@ -559,13 +582,18 @@ bool neoRADIO2Device::enterBootloader(int device, int bank, std::chrono::millise
 	};
 	// Reset all commands as we are technically resetting the processor
 	mBankCmds.setCommandStateForAll(COMMAND_STATE_RESET, true);
+	updateDeviceCount(1);
 	// send the packets
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Give the device time to boot
-	std::this_thread::sleep_for(100ms);
+	DEBUG_PRINT("Waiting 250ms to enter bootloader...");
+	std::this_thread::sleep_for(250ms);
 	// Identify the chain again
-	return identifyChain(timeout) && !isApplicationStarted(device, bank, 0s);
+	DEBUG_PRINT("Chain not identified, trying to identify...");
+	bool is_identified = identifyChain(timeout);
+	DEBUG_PRINT("Chain Identified: %d", is_identified);
+	return is_identified && !isApplicationStarted(device, bank, 0s);
 }
 
 bool neoRADIO2Device::isApplicationStarted(int device, int bank, std::chrono::milliseconds timeout)
