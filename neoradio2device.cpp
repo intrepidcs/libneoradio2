@@ -647,6 +647,11 @@ bool neoRADIO2Device::getPCBSN(int device, int bank, std::string& pcb_sn, std::c
 {
 	using namespace std::chrono;
 	pcb_sn.clear();
+
+	// This command is only available in applictaion code
+	if (!isApplicationStarted(device, bank, 0s))
+		return NEORADIO2_FAILURE;
+
 	neoRADIO2frame frame =
 	{
 		{ // header
