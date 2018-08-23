@@ -15,10 +15,16 @@ def get_bank_info(handle, device, bank):
     month, day, year = neoradio2.get_manufacturer_date(handle, device, bank)
     fw_major, fw_minor = neoradio2.get_firmware_version(handle, device, bank)
     hw_major, hw_minor = neoradio2.get_hardware_revision(handle, device, bank)
+    try:
+        pcb_sn = neoradio2.get_pcbsn(handle, device, bank)
+    except neoradio2.Exception as ex:
+        pcb_sn = str(ex)
+    """
     if "Application" in application_level:
         pcb_sn = neoradio2.get_pcbsn(handle, device, bank)
     else:
         pcb_sn = "NA"
+    """
     print('\tFirmware State: {}'.format(application_level))
     print('\tManufacturer Date: {}/{}/{}'.format(month, day, year))
     print('\tFirmware Version: {}.{}'.format(fw_major, fw_minor))
@@ -45,16 +51,18 @@ if __name__ == "__main__":
         
             print("Handle: {}".format(handle))
             
-            neoradio2.enter_bootloader(handle, 0, 0)
-            time.sleep(6)
+            #neoradio2.enter_bootloader(handle, 0, 2)
+            #time.sleep(30)
 
-            how_many_in_chain = 2
+            how_many_in_chain = neoradio2.get_chain_count(handle, True);
+            print("%d devices in the chain" % how_many_in_chain)
             for d  in range(how_many_in_chain):
                 for x in range(8):
+                #for x in reversed(range(8)):
                     print("Entering Bootloader on device {} bank {}...".format(d+1, x+1))
                     neoradio2.enter_bootloader(handle, d, x)
-            
-            time.sleep(10)
+                    #time.sleep(0.5)
+
             for d  in range(how_many_in_chain):
                 for x in range(8):
                     print("Getting Info of device {} bank {}...".format(d+1, x+1))

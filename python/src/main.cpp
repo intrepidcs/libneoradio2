@@ -290,16 +290,28 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     
-    m.def("read_settings", &neoradio2_read_settings, R"pbdoc(
+	m.def("read_settings", &neoradio2_read_settings, R"pbdoc(
         TODO
         
         TODO
     )pbdoc");
-    m.def("write_settings", &neoradio2_write_settings, R"pbdoc(
+	m.def("write_settings", &neoradio2_write_settings, R"pbdoc(
         TODO
         
         TODO
     )pbdoc");
+	m.def("get_chain_count", [](neoradio2_handle& handle, bool identify) {
+		int count = 0;
+		if (neoradio2_get_chain_count(&handle, &count, identify) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_get_chain_count() failed");
+		return count;
+		}, R"pbdoc(
+        Gets how many devices are in the chain.
+        
+        Returns integer, otherwise exception is thrown.
+    )pbdoc");
+
+
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else
