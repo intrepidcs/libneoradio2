@@ -1,6 +1,10 @@
 // libneoradio2.cpp : Defines the exported functions for the DLL application.
 //
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4503)
+#endif
+
 #include "stdafx.h"
 #include "libneoradio2.h"
 
@@ -31,7 +35,9 @@ static std::mutex _lock;
 
 Device* _getDevice(neoradio2_handle handle)
 {
+#ifdef DEBUG_ANNOYING
 	DEBUG_PRINT("_device_map size: %d", _device_map.size());
+#endif DEBUG_ANNOYING
 	std::lock_guard<std::mutex> lock(_lock);
 	auto iter = _device_map.find(handle);
 	if (iter != _device_map.end())
@@ -70,7 +76,7 @@ Device* _createNewDevice(neoradio2_handle* handle, Neoradio2DeviceInfo* device)
 	return NULL;
 }
 
-LIBNEORADIO2_API int neoradio2_find_devices(Neoradio2DeviceInfo* devices, unsigned int* device_count)
+LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* device_count)
 {
 	if (!devices || !device_count)
 		return NEORADIO2_FAILURE;
@@ -196,7 +202,7 @@ LIBNEORADIO2_API int neoradio2_chain_identify(neoradio2_handle* handle)
 	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
-	return radio_dev->identifyChain(_blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	return radio_dev->requestIdentifyChain(_blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
 LIBNEORADIO2_API int neoradio2_app_is_started(neoradio2_handle* handle, int device, int bank, int* is_started)
@@ -307,10 +313,22 @@ LIBNEORADIO2_API int neoradio2_get_device_type(neoradio2_handle* handle, int dev
 	return radio_dev->getDeviceType(device, bank, *device_type, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
+LIBNEORADIO2_API int neoradio2_request_pcbsn(neoradio2_handle* handle, int device, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+	return radio_dev->requestPCBSN(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
 LIBNEORADIO2_API int neoradio2_get_pcbsn(neoradio2_handle* handle, int device, int bank, char* pcb_sn)
 {
 	if (!pcb_sn)
 		return NEORADIO2_FAILURE;
+
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -319,10 +337,21 @@ LIBNEORADIO2_API int neoradio2_get_pcbsn(neoradio2_handle* handle, int device, i
 		return NEORADIO2_FAILURE;
 
 	std::string temp;
-	bool success = radio_dev->getPCBSN(device, bank, temp, _blocking_timeout);
+	bool success = radio_dev->getPCBSN(device, bank, temp);
 	memset(pcb_sn, 0, 16);
 	memcpy(pcb_sn, temp.c_str(), 16);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_request_sensor_data(neoradio2_handle* handle, int device, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+	return radio_dev->requestSensorData(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
 LIBNEORADIO2_API int neoradio2_read_sensor_float(neoradio2_handle* handle, int device, int bank, float* value)
@@ -337,7 +366,7 @@ LIBNEORADIO2_API int neoradio2_read_sensor_float(neoradio2_handle* handle, int d
 		return NEORADIO2_FAILURE;
 
 	std::vector<uint8_t> data;
-	bool success = radio_dev->readSensor(device, bank, data, _blocking_timeout);
+	bool success = radio_dev->readSensorData(device, bank, data);
 	if (data.size() < sizeof(*value))
 		return NEORADIO2_FAILURE;
 	memcpy(value, data.data(), sizeof(*value));
@@ -356,7 +385,7 @@ LIBNEORADIO2_API int neoradio2_read_sensor_array(neoradio2_handle* handle, int d
 		return NEORADIO2_FAILURE;
 
 	std::vector<uint8_t> data;
-	bool success = radio_dev->readSensor(device, bank, data, _blocking_timeout);
+	bool success = radio_dev->readSensorData(device, bank, data);
 	if ((int)data.size() > *arr_size)
 		return NEORADIO2_FAILURE;
 	for (int i=0; i < *arr_size && i < (int)data.size(); ++i)
@@ -365,10 +394,23 @@ LIBNEORADIO2_API int neoradio2_read_sensor_array(neoradio2_handle* handle, int d
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
+
+LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int device, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+	return radio_dev->requestSettings(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
 LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_deviceSettings* settings)
 {
 	if (!settings)
 		return NEORADIO2_FAILURE;
+
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -377,7 +419,7 @@ LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int devic
 		return NEORADIO2_FAILURE;
 
 	std::vector<uint8_t> data;
-	bool success = radio_dev->readSettings(device, bank, *settings, _blocking_timeout);
+	bool success = radio_dev->readSettings(device, bank, *settings);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
@@ -409,6 +451,6 @@ LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* co
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	bool success = radio_dev->getChainCount(*count, (bool)identify, _blocking_timeout);
+	bool success = radio_dev->getChainCount(*count, identify==1, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }

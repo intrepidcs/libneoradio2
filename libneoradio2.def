@@ -3,7 +3,7 @@ LIBRARY
 EXPORTS
 	neoradio2_set_blocking @ 1
 	neoradio2_is_blocking @ 2
-	neoradio2_find_devices @ 3
+	neoradio2_find @ 3
 	neoradio2_open @ 4
 	neoradio2_is_opened @ 5
 	neoradio2_close @ 6
@@ -18,9 +18,12 @@ EXPORTS
 	neoradio2_get_firmware_version @ 15
 	neoradio2_get_hardware_revision @ 16
 	neoradio2_get_device_type @ 17
-	neoradio2_get_pcbsn @ 18
-	neoradio2_read_sensor_float @ 19
-	neoradio2_read_sensor_array @ 20
-	neoradio2_read_settings @ 21
-	neoradio2_write_settings @ 22
-	neoradio2_get_chain_count @ 23
+	neoradio2_request_pcbsn @ 18
+	neoradio2_get_pcbsn @ 19
+	neoradio2_request_sensor_data @ 20
+	neoradio2_read_sensor_float @ 21
+	neoradio2_read_sensor_array @ 22
+	neoradio2_request_settings @ 23
+	neoradio2_read_settings @ 24
+	neoradio2_write_settings @ 25
+	neoradio2_get_chain_count @ 26

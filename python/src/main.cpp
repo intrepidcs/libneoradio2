@@ -76,12 +76,12 @@ PYBIND11_MODULE(neoradio2, m) {
         .def_readwrite("channel_3_Config", &neoRADIO2_deviceSettings::channel_3_Config);
 
     // Functions ==============================================================
-    m.def("find_devices", []() {
+    m.def("find", []() {
         const unsigned int size = 8;
         unsigned int device_count = size;
         Neoradio2DeviceInfo temp[size];
         std::vector<Neoradio2DeviceInfo> devs;
-        auto res = neoradio2_find_devices(temp, &device_count);
+        auto res = neoradio2_find(temp, &device_count);
         if (res != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_find_devices() failed");
         devs.reserve(device_count);
@@ -241,17 +241,27 @@ PYBIND11_MODULE(neoradio2, m) {
         Returns tuple(major, minor) on success, otherwise exception is thrown.
     )pbdoc");
     
-    m.def("get_device_type", [](neoradio2_handle& handle, int device, int bank) {
-        unsigned int dev_type;
-        if (neoradio2_get_device_type(&handle, device, bank, &dev_type) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_get_device_type() failed");
-        return dev_type;
-        }, R"pbdoc(
+	m.def("get_device_type", [](neoradio2_handle& handle, int device, int bank) {
+		unsigned int dev_type;
+		if (neoradio2_get_device_type(&handle, device, bank, &dev_type) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_get_device_type() failed");
+		return dev_type;
+	}, R"pbdoc(
         Get Device Type of the neoRAD-IO2 device bank.
         
         Returns integer, otherwise exception is thrown.
     )pbdoc");
-    
+
+	m.def("request_pcbsn", [](neoradio2_handle& handle, int device, int bank) {
+		if (neoradio2_request_pcbsn(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_request_pcbsn() failed");
+		return true;
+	}, R"pbdoc(
+        Request PCBSN of the neoRAD-IO2 device bank.
+        
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
     m.def("get_pcbsn", [](neoradio2_handle& handle, int device, int bank) {
         char pcb_sn[17] = {0};
         if (neoradio2_get_pcbsn(&handle, device, bank, pcb_sn) != NEORADIO2_SUCCESS)
@@ -261,6 +271,16 @@ PYBIND11_MODULE(neoradio2, m) {
         Get PCB Serial Number of the neoRAD-IO2 device bank.
         
         Returns string, otherwise exception is thrown.
+    )pbdoc");
+
+	m.def("request_sensor_data", [](neoradio2_handle& handle, int device, int bank) {
+		if (neoradio2_request_sensor_data(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_request_sensor_data() failed");
+		return true;
+	}, R"pbdoc(
+        Request PCBSN of the neoRAD-IO2 device bank.
+        
+        Returns True, otherwise exception is thrown.
     )pbdoc");
     
     m.def("read_sensor_float", [](neoradio2_handle& handle, int device, int bank) {
@@ -289,6 +309,17 @@ PYBIND11_MODULE(neoradio2, m) {
         Returns tuple of integers, otherwise exception is thrown.
     )pbdoc");
     
+	m.def("request_settings", [](neoradio2_handle& handle, int device, int bank) {
+		if (neoradio2_request_settings(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_request_settings() failed");
+		return true;
+	}, R"pbdoc(
+        Request Settings of the neoRAD-IO2 device bank.
+        
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
+	LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int device, int bank);
     
 	m.def("read_settings", &neoradio2_read_settings, R"pbdoc(
         TODO
@@ -300,6 +331,7 @@ PYBIND11_MODULE(neoradio2, m) {
         
         TODO
     )pbdoc");
+
 	m.def("get_chain_count", [](neoradio2_handle& handle, bool identify) {
 		int count = 0;
 		if (neoradio2_get_chain_count(&handle, &count, identify) != NEORADIO2_SUCCESS)

@@ -161,6 +161,7 @@
     <ClInclude Include="command_handler.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="device.h" />
+    <ClInclude Include="devicecommandhandler.h" />
     <ClInclude Include="fifo.h" />
     <ClInclude Include="hiddevice.h" />
     <ClInclude Include="libneoradio2.h" />

@@ -1,14 +1,19 @@
 #ifndef __NEORADIO2_DEVICE_H_
 #define __NEORADIO2_DEVICE_H_
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4503)
+#endif
+
 #include "hiddevice.h"
-#include "command_handler.h"
-#include "commandhandlerbank.h"
 #include "neoradio2framehandler.h"
+#include "devicecommandhandler.h"
 #include <unordered_map>
 
 #include "radio2_frame.h"
 
+
+#define _InsertEnumIntoMap(m, cmd) m[cmd] = #cmd
 
 class neoRADIO2Device : public HidDevice
 {
@@ -17,37 +22,39 @@ public:
 	neoRADIO2Device(DeviceInfoEx& di)
 		: HidDevice(di)
 	{
-		// Host frame commands
-		mBankCmds.addCmdOffset(0xAA, 0x100);
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_START, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_IDENTIFY, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_DATA, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_DATA, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_SETTINGS, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_SETTINGS, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_WRITE_CAL, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_CAL, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_TOGGLE_LED, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_READ_PCBSN, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITEBUFFER, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_WRITETOFLASH, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_BL_VERIFY, 0x100));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_COMMAND_ENTERBOOT, 0x100));
-
-		// Device Report frame commands
-		mBankCmds.addCmdOffset(0x55, 0);
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_SENSOR, 0));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_FIRMWARE, 0));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_IDENTIFY, 0));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_READ_SETTINGS, 0));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_NEED_ID, 0));
-		mBankCmds.addCommand(cmd_handler_add_param_offset(NEORADIO2_STATUS_READ_PCBSN, 0));
-
 		mIsRunning = false;
 		mQuit = false;
 		mLastState = PROCESS_STATE_IDLE;
-
 		mDeviceCount = 1;
+
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_START);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_IDENTIFY);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_DATA);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_DATA);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_SETTINGS);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_SETTINGS);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_CAL);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CAL);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_TOGGLE_LED);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_PCBSN);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_WRITEBUFFER);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_WRITETOFLASH);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_VERIFY);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_ENTERBOOT);
+
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_SENSOR);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_FIRMWARE);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_IDENTIFY);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_READ_SETTINGS);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_READ_PCBSN);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_NEED_ID);
+
+		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_RESET);
+		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_RECEIVED_HEADER);
+		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_RECEIVED_DATA);
+		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_ERROR);
+		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_CRC_ERROR);
+		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_FINISHED);
 	}
 	virtual ~neoRADIO2Device();
 
@@ -124,28 +131,32 @@ public:
 	//virtual bool readUart(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel);
 	bool writeUartFrame(neoRADIO2frame* frame, DeviceChannel channel);
 
-	bool identifyChain(std::chrono::milliseconds timeout);
+	bool requestIdentifyChain(std::chrono::milliseconds timeout);
 	bool isChainIdentified(std::chrono::milliseconds timeout);
-	bool doesChainNeedIdentify(std::chrono::milliseconds timeout);
 	bool getIdentifyResponse(int device, int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds);
 
 	bool getChainCount(int& count, bool identify, std::chrono::milliseconds timeout);
 
 	bool startApplication(int device, int bank, std::chrono::milliseconds timeout);
 	bool isApplicationStarted(int device, int bank, std::chrono::milliseconds timeout);
-	bool enterBootloader(int device, int bank, std::chrono::milliseconds timeout);	
+	bool enterBootloader(int device, int bank, std::chrono::milliseconds timeout);
 
 	bool getSerialNumber(int device, int bank, unsigned int& sn, std::chrono::milliseconds timeout);
 	bool getManufacturerDate(int device, int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout);
 	bool getDeviceType(int device, int bank, int device_type, std::chrono::milliseconds timeout);
 	bool getFirmwareVersion(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout);
 	bool getHardwareRevision(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout);
-	bool getPCBSN(int device, int bank, std::string& pcb_sn, std::chrono::milliseconds timeout);
 
-	bool readSensor(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
+	bool requestPCBSN(int device, int bank, std::chrono::milliseconds timeout);
+	bool getPCBSN(int device, int bank, std::string& pcbsn);
+
+	bool requestSensorData(int device, int bank, std::chrono::milliseconds timeout);
+	bool readSensorData(int device, int bank, std::vector<uint8_t>& data);
 
 	// neoRADIO2_deviceSettings
-	bool readSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
+	bool requestSettings(int device, int bank, std::chrono::milliseconds timeout);
+	bool readSettings(int device, int bank, neoRADIO2_deviceSettings& settings);
+
 	bool writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
 
 protected:
@@ -171,7 +182,17 @@ protected:
 
 	ProcessStates mLastState;
 	neoRADIO2FrameHandler<neoRADIO2frame> mLastframe;
-	CommandHandlerBanks<unsigned int, _CommandStates> mBankCmds;
+	//std::vector<CommandHandlerBanks<unsigned int, _CommandStates> > mBankCmds;
+
+	//void addDeviceBanks(unsigned int count);
+	//CommandHandlerBanks<unsigned int, _CommandStates>* getDeviceBanks(int device_index);
+
+	DeviceCommandHandler<CommandStates> mDCH;
+
+	std::string frameToString(neoRADIO2frame& frame, bool is_bitfield);
+	std::map<int, std::string> mHostFrameCommandNames;
+	std::map<int, std::string> mDeviceFrameCommandNames;
+	std::map<int, std::string> mCommandStateNames;
 
 private:
 	bool mIsRunning;
@@ -191,7 +212,7 @@ private:
 	bool generateFrameChecksum(neoRADIO2frame* frame);
 	bool verifyFrameChecksum(neoRADIO2frame* frame, uint8_t* calculated_checksum=nullptr);
 
-	bool resetCommands(int start_of_frame, int cmd, int banks);
+	//bool resetCommands(int start_of_frame, int cmd, int banks);
 };
 
 #endif // __NEORADIO2_DEVICE_H_
