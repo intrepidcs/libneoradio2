@@ -4,7 +4,7 @@
 
 #include "neoradio2device.h"
 
-#include "radio2_frame.h"
+#include "radio2_frames.h"
 
 #include <cassert>
 #include <string>

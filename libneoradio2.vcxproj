@@ -168,7 +168,7 @@
     <ClInclude Include="neoradio2.h" />
     <ClInclude Include="neoradio2device.h" />
     <ClInclude Include="neoradio2framehandler.h" />
-    <ClInclude Include="radio2_frame.h" />
+    <ClInclude Include="neoRADIO2_frames.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

@@ -9,7 +9,7 @@
 #endif
 
 #include <stdint.h>
-#include "radio2_frame.h"
+#include "radio2_frames.h"
 
 #ifdef __cplusplus
 extern "C" {

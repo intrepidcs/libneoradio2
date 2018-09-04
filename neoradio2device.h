@@ -10,7 +10,7 @@
 #include "devicecommandhandler.h"
 #include <unordered_map>
 
-#include "radio2_frame.h"
+#include "radio2_frames.h"
 
 
 #define _InsertEnumIntoMap(m, cmd) m[cmd] = #cmd
