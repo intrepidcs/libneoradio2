@@ -434,11 +434,9 @@ LIBNEORADIO2_API int neoradio2_write_settings(neoradio2_handle* handle, int devi
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	std::vector<uint8_t> data;
 	bool success = radio_dev->writeSettings(device, bank, *settings, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
-
 
 LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* count, int identify)
 {
@@ -452,5 +450,69 @@ LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* co
 		return NEORADIO2_FAILURE;
 
 	bool success = radio_dev->getChainCount(*count, identify==1, _blocking_timeout);
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int device, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	bool success = radio_dev->requestCalibration(device, bank, _blocking_timeout);
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
+{
+	if (!arr && !arr_size)
+		return NEORADIO2_FAILURE;
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	std::vector<uint8_t> data;
+	bool success = radio_dev->readCalibration(device, bank, data);
+	if ((int)data.size() > *arr_size)
+		return NEORADIO2_FAILURE;
+	for (int i=0; i < *arr_size && i < (int)data.size(); ++i)
+		arr[i] = data[i];
+	*arr_size = data.size();
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
+{
+	if (!arr && !arr_size)
+		return NEORADIO2_FAILURE;
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	std::vector<uint8_t> data;
+	for (int i=0; i < *arr_size; ++i)
+		data.push_back(arr[i]);
+	bool success = radio_dev->writeCalibration(device, bank, data);
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int ms)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+	bool success = radio_dev->toggleLED(device, bank, ms, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }

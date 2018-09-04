@@ -45,6 +45,7 @@ std::string deviceName(Neoradio2DeviceInfo& device)
 
 bool get_device_info(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int dev, int bank);
 bool get_device_sensor_info(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int dev, int bank);
+bool toggle_led(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int dev, int bank);
 
 int main(int argc, char* argv[])
 {
@@ -90,14 +91,20 @@ int main(int argc, char* argv[])
 				continue;
 			}
 			std::cout << "Handle: " << handle << "\n";
+			//std::this_thread::sleep_for(1s);
 
 			int dev_count = 0;
-			if (neoradio2_get_chain_count(&handle, &dev_count, true) != NEORADIO2_SUCCESS)
+			if (neoradio2_get_chain_count(&handle, &dev_count, 1) != NEORADIO2_SUCCESS)
 				std::cerr << "Failed to get chain count!\n";
 			
+			std::cout << "Found " << dev_count << " device(s) on the chain...\n";
+			std::this_thread::sleep_for(3s);
+
 			for (int d=0; d < dev_count; ++d)
 			{
+				std::cout << "\n==============================================================================\n";
 				std::cout << "Device " << d+1 << "...\n";
+				std::cout << "==============================================================================\n";
 				unsigned int dev = d;
 //#define NO_BOOTLOADER
 #if !defined(NO_BOOTLOADER)
@@ -106,7 +113,7 @@ int main(int argc, char* argv[])
 				std::cout << "Entering Bootloader...\n";
 				if (neoradio2_enter_bootloader(&handle, dev, 0xFF) != NEORADIO2_SUCCESS)
 					std::cout << "Failed to enter bootloader...\n";
-				std::this_thread::sleep_for(1s);
+				//std::this_thread::sleep_for(1s);
 
 				for (int x=0; x < 8; ++x)
 				{
@@ -120,12 +127,12 @@ int main(int argc, char* argv[])
 				if (neoradio2_app_start(&handle, dev, 0xFF) != NEORADIO2_SUCCESS)
 					std::cout << "Failed to enter Application...\n";
 
-				std::this_thread::sleep_for(3s);
+				//std::this_thread::sleep_for(1s);
 
 				if (neoradio2_request_pcbsn(&handle, dev, 0xFF) != NEORADIO2_SUCCESS)
 					std::cerr << "Failed to request PCBSN...\n";
 
-				std::this_thread::sleep_for(3s);
+				//std::this_thread::sleep_for(1s);
 
 				for (int x=0; x < 8; ++x)
 				{
@@ -138,9 +145,9 @@ int main(int argc, char* argv[])
 					std::cerr << "Failed to neoradio2_request_sensor_data...\n";
 
 				if (neoradio2_request_settings(&handle, dev, 0xFF) != NEORADIO2_SUCCESS)
-					std::cerr << "Failed to neoradio2_request_sensor_data...\n";
+					std::cerr << "Failed to neoradio2_request_settings...\n";
 
-				std::this_thread::sleep_for(3s);
+				//std::this_thread::sleep_for(1s);
 
 				for (int x=0; x < 8; ++x)
 				{
@@ -148,6 +155,15 @@ int main(int argc, char* argv[])
 					if (!get_device_sensor_info(handle, device, dev, x))
 						std::cerr << "Failed to get sensor info...\n";
 				}
+
+
+				for (int x=0; x < 8; ++x)
+				{
+					std::cout << "Toggling LED on bank " << x << "...\n";
+					if (!toggle_led(handle, device, dev, (1 << x)))
+						std::cerr << "Failed to toggle_led...\n";
+				}
+				
 			}
 			std::cout << "Closing " << deviceName(device) << "\n";
 			if (neoradio2_close(&handle) != NEORADIO2_SUCCESS)
@@ -162,9 +178,8 @@ int main(int argc, char* argv[])
 		std::cerr << "EXCEPTION: " << ex.whatString() << "\n";
 		return 1;
 	}
-	return 0;  
+	return 0;
 }
-
 
 bool get_device_info(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int dev, int bank)
 {
@@ -189,7 +204,7 @@ bool get_device_info(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int 
 		int major, minor;
 		int year, month, day;
 		char pcbsn[17];
-		
+
 		if (neoradio2_app_is_started(&handle, dev, bank, &is_started) != NEORADIO2_SUCCESS)
 		{
 			std::cerr << "neoradio2_app_is_started() failed: " << deviceName(device) << "!\n";
@@ -285,6 +300,35 @@ bool get_device_sensor_info(neoradio2_handle& handle, Neoradio2DeviceInfo& devic
 		else
 			std::cout << "\tSensor Value: " << value << "\n";
 
+		return true;
+	}
+	catch (ice::Exception& ex)
+	{
+		std::cerr << "EXCEPTION: " << ex.whatString() << "\n";
+		return false;
+	}
+	return false;
+}
+
+bool toggle_led(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int dev, int bank)
+{
+	using namespace std::chrono;
+	try
+	{
+		auto mgr = ice::LibraryManager::getLibraryManager();
+		mgr.add("libneoradio2", "libneoradio2.dll");
+		//std::cout << mgr["libneoradio2"].getPath() << "\n";
+		ice::Function <int(neoradio2_handle*, int, int, int)> neoradio2_toggle_led(&mgr["libneoradio2"], "neoradio2_toggle_led");
+
+		for (int i=0; i < 20; ++i)
+		{
+			if (neoradio2_toggle_led(&handle, dev, bank, 50) != NEORADIO2_SUCCESS)
+			{
+				std::cout << "neoradio2_toggle_led() failed!\n";
+				return false;
+			}
+			std::this_thread::sleep_for(100ms);
+		}
 		return true;
 	}
 	catch (ice::Exception& ex)

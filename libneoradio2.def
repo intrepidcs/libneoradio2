@@ -27,3 +27,4 @@ EXPORTS
 	neoradio2_read_settings @ 24
 	neoradio2_write_settings @ 25
 	neoradio2_get_chain_count @ 26
+	neoradio2_toggle_led @ 27

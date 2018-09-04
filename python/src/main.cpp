@@ -33,7 +33,7 @@ PYBIND11_MODULE(neoradio2, m) {
             
             NeoRadio2Exception
             
-            find_devices
+            find
             is_blocking
             open
             is_opened
@@ -52,8 +52,11 @@ PYBIND11_MODULE(neoradio2, m) {
             get_pcbsn
             read_sensor_float
             read_sensor_array
+            request_settings
             read_settings
-            write_settings            
+            write_settings
+            get_chain_count
+            toggle_led
     )pbdoc";
     
     py::register_exception<NeoRadio2Exception>(m, "Exception");
@@ -83,7 +86,7 @@ PYBIND11_MODULE(neoradio2, m) {
         std::vector<Neoradio2DeviceInfo> devs;
         auto res = neoradio2_find(temp, &device_count);
         if (res != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_find_devices() failed");
+            throw NeoRadio2Exception("neoradio2_find() failed");
         devs.reserve(device_count);
         std::copy(std::begin(temp), std::begin(temp)+device_count, std::back_inserter(devs));
         return devs;
@@ -318,8 +321,6 @@ PYBIND11_MODULE(neoradio2, m) {
         
         Returns True, otherwise exception is thrown.
     )pbdoc");
-
-	LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int device, int bank);
     
 	m.def("read_settings", &neoradio2_read_settings, R"pbdoc(
         TODO
@@ -337,12 +338,21 @@ PYBIND11_MODULE(neoradio2, m) {
 		if (neoradio2_get_chain_count(&handle, &count, identify) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_get_chain_count() failed");
 		return count;
-		}, R"pbdoc(
+	}, R"pbdoc(
         Gets how many devices are in the chain.
         
         Returns integer, otherwise exception is thrown.
     )pbdoc");
 
+	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, int ms) {
+		if (neoradio2_toggle_led(&handle, device, bank, ms) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_toggle_led() failed");
+		return true;
+	}, R"pbdoc(
+        Gets how many devices are in the chain.
+        
+        Returns integer, otherwise exception is thrown.
+    )pbdoc");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;

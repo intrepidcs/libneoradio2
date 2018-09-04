@@ -159,6 +159,12 @@ public:
 
 	bool writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
 
+	bool requestCalibration(int device, int bank, std::chrono::milliseconds timeout);
+	bool readCalibration(int device, int bank, std::vector<uint8_t>& data);
+	bool writeCalibration(int device, int bank, std::vector<uint8_t>& data);
+
+	bool toggleLED(int device, int bank, int ms, std::chrono::milliseconds timeout);
+
 protected:
 
 	typedef enum _CommandStates
