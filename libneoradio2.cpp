@@ -338,8 +338,8 @@ LIBNEORADIO2_API int neoradio2_get_pcbsn(neoradio2_handle* handle, int device, i
 
 	std::string temp;
 	bool success = radio_dev->getPCBSN(device, bank, temp);
-	memset(pcb_sn, 0, 16);
-	memcpy(pcb_sn, temp.c_str(), 16);
+	memset(pcb_sn, 0, 17);
+	memcpy(pcb_sn, temp.c_str(), 17);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 

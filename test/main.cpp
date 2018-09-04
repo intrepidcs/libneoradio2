@@ -188,7 +188,7 @@ bool get_device_info(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int 
 		int is_started = 0;
 		int major, minor;
 		int year, month, day;
-		char pcbsn[16];
+		char pcbsn[17];
 		
 		if (neoradio2_app_is_started(&handle, dev, bank, &is_started) != NEORADIO2_SUCCESS)
 		{
