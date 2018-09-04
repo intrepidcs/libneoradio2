@@ -42,13 +42,7 @@
     <ClInclude Include="neoradio2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="command_handler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="neoradio2framehandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="commandhandlerbank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="config.h">

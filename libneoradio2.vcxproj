@@ -157,8 +157,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commandhandlerbank.h" />
-    <ClInclude Include="command_handler.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="device.h" />
     <ClInclude Include="devicecommandhandler.h" />
