@@ -29,13 +29,16 @@ public:
 	{
 		if (!bitfields)
 		{
+			assert(bank <= 7);
+			assert(device <= 7);
 			createCommandInfoIfNeeded(sof, device, bank, cmd);
 			mSof[sof][device][bank][cmd].state = cmd_state;
+			DEBUG_PRINT("updateCommand(): %d -- [0x%x][0x%x][0x%x][0x%x]", cmd_state, sof, device, bank, cmd);
 			return true;
 		}
 		for (auto d=0; d < 8; ++d)
 		{
-			if (!((1 << d) & 0xFF))
+			if (device != 0xFF && d != device)
 				continue;
 			for (auto b=0; b < 8; ++b)
 			{
@@ -45,6 +48,7 @@ public:
 				mSof[sof][d][b][cmd].state = cmd_state;
 			}
 		}
+		DEBUG_PRINT("updateCommand(): %d -- [0x%x][0x%x][0x%x][0x%x] bitfield", cmd_state, sof, device, bank, cmd);
 		return true;
 	}
 
@@ -59,6 +63,8 @@ public:
 	{
 		if (!bitfields)
 		{
+			assert(bank <= 7);
+			assert(device <= 7);
 			createCommandInfoIfNeeded(sof, device, bank, cmd);
 			std::lock_guard<std::mutex> lock(mSof[sof][device][bank][cmd].lock);
 			mSof[sof][device][bank][cmd].data = data;
@@ -66,7 +72,7 @@ public:
 		}
 		for (auto d=0; d < 8; ++d)
 		{
-			if (!((1 << d) & 0xFF))
+			if (device != 0xFF && d != device)
 				continue;
 			for (auto b=0; b < 8; ++b)
 			{
@@ -126,6 +132,8 @@ public:
 	{
 		if (!bitfield)
 		{
+			assert(bank <= 7);
+			assert(device <= 7);
 			createCommandInfoIfNeeded(sof, device, bank, cmd);
 			std::lock_guard<std::mutex> lock(mSof[sof][device][bank][cmd].lock);
 			return mSof[sof][device][bank][cmd].state == cmd_state;
@@ -134,7 +142,7 @@ public:
 		int matched_count = 0;
 		for (auto d=0; d < 8; ++d)
 		{
-			if (!((1 << d) & device))
+			if (device != 0xFF && d != device)
 				continue;
 			for (auto b=0; b < 8; ++b)
 			{
@@ -147,7 +155,7 @@ public:
 					++matched_count;
 			}
 		}
-		return enable_count == matched_count;
+		return (enable_count == matched_count) && (matched_count != 0);
 	}
 private:
 

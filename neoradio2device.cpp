@@ -282,7 +282,8 @@ void neoRADIO2Device::start()
 				mLastframe.frame()->header.device = 0x0;
 				mLastframe.frame()->header.bank = 0x0;
 			}
-			is_bitfield = true;
+			is_bitfield = isHostHeaderId(mLastframe.frame()->header.start_of_frame) ||
+				(isDeviceHeaderId(mLastframe.frame()->header.start_of_frame) && mLastframe.frame()->header.command_status == NEORADIO2_STATUS_IDENTIFY);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_RECEIVED_HEADER, is_bitfield);
 			DEBUG_PRINT("%s", frameToString(*mLastframe.frame(), is_bitfield).c_str());
 			mLastState = PROCESS_STATE_DATA;
@@ -372,8 +373,8 @@ void neoRADIO2Device::start()
 
 		// Make sure we don't hog the CPU
 		auto elapsed_time = std::chrono::high_resolution_clock::now() - start_time;
-		if (elapsed_time < 3ms)
-			std::this_thread::sleep_for(3ms - elapsed_time);
+		if (elapsed_time < 1ms)
+			std::this_thread::sleep_for(1ms - elapsed_time);
 #endif // DEBUG_RADIO2_THREAD_DO_NOTHING
 	}
 
@@ -394,6 +395,12 @@ bool neoRADIO2Device::isOpen()
 	return Device::isOpen();
 }
 
+//! Sends a frame over uart to the neoRAD-IO2
+//! @param frame Frame to send over
+//! @param channel DeviceChannel to communicate on, this should generally be CHANNEL_1
+//! @see DeviceChannel
+//! @see neoRADIO2frame
+//! @return true if successfully wrote the frame to uart.
 bool neoRADIO2Device::writeUartFrame(neoRADIO2frame* frame, DeviceChannel channel)
 {
 	if (!frame)
@@ -432,6 +439,12 @@ bool neoRADIO2Device::writeUartFrame(neoRADIO2frame* frame, DeviceChannel channe
 	return write(buffer, &size, channel) && size == sent_size;
 }
 
+//! Sends a request to the chain to identify itself
+//! @param timeout Timeout in milliseconds to wait for the request to complete.
+//! @see isChainIdentified()
+//! @see getIdentifyResponse()
+//! @see getChainCount()
+//! @return true if chain was successfully identified.
 bool neoRADIO2Device::requestIdentifyChain(std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
@@ -460,21 +473,43 @@ bool neoRADIO2Device::requestIdentifyChain(std::chrono::milliseconds timeout)
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Is the command set?
-	bool success = mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout);
-	std::this_thread::sleep_for(1s);
+	bool success = mDCH.isStateSet(0x55, 0, frame.header.bank, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout);
+	//std::this_thread::sleep_for(1s);
 	return success;
 }
 
+//! Check to see if the chain has been identified
+//! @param timeout Timeout in milliseconds to wait for the request to complete.
+//! @see isChainIdentified()
+//! @see getIdentifyResponse()
+//! @see getChainCount()
+//! @return true if chain was successfully identified.
 bool neoRADIO2Device::isChainIdentified(std::chrono::milliseconds timeout)
 {
 	auto count = mDeviceCount;
 	auto device = 0;
+	bool success = true;
 	for (auto i=0; i < mDeviceCount; ++i)
-		device |= (1 << i);
-	return /* mDCH.isStateSet(0x55, device, 0xFF, NEORADIO2_STATUS_NEED_ID, COMMAND_STATE_RESET, true, timeout) && */
-		mDCH.isStateSet(0x55, device, 0xFF, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout);
+	{
+		if (!mDCH.isStateSet(0x55, device, 0xFF, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout))
+		{
+			success = false;
+			break;
+		}
+	}
+	return success;
 }
 
+//! Receive the identify response frame data. Chain needs to be identified before this call.
+//! @param device index of the device in the chain (0-8).
+//! @param bank index of the bank in the chain (0-8).
+//! @param response response data structure.
+//! @param timeout Timeout in milliseconds to wait for the request to complete.
+//! @see neoRADIO2frame_identifyResponse
+//! @see isChainIdentified()
+//! @see getIdentifyResponse()
+//! @see getChainCount()
+//! @return true if we received the reponse data, false if chain isn't identified or data isn't correct.
 bool neoRADIO2Device::getIdentifyResponse(int device, int bank, neoRADIO2frame_identifyResponse& response, std::chrono::milliseconds timeout)
 {
 	// reset the frame
@@ -490,6 +525,13 @@ bool neoRADIO2Device::getIdentifyResponse(int device, int bank, neoRADIO2frame_i
 	return true;
 }
 
+//! Gets the device count in the chain, chain must be identified before calling this.
+//! @param count device count in the chain
+//! @param identify true = identify chain if not already identified. false = don't identify.
+//! @param timeout Timeout in milliseconds to wait for the request to complete.
+//! @see isChainIdentified()
+//! @see requestIdentifyChain()
+//! @return true if we received the reponse data, false if chain isn't identified or data isn't correct.
 bool neoRADIO2Device::getChainCount(int& count, bool identify, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
@@ -505,6 +547,13 @@ bool neoRADIO2Device::getChainCount(int& count, bool identify, std::chrono::mill
 	return true;
 }
 
+//! Starts the application firmware on the bank, chain must be identified before calling this.
+//! @param device index of the device in the chain (0-8).
+//! @param bank bitmask of the bank in the chain 0x0-0xFF (ie. 0x2 = 2nd bank, 0x4 = 3rd bank, 0x6 = 2nd/3rd banks, 0xFF = All Banks).
+//! @param timeout Timeout in milliseconds to wait for the request to complete.
+//! @see isChainIdentified()
+//! @see requestIdentifyChain()
+//! @return true if we received the reponse data, false if chain isn't identified or data isn't correct.
 bool neoRADIO2Device::startApplication(int device, int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
@@ -681,7 +730,7 @@ bool neoRADIO2Device::requestPCBSN(int device, int bank, std::chrono::millisecon
 		return false;
 	// Is the command set?
 	bool success = mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_READ_PCBSN, COMMAND_STATE_FINISHED, true, timeout);
-	std::this_thread::sleep_for(1s);
+	//std::this_thread::sleep_for(1s);
 	return success;
 }
 
@@ -738,12 +787,13 @@ bool neoRADIO2Device::requestSensorData(int device, int bank, std::chrono::milli
 		return false;
 	// Is the command set?
 	bool success = mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_SENSOR, COMMAND_STATE_FINISHED, true, timeout);
-	std::this_thread::sleep_for(1s);
+	//std::this_thread::sleep_for(1s);
 	return success;
 }
 
 bool neoRADIO2Device::readSensorData(int device, int bank, std::vector<uint8_t>& data)
 {
+	using namespace std::chrono;
 	data.clear();
 	if (!mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_SENSOR, COMMAND_STATE_FINISHED, false))
 		return false;
@@ -785,7 +835,7 @@ bool neoRADIO2Device::requestSettings(int device, int bank, std::chrono::millise
 		return false;
 	// Is the command set?
 	bool success = mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_READ_SETTINGS, COMMAND_STATE_FINISHED, true, timeout);
-	std::this_thread::sleep_for(1s);
+	//std::this_thread::sleep_for(1s);
 	return success;
 }
 
@@ -905,13 +955,16 @@ bool neoRADIO2Device::toggleLED(int device, int bank, int ms, std::chrono::milli
 		},
 		0 // crc
 	};
+	frame.data[0] = ms & 0xFF;
+	frame.header.len = 1;
+
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 	// send the packets
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Is the command set?
-	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_TOGGLE_LED, COMMAND_STATE_FINISHED, true, timeout);
+	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_TOGGLE_LED, COMMAND_STATE_FINISHED, true, timeout);
 }
 
 std::string neoRADIO2Device::frameToString(neoRADIO2frame& frame, bool is_bitfield)

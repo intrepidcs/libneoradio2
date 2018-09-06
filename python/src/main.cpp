@@ -322,11 +322,17 @@ PYBIND11_MODULE(neoradio2, m) {
         Returns True, otherwise exception is thrown.
     )pbdoc");
     
-	m.def("read_settings", &neoradio2_read_settings, R"pbdoc(
-        TODO
+	m.def("read_settings", [](neoradio2_handle& handle, int device, int bank) {
+		neoRADIO2_deviceSettings settings;
+		if (neoradio2_read_settings(&handle, device, bank, &settings) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_settings() failed");
+		return settings;
+	}, R"pbdoc(
+        Get settings of the neoRAD-IO2 device bank.
         
-        TODO
+        Returns neoRADIO2_deviceSettings, otherwise exception is thrown.
     )pbdoc");
+
 	m.def("write_settings", &neoradio2_write_settings, R"pbdoc(
         TODO
         
