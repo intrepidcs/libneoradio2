@@ -1091,7 +1091,8 @@ bool neoRADIO2Device::requestCalibrationInfo(int device, int bank, std::chrono::
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Is the command set?
-	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_READ_CAL_INFO, COMMAND_STATE_FINISHED, true, timeout);
+	bool success = mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_CAL_INFO, COMMAND_STATE_FINISHED, true, timeout);
+	return success && mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_READ_CAL_INFO, COMMAND_STATE_FINISHED, true, timeout);
 }
 
 bool neoRADIO2Device::readCalibrationInfo(int device, int bank, neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout)
@@ -1099,7 +1100,7 @@ bool neoRADIO2Device::readCalibrationInfo(int device, int bank, neoRADIO2frame_c
 	memset(&header, 0, sizeof(header));
 	if (!mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_CAL_INFO, COMMAND_STATE_FINISHED, false))
 		return false;
-	std::vector<uint8_t> _data = mDCH.getData(0x55, device, bank, NEORADIO2_STATUS_CAL_STORE);
+	std::vector<uint8_t> _data = mDCH.getData(0x55, device, bank, NEORADIO2_STATUS_CAL_INFO);
 	if (_data.size() != sizeof(header))
 		return false;
 	memcpy(&header, _data.data(), sizeof(header));

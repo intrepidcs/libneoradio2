@@ -22,6 +22,39 @@ if __name__ == "__main__":
         try:
             while True:
                 s = time.time()
+                neoradio2.request_calibration_info(handle, 0, 1)
+                e = time.time()
+                msg = str(e-s)
+                for x in range(8):
+                    cal_info = neoradio2.read_calibration_info(handle, 0, x)
+                    print("num_of_pts:    {}".format(cal_info.num_of_pts))
+                    print("channel:       {}".format(cal_info.channel))
+                    print("range:         {}".format(cal_info.range))
+                    print("cal_type_size: {}".format(cal_info.cal_type_size))
+                    print("cr_is_bitmask: {}".format(cal_info.cr_is_bitmask))
+                    print("cal_is_valid:  {}".format(cal_info.cal_is_valid))
+                time.sleep(0.1)
+        except Exception as ex:
+            print(ex)
+            time.sleep(1)
+        finally:
+            neoradio2.close(handle)
+            input("Press any key to continue...")
+            #time.sleep(3)
+        #time.sleep(10)
+
+"""
+if __name__ == "__main__":
+    for device in neoradio2.find():
+        print("Opening {} {}...".format(device.name, device.serial_str))
+        handle = neoradio2.open(device)
+        print("Opened {} {}...".format(device.name, device.serial_str))
+
+        neoradio2.app_start(handle, 0, 0xFF)
+
+        try:
+            while True:
+                s = time.time()
                 neoradio2.request_calibration(handle, 0, 0xFF)
                 e = time.time()
                 msg = str(e-s)
@@ -43,7 +76,7 @@ if __name__ == "__main__":
             input("Press any key to continue...")
             #time.sleep(3)
         #time.sleep(10)
-
+"""
 """
 if __name__ == "__main__":
     for device in neoradio2.find():
