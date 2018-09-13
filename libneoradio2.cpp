@@ -453,7 +453,7 @@ LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* co
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int device, int bank)
+LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header)
 {
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
@@ -462,7 +462,7 @@ LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	bool success = radio_dev->requestCalibration(device, bank, _blocking_timeout);
+	bool success = radio_dev->requestCalibration(device, bank, *header, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
@@ -487,7 +487,7 @@ LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, 
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int channel, int range, int points, int* arr, int* arr_size)
+LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, int* arr, int* arr_size)
 {
 	if (!arr && !arr_size)
 		return NEORADIO2_FAILURE;
@@ -501,11 +501,11 @@ LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int d
 	std::vector<uint8_t> data;
 	for (int i=0; i < *arr_size; ++i)
 		data.push_back(arr[i]);
-	bool success = radio_dev->writeCalibration(device, bank, channel, range, points, data, _blocking_timeout);
+	bool success = radio_dev->writeCalibration(device, bank, *header, data, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
+LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, int* arr, int* arr_size)
 {
 	if (!arr && !arr_size)
 		return NEORADIO2_FAILURE;
@@ -519,7 +519,7 @@ LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle
 	std::vector<uint8_t> data;
 	for (int i=0; i < *arr_size; ++i)
 		data.push_back(arr[i]);
-	bool success = radio_dev->writeCalibrationPoints(device, bank, data, _blocking_timeout);
+	bool success = radio_dev->writeCalibrationPoints(device, bank, *header, data, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 

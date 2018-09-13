@@ -890,7 +890,7 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_deviceSettin
 	return mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout);
 }
 
-bool neoRADIO2Device::requestCalibration(int device, int bank, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::requestCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	// This command is only available in application code
@@ -915,6 +915,8 @@ bool neoRADIO2Device::requestCalibration(int device, int bank, std::chrono::mill
 		},
 		0 // crc
 	};
+	memcpy(frame.data, &header, sizeof(header));
+	frame.header.len = sizeof(header);
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 	mDCH.updateCommand(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_CAL, COMMAND_STATE_RESET, true);
@@ -935,7 +937,7 @@ bool neoRADIO2Device::readCalibration(int device, int bank, std::vector<uint8_t>
 	return true;
 }
 
-bool neoRADIO2Device::writeCalibration(int device, int bank, int channel, int range, int points, std::vector<uint8_t>& data, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::writeCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<uint8_t>& data, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	// This command is only available in application code
@@ -963,8 +965,9 @@ bool neoRADIO2Device::writeCalibration(int device, int bank, int channel, int ra
 
 	if (data.size() > sizeof(frame.data))
 		return false;
-	std::copy(data.begin(), data.end(), frame.data);
-	frame.header.len = (uint8_t)data.size();
+	memcpy(frame.data, &header, sizeof(header));
+	std::copy(data.begin(), data.end(), frame.data+sizeof(header));
+	frame.header.len = sizeof(header)+(uint8_t)data.size();
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 	// send the packets
@@ -974,7 +977,7 @@ bool neoRADIO2Device::writeCalibration(int device, int bank, int channel, int ra
 	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_WRITE_CAL, COMMAND_STATE_FINISHED, true, timeout);
 }
 
-bool neoRADIO2Device::writeCalibrationPoints(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::writeCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<uint8_t>& data, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	// This command is only available in application code
@@ -1001,8 +1004,9 @@ bool neoRADIO2Device::writeCalibrationPoints(int device, int bank, std::vector<u
 	};
 	if (data.size() > sizeof(frame.data))
 		return false;
-	std::copy(data.begin(), data.end(), frame.data);
-	frame.header.len = (uint8_t)data.size();
+	memcpy(frame.data, &header, sizeof(header));
+	std::copy(data.begin(), data.end(), frame.data+sizeof(header));
+	frame.header.len = sizeof(header)+(uint8_t)data.size();
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 	// send the packets

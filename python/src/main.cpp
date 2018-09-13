@@ -370,8 +370,8 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 
-	m.def("request_calibration", [](neoradio2_handle& handle, int device, int bank) {
-		if (neoradio2_request_calibration(&handle, device, bank) != NEORADIO2_SUCCESS)
+	m.def("request_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+		if (neoradio2_request_calibration(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_calibration() failed");
 		return true;
 	}, R"pbdoc(
@@ -383,8 +383,7 @@ PYBIND11_MODULE(neoradio2, m) {
 	m.def("read_calibration_array", [](neoradio2_handle& handle, int device, int bank) {
 		int arr[64] = {0};
 		int arr_size = sizeof(arr);
-		throw NeoRadio2Exception("TODO");
-		//if (neoradio2_read_calibration_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
+		if (neoradio2_read_calibration_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_calibration_array() failed");
 		std::vector<int> values;
 		for (int i=0; i < arr_size; ++i)
@@ -397,11 +396,10 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	// LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
-	m.def("write_calibration", [](neoradio2_handle& handle, int device, int bank, int channel, int range, int points, std::vector<float> data) {
+	m.def("write_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
 		int arr[64] ={0};
 		int arr_size = sizeof(arr);
-		throw NeoRadio2Exception("TODO");
-		//if (neoradio2_write_calibration(&handle, device, bank, channel, range, points, arr, &arr_size) != NEORADIO2_SUCCESS)
+		if (neoradio2_write_calibration(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_calibration_array() failed");
 		std::vector<int> values;
 		for (int i=0; i < arr_size; ++i)
