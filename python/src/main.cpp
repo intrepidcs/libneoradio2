@@ -276,12 +276,12 @@ PYBIND11_MODULE(neoradio2, m) {
         Returns string, otherwise exception is thrown.
     )pbdoc");
 
-	m.def("request_sensor_data", [](neoradio2_handle& handle, int device, int bank) {
-		if (neoradio2_request_sensor_data(&handle, device, bank) != NEORADIO2_SUCCESS)
+	m.def("request_sensor_data", [](neoradio2_handle& handle, int device, int bank, int enable_cal) {
+		if (neoradio2_request_sensor_data(&handle, device, bank, enable_cal) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_sensor_data() failed");
 		return true;
 	}, R"pbdoc(
-        Request PCBSN of the neoRAD-IO2 device bank.
+        Request Sensor data of the neoRAD-IO2 device bank.
         
         Returns True, otherwise exception is thrown.
     )pbdoc");
@@ -359,6 +359,73 @@ PYBIND11_MODULE(neoradio2, m) {
         
         Returns integer, otherwise exception is thrown.
     )pbdoc");
+
+
+	m.def("request_calibration", [](neoradio2_handle& handle, int device, int bank) {
+		if (neoradio2_request_calibration(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_request_calibration() failed");
+		return true;
+	}, R"pbdoc(
+        Request Calibration values of the neoRAD-IO2 device bank.
+        
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
+	m.def("read_calibration_array", [](neoradio2_handle& handle, int device, int bank) {
+		int arr[64] = {0};
+		int arr_size = sizeof(arr);
+		throw NeoRadio2Exception("TODO");
+		//if (neoradio2_read_calibration_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_calibration_array() failed");
+		std::vector<int> values;
+		for (int i=0; i < arr_size; ++i)
+			values.push_back(arr[i]);
+		return values;
+	}, R"pbdoc(
+        Get calibration values of the neoRAD-IO2 device bank.
+        
+        Returns container of calibration values, otherwise exception is thrown.
+    )pbdoc");
+
+	// LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
+	m.def("write_calibration", [](neoradio2_handle& handle, int device, int bank, int channel, int range, int points, std::vector<float> data) {
+		int arr[64] ={0};
+		int arr_size = sizeof(arr);
+		throw NeoRadio2Exception("TODO");
+		//if (neoradio2_write_calibration(&handle, device, bank, channel, range, points, arr, &arr_size) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_calibration_array() failed");
+		std::vector<int> values;
+		for (int i=0; i < arr_size; ++i)
+			values.push_back(arr[i]);
+		return values;
+	}, R"pbdoc(
+        Get calibration values of the neoRAD-IO2 device bank.
+        
+        Returns container of calibration values, otherwise exception is thrown.
+    )pbdoc");
+
+	m.def("request_calibration_info", [](neoradio2_handle& handle, int device, int bank) {
+		if (neoradio2_request_calibration_info(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_request_calibration_info() failed");
+		return true;
+	}, R"pbdoc(
+        Request calibration info of the neoRAD-IO2 device bank.
+        
+        Returns True on success, otherwise exception is thrown.
+    )pbdoc");
+
+	m.def("read_calibration_info", [](neoradio2_handle& handle, int device, int bank) {
+		neoRADIO2frame_calHeader header;
+		if (neoradio2_read_calibration_info(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_calibration_info() failed");
+		return header;
+	}, R"pbdoc(
+        Reads calibration info of the neoRAD-IO2 device bank.
+        
+        Returns neoRADIO2frame_calHeader on success, otherwise exception is thrown.
+    )pbdoc");
+
+
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;

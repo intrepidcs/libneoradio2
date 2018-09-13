@@ -68,17 +68,14 @@
     <ClInclude Include="..\..\neoradio2.h">
       <Filter>Header Files\libneoradio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\neoRADIO2_frames.h">
-      <Filter>Header Files\libneoradio2</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\neoradio2device.h">
       <Filter>Header Files\libneoradio2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\neoradio2framehandler.h">
       <Filter>Header Files\libneoradio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\radio2_frame.h">
-      <Filter>Header Files\libneoradio2</Filter>
+    <ClInclude Include="..\..\radio2_frames.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -51,7 +51,7 @@
     <ClInclude Include="devicecommandhandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="neoRADIO2_frames.h">
+    <ClInclude Include="radio2_frames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

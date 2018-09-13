@@ -10,6 +10,41 @@ except Exception as ex:
     input(str(ex))
 import time
 
+
+if __name__ == "__main__":
+    for device in neoradio2.find():
+        print("Opening {} {}...".format(device.name, device.serial_str))
+        handle = neoradio2.open(device)
+        print("Opened {} {}...".format(device.name, device.serial_str))
+
+        neoradio2.app_start(handle, 0, 0xFF)
+
+        try:
+            while True:
+                s = time.time()
+                neoradio2.request_calibration(handle, 0, 0xFF)
+                e = time.time()
+                msg = str(e-s)
+                for x in range(8):
+                    value = neoradio2.read_calibration_array(handle, 0, x)
+                    #try:
+                    #    neoradio2.toggle_led(handle, 0, 0xFF, 255)
+                    #except neoradio2.Exception as ex:
+                    #    print(ex)
+                    #value = neoradio2.get_manufacturer_date(handle, 0, x)
+                    msg += ", {}".format(value)
+                print(msg)
+                time.sleep(0.1)
+        except Exception as ex:
+            print(ex)
+            time.sleep(1)
+        finally:
+            neoradio2.close(handle)
+            input("Press any key to continue...")
+            #time.sleep(3)
+        #time.sleep(10)
+
+"""
 if __name__ == "__main__":
     for device in neoradio2.find():
         print("Opening {} {}...".format(device.name, device.serial_str))
@@ -42,7 +77,7 @@ if __name__ == "__main__":
             input("Press any key to continue...")
             time.sleep(3)
         time.sleep(10)
-
+"""
 
 """
 def get_bank_info(handle, device, bank):

@@ -124,8 +124,7 @@
     <ClInclude Include="..\..\neoradio2.h" />
     <ClInclude Include="..\..\neoradio2device.h" />
     <ClInclude Include="..\..\neoradio2framehandler.h" />
-    <ClInclude Include="..\..\neoRADIO2_frames.h" />
-    <ClInclude Include="..\..\radio2_frame.h" />
+    <ClInclude Include="..\..\radio2_frames.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\test.py" />

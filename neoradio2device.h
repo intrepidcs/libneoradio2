@@ -33,10 +33,16 @@ public:
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_DATA);
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_SETTINGS);
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_SETTINGS);
-		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_CAL);
-		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CAL);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DONT_USE1);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DONT_USE2);
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_TOGGLE_LED);
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_PCBSN);
+
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CAL);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_CAL);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_CALPOINTS);
+		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_STORE_CAL);
+		
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_WRITEBUFFER);
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_WRITETOFLASH);
 		_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_VERIFY);
@@ -47,6 +53,8 @@ public:
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_IDENTIFY);
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_READ_SETTINGS);
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_READ_PCBSN);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL_STORE);
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_NEED_ID);
 
 		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_RESET);
@@ -150,7 +158,7 @@ public:
 	bool requestPCBSN(int device, int bank, std::chrono::milliseconds timeout);
 	bool getPCBSN(int device, int bank, std::string& pcbsn);
 
-	bool requestSensorData(int device, int bank, std::chrono::milliseconds timeout);
+	bool requestSensorData(int device, int bank, int enable_cal, std::chrono::milliseconds timeout);
 	bool readSensorData(int device, int bank, std::vector<uint8_t>& data);
 
 	// neoRADIO2_deviceSettings
@@ -160,8 +168,14 @@ public:
 	bool writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
 
 	bool requestCalibration(int device, int bank, std::chrono::milliseconds timeout);
-	bool readCalibration(int device, int bank, std::vector<uint8_t>& data);
-	bool writeCalibration(int device, int bank, std::vector<uint8_t>& data);
+	bool readCalibration(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
+	bool writeCalibration(int device, int bank, int channel, int range, int points, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
+	bool writeCalibrationPoints(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
+	bool requestStoreCalibration(int device, int bank, std::chrono::milliseconds timeout);
+	bool isCalibrationStored(int device, int bank, bool& data, std::chrono::milliseconds timeout);
+
+	bool requestCalibrationInfo(int device, int bank, std::chrono::milliseconds timeout);
+	bool readCalibrationInfo(int device, int bank, neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
 
 	bool toggleLED(int device, int bank, int ms, std::chrono::milliseconds timeout);
 
