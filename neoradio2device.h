@@ -172,10 +172,10 @@ public:
 
 	bool requestCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
 	bool readCalibration(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
-	bool writeCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
-	bool writeCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
+	bool writeCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
+	bool writeCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
 	bool requestStoreCalibration(int device, int bank, std::chrono::milliseconds timeout);
-	bool isCalibrationStored(int device, int bank, bool& data, std::chrono::milliseconds timeout);
+	bool isCalibrationStored(int device, int bank, bool& stored, std::chrono::milliseconds timeout);
 	bool requestCalibrationInfo(int device, int bank, std::chrono::milliseconds timeout);
 	bool readCalibrationInfo(int device, int bank, neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
 

@@ -27,7 +27,7 @@ static bool _set_blocking = true;
 #ifdef ENABLE_EXTENDED_BLOCKING_TIMEOUT
 std::chrono::milliseconds _blocking_timeout(1000*120);
 #else
-std::chrono::milliseconds _blocking_timeout(6000);
+std::chrono::milliseconds _blocking_timeout(2000);
 #endif
 
 
@@ -487,9 +487,9 @@ LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, 
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, int* arr, int* arr_size)
+LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int arr_size)
 {
-	if (!arr && !arr_size)
+	if (!header && !arr && !arr_size)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
@@ -498,16 +498,16 @@ LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int d
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	std::vector<uint8_t> data;
-	for (int i=0; i < *arr_size; ++i)
+	std::vector<float> data;
+	for (int i=0; i < arr_size; ++i)
 		data.push_back(arr[i]);
 	bool success = radio_dev->writeCalibration(device, bank, *header, data, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, int* arr, int* arr_size)
+LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int arr_size)
 {
-	if (!arr && !arr_size)
+	if (!header && !arr && !arr_size)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
@@ -516,8 +516,8 @@ LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	std::vector<uint8_t> data;
-	for (int i=0; i < *arr_size; ++i)
+	std::vector<float> data;
+	for (int i=0; i < arr_size; ++i)
 		data.push_back(arr[i]);
 	bool success = radio_dev->writeCalibrationPoints(device, bank, *header, data, _blocking_timeout);
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
@@ -533,6 +533,22 @@ LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int d
 		return NEORADIO2_FAILURE;
 
 	bool success = radio_dev->requestStoreCalibration(device, bank, _blocking_timeout);
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_is_calibration_stored(neoradio2_handle* handle, int device, int bank, int* stored)
+{
+	if (!stored)
+		return NEORADIO2_FAILURE;
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+	bool _stored = false;
+	bool success = radio_dev->isCalibrationStored(device, bank, _stored, _blocking_timeout);
+	*stored = _stored ? 1 : 0;
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 

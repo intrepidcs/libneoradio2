@@ -395,20 +395,59 @@ PYBIND11_MODULE(neoradio2, m) {
         Returns container of calibration values, otherwise exception is thrown.
     )pbdoc");
 
-	// LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
+	// LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int arr_size)
 	m.def("write_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
-		int arr[64] ={0};
-		int arr_size = sizeof(arr);
-		if (neoradio2_write_calibration(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
-			throw NeoRadio2Exception("neoradio2_read_calibration_array() failed");
-		std::vector<int> values;
-		for (int i=0; i < arr_size; ++i)
-			values.push_back(arr[i]);
-		return values;
+		if (neoradio2_write_calibration(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_calibration() failed");
+		return true;
 	}, R"pbdoc(
-        Get calibration values of the neoRAD-IO2 device bank.
+        Write calibration values for the neoRAD-IO2 device bank.
         
-        Returns container of calibration values, otherwise exception is thrown.
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
+	m.def("write_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
+		if (neoradio2_write_calibration_points(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_calibration_points() failed");
+		return true;
+	}, R"pbdoc(
+        Write calibration points for the neoRAD-IO2 device bank.
+        
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
+	//LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int device, int bank);
+	m.def("store_calibration", [](neoradio2_handle& handle, int device, int bank) {
+		if (neoradio2_store_calibration(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_store_calibration() failed");
+		return true;
+	}, R"pbdoc(
+        Store the calibration for the neoRAD-IO2 device bank.
+        
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
+	m.def("is_calibration_stored", [](neoradio2_handle& handle, int device, int bank) {
+		int stored = false;
+		if (neoradio2_is_calibration_stored(&handle, device, bank, &stored) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("is_calibration_stored() failed");
+		return stored != 0;
+	}, R"pbdoc(
+        Check if calibration is stored for the neoRAD-IO2 device bank. Call store_calibration first.
+        
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
+	// LIBNEORADIO2_API int neoradio2_get_calibration_is_valid(neoradio2_handle* handle, int device, int bank, int* is_valid);
+	m.def("get_calibration_is_valid", [](neoradio2_handle& handle, int device, int bank) {
+		int is_valid = 0;
+		if (neoradio2_get_calibration_is_valid(&handle, device, bank, &is_valid) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_get_calibration_is_valid() failed");
+		return is_valid != 0;
+	}, R"pbdoc(
+        Determine if the calibration is valid for the neoRAD-IO2 device bank.
+        
+        Returns True is valid, False if invalid. Exception is thrown on error.
     )pbdoc");
 
 	m.def("request_calibration_info", [](neoradio2_handle& handle, int device, int bank) {
@@ -431,8 +470,6 @@ PYBIND11_MODULE(neoradio2, m) {
         
         Returns neoRADIO2frame_calHeader on success, otherwise exception is thrown.
     )pbdoc");
-
-
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
