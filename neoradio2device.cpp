@@ -927,13 +927,80 @@ bool neoRADIO2Device::requestCalibration(int device, int bank, const neoRADIO2fr
 	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_CAL, COMMAND_STATE_FINISHED, true, timeout);
 }
 
-bool neoRADIO2Device::readCalibration(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::readCalibration(int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout)
 {
 	data.clear();
-	if (!mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_CAL, COMMAND_STATE_FINISHED, false))
+	if (!mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_CAL, COMMAND_STATE_FINISHED, false, timeout))
 		return false;
 	std::vector<uint8_t> _data = mDCH.getData(0x55, device, bank, NEORADIO2_STATUS_CAL);
-	std::copy(_data.begin(), _data.end(), std::back_inserter(data));
+	if (_data.size() < sizeof(header))
+		return false;
+	// copy the header first
+	memcpy((void*)&header, _data.data(), sizeof(header));
+	int remaining_size = _data.size() - sizeof(header);
+	for (unsigned int i=0; i < remaining_size/sizeof(float); ++i)
+	{
+		uint8_t* _temp = _data.data()+sizeof(header)+(i*sizeof(float));
+		float* value = (float*)_temp;
+		data.push_back(*value);
+	}
+	return true;
+}
+
+bool neoRADIO2Device::requestCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d=0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b=0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_READ_CALPOINTS, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	memcpy(frame.data, &header, sizeof(header));
+	frame.header.len = sizeof(header);
+	// Reset commands
+	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
+	mDCH.updateCommand(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_CALPOINTS, COMMAND_STATE_RESET, true);
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Is the command set?
+	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_CAL, COMMAND_STATE_FINISHED, true, timeout);
+}
+
+bool neoRADIO2Device::readCalibrationPoints(int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout)
+{
+	data.clear();
+	if (!mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_CALPOINTS, COMMAND_STATE_FINISHED, false, timeout))
+		return false;
+	std::vector<uint8_t> _data = mDCH.getData(0x55, device, bank, NEORADIO2_STATUS_CALPOINTS);
+	if (_data.size() < sizeof(header))
+		return false;
+	// copy the header first
+	memcpy((void*)&header, _data.data(), sizeof(header));
+	int remaining_size = _data.size() - sizeof(header);
+	for (unsigned int i=0; i < remaining_size/sizeof(float); ++i)
+	{
+		uint8_t* _temp = _data.data()+sizeof(header)+(i*sizeof(float));
+		float* value = (float*)_temp;
+		data.push_back(*value);
+	}
 	return true;
 }
 

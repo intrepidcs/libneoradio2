@@ -466,7 +466,7 @@ LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
+LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int* arr_size)
 {
 	if (!arr && !arr_size)
 		return NEORADIO2_FAILURE;
@@ -477,8 +477,42 @@ LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, 
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	std::vector<uint8_t> data;
-	bool success = radio_dev->readCalibration(device, bank, data, _blocking_timeout);
+	std::vector<float> data;
+	bool success = radio_dev->readCalibration(device, bank, *header, data, _blocking_timeout);
+	if ((int)data.size() > *arr_size)
+		return NEORADIO2_FAILURE;
+	for (int i=0; i < *arr_size && i < (int)data.size(); ++i)
+		arr[i] = data[i];
+	*arr_size = data.size();
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_request_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	bool success = radio_dev->requestCalibrationPoints(device, bank, *header, _blocking_timeout);
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+LIBNEORADIO2_API int neoradio2_read_calibration_points_array(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int* arr_size)
+{
+	if (!arr && !arr_size)
+		return NEORADIO2_FAILURE;
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	std::vector<float> data;
+	bool success = radio_dev->readCalibrationPoints(device, bank, *header, data, _blocking_timeout);
 	if ((int)data.size() > *arr_size)
 		return NEORADIO2_FAILURE;
 	for (int i=0; i < *arr_size && i < (int)data.size(); ++i)

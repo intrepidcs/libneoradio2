@@ -58,6 +58,7 @@ public:
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL);
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL_STORE);
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL_INFO);
+		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CALPOINTS);
 		_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_NEED_ID);
 
 		_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_RESET);
@@ -171,7 +172,12 @@ public:
 	bool writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
 
 	bool requestCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
-	bool readCalibration(int device, int bank, std::vector<uint8_t>& data, std::chrono::milliseconds timeout);
+	bool readCalibration(int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
+
+	bool requestCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
+	bool readCalibrationPoints(int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
+
+
 	bool writeCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
 	bool writeCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
 	bool requestStoreCalibration(int device, int bank, std::chrono::milliseconds timeout);

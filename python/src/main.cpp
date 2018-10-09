@@ -380,17 +380,43 @@ PYBIND11_MODULE(neoradio2, m) {
         Returns True, otherwise exception is thrown.
     )pbdoc");
 
-	m.def("read_calibration_array", [](neoradio2_handle& handle, int device, int bank) {
-		int arr[64] = {0};
+	m.def("read_calibration_array", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+		float arr[64] ={0};
 		int arr_size = sizeof(arr);
-		if (neoradio2_read_calibration_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
+		if (neoradio2_read_calibration_array(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_calibration_array() failed");
-		std::vector<int> values;
+		std::vector<float> values;
 		for (int i=0; i < arr_size; ++i)
 			values.push_back(arr[i]);
 		return values;
 	}, R"pbdoc(
         Get calibration values of the neoRAD-IO2 device bank.
+        
+        Returns container of calibration values, otherwise exception is thrown.
+    )pbdoc");
+
+
+	m.def("request_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+		if (neoradio2_request_calibration_points(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_request_calibration_points() failed");
+		return true;
+	}, R"pbdoc(
+        Request Calibration point values of the neoRAD-IO2 device bank.
+        
+        Returns True, otherwise exception is thrown.
+    )pbdoc");
+
+	m.def("read_calibration_points_array", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+		float arr[64] ={0};
+		int arr_size = sizeof(arr);
+		if (neoradio2_read_calibration_points_array(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_calibration_points_array() failed");
+		std::vector<float> values;
+		for (int i=0; i < arr_size; ++i)
+			values.push_back(arr[i]);
+		return values;
+	}, R"pbdoc(
+        Get calibration point values of the neoRAD-IO2 device bank.
         
         Returns container of calibration values, otherwise exception is thrown.
     )pbdoc");

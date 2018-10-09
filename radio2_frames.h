@@ -91,6 +91,7 @@ extern "C" {
 		NEORADIO2_STATUS_CAL				=   0x05,
 		NEORADIO2_STATUS_CAL_STORE          =   0x06,
 		NEORADIO2_STATUS_CAL_INFO           =   0x07,
+		NEORADIO2_STATUS_CALPOINTS          =   0x08,
 		NEORADIO2_STATUS_NEED_ID			=   0xFF,
 	} neoRADIO2frame_deviceStatus;
 

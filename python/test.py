@@ -20,6 +20,51 @@ if __name__ == "__main__":
                 neoradio2.chain_identify(handle)
                 s = time.time()
                 
+                #points = [1,1,1,1]
+                header = neoradio2.neoRADIO2frame_calHeader()
+                header.cr_is_bitmask = 0
+                header.channel = 0
+                header.range = 0
+                header.num_of_pts = 4
+                header.cal_type_size = 4 # sizeof(int)
+                e = time.time()
+                msg = str(e-s)
+
+                print("Requesting Calibration {} {}...".format(device.name, device.serial_str))
+                neoradio2.request_calibration(handle, 0, 0xFF, header)
+                time.sleep(0.5)
+                neoradio2.request_calibration_points(handle, 0, 0xFF, header)
+                time.sleep(0.5)
+                for x in range(8):
+                    print("Reading Calibration {} {}...".format(device.name, device.serial_str))
+                    cal = neoradio2.read_calibration_array(handle, 0, x, header)
+                    print(x, cal)
+                    #time.sleep(0.05)
+                    print("Reading Calibration Points {} {}...".format(device.name, device.serial_str))
+                    cal_points = neoradio2.read_calibration_points_array(handle, 0, x, header)
+                    print(x, cal_points)
+                    time.sleep(0.05)
+                    
+
+                time.sleep(1)
+        except Exception as ex:
+            print(ex)
+            time.sleep(1)
+        finally:
+            neoradio2.close(handle)
+            input("Press any key to continue...")
+
+"""
+if __name__ == "__main__":
+    for device in neoradio2.find():
+        print("Opening {} {}...".format(device.name, device.serial_str))
+        handle = neoradio2.open(device)
+        print("Opened {} {}...".format(device.name, device.serial_str))
+        try:
+            while True:
+                neoradio2.chain_identify(handle)
+                s = time.time()
+                
                 points = [ -50, 0, 75, 650 ]
                 cal = [ -48.67, 1.19, 75.72, 650.36 ]
                 #points = [1,1,1,1]
@@ -43,15 +88,7 @@ if __name__ == "__main__":
                     time.sleep(0.1)
                     is_stored = neoradio2.is_calibration_stored(handle, 0, x)
                     print("{} is cal stored: {}".format(x, is_stored))
-                    """
-                    cal_info = neoradio2.read_calibration_info(handle, 0, x)
-                    print("{} num_of_pts:    {}".format(x, cal_info.num_of_pts))
-                    print("{} channel:       {}".format(x, cal_info.channel))
-                    print("{} range:         {}".format(x, cal_info.range))
-                    print("{} cal_type_size: {}".format(x, cal_info.cal_type_size))
-                    print("{} cr_is_bitmask: {}".format(x, cal_info.cr_is_bitmask))
-                    print("{} cal_is_valid:  {}".format(x, cal_info.cal_is_valid))
-                    """
+
                 time.sleep(0.1)
         except Exception as ex:
             print(ex)
@@ -59,6 +96,7 @@ if __name__ == "__main__":
         finally:
             neoradio2.close(handle)
             input("Press any key to continue...")
+"""
 
 """
 if __name__ == "__main__":
