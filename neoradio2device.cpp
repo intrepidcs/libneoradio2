@@ -236,6 +236,8 @@ void neoRADIO2Device::start()
 		switch (mLastState)
 		{
 		case PROCESS_STATE_IDLE:
+			// Make sure we don't hog the CPU when Idle
+			std::this_thread::sleep_for(1ms);
 #ifdef DEBUG_ANNOYING
 			DEBUG_PRINT("PROCESS_STATE_IDLE");
 #endif // DEBUG_ANNOYING
@@ -372,9 +374,11 @@ void neoRADIO2Device::start()
 		}
 
 		// Make sure we don't hog the CPU
+#if 0
 		auto elapsed_time = std::chrono::high_resolution_clock::now() - start_time;
-		if (elapsed_time < 1ms)
-			std::this_thread::sleep_for(1ms - elapsed_time);
+		if (elapsed_time < 100us)
+			std::this_thread::sleep_for(100us - elapsed_time);
+#endif 
 #endif // DEBUG_RADIO2_THREAD_DO_NOTHING
 	}
 
@@ -841,7 +845,7 @@ bool neoRADIO2Device::requestSettings(int device, int bank, std::chrono::millise
 	return success;
 }
 
-bool neoRADIO2Device::readSettings(int device, int bank, neoRADIO2_deviceSettings& settings)
+bool neoRADIO2Device::readSettings(int device, int bank, neoRADIO2_settings& settings)
 {
 	memset(&settings, 0, sizeof(settings));
 	if (!mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_READ_SETTINGS, COMMAND_STATE_FINISHED, false))
@@ -853,7 +857,7 @@ bool neoRADIO2Device::readSettings(int device, int bank, neoRADIO2_deviceSetting
 	return true;
 }
 
-bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& settings, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	// This command is only available in application code
@@ -879,7 +883,7 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_deviceSettin
 		0 // crc
 	};
 	// copy the settings into the frame
-	memcpy(frame.data, &settings, sizeof(settings));
+	//memcpy(frame.data, &settings, sizeof(settings));
 
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);

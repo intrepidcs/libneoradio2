@@ -104,4 +104,7 @@ setup(
     install_requires=['pybind11>=2.2'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
+    define_macros=[('DEBUG_ANNOYING', 1),
+    ('ENABLE_DEBUG_PRINT', 1),
+    ('DEBUG', 1)],
 )

@@ -406,7 +406,7 @@ LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int de
 	return radio_dev->requestSettings(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_deviceSettings* settings)
+LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_settings* settings)
 {
 	if (!settings)
 		return NEORADIO2_FAILURE;
@@ -423,7 +423,7 @@ LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int devic
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_write_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_deviceSettings* settings)
+LIBNEORADIO2_API int neoradio2_write_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_settings* settings)
 {
 	if (!settings)
 		return NEORADIO2_FAILURE;

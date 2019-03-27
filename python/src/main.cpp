@@ -77,6 +77,30 @@ PYBIND11_MODULE(neoradio2, m) {
 		.def_readwrite("channel_1_config", &neoRADIO2_deviceSettings::channel_1_config)
 		.def_readwrite("channel_2_Config", &neoRADIO2_deviceSettings::channel_2_Config)
 		.def_readwrite("channel_3_Config", &neoRADIO2_deviceSettings::channel_3_Config);
+        
+    // radio2_frame.h
+	py::class_<neoRADIO2settings_CAN>(m, "neoRADIO2settings_CAN")
+		.def(py::init([]() { return new neoRADIO2settings_CAN{0}; }))
+		.def_readwrite("Arbid", &neoRADIO2settings_CAN::Arbid)
+		.def_readwrite("Location", &neoRADIO2settings_CAN::Location)
+		.def_readwrite("msgType", &neoRADIO2settings_CAN::msgType);
+    
+    // radio2_frame.h
+	py::class_<neoRADIO2Settings_ChannelName>(m, "neoRADIO2Settings_ChannelName")
+		.def(py::init([]() { return new neoRADIO2Settings_ChannelName{0}; }))
+		.def_readwrite("Arbid", &neoRADIO2Settings_ChannelName::length)
+		.def_readwrite("Location", &neoRADIO2Settings_ChannelName::charSize)
+        .def_readwrite("chars", &neoRADIO2Settings_ChannelName::chars);
+        
+    // radio2_frame.h
+	py::class_<neoRADIO2_settings>(m, "neoRADIO2_settings")
+		.def(py::init([]() { return new neoRADIO2_settings{0}; }))
+		.def_readwrite("config", &neoRADIO2_settings::config)
+		.def_readwrite("name1", &neoRADIO2_settings::name1)
+		.def_readwrite("name2", &neoRADIO2_settings::name2)
+        .def_readwrite("name3", &neoRADIO2_settings::name3)
+        .def_readwrite("can", &neoRADIO2_settings::can);
+        
 
 	py::class_<neoRADIO2frame_calHeader>(m, "neoRADIO2frame_calHeader")
 		.def(py::init([]() { return new neoRADIO2frame_calHeader{0}; }))
@@ -106,6 +130,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("open", [](Neoradio2DeviceInfo* device) {
+        py::gil_scoped_release release;
         neoradio2_handle handle;
         if (neoradio2_open(&handle, device) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_open() failed");
@@ -117,6 +142,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("is_blocking", []() {
+        py::gil_scoped_release release;
         return neoradio2_is_blocking() == 1;
         }, R"pbdoc(
         Check if API is blocking
@@ -125,6 +151,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("is_opened", [](neoradio2_handle& handle) {
+        py::gil_scoped_release release;
         int is_true = 0;
         if (neoradio2_is_opened(&handle, &is_true) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_is_opened() failed");
@@ -136,6 +163,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("close", [](neoradio2_handle& handle) {
+        py::gil_scoped_release release;
         if (neoradio2_close(&handle) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_close() failed");
         return true;
@@ -146,6 +174,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
     m.def("is_closed", [](neoradio2_handle& handle) {
+        py::gil_scoped_release release;
         int is_true = 0;
         if (neoradio2_is_closed(&handle, &is_true) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_is_closed() failed");
@@ -157,6 +186,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("chain_is_identified", [](neoradio2_handle& handle) {
+        py::gil_scoped_release release;
         int is_true = 0;
         if (neoradio2_chain_is_identified(&handle, &is_true) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_chain_is_identified() failed");
@@ -168,6 +198,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("chain_identify", [](neoradio2_handle& handle) {
+        py::gil_scoped_release release;
         if (neoradio2_chain_identify(&handle) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_chain_identify() failed");
         return true;
@@ -179,6 +210,7 @@ PYBIND11_MODULE(neoradio2, m) {
     
     
     m.def("app_is_started", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         int is_true = 0;
         if (neoradio2_app_is_started(&handle, device, bank, &is_true) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_app_is_started() failed");
@@ -190,6 +222,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("app_start", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         if (neoradio2_app_start(&handle, device, bank) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_app_start() failed");
         return true;
@@ -200,6 +233,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
     m.def("get_serial_number", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         unsigned int serial_number = 0;
         if (neoradio2_get_serial_number(&handle, device, bank, &serial_number) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_get_serial_number() failed");
@@ -211,6 +245,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("enter_bootloader", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         if (neoradio2_enter_bootloader(&handle, device, bank) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_enter_bootloader() failed");
         return true;
@@ -221,6 +256,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("get_manufacturer_date", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         int month, day, year;
         if (neoradio2_get_manufacturer_date(&handle, device, bank, &month, &day, &year) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_get_manufacturer_date() failed");
@@ -232,6 +268,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("get_firmware_version", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         int major, minor;
         if (neoradio2_get_firmware_version(&handle, device, bank, &major, &minor) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_get_firmware_version() failed");
@@ -243,6 +280,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
     m.def("get_hardware_revision", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         int major, minor;
         if (neoradio2_get_hardware_revision(&handle, device, bank, &major, &minor) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_get_hardware_revision() failed");
@@ -254,6 +292,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
 	m.def("get_device_type", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		unsigned int dev_type;
 		if (neoradio2_get_device_type(&handle, device, bank, &dev_type) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_get_device_type() failed");
@@ -265,6 +304,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("request_pcbsn", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		if (neoradio2_request_pcbsn(&handle, device, bank) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_pcbsn() failed");
 		return true;
@@ -275,6 +315,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
     m.def("get_pcbsn", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         char pcb_sn[17] = {0};
         if (neoradio2_get_pcbsn(&handle, device, bank, pcb_sn) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_get_pcbsn() failed");
@@ -286,6 +327,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("request_sensor_data", [](neoradio2_handle& handle, int device, int bank, int enable_cal) {
+        py::gil_scoped_release release;
 		if (neoradio2_request_sensor_data(&handle, device, bank, enable_cal) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_sensor_data() failed");
 		return true;
@@ -296,6 +338,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("read_sensor_float", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         float value = 0;
         if (neoradio2_read_sensor_float(&handle, device, bank, &value) != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_read_sensor_float() failed");
@@ -307,6 +350,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
     m.def("read_sensor_array", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
         int arr[32] = {0};
         int arr_size = 32;
         if (neoradio2_read_sensor_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
@@ -322,6 +366,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
 	m.def("request_settings", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		if (neoradio2_request_settings(&handle, device, bank) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_settings() failed");
 		return true;
@@ -332,14 +377,15 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
     
 	m.def("read_settings", [](neoradio2_handle& handle, int device, int bank) {
-		neoRADIO2_deviceSettings settings;
+        py::gil_scoped_release release;
+		neoRADIO2_settings settings;
 		if (neoradio2_read_settings(&handle, device, bank, &settings) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_settings() failed");
 		return settings;
 	}, R"pbdoc(
         Get settings of the neoRAD-IO2 device bank.
         
-        Returns neoRADIO2_deviceSettings, otherwise exception is thrown.
+        Returns neoRADIO2_settings, otherwise exception is thrown.
     )pbdoc");
 
 	m.def("write_settings", &neoradio2_write_settings, R"pbdoc(
@@ -349,6 +395,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("get_chain_count", [](neoradio2_handle& handle, bool identify) {
+        py::gil_scoped_release release;
 		int count = 0;
 		if (neoradio2_get_chain_count(&handle, &count, identify) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_get_chain_count() failed");
@@ -360,6 +407,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, int ms) {
+        py::gil_scoped_release release;
 		if (neoradio2_toggle_led(&handle, device, bank, ms) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_toggle_led() failed");
 		return true;
@@ -371,6 +419,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 
 	m.def("request_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+        py::gil_scoped_release release;
 		if (neoradio2_request_calibration(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_calibration() failed");
 		return true;
@@ -381,6 +430,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("read_calibration_array", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+        py::gil_scoped_release release;
 		float arr[64] ={0};
 		int arr_size = sizeof(arr);
 		if (neoradio2_read_calibration_array(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
@@ -397,6 +447,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 
 	m.def("request_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+        py::gil_scoped_release release;
 		if (neoradio2_request_calibration_points(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_calibration_points() failed");
 		return true;
@@ -407,6 +458,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("read_calibration_points_array", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
+        py::gil_scoped_release release;
 		float arr[64] ={0};
 		int arr_size = sizeof(arr);
 		if (neoradio2_read_calibration_points_array(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
@@ -423,6 +475,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	// LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int arr_size)
 	m.def("write_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
+        py::gil_scoped_release release;
 		if (neoradio2_write_calibration(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_calibration() failed");
 		return true;
@@ -433,6 +486,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("write_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
+        py::gil_scoped_release release;
 		if (neoradio2_write_calibration_points(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_calibration_points() failed");
 		return true;
@@ -444,6 +498,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	//LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int device, int bank);
 	m.def("store_calibration", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		if (neoradio2_store_calibration(&handle, device, bank) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_store_calibration() failed");
 		return true;
@@ -454,6 +509,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("is_calibration_stored", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		int stored = false;
 		if (neoradio2_is_calibration_stored(&handle, device, bank, &stored) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("is_calibration_stored() failed");
@@ -466,6 +522,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	// LIBNEORADIO2_API int neoradio2_get_calibration_is_valid(neoradio2_handle* handle, int device, int bank, int* is_valid);
 	m.def("get_calibration_is_valid", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		int is_valid = 0;
 		if (neoradio2_get_calibration_is_valid(&handle, device, bank, &is_valid) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_get_calibration_is_valid() failed");
@@ -477,6 +534,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("request_calibration_info", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		if (neoradio2_request_calibration_info(&handle, device, bank) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_calibration_info() failed");
 		return true;
@@ -487,6 +545,7 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("read_calibration_info", [](neoradio2_handle& handle, int device, int bank) {
+        py::gil_scoped_release release;
 		neoRADIO2frame_calHeader header;
 		if (neoradio2_read_calibration_info(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_calibration_info() failed");

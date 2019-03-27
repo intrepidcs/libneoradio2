@@ -167,9 +167,9 @@ public:
 
 	// neoRADIO2_deviceSettings
 	bool requestSettings(int device, int bank, std::chrono::milliseconds timeout);
-	bool readSettings(int device, int bank, neoRADIO2_deviceSettings& settings);
+	bool readSettings(int device, int bank, neoRADIO2_settings& settings);
 
-	bool writeSettings(int device, int bank, neoRADIO2_deviceSettings& settings, std::chrono::milliseconds timeout);
+	bool writeSettings(int device, int bank, neoRADIO2_settings& settings, std::chrono::milliseconds timeout);
 
 	bool requestCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
 	bool readCalibration(int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);

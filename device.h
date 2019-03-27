@@ -15,7 +15,7 @@
 
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
-#if defined(ENABLE_DEBUG_PRINT) && (defined(DEBUG) || defined(_DEBUG))
+#if defined(ENABLE_DEBUG_PRINT)
 #define DEBUG_PRINT(fmt, ...) fprintf(stderr, "\tDEBUG: %s:%d:%s(): " fmt "\n", \
     __FILENAME__, __LINE__, __func__, ##__VA_ARGS__)
 #else
@@ -24,7 +24,7 @@
 
 #else
 
-#if defined(ENABLE_DEBUG_PRINT) && (defined(DEBUG) || defined(_DEBUG))
+#if defined(ENABLE_DEBUG_PRINT)
 #define DEBUG_PRINT(fmt, args...) fprintf(stderr, "DEBUG: %s:%d:%s(): " fmt "\n", \
     __FILE__, __LINE__, __func__, ##args)
 #else

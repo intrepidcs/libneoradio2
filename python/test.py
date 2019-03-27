@@ -6,10 +6,41 @@ finally:
 
 try:
     import neoradio2
+    print(neoradio2.__file__)
 except Exception as ex:
     input(str(ex))
 import time
 
+
+if __name__ == "__main__":
+    for device in neoradio2.find():
+        print("Opening {} {}...".format(device.name, device.serial_str))
+        handle = neoradio2.open(device)
+        print("Opened {} {}...".format(device.name, device.serial_str))
+        try:
+            while True:
+                neoradio2.chain_identify(handle)
+                time.sleep(2)
+
+                print("Requesting Settings {} {}...".format(device.name, device.serial_str))
+                neoradio2.request_settings(handle, 0, 0xFF)
+                time.sleep(0.5)
+                for i in range(8):
+                    if (1 << i) & banks:
+                        print("Reading Settings {} {}...".format(device.name, device.serial_str))
+                        settings = neoradio2.read_settings(handle, 0, i)
+                        time.sleep(0.05)                   
+                    
+
+                time.sleep(1)
+        except Exception as ex:
+            print(ex)
+            time.sleep(1)
+        finally:
+            neoradio2.close(handle)
+            input("Press any key to continue...")
+
+"""
 if __name__ == "__main__":
     for device in neoradio2.find():
         print("Opening {} {}...".format(device.name, device.serial_str))
@@ -54,6 +85,7 @@ if __name__ == "__main__":
             neoradio2.close(handle)
             input("Press any key to continue...")
 
+"""
 """
 if __name__ == "__main__":
     for device in neoradio2.find():

@@ -108,6 +108,31 @@ extern "C" {
 		uint32_t channel_3_Config;
 	} PACKED neoRADIO2_deviceSettings;
 
+	typedef struct _neoRADIO2settings_CAN
+	{
+		uint32_t Arbid; //Arb Id
+		uint8_t Location; //byte where the message starts
+		uint8_t msgType; //neoRADIO2_CANMsgType
+	} PACKED neoRADIO2settings_CAN;
+
+	typedef struct _neoRADIO2settings_ChannelName {
+		uint8_t length;
+		uint8_t charSize;
+		union {
+			uint32_t u32[16];
+			uint16_t u16[16*2];
+			uint8_t u8[16*4];
+		} chars;
+	} PACKED neoRADIO2Settings_ChannelName;
+
+	typedef struct _neoRADIO2_settings {
+		neoRADIO2_deviceSettings config;
+		neoRADIO2Settings_ChannelName name1;
+		neoRADIO2Settings_ChannelName name2;
+		neoRADIO2Settings_ChannelName name3;
+		neoRADIO2settings_CAN can;
+	} PACKED neoRADIO2_settings;
+
 	typedef enum _neoRADIO2states {
 		NEORADIO2STATE_RUNNING          =0,
 		NEORADIO2STATE_INBOOTLOADER		=1,
