@@ -27,6 +27,8 @@ public:
 	void reset()
 	{
 		mIsValid = false;
+		mIsBitField = false;
+		mIsChecksumValid = false;
 		memset(&t, 0, sizeof(t));
 	}
 
@@ -55,13 +57,21 @@ public:
 		return sizeof(t);
 	}
 	bool isValid() const { return mIsValid; }
-	bool setValid(bool valid=true) { mIsValid = valid; }
+	void setValid(bool valid=true) { mIsValid = valid; }
+
+	bool isBitField() const { return mIsBitField; }
+	void setIsBitField(bool bit_field=true) { mIsBitField = bit_field; }
+
+	bool isChecksumValid() const { return mIsChecksumValid; }
+	void setIsChecksumValid(bool valid=true) { mIsChecksumValid = valid; }
 
 protected:
 	T t;
 
 private:
 	bool mIsValid;
+	bool mIsBitField;
+	bool mIsChecksumValid;
 };
 
 #endif // __NEORADIO2_FRAME_HANDLER_H__
