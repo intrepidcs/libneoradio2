@@ -73,10 +73,10 @@ PYBIND11_MODULE(neoradio2, m) {
     // radio2_frame.h
 	py::class_<neoRADIO2_deviceSettings>(m, "neoRADIO2_deviceSettings")
 		.def(py::init([]() { return new neoRADIO2_deviceSettings{0}; }))
-		.def_readwrite("sample_rate", &neoRADIO2_deviceSettings::sample_rate)
+		.def_readwrite("poll_rate_ms", &neoRADIO2_deviceSettings::poll_rate_ms)
 		.def_readwrite("channel_1_config", &neoRADIO2_deviceSettings::channel_1_config)
-		.def_readwrite("channel_2_Config", &neoRADIO2_deviceSettings::channel_2_Config)
-		.def_readwrite("channel_3_Config", &neoRADIO2_deviceSettings::channel_3_Config);
+		.def_readwrite("channel_2_config", &neoRADIO2_deviceSettings::channel_2_config)
+		.def_readwrite("channel_3_config", &neoRADIO2_deviceSettings::channel_3_config);
         
     // radio2_frame.h
 	py::class_<neoRADIO2settings_CAN>(m, "neoRADIO2settings_CAN")
@@ -107,8 +107,6 @@ PYBIND11_MODULE(neoradio2, m) {
 		.def_readwrite("num_of_pts", &neoRADIO2frame_calHeader::num_of_pts)
 		.def_readwrite("channel", &neoRADIO2frame_calHeader::channel)
 		.def_readwrite("range", &neoRADIO2frame_calHeader::range)
-		.def_readwrite("cal_type_size", &neoRADIO2frame_calHeader::cal_type_size)
-		.def_readwrite("cr_is_bitmask", &neoRADIO2frame_calHeader::cr_is_bitmask)
 		.def_readwrite("cal_is_valid", &neoRADIO2frame_calHeader::cal_is_valid);
 
     // Functions ==============================================================

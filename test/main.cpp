@@ -53,19 +53,21 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		auto mgr = ice::LibraryManager::getLibraryManager();
-		mgr.add("libneoradio2", "libneoradio2.dll");
-		std::cout << mgr["libneoradio2"].getPath() << "\n";
+		ice::LibraryManager* mgr = ice::LibraryManager::getLibraryManager();
+		mgr->add("libneoradio2", "libneoradio2.dll");
+		
+		auto lib = mgr->get("libneoradio2");
+		std::cout << lib->getPath() << "\n";
 
-		ice::Function <int(Neoradio2DeviceInfo*, unsigned int*)> neoradio2_find(&mgr["libneoradio2"], "neoradio2_find");
-		ice::Function <int(neoradio2_handle*, Neoradio2DeviceInfo*)> neoradio2_open(&mgr["libneoradio2"], "neoradio2_open");
-		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_app_start(&mgr["libneoradio2"], "neoradio2_app_start");
-		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_enter_bootloader(&mgr["libneoradio2"], "neoradio2_enter_bootloader");
-		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_pcbsn(&mgr["libneoradio2"], "neoradio2_request_pcbsn");
-		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_sensor_data(&mgr["libneoradio2"], "neoradio2_request_sensor_data");
-		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_settings(&mgr["libneoradio2"], "neoradio2_request_settings");
-		ice::Function <int(neoradio2_handle*, int*, int)> neoradio2_get_chain_count(&mgr["libneoradio2"], "neoradio2_get_chain_count");
-		ice::Function <int(neoradio2_handle*)> neoradio2_close(&mgr["libneoradio2"], "neoradio2_close");
+		ice::Function <int(Neoradio2DeviceInfo*, unsigned int*)> neoradio2_find(lib, "neoradio2_find");
+		ice::Function <int(neoradio2_handle*, Neoradio2DeviceInfo*)> neoradio2_open(lib, "neoradio2_open");
+		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_app_start(lib, "neoradio2_app_start");
+		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_enter_bootloader(lib, "neoradio2_enter_bootloader");
+		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_pcbsn(lib, "neoradio2_request_pcbsn");
+		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_sensor_data(lib, "neoradio2_request_sensor_data");
+		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_settings(lib, "neoradio2_request_settings");
+		ice::Function <int(neoradio2_handle*, int*, int)> neoradio2_get_chain_count(lib, "neoradio2_get_chain_count");
+		ice::Function <int(neoradio2_handle*)> neoradio2_close(lib, "neoradio2_close");
 
 		Neoradio2DeviceInfo devices[8];
 		unsigned int device_count = 8;
@@ -186,18 +188,17 @@ bool get_device_info(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int 
 	try
 	{
 		auto mgr = ice::LibraryManager::getLibraryManager();
-		mgr.add("libneoradio2", "libneoradio2.dll");
-		//std::cout << mgr["libneoradio2"].getPath() << "\n";
-		ice::Function <int(neoradio2_handle*)> neoradio2_chain_identify(&mgr["libneoradio2"], "neoradio2_chain_identify");
-		ice::Function <int(neoradio2_handle*, int*)> neoradio2_chain_is_identified(&mgr["libneoradio2"], "neoradio2_chain_is_identified");
-		ice::Function <int(neoradio2_handle*, int, int, int*)> neoradio2_app_is_started(&mgr["libneoradio2"], "neoradio2_app_is_started");
+		auto lib = mgr->get("libneoradio2");
+		ice::Function <int(neoradio2_handle*)> neoradio2_chain_identify(lib, "neoradio2_chain_identify");
+		ice::Function <int(neoradio2_handle*, int*)> neoradio2_chain_is_identified(lib, "neoradio2_chain_is_identified");
+		ice::Function <int(neoradio2_handle*, int, int, int*)> neoradio2_app_is_started(lib, "neoradio2_app_is_started");
 
-		ice::Function <int(neoradio2_handle*, int, int, unsigned int*)> neoradio2_get_serial_number(&mgr["libneoradio2"], "neoradio2_get_serial_number");
-		ice::Function <int(neoradio2_handle*, int, int, int*, int*, int*)> neoradio2_get_manufacturer_date(&mgr["libneoradio2"], "neoradio2_get_manufacturer_date");
-		ice::Function <int(neoradio2_handle*, int, int, int*, int*)> neoradio2_get_firmware_version(&mgr["libneoradio2"], "neoradio2_get_firmware_version");
-		ice::Function <int(neoradio2_handle*, int, int, int*, int*)> neoradio2_get_hardware_revision(&mgr["libneoradio2"], "neoradio2_get_hardware_revision");
-		ice::Function <int(neoradio2_handle*, int, int, int*)> neoradio2_get_device_type(&mgr["libneoradio2"], "neoradio2_get_device_type");
-		ice::Function <int(neoradio2_handle*, int, int, char*)> neoradio2_get_pcbsn(&mgr["libneoradio2"], "neoradio2_get_pcbsn");
+		ice::Function <int(neoradio2_handle*, int, int, unsigned int*)> neoradio2_get_serial_number(lib, "neoradio2_get_serial_number");
+		ice::Function <int(neoradio2_handle*, int, int, int*, int*, int*)> neoradio2_get_manufacturer_date(lib, "neoradio2_get_manufacturer_date");
+		ice::Function <int(neoradio2_handle*, int, int, int*, int*)> neoradio2_get_firmware_version(lib, "neoradio2_get_firmware_version");
+		ice::Function <int(neoradio2_handle*, int, int, int*, int*)> neoradio2_get_hardware_revision(lib, "neoradio2_get_hardware_revision");
+		ice::Function <int(neoradio2_handle*, int, int, int*)> neoradio2_get_device_type(lib, "neoradio2_get_device_type");
+		ice::Function <int(neoradio2_handle*, int, int, char*)> neoradio2_get_pcbsn(lib, "neoradio2_get_pcbsn");
 
 		int is_identified = 0;
 		int is_started = 0;
@@ -258,22 +259,21 @@ bool get_device_sensor_info(neoradio2_handle& handle, Neoradio2DeviceInfo& devic
 	try
 	{
 		auto mgr = ice::LibraryManager::getLibraryManager();
-		mgr.add("libneoradio2", "libneoradio2.dll");
-		//std::cout << mgr["libneoradio2"].getPath() << "\n";
-		ice::Function <int(neoradio2_handle*, int, int, float*)> neoradio2_read_sensor_float(&mgr["libneoradio2"], "neoradio2_read_sensor_float");
+		auto lib = mgr->get("libneoradio2");
+		ice::Function <int(neoradio2_handle*, int, int, float*)> neoradio2_read_sensor_float(lib, "neoradio2_read_sensor_float");
 
-		ice::Function <int(neoradio2_handle*, int, int, neoRADIO2_deviceSettings*)> neoradio2_read_settings(&mgr["libneoradio2"], "neoradio2_read_settings");
-		ice::Function <int(neoradio2_handle*, int, int, neoRADIO2_deviceSettings*)> neoradio2_write_settings(&mgr["libneoradio2"], "neoradio2_write_settings");
+		ice::Function <int(neoradio2_handle*, int, int, neoRADIO2_settings*)> neoradio2_read_settings(lib, "neoradio2_read_settings");
+		ice::Function <int(neoradio2_handle*, int, int, neoRADIO2_settings*)> neoradio2_write_settings(lib, "neoradio2_write_settings");
 
-		neoRADIO2_deviceSettings settings;
+		neoRADIO2_settings settings;
 		if (neoradio2_read_settings(&handle, dev, bank, &settings) != NEORADIO2_SUCCESS)
 			std::cout << "neoradio2_read_settings() failed!\n";
 		else
 		{
-			std::cout << "\tSetting Sample Rate: " << settings.sample_rate << "\t";
-			std::cout << "\tConfig1: " << settings.channel_1_config << "\t";
-			std::cout << "\tConfig2: " << settings.channel_2_Config << "\t";
-			std::cout << "\tConfig3: " << settings.channel_3_Config << "\n";
+			std::cout << "\tSetting Sample Rate: " << settings.config.poll_rate_ms << "\t";
+			std::cout << "\tConfig1: " << settings.config.channel_1_config << "\t";
+			std::cout << "\tConfig2: " << settings.config.channel_2_config << "\t";
+			std::cout << "\tConfig3: " << settings.config.channel_3_config << "\n";
 		}
 
 		/*
@@ -316,9 +316,9 @@ bool toggle_led(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int dev, 
 	try
 	{
 		auto mgr = ice::LibraryManager::getLibraryManager();
-		mgr.add("libneoradio2", "libneoradio2.dll");
+		auto lib = mgr->get("libneoradio2");
 		//std::cout << mgr["libneoradio2"].getPath() << "\n";
-		ice::Function <int(neoradio2_handle*, int, int, int)> neoradio2_toggle_led(&mgr["libneoradio2"], "neoradio2_toggle_led");
+		ice::Function <int(neoradio2_handle*, int, int, int)> neoradio2_toggle_led(lib, "neoradio2_toggle_led");
 
 		for (int i=0; i < 20; ++i)
 		{
