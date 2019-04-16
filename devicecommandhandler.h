@@ -32,6 +32,7 @@ public:
 			assert(bank <= 7);
 			assert(device <= 7);
 			createCommandInfoIfNeeded(sof, device, bank, cmd);
+			std::lock_guard<std::mutex> lock(mSof[sof][device][bank][cmd].lock);
 			mSof[sof][device][bank][cmd].state = cmd_state;
 			DEBUG_PRINT("updateCommand(): %d -- [0x%x][0x%x][0x%x][0x%x]", cmd_state, sof, device, bank, cmd);
 			return true;
@@ -45,6 +46,7 @@ public:
 				if (!((1 << b) & 0xFF))
 					continue;
 				createCommandInfoIfNeeded(sof, d, b, cmd);
+				std::lock_guard<std::mutex> lock(mSof[sof][d][b][cmd].lock);
 				mSof[sof][d][b][cmd].state = cmd_state;
 			}
 		}
@@ -89,6 +91,7 @@ public:
 	// This command assumes the cmd exists, no checking is done.
 	T getState(int sof, int device, int bank, int cmd)
 	{
+		std::lock_guard<std::mutex> _lock(mLock);
 		std::lock_guard<std::mutex> lock(mSof[sof][device][bank][cmd].lock);
 		return mSof[sof][device][bank][cmd].state;
 	}
@@ -96,6 +99,7 @@ public:
 	// This command assumes the cmd exists, no checking is done.
 	CommandData getData(int sof, int device, int bank, int cmd)
 	{
+		std::lock_guard<std::mutex> _lock(mLock);
 		std::lock_guard<std::mutex> lock(mSof[sof][device][bank][cmd].lock);
 		return mSof[sof][device][bank][cmd].data;
 	}
@@ -135,6 +139,7 @@ public:
 			assert(bank <= 7);
 			assert(device <= 7);
 			createCommandInfoIfNeeded(sof, device, bank, cmd);
+			std::lock_guard<std::mutex> _lock(mLock);
 			std::lock_guard<std::mutex> lock(mSof[sof][device][bank][cmd].lock);
 			return mSof[sof][device][bank][cmd].state == cmd_state;
 		}
@@ -150,6 +155,7 @@ public:
 					continue;
 				++enable_count;
 				createCommandInfoIfNeeded(sof, d, b, cmd);
+				std::lock_guard<std::mutex> _lock(mLock);
 				std::lock_guard<std::mutex> lock(mSof[sof][d][b][cmd].lock);
 				if (mSof[sof][d][b][cmd].state == cmd_state)
 					++matched_count;
@@ -180,7 +186,8 @@ private:
 
 	void createSofIfNeeded(int sof)
 	{
-		// create the 
+		std::lock_guard<std::mutex> _lock(mLock);
+		// create the start of frame key
 		if (mSof.find(sof) == mSof.end())
 			mSof[sof];
 	}
@@ -188,6 +195,7 @@ private:
 	void createDeviceIfNeeded(int sof, int device)
 	{
 		createSofIfNeeded(sof);
+		std::lock_guard<std::mutex> _lock(mLock);
 		if (mSof[sof].find(device) == mSof[sof].end())
 			mSof[sof][device];
 	}
@@ -195,6 +203,7 @@ private:
 	void createBankIfNeeded(int sof, int device, int bank)
 	{
 		createDeviceIfNeeded(sof, device);
+		std::lock_guard<std::mutex> _lock(mLock);
 		if (mSof[sof][device].find(bank) == mSof[sof][device].end())
 		{
 			mSof[sof][device];
@@ -204,6 +213,7 @@ private:
 	void createCommandInfoIfNeeded(int sof, int device, int bank, int cmd)
 	{
 		createBankIfNeeded(sof, device, bank);
+		std::lock_guard<std::mutex> _lock(mLock);
 		if (mSof[sof][device][bank].find(cmd) == mSof[sof][device][bank].end())
 		{
 			DEBUG_PRINT("Creating CommandInfo on [0x%x][0x%x][0x%x][0x%x]", sof, device, bank, cmd);
@@ -212,6 +222,9 @@ private:
 			mSof[sof][device][bank][cmd];
 		}
 	}
+
+private:
+	std::mutex mLock;
 };
 
 #endif // __DEVICE_COMMAND_HANDLER_H__
