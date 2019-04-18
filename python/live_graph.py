@@ -21,12 +21,15 @@ def sample_sensor(event):
     print("Sampling sensor...")
     global title
     global values
-    devs = neoradio2.find_devices()
+    devs = neoradio2.find()
     handle = neoradio2.open(devs[0])
     title = "{} {} Bank 1".format(devs[0].name, devs[0].serial_str)
     # Make sure we are in application firmware
-    for x in range(8):
-        neoradio2.app_start(handle, 0, x)
+    neoradio2.app_start(handle, 0, 0xFF)
+    
+    # Make sure the chain is Identified
+    neoradio2.chain_identify(handle)
+    
     while True:
         samples = []
         #for x in range(3):
@@ -35,13 +38,14 @@ def sample_sensor(event):
         
         #values = np.append(values, scipy.signal.savgol_filter(np.array(samples), 3, 1))
         #values = np.append(values, sum(samples)/len(samples))
+        neoradio2.request_sensor_data(handle, 0, 0xFF, 0)
         values = np.append(values, neoradio2.read_sensor_float(handle, 0, 0)*1.8+32)
         #if len(values) > 600:
         #    values.pop(0)
         
         if len(values) > 3:
             values = scipy.signal.savgol_filter(values, 3, 1)
-        time.sleep(0.100)
+        time.sleep(0.033*2) # 33ms = 60fps
         if event.is_set():
             break
     neoradio2.close(handle)
