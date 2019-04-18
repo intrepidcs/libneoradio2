@@ -103,6 +103,15 @@ protected:
 	virtual bool sendFeatureReport(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel);
 
 	bool isReportIdValid(uint8_t& data);
+
+#ifdef _DEBUG
+    uint8_t mDebugTxBufferCopy[1024*1000];
+    uint64_t mDebugTxBufferCopyIndex = 0;
+
+    uint8_t mDebugRxBufferCopy[1024*1000];
+    uint64_t mDebugRxBufferCopyIndex = 0;
+#endif
+
 };
 
 #endif // __HIDDEVICE_H__

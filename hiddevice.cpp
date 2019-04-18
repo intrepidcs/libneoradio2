@@ -212,6 +212,10 @@ bool HidDevice::read(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel chann
 		return false;
 	}
 	FIFO_Pop(&buf->rx_fifo, buffer, *buffer_size);
+#ifdef _DEBUG
+    memcpy(mDebugRxBufferCopy+mDebugRxBufferCopyIndex, buffer, *buffer_size);
+    mDebugRxBufferCopyIndex += *buffer_size;
+#endif
 #ifdef DEBUG_ANNOYING
 	std::stringstream ss;
 	for (int i=0; i < *buffer_size && i < 30; ++i)
@@ -242,6 +246,10 @@ bool HidDevice::write(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel chan
 	DEBUG_PRINT("write(): len: %d channel: %d\n\t\tdata: %s", *buffer_size, channel, ss.str().c_str());
 #endif // DEBUG_ANNOYING
 	FIFO_Push(&buf->tx_fifo, buffer, *buffer_size);
+#ifdef _DEBUG
+    memcpy(mDebugTxBufferCopy+mDebugTxBufferCopyIndex, buffer, *buffer_size);
+    mDebugTxBufferCopyIndex += *buffer_size;
+#endif
 	return true;
 }
 
