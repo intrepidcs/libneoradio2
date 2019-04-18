@@ -8,6 +8,7 @@
 
 // libneoradio2
 //#define ENABLE_DEBUG_PRINT
+//#define ENABLE_DEBUG_PRINT_ANNOYING
 //#define DEBUG_ANNOYING
 //#define SKIP_CHECKSUM_VERIFY
 //#define FT260_REPORT_ID_ALL

@@ -282,7 +282,7 @@ bool HidDevice::sendFeatureReport(uint8_t* buffer, uint16_t* buffer_size, Device
 	// windows seems to truncate to 64 bytes...
 	memcpy(temp_buf, buffer, *buffer_size);
 
-	DEBUG_PRINT("hid_send_feature_report():\n\tlen: %d, channel: %d, path: %s", *buffer_size, channel, buf->path.c_str());
+	DEBUG_PRINT_ANNOYING("hid_send_feature_report():\n\tlen: %d, channel: %d, path: %s", *buffer_size, channel, buf->path.c_str());
 	auto length = hid_send_feature_report(buf->handle, (unsigned char*)temp_buf, sizeof(temp_buf));
 	return length == 64;
 }

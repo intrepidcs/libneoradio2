@@ -22,6 +22,14 @@
 #define DEBUG_PRINT(fmt, ...) /* Don't do anything in release builds */
 #endif
 
+
+#if defined(ENABLE_DEBUG_PRINT_ANNOYING)
+#define DEBUG_PRINT_ANNOYING(fmt, ...) fprintf(stderr, "\tDEBUG: %s:%d:%s(): " fmt "\n", \
+    __FILENAME__, __LINE__, __func__, ##__VA_ARGS__)
+#else
+#define DEBUG_PRINT_ANNOYING(fmt, ...) /* Don't do anything in release builds */
+#endif
+
 #else
 
 #if defined(ENABLE_DEBUG_PRINT)
@@ -29,6 +37,13 @@
     __FILE__, __LINE__, __func__, ##args)
 #else
 #define DEBUG_PRINT(fmt, args...) /* Don't do anything in release builds */
+#endif
+
+#if defined(ENABLE_DEBUG_PRINT_ANNOYING)
+#define DEBUG_PRINT_ANNOYING(fmt, args...) fprintf(stderr, "DEBUG: %s:%d:%s(): " fmt "\n", \
+    __FILE__, __LINE__, __func__, ##args)
+#else
+#define DEBUG_PRINT_ANNOYING(fmt, args...) /* Don't do anything in release builds */
 #endif
 
 #endif 
