@@ -126,6 +126,8 @@ bool HidDevice::runConnected()
 	for (auto& buffer : mBuffers)
 	{
 		auto buf = buffer.second;
+		if (!buf)
+			continue;
 		buf->rx_lock.lock();
 		uint8_t temp[64]{};
 		int length = 0;
