@@ -22,6 +22,10 @@ class NeoRadio2Exception : public std::exception
 };
 
 PYBIND11_MODULE(neoradio2, m) {
+	py::options options;
+	options.disable_function_signatures();
+	options.enable_user_defined_docstrings();
+
     m.doc() = R"pbdoc(
         neoRADIO2 Python Library
         -----------------------
@@ -31,8 +35,15 @@ PYBIND11_MODULE(neoradio2, m) {
         .. autosummary::
            :toctree: _generate
             
-            NeoRadio2Exception
-            
+
+			Exception
+			Neoradio2DeviceInfo
+			neoRADIO2_deviceSettings
+			neoRADIO2settings_CAN
+			neoRADIO2Settings_ChannelName
+			neoRADIO2_settings
+			neoRADIO2frame_calHeader
+
             find
             is_blocking
             open
@@ -64,6 +75,11 @@ PYBIND11_MODULE(neoradio2, m) {
     // libneoradio2.h
     py::class_<Neoradio2DeviceInfo>(m, "Neoradio2DeviceInfo")
         .def(py::init([]() { return new Neoradio2DeviceInfo{0}; }))
+		.def("__repr__", [](const Neoradio2DeviceInfo& self) {
+			std::stringstream ss;
+			ss << "<neoradio2.Neoradio2DeviceInfo '" << self.name << " " << self.serial_str << "'>";
+			return ss.str();
+		})
         .def_readwrite("name", &Neoradio2DeviceInfo::name)
         .def_readwrite("serial_str", &Neoradio2DeviceInfo::serial_str)
         .def_readwrite("vendor_id", &Neoradio2DeviceInfo::vendor_id)
@@ -122,10 +138,25 @@ PYBIND11_MODULE(neoradio2, m) {
         std::copy(std::begin(temp), std::begin(temp)+device_count, std::back_inserter(devs));
         return devs;
         }, R"pbdoc(
-        Find neoRAD-IO2 Devices
-        
-        Returns a tuple Neoradio2DeviceInfo
-    )pbdoc");
+		find()
+
+		Finds all neoRAD-IO2 Devices.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns a tuple of neoradio2.Neoradio2DeviceInfo
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			>>>
+	)pbdoc");
     
     m.def("open", [](Neoradio2DeviceInfo* device) {
         py::gil_scoped_release release;
@@ -134,10 +165,27 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_open() failed");
         return handle;
         }, R"pbdoc(
-        Open neoRAD-IO2 Devices
-        
-        Returns a handle to the device.
-    )pbdoc");
+		open(device)
+
+		Open a neoRAD-IO2 Device
+
+		Args:
+			device (neoradio2.Neoradio2DeviceInfo): specified device to open, typically from neoradio2.find()
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			A handle to the device.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> len(devices)
+			1
+			>>> handle = neoradio2.open(devices[0])
+			>>> neoradio2.close(handle)
+	)pbdoc");
     
     m.def("is_blocking", []() {
         py::gil_scoped_release release;
