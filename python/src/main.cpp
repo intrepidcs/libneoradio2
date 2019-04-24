@@ -16,9 +16,9 @@
 
 namespace py = pybind11;
 
-class NeoRadio2Exception : public std::exception 
+class NeoRadio2Exception : public std::runtime_error 
 {
-        using std::exception::exception;
+        using std::runtime_error::runtime_error;
 };
 
 PYBIND11_MODULE(neoradio2, m) {

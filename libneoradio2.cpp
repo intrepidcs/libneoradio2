@@ -5,7 +5,6 @@
 #pragma warning(disable : 4503)
 #endif
 
-#include "stdafx.h"
 #include "libneoradio2.h"
 
 #include "device.h"
@@ -85,7 +84,8 @@ LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* 
 	memset(devices, 0, sizeof(Neoradio2DeviceInfo)*(*device_count));
 	for (unsigned int i=0; i < devs.size() && i < *device_count; ++i)
 	{
-		memcpy(&devices[i], &devs.at(i)->deviceInfo(), sizeof(devices[i]));
+		auto dev_info = devs.at(i)->deviceInfo();
+		memcpy(&devices[i], &dev_info, sizeof(devices[i]));
 		// TODO: Memory leak / thread leak here
 		//delete devs[i];
 		//devs[i] = nullptr;

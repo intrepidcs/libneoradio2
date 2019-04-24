@@ -2,6 +2,8 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
+from distutils.sysconfig import get_python_inc
+import os
 
 __version__ = '0.0.1-2'
 
@@ -21,16 +23,26 @@ class get_pybind_include(object):
         return pybind11.get_include(self.user)
 
 
+source_includes = ['python/src/main.cpp', 'fifo.c', 'device.cpp', 
+    'hiddevice.cpp', 'libneoradio2.cpp', 'neoradio2device.cpp',]
+
+if 'NT' in os.name.upper():
+    source_includes.append('hidapi/windows/hid.c')
+else:
+    source_includes.append('hidapi/linux/hid.c')
+
 ext_modules = [
     Extension(
         'neoradio2',
-        ['python/src/main.cpp', 'fifo.c', 'device.cpp', 'hiddevice.cpp', 'libneoradio2.cpp', 'neoradio2device.cpp','hidapi/windows/hid.c'],
+        source_includes,
+        libraries = ['udev',],
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
-            '.hidapi/hidapi',
-            '',
+            './hidapi/hidapi',
+            './',
+            get_python_inc(True),
         ],
         language='c++'
     ),
@@ -71,8 +83,8 @@ class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
         
     c_opts = {
-        'msvc': ['/EHsc', '/TP', '/D_CRT_SECURE_NO_WARNINGS', '/DEBUG'],
-        'unix': [],
+        'msvc': ['/EHsc', '/TP', '/D_CRT_SECURE_NO_WARNINGS',],
+        'unix': ['-Wno-unused-function'],
     }
 
     if sys.platform == 'darwin':

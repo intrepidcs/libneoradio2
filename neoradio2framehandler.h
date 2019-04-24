@@ -12,12 +12,13 @@ public:
 		reset();
 	}
 
+/*
 	neoRADIO2FrameHandler(uint8_t* buffer, size_t buffer_size)
 	{
 		reset();
 		deserialize(buffer, buffer_size);
 	}
-
+*/
 	neoRADIO2FrameHandler(T t)
 	{
 		reset();

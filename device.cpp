@@ -2,6 +2,7 @@
 
 #include <string>
 #include <sstream>
+#include <cstring> // memcpy
 
 Device::Device(DeviceInfoEx& di)
 {
