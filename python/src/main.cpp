@@ -88,19 +88,19 @@ PYBIND11_MODULE(neoradio2, m) {
     // radio2_frame.h
 	py::class_<neoRADIO2Settings_ChannelName>(m, "neoRADIO2Settings_ChannelName")
 		.def(py::init([]() { return new neoRADIO2Settings_ChannelName{0}; }))
-		.def_readwrite("Arbid", &neoRADIO2Settings_ChannelName::length)
-		.def_readwrite("Location", &neoRADIO2Settings_ChannelName::charSize)
-        .def_readwrite("chars", &neoRADIO2Settings_ChannelName::chars);
-        
-    // radio2_frame.h
+		.def_readwrite("length", &neoRADIO2Settings_ChannelName::length)
+		.def_readwrite("charSize", &neoRADIO2Settings_ChannelName::charSize)
+		.def_readwrite("chars", &neoRADIO2Settings_ChannelName::chars);
+
+	// radio2_frame.h
 	py::class_<neoRADIO2_settings>(m, "neoRADIO2_settings")
 		.def(py::init([]() { return new neoRADIO2_settings{0}; }))
 		.def_readwrite("config", &neoRADIO2_settings::config)
 		.def_readwrite("name1", &neoRADIO2_settings::name1)
 		.def_readwrite("name2", &neoRADIO2_settings::name2)
-        .def_readwrite("name3", &neoRADIO2_settings::name3)
-        .def_readwrite("can", &neoRADIO2_settings::can);
-        
+		.def_readwrite("name3", &neoRADIO2_settings::name3)
+		.def_readwrite("can", &neoRADIO2_settings::can);
+
 
 	py::class_<neoRADIO2frame_calHeader>(m, "neoRADIO2frame_calHeader")
 		.def(py::init([]() { return new neoRADIO2frame_calHeader{0}; }))
@@ -381,15 +381,21 @@ PYBIND11_MODULE(neoradio2, m) {
 			throw NeoRadio2Exception("neoradio2_read_settings() failed");
 		return settings;
 	}, R"pbdoc(
-        Get settings of the neoRAD-IO2 device bank.
+        Read settings of the neoRAD-IO2 device bank.
         
         Returns neoRADIO2_settings, otherwise exception is thrown.
     )pbdoc");
 
-	m.def("write_settings", &neoradio2_write_settings, R"pbdoc(
-        TODO
+
+	m.def("write_settings", [](neoradio2_handle& handle, int device, int bank, neoRADIO2_settings& settings) {
+		py::gil_scoped_release release;
+		if (neoradio2_write_settings(&handle, device, bank, &settings) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_settings() failed");
+		return true;
+	}, R"pbdoc(
+        Write settings of the neoRAD-IO2 device bank.
         
-        TODO
+        Returns True, otherwise exception is thrown.
     )pbdoc");
 
 	m.def("get_chain_count", [](neoradio2_handle& handle, bool identify) {
