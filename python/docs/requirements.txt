@@ -1,3 +1,2 @@
 cython>=0.20
 pybind11
-neoradio2
