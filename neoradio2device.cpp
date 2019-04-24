@@ -397,19 +397,19 @@ bool neoRADIO2Device::processStateHeader()
 		// Verify Device Frame Header
 		if (mLastframe.frame()->header.device >= 8)
 		{
-			DEBUG_PRINT("ERROR: Header device field is out of range %d", mLastframe.frame()->header.device)
+			DEBUG_PRINT("ERROR: Header device field is out of range %d", mLastframe.frame()->header.device);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
 			return false;
 		}
 		if (mLastframe.frame()->header.bank >= 8)
 		{
-			DEBUG_PRINT("ERROR: Header bank field is out of range %d", mLastframe.frame()->header.bank)
+			DEBUG_PRINT("ERROR: Header bank field is out of range %d", mLastframe.frame()->header.bank);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
 			return false;
 		}
 		if (mDeviceFrameCommandNames.find(mLastframe.frame()->header.command_status) == mDeviceFrameCommandNames.end())
 		{
-			DEBUG_PRINT("ERROR: Header command_status field is out of range %d", mLastframe.frame()->header.command_status)
+			DEBUG_PRINT("ERROR: Header command_status field is out of range %d", mLastframe.frame()->header.command_status);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
 			return false;
 		}
@@ -419,7 +419,7 @@ bool neoRADIO2Device::processStateHeader()
 		// Verify Host Frame Header - We really should never hit this since we should always be sending this packet.
 		if (mHostFrameCommandNames.find(mLastframe.frame()->header.command_status) == mHostFrameCommandNames.end())
 		{
-			DEBUG_PRINT("ERROR: Header command_status field is out of range %d", mLastframe.frame()->header.command_status)
+			DEBUG_PRINT("ERROR: Header command_status field is out of range %d", mLastframe.frame()->header.command_status);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
 			return false;
 		}
