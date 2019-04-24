@@ -3,7 +3,7 @@ from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
 
-__version__ = '0.0.1'
+__version__ = '0.0.1-2'
 
 
 class get_pybind_include(object):
@@ -24,13 +24,13 @@ class get_pybind_include(object):
 ext_modules = [
     Extension(
         'neoradio2',
-        ['src/main.cpp', '../fifo.c', '../device.cpp', '../hiddevice.cpp', '../libneoradio2.cpp', '../neoradio2device.cpp','../hidapi/windows/hid.c'],
+        ['python/src/main.cpp', 'fifo.c', 'device.cpp', 'hiddevice.cpp', 'libneoradio2.cpp', 'neoradio2device.cpp','hidapi/windows/hid.c'],
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
-            '../hidapi/hidapi',
-            '../',
+            '.hidapi/hidapi',
+            '',
         ],
         language='c++'
     ),
@@ -71,7 +71,7 @@ class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
         
     c_opts = {
-        'msvc': ['/EHsc', '/TP', '/D_CRT_SECURE_NO_WARNINGS'],
+        'msvc': ['/EHsc', '/TP', '/D_CRT_SECURE_NO_WARNINGS', '/DEBUG'],
         'unix': [],
     }
 
@@ -97,14 +97,12 @@ setup(
     version=__version__,
     author='David Rebbe',
     author_email='drebbe@intrepidcs.com',
-    url='TODO',
+    url='https://github.com/intrepidcs/libneoradio2',
     description='neoRADIO2 python bindings',
     long_description='',
     ext_modules=ext_modules,
     install_requires=['pybind11>=2.2'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
-    define_macros=[('DEBUG_ANNOYING', 1),
-    ('ENABLE_DEBUG_PRINT', 1),
-    ('DEBUG', 1)],
+    define_macros=[],
 )
