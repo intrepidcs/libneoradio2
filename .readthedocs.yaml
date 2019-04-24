@@ -22,4 +22,4 @@ python:
    install:
       - requirements: python/docs/requirements.txt
       - method: setuptools
-        path: python
+        path: .
