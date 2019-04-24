@@ -359,7 +359,7 @@ bool neoRADIO2Device::processStateIdle()
 		}
 		if (!isValidHeaderId(mCommBuffer[0]))
 		{
-			DEBUG_PRINT("WARNING: Dropping %d bytes due to invalid start of frame (data: 0x%x)", read_size, mCommBuffer[0]);
+			DEBUG_PRINT_ANNOYING("WARNING: Dropping %d bytes due to invalid start of frame (data: 0x%x)", read_size, mCommBuffer[0]);
 			return false;
 		}
 		mLastframe.reset();
@@ -1183,15 +1183,17 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& se
 	// copy the settings into the frame
 	//memcpy(frame.data, &settings, sizeof(settings));
 
-	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
-	for (unsigned int i = 0; i < getSettingsPartsCount(); ++i)
+
+	for (unsigned int i = 0; i <= getSettingsPartsCount(); ++i)
 	{
+		mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
+
 		neoRADIO2_SettingsPart part = {};
 		part.part = i;
 
 		// Calculate the size and offset
 		int size = sizeof(part.data);
-		if (i == (getSettingsPartsCount() - 1))
+		if (i == (getSettingsPartsCount()))
 			size = getSettingsSize() % sizeof(part.data);
 		int offset = i * sizeof(part.data);
 
@@ -1199,12 +1201,17 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& se
 		memcpy(part.data, (uint8_t*)(&settings)+offset, size);
 
 		// Adjust the frame length
-		frame.header.len = 0; // size + sizeof(part.part);
+		frame.header.len = size + sizeof(part.part);
 
 		// Copy the neoRADIO2_SettingsPart into the frame data
 		memcpy(frame.data, &part, sizeof(part));
 
+		DEBUG_PRINT("Sending %d of %d partial frames with a size of %d", i, getSettingsPartsCount(), size);
+
 		if (!writeUartFrame(&frame, CHANNEL_1))
+			return false;
+
+		if (!mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout))
 			return false;
 	}
 	return mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout);
