@@ -45,7 +45,8 @@ neoRADIO2Device::neoRADIO2Device(DeviceInfoEx& di)
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_SENSOR);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_FIRMWARE);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_IDENTIFY);
-	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_READ_SETTINGS);
+    _InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_READ_SETTINGS);
+    _InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_WRITE_SETTINGS);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_READ_PCBSN);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL_STORE);
@@ -379,6 +380,7 @@ bool neoRADIO2Device::processStateHeader()
 	memset(mCommBuffer, 0, sizeof(mCommBuffer));
 	if (!read(mCommBuffer, &buffer_size, CHANNEL_1))
 	{
+		mLastState = PROCESS_STATE_FINISHED;
 		return false; // TODO: We are essentially dropping bytes here
 	}
 	// Copy the buffer into the header
@@ -399,18 +401,21 @@ bool neoRADIO2Device::processStateHeader()
 		{
 			DEBUG_PRINT("ERROR: Header device field is out of range %d", mLastframe.frame()->header.device);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
+			mLastState = PROCESS_STATE_FINISHED;
 			return false;
 		}
 		if (mLastframe.frame()->header.bank >= 8)
 		{
 			DEBUG_PRINT("ERROR: Header bank field is out of range %d", mLastframe.frame()->header.bank);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
+			mLastState = PROCESS_STATE_FINISHED;
 			return false;
 		}
 		if (mDeviceFrameCommandNames.find(mLastframe.frame()->header.command_status) == mDeviceFrameCommandNames.end())
 		{
 			DEBUG_PRINT("ERROR: Header command_status field is out of range %d", mLastframe.frame()->header.command_status);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
+			mLastState = PROCESS_STATE_FINISHED;
 			return false;
 		}
 	}
@@ -421,12 +426,14 @@ bool neoRADIO2Device::processStateHeader()
 		{
 			DEBUG_PRINT("ERROR: Header command_status field is out of range %d", mLastframe.frame()->header.command_status);
 			mDCH.updateCommand(&mLastframe.frame()->header, COMMAND_STATE_ERROR, is_bitfield);
+			mLastState = PROCESS_STATE_FINISHED;
 			return false;
 		}
 	}
 	else
 	{
 		DEBUG_PRINT("BUG: unrecognized start of frame %d", mLastframe.frame()->header.start_of_frame);
+		mLastState = PROCESS_STATE_FINISHED;
 		return false;
 	}
 
