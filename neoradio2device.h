@@ -87,7 +87,9 @@ protected:
 	{
 		COMMAND_STATE_RESET = 0,
 		COMMAND_STATE_RECEIVED_HEADER,
+		COMMAND_STATE_RECEIVING_DATA,
 		COMMAND_STATE_RECEIVED_DATA,
+		COMMAND_STATE_CRC_OKAY,
 		COMMAND_STATE_ERROR,
 		COMMAND_STATE_CRC_ERROR,
 		COMMAND_STATE_FINISHED,
@@ -99,6 +101,7 @@ protected:
 		PROCESS_STATE_HEADER,
 		PROCESS_STATE_DATA,
 		PROCESS_STATE_CRC,
+		PROCESS_COMPLETE_PACKET,
 		PROCESS_STATE_FINISHED,
 	} ProcessStates;
 
@@ -106,7 +109,11 @@ protected:
 	bool processStateHeader();
 	bool processStateData();
 	bool processStateCRC();
+	bool processStateCompletePacket();
 	bool processStateFinished();
+
+	bool processFrameReadSettings();
+
 
 	ProcessStates mLastState;
 
@@ -126,6 +133,19 @@ protected:
 	// ProcessState Buffer
 	static const int COMM_BUFFER_SIZE = 1024*10;
 	uint8_t mCommBuffer[COMM_BUFFER_SIZE];
+
+
+	size_t getSettingsPartSize() const {
+		return sizeof(neoRADIO2_SettingsPart);
+	}
+
+	size_t getSettingsPartsCount() const {
+		return getSettingsSize() / NEORADIO2_SETTINGS_PARTSIZE;
+	}
+
+	size_t getSettingsSize() const {
+		return sizeof(neoRADIO2_settings);
+	}
 
 private:
 	bool mIsRunning;
