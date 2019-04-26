@@ -106,7 +106,16 @@ PYBIND11_MODULE(neoradio2, m) {
 		.def(py::init([]() { return new neoRADIO2Settings_ChannelName{0}; }))
 		.def_readwrite("length", &neoRADIO2Settings_ChannelName::length)
 		.def_readwrite("charSize", &neoRADIO2Settings_ChannelName::charSize)
-		.def_readwrite("chars", &neoRADIO2Settings_ChannelName::chars);
+		//.def_readwrite("chars", &neoRADIO2Settings_ChannelName::chars)
+		.def_property("chars", 
+			[](neoRADIO2Settings_ChannelName& self) 
+			{
+				return std::string((char*)self.chars.u8);
+			},
+			[](neoRADIO2Settings_ChannelName& self, std::string value)
+			{
+				memcpy(self.chars.u8, value.c_str(), value.size());
+			});
 
 	// radio2_frame.h
 	py::class_<neoRADIO2_settings>(m, "neoRADIO2_settings")
