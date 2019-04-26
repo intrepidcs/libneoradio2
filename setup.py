@@ -5,7 +5,7 @@ import setuptools
 from distutils.sysconfig import get_python_inc
 import os
 
-__version__ = '0.0.1-2'
+__version__ = '0.0.2'
 
 
 class get_pybind_include(object):
