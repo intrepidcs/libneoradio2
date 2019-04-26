@@ -168,6 +168,9 @@ private:
 	bool verifyFrameChecksum(neoRADIO2frame* frame, uint8_t* calculated_checksum=nullptr);
 
 	//bool resetCommands(int start_of_frame, int cmd, int banks);
+
+	// This shouldn't be here, implement the correct way later.
+	bool isBadge() const { return std::string(mDevInfo.di.name).find("Badge") != std::string::npos; }
 };
 
 #endif // __NEORADIO2_DEVICE_H_

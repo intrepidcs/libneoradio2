@@ -750,13 +750,21 @@ bool neoRADIO2Device::requestIdentifyChain(std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	const int buffer_size = 64;
+	// TODO: THIS IS A DIRTY HACK, FIX THIS LATER
+	uint8_t device_mask = 0xFF;
+	uint8_t bank_mask = 0xFF;
+	if (isBadge())
+	{
+		//device_mask = 0x00;
+		//bank_mask = 0x01;
+	}
 	neoRADIO2frame frame =
 	{
 		{ // header
 			0xAA, // start_of_frame
 			NEORADIO2_COMMAND_IDENTIFY, // command_status
-			0xFF, 
-			0xFF, // bank
+			device_mask,
+			bank_mask, // bank
 			3, // len
 		},
 		{ // data
@@ -774,8 +782,8 @@ bool neoRADIO2Device::requestIdentifyChain(std::chrono::milliseconds timeout)
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Is the command set?
-	bool success = mDCH.isStateSet(0x55, 0, frame.header.bank, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout);
-	//std::this_thread::sleep_for(1s);
+	bool success = mDCH.isStateSet(0x55, 0, isBadge() ? 0x01 : frame.header.bank, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout);
+
 	return success;
 }
 
@@ -792,7 +800,7 @@ bool neoRADIO2Device::isChainIdentified(std::chrono::milliseconds timeout)
 	bool success = true;
 	for (auto i=0; i < mDeviceCount; ++i)
 	{
-		if (!mDCH.isStateSet(0x55, device, 0xFF, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout))
+		if (!mDCH.isStateSet(0x55, device, isBadge() ? 0x01 : 0xFF, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout))
 		{
 			success = false;
 			break;
