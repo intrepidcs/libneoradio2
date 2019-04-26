@@ -35,7 +35,7 @@ ext_modules = [
     Extension(
         'neoradio2',
         source_includes,
-        libraries = ['udev',],
+        libraries = [],
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
