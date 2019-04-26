@@ -383,18 +383,51 @@ PYBIND11_MODULE(neoradio2, m) {
         Returns True, otherwise exception is thrown.
     )pbdoc");
     
-    m.def("read_sensor_float", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-        float value = 0;
-        if (neoradio2_read_sensor_float(&handle, device, bank, &value) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_read_sensor_float() failed");
-        return value;
-        }, R"pbdoc(
+	m.def("read_sensor_float", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		float value = 0;
+		if (neoradio2_read_sensor_float(&handle, device, bank, &value) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_sensor_float() failed");
+		return value;
+	}, R"pbdoc(
         Get Sensor value of the neoRAD-IO2 device bank.
         
         Returns float, otherwise exception is thrown.
     )pbdoc");
-    
+
+
+	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, int value) {
+		py::gil_scoped_release release;
+		if (neoradio2_write_sensor(&handle, device, bank, mask, value) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_sensor() failed");
+		return true;
+	}, R"pbdoc(
+		write_sensor(handle, device, bank, mask, value)
+
+		Writes sensor values to a neoRAD-IO2 Device
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+			mask (int): mask to the channel/relay/led on the device bank. This is a bitmask (0b00001001 - 0x09 = Channel 1 and 4).
+			value (int): Enable/Disable value. 0 = Off, 1 = On in most cases.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			True on success, exception on error.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> len(devices)
+			1
+			>>> handle = neoradio2.open(devices[0])
+			>>> neoradio2.close(handle)
+	)pbdoc");
+
     m.def("read_sensor_array", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
         int arr[32] = {0};

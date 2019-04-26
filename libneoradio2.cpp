@@ -394,6 +394,18 @@ LIBNEORADIO2_API int neoradio2_read_sensor_array(neoradio2_handle* handle, int d
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
+LIBNEORADIO2_API int neoradio2_write_sensor(neoradio2_handle* handle, int device, int bank, int mask, int value)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	bool success = radio_dev->writeSensorData(device, bank, mask, value, _blocking_timeout);
+	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
 
 LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int device, int bank)
 {

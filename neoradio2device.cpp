@@ -1106,6 +1106,45 @@ bool neoRADIO2Device::readSensorData(int device, int bank, std::vector<uint8_t>&
 	return true;
 }
 
+bool neoRADIO2Device::writeSensorData(int device, int bank, int mask, int value, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d = 0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b = 0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_WRITE_DATA, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			2, // len
+		},
+		{ // data
+			mask & 0xFF,
+			value & 0xFF,
+		},
+		0 // crc
+	};
+
+	// Reset commands
+	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Is the command set?
+	bool success = mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout);
+	//std::this_thread::sleep_for(1s);
+	return success;
+}
+
 bool neoRADIO2Device::requestSettings(int device, int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;

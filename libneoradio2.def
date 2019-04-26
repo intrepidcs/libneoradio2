@@ -38,3 +38,5 @@ EXPORTS
 
 	neoradio2_request_calibration_info @ 34
 	neoradio2_read_calibration_info @ 35
+
+	neoradio2_write_sensor @ 36

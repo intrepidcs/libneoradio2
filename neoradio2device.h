@@ -59,6 +59,8 @@ public:
 	bool requestSensorData(int device, int bank, int enable_cal, std::chrono::milliseconds timeout);
 	bool readSensorData(int device, int bank, std::vector<uint8_t>& data);
 
+	bool writeSensorData(int device, int bank, int mask, int value, std::chrono::milliseconds timeout);
+
 	// neoRADIO2_deviceSettings
 	bool requestSettings(int device, int bank, std::chrono::milliseconds timeout);
 	bool readSettings(int device, int bank, neoRADIO2_settings& settings);
