@@ -51,6 +51,7 @@ The RAD-IO2-Badge is a demonstration platform that can measure multichannel anal
 * For guide on Digital Output using the python API for RAD-IO2-BADGE  - please [click here](docs/badge/readme/Badge_DO_GUIDE.md)
 
 
+
 ## License
 
 This project is licensed under the BSD License - see the [LICENSE.md](LICENSE.md) file for details
