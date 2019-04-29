@@ -212,10 +212,29 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_is_opened() failed");
         return is_true == 1;
         }, R"pbdoc(
-        Check if handle/device is open.
-        
-        Returns True/False.
-    )pbdoc");
+		is_opened(handle)
+
+		Checks if the handle is currently open.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True/False
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.is_opened(handle)
+			...     neoradio2.close(handle)
+			...
+			True
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			>>>
+	)pbdoc");
     
     m.def("close", [](neoradio2_handle& handle) {
         py::gil_scoped_release release;
@@ -223,10 +242,27 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_close() failed");
         return true;
         }, R"pbdoc(
-        Open neoRAD-IO2 Devices
-        
-        Returns a true on success, otherwise exception is thrown.
-    )pbdoc");
+		close(handle)
+
+		Closes the handle for the device.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success, Exception otherwise
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			>>>
+	)pbdoc");
 
     m.def("is_closed", [](neoradio2_handle& handle) {
         py::gil_scoped_release release;
@@ -235,10 +271,29 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_is_closed() failed");
         return is_true == 1;
         }, R"pbdoc(
-        Check if handle/device is closed.
-        
-        Returns True/False.
-    )pbdoc");
+		is_closed(handle)
+
+		Checks if the handle is currently closed.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True/False
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.is_closed(handle)
+			...     neoradio2.close(handle)
+			...
+			False
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			>>>
+	)pbdoc");
     
     m.def("chain_is_identified", [](neoradio2_handle& handle) {
         py::gil_scoped_release release;
@@ -247,10 +302,29 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_chain_is_identified() failed");
         return is_true == 1;
         }, R"pbdoc(
-        Check if the chain is identified.
-        
-        Returns True/False.
-    )pbdoc");
+		chain_is_identified(handle)
+
+		Checks if the chain is currently identified. Chain needs to be identified before other commands will be successful.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True/False
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.chain_is_identified(handle)
+			...     neoradio2.close(handle)
+			...
+			False
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			>>>
+	)pbdoc");
     
     m.def("chain_identify", [](neoradio2_handle& handle) {
         py::gil_scoped_release release;
@@ -258,10 +332,29 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_chain_identify() failed");
         return true;
         }, R"pbdoc(
-        Identify the chain of neoRAD-IO2 devices.
-        
-        Returns a true on success, otherwise exception is thrown.
-    )pbdoc");
+		chain_identify(handle)
+
+		Identifies the chain. Chain needs to be identified before other commands will be successful. Each bank needs to be identified by the host before it can start receiving commands.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True/False
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.neoradio2_chain_identify(handle)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			True
+			>>>
+	)pbdoc");
     
     
     m.def("app_is_started", [](neoradio2_handle& handle, int device, int bank) {
@@ -271,10 +364,34 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_app_is_started() failed");
         return is_true == 1;
         }, R"pbdoc(
-        Check if the application firmware is started.
-        
-        Returns True/False. True = Application Level, False = Bootloader Level.
-    )pbdoc");
+		app_is_started(handle, device, bank)
+
+		Check if the application firmware is started. Chain needs to be identified first.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True/False. True = Application Level, False = Bootloader Level.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.app_is_started(handle)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			True
+			>>>
+	)pbdoc");
     
     m.def("app_start", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -282,10 +399,36 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_app_start() failed");
         return true;
         }, R"pbdoc(
-        Identify the chain of neoRAD-IO2 devices.
-        
-        Returns a true on success, otherwise exception is thrown.
-    )pbdoc");
+		app_start(handle, device, bank)
+
+		Starts the application firmware on the selected devices and banks. Chain needs to be identified first.
+		The neoRAD-IO2 device sits in bootloader for up to 10 seconds when first powered up.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Start application firmware on all banks for device 0
+			...     neoradio2.app_start(handle, 0, 0xFF) 
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			True
+			>>>
+	)pbdoc");
 
     m.def("get_serial_number", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -294,10 +437,36 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_get_serial_number() failed");
         return serial_number;
         }, R"pbdoc(
-        Get the serial Number of the neoRAD-IO2 device bank.
-        
-        Returns a true on success, otherwise exception is thrown.
-    )pbdoc");
+		get_serial_number(handle, device, bank)
+
+		Gets the serial number (base10) on the selected devices and banks. Chain needs to be identified first.
+		The serial number is generally displayed in base36.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Get serial number of Bank 1
+			...     neoradio2.app_start(handle, 0, 1) 
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			1106386131
+			>>>
+	)pbdoc");
     
     m.def("enter_bootloader", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -305,10 +474,36 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_enter_bootloader() failed");
         return true;
         }, R"pbdoc(
-        Enter bootloader of the neoRAD-IO2 device bank.
-        
-        Returns a true on success, otherwise exception is thrown.
-    )pbdoc");
+		enter_bootloader(handle, device, bank)
+
+		Starts the bootloader firmware on the selected devices and banks. Chain needs to be identified first.
+		The neoRAD-IO2 device sits in bootloader for up to 10 seconds when first powered up.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Start application firmware on all banks for device 0
+			...     neoradio2.enter_bootloader(handle, 0, 0xFF) 
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			True
+			>>>
+	)pbdoc");
     
     m.def("get_manufacturer_date", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -317,10 +512,35 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_get_manufacturer_date() failed");
         return std::make_tuple(month, day, year);
         }, R"pbdoc(
-        Get Manufacturer Date of the neoRAD-IO2 device bank.
-        
-        Returns tuple(month, day, year) on success, otherwise exception is thrown.
-    )pbdoc");
+		get_manufacturer_date(handle, device, bank)
+
+		Get the manufacturing date of the selected devices and banks. Chain needs to be identified first.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index and not a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns a Tuple (Year, Month, Day)
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Get the manufacturing date on bank 1 for device 0
+			...     neoradio2.get_manufacturer_date(handle, 0, 0x01)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			(2019, 4, 26)
+			>>>
+	)pbdoc");
     
     m.def("get_firmware_version", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -329,10 +549,35 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_get_firmware_version() failed");
         return std::make_tuple(major, minor);
         }, R"pbdoc(
-        Get Firmware Version of the neoRAD-IO2 device bank.
-        
-        Returns tuple(major, minor) on success, otherwise exception is thrown.
-    )pbdoc");
+		get_firmware_version(handle, device, bank)
+
+		Get the firmware version of the selected devices and banks. Chain needs to be identified first.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index and not a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns a Tuple (Major, Minor)
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Get the manufacturing date on bank 1 for device 0
+			...     neoradio2.get_firmware_version(handle, 0, 0x01)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			(2, 26)
+			>>>
+	)pbdoc");
 
     m.def("get_hardware_revision", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -341,10 +586,35 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_get_hardware_revision() failed");
         return std::make_tuple(major, minor);
         }, R"pbdoc(
-        Get Hardware Revision of the neoRAD-IO2 device bank.
-        
-        Returns tuple(major, minor) on success, otherwise exception is thrown.
-    )pbdoc");
+		get_hardware_revision(handle, device, bank)
+
+		Get the hardware revision of the selected devices and banks. Chain needs to be identified first.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index and not a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns a Tuple (Major, Minor)
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Get the hardware revision on bank 1 for device 0
+			...     neoradio2.get_hardware_revision(handle, 0, 0x01)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			(2, 0)
+			>>>
+	)pbdoc");
     
 	m.def("get_device_type", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -353,7 +623,9 @@ PYBIND11_MODULE(neoradio2, m) {
 			throw NeoRadio2Exception("neoradio2_get_device_type() failed");
 		return dev_type;
 	}, R"pbdoc(
-        Get Device Type of the neoRAD-IO2 device bank.
+		get_device_type(handle, device, bank)
+
+		TODO
         
         Returns integer, otherwise exception is thrown.
     )pbdoc");
@@ -364,10 +636,38 @@ PYBIND11_MODULE(neoradio2, m) {
 			throw NeoRadio2Exception("neoradio2_request_pcbsn() failed");
 		return true;
 	}, R"pbdoc(
-        Request PCBSN of the neoRAD-IO2 device bank.
-        
-        Returns True, otherwise exception is thrown.
-    )pbdoc");
+		request_pcbsn(handle, device, bank)
+
+		Request the PCB serial number of the selected devices and banks. Chain needs to be identified first.
+		Must be in application firmware.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Request/Get the PCB SN on bank 1 for device 0
+			...     neoradio2.request_pcb_sn(handle, 0, 0xFF)
+			...     neoradio2.get_pcbsn(handle, 0, 1)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			R2TC050031902002
+			>>>
+	)pbdoc");
 
     m.def("get_pcbsn", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -376,10 +676,38 @@ PYBIND11_MODULE(neoradio2, m) {
             throw NeoRadio2Exception("neoradio2_get_pcbsn() failed");
         return std::string(pcb_sn);
         }, R"pbdoc(
-        Get PCB Serial Number of the neoRAD-IO2 device bank.
-        
-        Returns string, otherwise exception is thrown.
-    )pbdoc");
+		get_pcbsn(handle, device, bank)
+
+		Get the PCB serial number of the selected devices and banks. Chain needs to be identified first.
+		Must be in application firmware.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index and not a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Request/Get the PCB SN on bank 1 for device 0
+			...     neoradio2.request_pcb_sn(handle, 0, 0xFF)
+			...     neoradio2.get_pcbsn(handle, 0, 1)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			R2TC050031902002
+			>>>
+	)pbdoc");
 
 	m.def("request_sensor_data", [](neoradio2_handle& handle, int device, int bank, int enable_cal) {
         py::gil_scoped_release release;
@@ -387,10 +715,39 @@ PYBIND11_MODULE(neoradio2, m) {
 			throw NeoRadio2Exception("neoradio2_request_sensor_data() failed");
 		return true;
 	}, R"pbdoc(
-        Request Sensor data of the neoRAD-IO2 device bank.
-        
-        Returns True, otherwise exception is thrown.
-    )pbdoc");
+		request_sensor_data(handle, device, bank, enable_cal)
+
+		Request the sensor data of the selected devices and banks. Chain needs to be identified first.
+		Must be in application firmware.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+			enable_cal (int): Enable reading based on calibration inside the unit. 0 = raw, 1 = use calibration.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns float on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Request/Get the sensor data on bank 8 for device 0
+			...     neoradio2.request_sensor_data(handle, 0, 0xFF, True)
+			...     neoradio2.read_sensor_float(handle, 0, 7)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			4.953075885772705
+			>>>
+	)pbdoc");
     
 	m.def("read_sensor_float", [](neoradio2_handle& handle, int device, int bank) {
 		py::gil_scoped_release release;
@@ -399,10 +756,38 @@ PYBIND11_MODULE(neoradio2, m) {
 			throw NeoRadio2Exception("neoradio2_read_sensor_float() failed");
 		return value;
 	}, R"pbdoc(
-        Get Sensor value of the neoRAD-IO2 device bank.
-        
-        Returns float, otherwise exception is thrown.
-    )pbdoc");
+		read_sensor_float(handle, device, bank)
+
+		Get the sensor data of the selected devices and banks. Chain needs to be identified first.
+		Must be in application firmware.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index and not a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns float on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Request/Get the sensor data on bank 8 for device 0
+			...     neoradio2.request_sensor_data(handle, 0, 0xFF, True)
+			...     neoradio2.read_sensor_float(handle, 0, 7)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			4.953075885772705
+			>>>
+	)pbdoc");
 
 
 	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, int value) {
@@ -413,28 +798,49 @@ PYBIND11_MODULE(neoradio2, m) {
 	}, R"pbdoc(
 		write_sensor(handle, device, bank, mask, value)
 
-		Writes sensor values to a neoRAD-IO2 Device
+		Get the sensor data of the selected devices and banks. Chain needs to be identified first.
+		This is generally used to control Relays on either neoRAD-IO2-PWRRLY or neoRAD-IO2-Badge.
+		Must be in application firmware.
+
+		Badge:
+			Device 1:
+				LED1 = 0x10
+				LED2 = 0x20
+				LED3 = 0x40
+				LED4 = 0x80
+				DIO1 = 0x01
+				DIO2 = 0x02
+				DIO3 = 0x04
+				DIO4 = 0x08
 
 		Args:
 			handle (int): handle to the neoRAD-IO2 Device.
 			device (int): device number in the chain to communicate with. First device is 0.
 			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
-			mask (int): mask to the channel/relay/led on the device bank. This is a bitmask (0b00001001 - 0x09 = Channel 1 and 4).
-			value (int): Enable/Disable value. 0 = Off, 1 = On in most cases.
+			mask (int): bank of the device to communicate with. This is a bitmask.
+			value (int): bank of the device to communicate with. This is a bitmask.
 
 		Raises:
 			neoradio2.Exception on error
 
 		Returns:
-			True on success, exception on error.
+			Returns True on success.
 		
 		Example:
 			>>> import neoradio2
 			>>> devices = neoradio2.find()
-			>>> len(devices)
-			1
-			>>> handle = neoradio2.open(devices[0])
-			>>> neoradio2.close(handle)
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Write the sensor data for device 1 (neoRAD-IO2-Badge)
+			...     mask = 0x10 | 0x20 # Which channels do we want to modify
+			...     value = 0x10 | 0x20 # Which channels do we want enabled
+			...     neoradio2.write_sensor(handle, 1, 0, mask, value)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			>>>
 	)pbdoc");
 
     m.def("read_sensor_array", [](neoradio2_handle& handle, int device, int bank) {
@@ -449,6 +855,8 @@ PYBIND11_MODULE(neoradio2, m) {
         return values;
         }, R"pbdoc(
         Get Sensor value of the neoRAD-IO2 device bank.
+
+		TODO
         
         Returns tuple of integers, otherwise exception is thrown.
     )pbdoc");
@@ -459,10 +867,52 @@ PYBIND11_MODULE(neoradio2, m) {
 			throw NeoRadio2Exception("neoradio2_request_settings() failed");
 		return true;
 	}, R"pbdoc(
-        Request Settings of the neoRAD-IO2 device bank.
-        
-        Returns True, otherwise exception is thrown.
-    )pbdoc");
+		request_settings(handle, device, bank)
+
+		Get the sensor data of the selected devices and banks. Chain needs to be identified first.
+		This is generally used to control Relays on either neoRAD-IO2-PWRRLY or neoRAD-IO2-Badge.
+		Must be in application firmware.
+
+		Badge:
+			Device 1:
+				LED1 = 0x10
+				LED2 = 0x20
+				LED3 = 0x40
+				LED4 = 0x80
+				DIO1 = 0x01
+				DIO2 = 0x02
+				DIO3 = 0x04
+				DIO4 = 0x08
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+			mask (int): bank of the device to communicate with. This is a bitmask.
+			value (int): bank of the device to communicate with. This is a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Write the sensor data for device 1 (neoRAD-IO2-Badge)
+			...     mask = 0x10 | 0x20 # Which channels do we want to modify
+			...     value = 0x10 | 0x20 # Which channels do we want enabled
+			...     neoradio2.write_sensor(handle, 1, 0, mask, value)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			>>>
+	)pbdoc");
     
 	m.def("read_settings", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
