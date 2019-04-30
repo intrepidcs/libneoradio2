@@ -1,0 +1,49 @@
+============================================================
+Function List
+============================================================
+	.. autosummary::
+		:toctree: _generate
+
+			neoradio2.app_is_started
+			neoradio2.app_start
+			neoradio2.chain_identify
+			neoradio2.chain_is_identified
+			neoradio2.close
+			neoradio2.enter_bootloader
+			neoradio2.find
+			neoradio2.get_calibration_is_valid
+			neoradio2.get_chain_count
+			neoradio2.get_device_type
+			neoradio2.get_firmware_version
+			neoradio2.get_hardware_revision
+			neoradio2.get_manufacturer_date
+			neoradio2.get_pcbsn
+			neoradio2.get_serial_number
+			neoradio2.is_blocking
+			neoradio2.is_calibration_stored
+			neoradio2.is_closed
+			neoradio2.is_opened
+			neoradio2.open
+			neoradio2.read_calibration_array
+			neoradio2.read_calibration_info
+			neoradio2.read_calibration_points_array
+			neoradio2.read_sensor_array
+			neoradio2.read_sensor_float
+			neoradio2.read_settings
+			neoradio2.request_calibration
+			neoradio2.request_calibration_info
+			neoradio2.request_calibration_points
+			neoradio2.request_pcbsn
+			neoradio2.request_sensor_data
+			neoradio2.request_settings
+			neoradio2.store_calibration
+			neoradio2.toggle_led
+			neoradio2.write_calibration
+			neoradio2.write_calibration_points
+			neoradio2.write_sensor
+			neoradio2.write_settings
+
+	.. automodule:: neoradio2
+		:members:
+		:show-inheritance:
+		:undoc-members:

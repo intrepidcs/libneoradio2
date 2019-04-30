@@ -1,0 +1,2044 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neoradio2 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="None" href="index.html#document-index"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html#document-index" class="icon icon-home"> neoradio2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-productline">neoRAD-IO2 Product Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-examples">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-functions">Function List</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.app_is_started">neoradio2.app_is_started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.app_start">neoradio2.app_start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.chain_identify">neoradio2.chain_identify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.chain_is_identified">neoradio2.chain_is_identified</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.close">neoradio2.close</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.enter_bootloader">neoradio2.enter_bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.find">neoradio2.find</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_calibration_is_valid">neoradio2.get_calibration_is_valid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_chain_count">neoradio2.get_chain_count</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_device_type">neoradio2.get_device_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_firmware_version">neoradio2.get_firmware_version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_hardware_revision">neoradio2.get_hardware_revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_manufacturer_date">neoradio2.get_manufacturer_date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_pcbsn">neoradio2.get_pcbsn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.get_serial_number">neoradio2.get_serial_number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.is_blocking">neoradio2.is_blocking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.is_calibration_stored">neoradio2.is_calibration_stored</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.is_closed">neoradio2.is_closed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.is_opened">neoradio2.is_opened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.open">neoradio2.open</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.read_calibration_array">neoradio2.read_calibration_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.read_calibration_info">neoradio2.read_calibration_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.read_calibration_points_array">neoradio2.read_calibration_points_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.read_sensor_array">neoradio2.read_sensor_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.read_sensor_float">neoradio2.read_sensor_float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.read_settings">neoradio2.read_settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.request_calibration">neoradio2.request_calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.request_calibration_info">neoradio2.request_calibration_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.request_calibration_points">neoradio2.request_calibration_points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.request_pcbsn">neoradio2.request_pcbsn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.request_sensor_data">neoradio2.request_sensor_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.request_settings">neoradio2.request_settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.store_calibration">neoradio2.store_calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.toggle_led">neoradio2.toggle_led</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.write_calibration">neoradio2.write_calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.write_calibration_points">neoradio2.write_calibration_points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.write_sensor">neoradio2.write_sensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.write_settings">neoradio2.write_settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-classes">Classes List</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.Exception">neoradio2.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.Neoradio2DeviceInfo">neoradio2.Neoradio2DeviceInfo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.neoRADIO2Settings_ChannelName">neoradio2.neoRADIO2Settings_ChannelName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.neoRADIO2_deviceSettings">neoradio2.neoRADIO2_deviceSettings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.neoRADIO2_settings">neoradio2.neoRADIO2_settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.neoRADIO2frame_calHeader">neoradio2.neoRADIO2frame_calHeader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-_generate/neoradio2.neoRADIO2settings_CAN">neoradio2.neoRADIO2settings_CAN</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html#document-index">neoradio2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html#document-index">Docs</a> &raquo;</li>
+        
+      <li>neoradio2 0.0.3 documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="toctree-wrapper compound">
+<span id="document-productline"></span><div class="section" id="neorad-io2-product-line">
+<h1>neoRAD-IO2 Product Line<a class="headerlink" href="#neorad-io2-product-line" title="Permalink to this headline">¶</a></h1>
+<p>The neoRAD-IO2 series is a family of ruggedized products that provide an isolated analog, digital or temperature interface to a PC via the PC’s USB port. These tools can also be paired with Intrepid products that include a USB port such as neoVI ION, neoVI FIRE 2, RAD-Galaxy, and RAD-Gigalog. In addition, the neoRAD-IO2-CANHUB can power and convert the native UART signal to CAN or CAN FD for use in any CAN device.</p>
+<p>The neoRAD-IO2 family communicates on an open source UART based serial communication protocol. Up to eight devices can be daisy chained. The chain length is limited by current supplied to the chain through USB. All neoRAD-IO2 devices have input to output isolation, and 2.5kV isolation between each of the eight banks. Bank to bank isolation is important because it allows the common mode voltage of each input signal to be different than the other channels in other banks. (This is a major source of measurement error and can damage to the product.) Additionally, noise on one channel will not affect other channels. For more details please visit <a class="reference external" href="https://www.intrepidcs.com/products/analog-daq-devices/rad-io2-series/">https://www.intrepidcs.com/products/analog-daq-devices/rad-io2-series/</a></p>
+</div>
+<span id="document-installation"></span><div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>module can be installed by simply running the following command:</p>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">neoradio2</span></code></p>
+<blockquote>
+<div><p><strong>Windows Note:</strong> pip.exe is usually located under the Scripts directory under the Python
+installation directory.</p>
+<p><strong>Linux Note:</strong> A lot of distributions have Python 2 and 3 installed side by side. As of this writing without a version suffix the commands still default to version 2 of the Python binaries. In order to utilize the Python 3 binaries you must append a 3 after the binary names (python3 and pip3 instead of just python and pip).</p>
+</div></blockquote>
+</div>
+<span id="document-examples"></span><div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>Please see <a class="reference external" href="https://github.com/intrepidcs/libneoradio2/tree/master/python/example">https://github.com/intrepidcs/libneoradio2/tree/master/python/example</a> for example code.</p>
+</div>
+<span id="document-functions"></span><div class="section" id="function-list">
+<h1>Function List<a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.app_is_started" title="neoradio2.app_is_started"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.app_is_started</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Check if the application firmware is started.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.app_start" title="neoradio2.app_start"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.app_start</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Starts the application firmware on the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.chain_identify" title="neoradio2.chain_identify"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.chain_identify</span></code></a>(handle)</td>
+<td>Identifies the chain.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.chain_is_identified" title="neoradio2.chain_is_identified"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.chain_is_identified</span></code></a>(handle)</td>
+<td>Checks if the chain is currently identified.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.close" title="neoradio2.close"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.close</span></code></a>(handle)</td>
+<td>Closes the handle for the device.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.enter_bootloader" title="neoradio2.enter_bootloader"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.enter_bootloader</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Starts the bootloader firmware on the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.find" title="neoradio2.find"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.find</span></code></a>()</td>
+<td>Finds all neoRAD-IO2 Devices.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.get_calibration_is_valid" title="neoradio2.get_calibration_is_valid"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_calibration_is_valid</span></code></a>(handle,&nbsp;...)</td>
+<td>Check if calibration is Valid.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.get_chain_count" title="neoradio2.get_chain_count"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_chain_count</span></code></a>(handle,&nbsp;identify)</td>
+<td>Get the chain count of the selected devices.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.get_device_type" title="neoradio2.get_device_type"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_device_type</span></code></a></td>
+<td>get_device_type(handle, device, bank)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.get_firmware_version" title="neoradio2.get_firmware_version"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_firmware_version</span></code></a>(handle,&nbsp;...)</td>
+<td>Get the firmware version of the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.get_hardware_revision" title="neoradio2.get_hardware_revision"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_hardware_revision</span></code></a>(handle,&nbsp;...)</td>
+<td>Get the hardware revision of the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.get_manufacturer_date" title="neoradio2.get_manufacturer_date"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_manufacturer_date</span></code></a>(handle,&nbsp;...)</td>
+<td>Get the manufacturing date of the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.get_pcbsn" title="neoradio2.get_pcbsn"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_pcbsn</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Get the PCB serial number of the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.get_serial_number" title="neoradio2.get_serial_number"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.get_serial_number</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Gets the serial number (base10) on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.is_blocking" title="neoradio2.is_blocking"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.is_blocking</span></code></a></td>
+<td>Check if API is blocking</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.is_calibration_stored" title="neoradio2.is_calibration_stored"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.is_calibration_stored</span></code></a>(handle,&nbsp;...)</td>
+<td>Verifies calibration is stored on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.is_closed" title="neoradio2.is_closed"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.is_closed</span></code></a>(handle)</td>
+<td>Checks if the handle is currently closed.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.is_opened" title="neoradio2.is_opened"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.is_opened</span></code></a>(handle)</td>
+<td>Checks if the handle is currently open.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.open" title="neoradio2.open"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.open</span></code></a>(device)</td>
+<td>Open a neoRAD-IO2 Device</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.read_calibration_array" title="neoradio2.read_calibration_array"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.read_calibration_array</span></code></a>(handle,&nbsp;...)</td>
+<td>Reads calibration on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.read_calibration_info" title="neoradio2.read_calibration_info"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.read_calibration_info</span></code></a>(handle,&nbsp;...)</td>
+<td>Verifies calibration is stored on the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.read_calibration_points_array" title="neoradio2.read_calibration_points_array"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.read_calibration_points_array</span></code></a>(...)</td>
+<td>Reads calibration points on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.read_sensor_array" title="neoradio2.read_sensor_array"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.read_sensor_array</span></code></a></td>
+<td>Get Sensor value of the neoRAD-IO2 device bank.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.read_sensor_float" title="neoradio2.read_sensor_float"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.read_sensor_float</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Get the sensor data of the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.read_settings" title="neoradio2.read_settings"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.read_settings</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Read the settings of the selected devices and bank.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.request_calibration" title="neoradio2.request_calibration"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.request_calibration</span></code></a>(handle,&nbsp;...)</td>
+<td>Requests calibration on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.request_calibration_info" title="neoradio2.request_calibration_info"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.request_calibration_info</span></code></a>(handle,&nbsp;...)</td>
+<td>Verifies calibration is stored on the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.request_calibration_points" title="neoradio2.request_calibration_points"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.request_calibration_points</span></code></a>(handle,&nbsp;...)</td>
+<td>Requests calibration points on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.request_pcbsn" title="neoradio2.request_pcbsn"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.request_pcbsn</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Request the PCB serial number of the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.request_sensor_data" title="neoradio2.request_sensor_data"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.request_sensor_data</span></code></a>(handle,&nbsp;...)</td>
+<td>Request the sensor data of the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.request_settings" title="neoradio2.request_settings"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.request_settings</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Request the settings of the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.store_calibration" title="neoradio2.store_calibration"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.store_calibration</span></code></a>(handle,&nbsp;device,&nbsp;bank)</td>
+<td>Stores calibration on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.toggle_led" title="neoradio2.toggle_led"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.toggle_led</span></code></a>(handle,&nbsp;device,&nbsp;bank,&nbsp;ms)</td>
+<td>Toggle the leds on the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.write_calibration" title="neoradio2.write_calibration"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.write_calibration</span></code></a>(handle,&nbsp;device,&nbsp;...)</td>
+<td>Writes calibration on the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.write_calibration_points" title="neoradio2.write_calibration_points"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.write_calibration_points</span></code></a>(handle,&nbsp;...)</td>
+<td>Writes calibration points on the selected devices and banks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#neoradio2.write_sensor" title="neoradio2.write_sensor"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.write_sensor</span></code></a>(handle,&nbsp;device,&nbsp;bank,&nbsp;...)</td>
+<td>Get the sensor data of the selected devices and banks.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#neoradio2.write_settings" title="neoradio2.write_settings"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.write_settings</span></code></a>(handle,&nbsp;device,&nbsp;...)</td>
+<td>Request the settings of the selected devices and banks.</td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-neoradio2"></span><div class="section" id="neoradio2-python-library">
+<h2>neoRADIO2 Python Library<a class="headerlink" href="#neoradio2-python-library" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<dl class="exception">
+<dt id="neoradio2.Exception">
+<em class="property">exception </em><code class="descclassname">neoradio2.</code><code class="descname">Exception</code><a class="headerlink" href="#neoradio2.Exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neoradio2.Exception" title="neoradio2.Exception"><code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neoradio2.Neoradio2DeviceInfo">
+<em class="property">class </em><code class="descclassname">neoradio2.</code><code class="descname">Neoradio2DeviceInfo</code><a class="headerlink" href="#neoradio2.Neoradio2DeviceInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dl class="attribute">
+<dt id="neoradio2.Neoradio2DeviceInfo.name">
+<code class="descname">name</code><a class="headerlink" href="#neoradio2.Neoradio2DeviceInfo.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.Neoradio2DeviceInfo.product_id">
+<code class="descname">product_id</code><a class="headerlink" href="#neoradio2.Neoradio2DeviceInfo.product_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.Neoradio2DeviceInfo.serial_str">
+<code class="descname">serial_str</code><a class="headerlink" href="#neoradio2.Neoradio2DeviceInfo.serial_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.Neoradio2DeviceInfo.vendor_id">
+<code class="descname">vendor_id</code><a class="headerlink" href="#neoradio2.Neoradio2DeviceInfo.vendor_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.app_is_started">
+<code class="descclassname">neoradio2.</code><code class="descname">app_is_started</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.app_is_started" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the application firmware is started. Chain needs to be identified first.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True/False. True = Application Level, False = Bootloader Level.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">app_is_started</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.app_start">
+<code class="descclassname">neoradio2.</code><code class="descname">app_start</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.app_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the application firmware on the selected devices and banks. Chain needs to be identified first.
+The neoRAD-IO2 device sits in bootloader for up to 10 seconds when first powered up.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Start application firmware on all banks for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">app_start</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.chain_identify">
+<code class="descclassname">neoradio2.</code><code class="descname">chain_identify</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.chain_identify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies the chain. Chain needs to be identified before other commands will be successful. Each bank needs to be identified by the host before it can start receiving commands.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">neoradio2.Exception on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns True/False</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoradio2_chain_identify</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.chain_is_identified">
+<code class="descclassname">neoradio2.</code><code class="descname">chain_is_identified</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.chain_is_identified" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the chain is currently identified. Chain needs to be identified before other commands will be successful.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">neoradio2.Exception on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns True/False</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">chain_is_identified</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">False</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.close">
+<code class="descclassname">neoradio2.</code><code class="descname">close</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the handle for the device.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">neoradio2.Exception on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns True on success, Exception otherwise</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.enter_bootloader">
+<code class="descclassname">neoradio2.</code><code class="descname">enter_bootloader</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.enter_bootloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the bootloader firmware on the selected devices and banks. Chain needs to be identified first.
+The neoRAD-IO2 device sits in bootloader for up to 10 seconds when first powered up.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Start application firmware on all banks for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">enter_bootloader</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.find">
+<code class="descclassname">neoradio2.</code><code class="descname">find</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all neoRAD-IO2 Devices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">neoradio2.Exception on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns a tuple of neoradio2.Neoradio2DeviceInfo</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_calibration_is_valid">
+<code class="descclassname">neoradio2.</code><code class="descname">get_calibration_is_valid</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_calibration_is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if calibration is Valid.</p>
+<p>TODO</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_chain_count">
+<code class="descclassname">neoradio2.</code><code class="descname">get_chain_count</code><span class="sig-paren">(</span><em>handle</em>, <em>identify</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_chain_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the chain count of the selected devices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>identify</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) &#8211; Identify the chain, if needed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns (int) How many devices are in the chain.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">get_chain_count</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">2</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_device_type">
+<code class="descclassname">neoradio2.</code><code class="descname">get_device_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_device_type" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>get_device_type(handle, device, bank)</p>
+<p>TODO</p>
+</div></blockquote>
+<p>Returns integer, otherwise exception is thrown.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_firmware_version">
+<code class="descclassname">neoradio2.</code><code class="descname">get_firmware_version</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_firmware_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the firmware version of the selected devices and banks. Chain needs to be identified first.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns a Tuple (Major, Minor)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Get the manufacturing date on bank 1 for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">get_firmware_version</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">(2, 26)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_hardware_revision">
+<code class="descclassname">neoradio2.</code><code class="descname">get_hardware_revision</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_hardware_revision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the hardware revision of the selected devices and banks. Chain needs to be identified first.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns a Tuple (Major, Minor)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Get the hardware revision on bank 1 for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">get_hardware_revision</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">(2, 0)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_manufacturer_date">
+<code class="descclassname">neoradio2.</code><code class="descname">get_manufacturer_date</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_manufacturer_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the manufacturing date of the selected devices and banks. Chain needs to be identified first.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns a Tuple (Year, Month, Day)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Get the manufacturing date on bank 1 for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">get_manufacturer_date</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">(2019, 4, 26)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_pcbsn">
+<code class="descclassname">neoradio2.</code><code class="descname">get_pcbsn</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_pcbsn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the PCB serial number of the selected devices and banks. Chain needs to be identified first.
+Must be in application firmware.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Request/Get the PCB SN on bank 1 for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_pcb_sn</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">get_pcbsn</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">R2TC050031902002</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.get_serial_number">
+<code class="descclassname">neoradio2.</code><code class="descname">get_serial_number</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.get_serial_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the serial number (base10) on the selected devices and banks. Chain needs to be identified first.
+The serial number is generally displayed in base36.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Get serial number of Bank 1</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">app_start</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">1106386131</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.is_blocking">
+<code class="descclassname">neoradio2.</code><code class="descname">is_blocking</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.is_blocking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if API is blocking</p>
+<p>Returns True/False.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.is_calibration_stored">
+<code class="descclassname">neoradio2.</code><code class="descname">is_calibration_stored</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>header</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.is_calibration_stored" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies calibration is stored on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">650.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">49.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">590.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">num_of_pts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration_points</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">store_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">is_calibration_stored</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.is_closed">
+<code class="descclassname">neoradio2.</code><code class="descname">is_closed</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.is_closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the handle is currently closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">neoradio2.Exception on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns True/False</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">is_closed</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">False</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.is_opened">
+<code class="descclassname">neoradio2.</code><code class="descname">is_opened</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.is_opened" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the handle is currently open.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">neoradio2.Exception on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns True/False</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">is_opened</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">True</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-TC IAPP03&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="neoradio2.neoRADIO2Settings_ChannelName">
+<em class="property">class </em><code class="descclassname">neoradio2.</code><code class="descname">neoRADIO2Settings_ChannelName</code><a class="headerlink" href="#neoradio2.neoRADIO2Settings_ChannelName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2Settings_ChannelName.charSize">
+<code class="descname">charSize</code><a class="headerlink" href="#neoradio2.neoRADIO2Settings_ChannelName.charSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2Settings_ChannelName.chars">
+<code class="descname">chars</code><a class="headerlink" href="#neoradio2.neoRADIO2Settings_ChannelName.chars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2Settings_ChannelName.length">
+<code class="descname">length</code><a class="headerlink" href="#neoradio2.neoRADIO2Settings_ChannelName.length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neoradio2.neoRADIO2_deviceSettings">
+<em class="property">class </em><code class="descclassname">neoradio2.</code><code class="descname">neoRADIO2_deviceSettings</code><a class="headerlink" href="#neoradio2.neoRADIO2_deviceSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_deviceSettings.channel_1_config">
+<code class="descname">channel_1_config</code><a class="headerlink" href="#neoradio2.neoRADIO2_deviceSettings.channel_1_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_deviceSettings.channel_2_config">
+<code class="descname">channel_2_config</code><a class="headerlink" href="#neoradio2.neoRADIO2_deviceSettings.channel_2_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_deviceSettings.channel_3_config">
+<code class="descname">channel_3_config</code><a class="headerlink" href="#neoradio2.neoRADIO2_deviceSettings.channel_3_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_deviceSettings.poll_rate_ms">
+<code class="descname">poll_rate_ms</code><a class="headerlink" href="#neoradio2.neoRADIO2_deviceSettings.poll_rate_ms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neoradio2.neoRADIO2_settings">
+<em class="property">class </em><code class="descclassname">neoradio2.</code><code class="descname">neoRADIO2_settings</code><a class="headerlink" href="#neoradio2.neoRADIO2_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_settings.can">
+<code class="descname">can</code><a class="headerlink" href="#neoradio2.neoRADIO2_settings.can" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_settings.config">
+<code class="descname">config</code><a class="headerlink" href="#neoradio2.neoRADIO2_settings.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_settings.name1">
+<code class="descname">name1</code><a class="headerlink" href="#neoradio2.neoRADIO2_settings.name1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_settings.name2">
+<code class="descname">name2</code><a class="headerlink" href="#neoradio2.neoRADIO2_settings.name2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2_settings.name3">
+<code class="descname">name3</code><a class="headerlink" href="#neoradio2.neoRADIO2_settings.name3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neoradio2.neoRADIO2frame_calHeader">
+<em class="property">class </em><code class="descclassname">neoradio2.</code><code class="descname">neoRADIO2frame_calHeader</code><a class="headerlink" href="#neoradio2.neoRADIO2frame_calHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2frame_calHeader.cal_is_valid">
+<code class="descname">cal_is_valid</code><a class="headerlink" href="#neoradio2.neoRADIO2frame_calHeader.cal_is_valid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2frame_calHeader.channel">
+<code class="descname">channel</code><a class="headerlink" href="#neoradio2.neoRADIO2frame_calHeader.channel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2frame_calHeader.num_of_pts">
+<code class="descname">num_of_pts</code><a class="headerlink" href="#neoradio2.neoRADIO2frame_calHeader.num_of_pts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2frame_calHeader.range">
+<code class="descname">range</code><a class="headerlink" href="#neoradio2.neoRADIO2frame_calHeader.range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neoradio2.neoRADIO2settings_CAN">
+<em class="property">class </em><code class="descclassname">neoradio2.</code><code class="descname">neoRADIO2settings_CAN</code><a class="headerlink" href="#neoradio2.neoRADIO2settings_CAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2settings_CAN.Arbid">
+<code class="descname">Arbid</code><a class="headerlink" href="#neoradio2.neoRADIO2settings_CAN.Arbid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2settings_CAN.Location">
+<code class="descname">Location</code><a class="headerlink" href="#neoradio2.neoRADIO2settings_CAN.Location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="neoradio2.neoRADIO2settings_CAN.msgType">
+<code class="descname">msgType</code><a class="headerlink" href="#neoradio2.neoRADIO2settings_CAN.msgType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.open">
+<code class="descclassname">neoradio2.</code><code class="descname">open</code><span class="sig-paren">(</span><em>device</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a neoRAD-IO2 Device</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>device</strong> (<a class="reference internal" href="index.html#neoradio2.Neoradio2DeviceInfo" title="neoradio2.Neoradio2DeviceInfo"><em>neoradio2.Neoradio2DeviceInfo</em></a>) &#8211; specified device to open, typically from neoradio2.find()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">neoradio2.Exception on error</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A handle to the device.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">devices</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">devices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.read_calibration_array">
+<code class="descclassname">neoradio2.</code><code class="descname">read_calibration_array</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>header</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.read_calibration_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads calibration on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+<li><strong>header</strong> (<a class="reference internal" href="index.html#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><em>neoRADIO2frame_calHeader</em></a>) &#8211; Used to specify which channel and range to request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns Array of values on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">cal_values</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_calibration_array</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.read_calibration_info">
+<code class="descclassname">neoradio2.</code><code class="descname">read_calibration_info</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.read_calibration_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies calibration is stored on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns neoRADIO2frame_calHeader on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_calibration_info</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_calibration_info</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">range</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">num_of_pts</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">cal_is_valid</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">0</span>
+<span class="go">0</span>
+<span class="go">4</span>
+<span class="go">1</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.read_calibration_points_array">
+<code class="descclassname">neoradio2.</code><code class="descname">read_calibration_points_array</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>header</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.read_calibration_points_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads calibration points on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+<li><strong>header</strong> (<a class="reference internal" href="index.html#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><em>neoRADIO2frame_calHeader</em></a>) &#8211; Used to specify which channel and range to request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns Array of values on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_calibration_points</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">cal_points</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_calibration_points_array</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.read_sensor_array">
+<code class="descclassname">neoradio2.</code><code class="descname">read_sensor_array</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.read_sensor_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Sensor value of the neoRAD-IO2 device bank.</p>
+<blockquote>
+<div>TODO</div></blockquote>
+<p>Returns tuple of integers, otherwise exception is thrown.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.read_sensor_float">
+<code class="descclassname">neoradio2.</code><code class="descname">read_sensor_float</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.read_sensor_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the sensor data of the selected devices and banks. Chain needs to be identified first.
+Must be in application firmware.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns float on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Request/Get the sensor data on bank 8 for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_sensor_data</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_sensor_float</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">4.953075885772705</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.read_settings">
+<code class="descclassname">neoradio2.</code><code class="descname">read_settings</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.read_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the settings of the selected devices and bank. Chain needs to be identified first.
+Must be in application firmware.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is an index and not a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_settings</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_settings</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&lt;neoradio2.neoRADIO2_settings object at 0x02C11D40&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.request_calibration">
+<code class="descclassname">neoradio2.</code><code class="descname">request_calibration</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>header</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.request_calibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests calibration on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>header</strong> (<a class="reference internal" href="index.html#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><em>neoRADIO2frame_calHeader</em></a>) &#8211; Used to specify which channel and range to request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">cal_values</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_calibration_array</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.request_calibration_info">
+<code class="descclassname">neoradio2.</code><code class="descname">request_calibration_info</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.request_calibration_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies calibration is stored on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_calibration_info</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_calibration_info</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">range</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">num_of_pts</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">cal_is_valid</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">0</span>
+<span class="go">0</span>
+<span class="go">4</span>
+<span class="go">1</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.request_calibration_points">
+<code class="descclassname">neoradio2.</code><code class="descname">request_calibration_points</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>header</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.request_calibration_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests calibration points on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>header</strong> (<a class="reference internal" href="index.html#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><em>neoRADIO2frame_calHeader</em></a>) &#8211; Used to specify which channel and range to request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns Array of values on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_calibration_points</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">cal_points</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_calibration_points_array</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.request_pcbsn">
+<code class="descclassname">neoradio2.</code><code class="descname">request_pcbsn</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.request_pcbsn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request the PCB serial number of the selected devices and banks. Chain needs to be identified first.
+Must be in application firmware.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Request/Get the PCB SN on bank 1 for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_pcb_sn</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">get_pcbsn</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">R2TC050031902002</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.request_sensor_data">
+<code class="descclassname">neoradio2.</code><code class="descname">request_sensor_data</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>enable_cal</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.request_sensor_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request the sensor data of the selected devices and banks. Chain needs to be identified first.
+Must be in application firmware.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>enable_cal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; Enable reading based on calibration inside the unit. 0 = raw, 1 = use calibration.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns float on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Request/Get the sensor data on bank 8 for device 0</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_sensor_data</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_sensor_float</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">4.953075885772705</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.request_settings">
+<code class="descclassname">neoradio2.</code><code class="descname">request_settings</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.request_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request the settings of the selected devices and banks. Chain needs to be identified first.
+Must be in application firmware.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_settings</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_settings</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&lt;neoradio2.neoRADIO2_settings object at 0x02C11D40&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.store_calibration">
+<code class="descclassname">neoradio2.</code><code class="descname">store_calibration</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.store_calibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores calibration on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">650.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">49.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">590.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">num_of_pts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration_points</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">store_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">is_calibration_stored</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.toggle_led">
+<code class="descclassname">neoradio2.</code><code class="descname">toggle_led</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>ms</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.toggle_led" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the leds on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>ms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; Time in milliseconds to keep the led illuminated for.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">toggle_led</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.write_calibration">
+<code class="descclassname">neoradio2.</code><code class="descname">write_calibration</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>header</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.write_calibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes calibration on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>header</strong> (<a class="reference internal" href="index.html#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><em>neoRADIO2frame_calHeader</em></a>) &#8211; Used to specify which channel and range to request.</li>
+<li><strong>data</strong> (<em>List</em>) &#8211; Container of calibration values to store in the device.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">650.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">49.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">590.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">num_of_pts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration_points</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">store_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">is_calibration_stored</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.write_calibration_points">
+<code class="descclassname">neoradio2.</code><code class="descname">write_calibration_points</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>header</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.write_calibration_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes calibration points on the selected devices and banks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>header</strong> (<a class="reference internal" href="index.html#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><em>neoRADIO2frame_calHeader</em></a>) &#8211; Used to specify which channel and range to request.</li>
+<li><strong>data</strong> (<em>List</em>) &#8211; Container of calibration values to store in the device.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">650.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">49.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">590.0</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">header</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">neoRADIO2frame_calHeader</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">header</span><span class="o">.</span><span class="n">num_of_pts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration_points</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">store_calibration</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">is_calibration_stored</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.write_sensor">
+<code class="descclassname">neoradio2.</code><code class="descname">write_sensor</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>mask</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.write_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the sensor data of the selected devices and banks. Chain needs to be identified first.
+This is generally used to control Relays on either neoRAD-IO2-PWRRLY or neoRAD-IO2-Badge.
+Must be in application firmware.</p>
+<dl class="docutils">
+<dt>Badge:</dt>
+<dd><dl class="first last docutils">
+<dt>Device 1:</dt>
+<dd>LED1 = 0x10
+LED2 = 0x20
+LED3 = 0x40
+LED4 = 0x80
+DIO1 = 0x01
+DIO2 = 0x02
+DIO3 = 0x04
+DIO4 = 0x08</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>mask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask.</li>
+<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Write the sensor data for device 1 (neoRAD-IO2-Badge)</span>
+<span class="gp">... </span>    <span class="n">mask</span> <span class="o">=</span> <span class="mh">0x10</span> <span class="o">|</span> <span class="mh">0x20</span> <span class="c1"># Which channels do we want to modify</span>
+<span class="gp">... </span>    <span class="n">value</span> <span class="o">=</span> <span class="mh">0x10</span> <span class="o">|</span> <span class="mh">0x20</span> <span class="c1"># Which channels do we want enabled</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">write_sensor</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="neoradio2.write_settings">
+<code class="descclassname">neoradio2.</code><code class="descname">write_settings</code><span class="sig-paren">(</span><em>handle</em>, <em>device</em>, <em>bank</em>, <em>settings</em><span class="sig-paren">)</span><a class="headerlink" href="#neoradio2.write_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request the settings of the selected devices and banks. Chain needs to be identified first.
+Must be in application firmware.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; handle to the neoRAD-IO2 Device.</li>
+<li><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; device number in the chain to communicate with. First device is 0.</li>
+<li><strong>bank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).</li>
+<li><strong>settings</strong> (<a class="reference internal" href="index.html#neoradio2.neoRADIO2_settings" title="neoradio2.neoRADIO2_settings"><em>neoRADIO2_settings</em></a>) &#8211; Settings object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">neoradio2.Exception on error</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns True on success.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">neoradio2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">devices</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">neoradio2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">request_settings</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">read_settings</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">neoradio2</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&lt;neoradio2.Neoradio2DeviceInfo &#39;neoRAD-IO2-Badge IG0001&#39;&gt;</span>
+<span class="go">True</span>
+<span class="go">&lt;neoradio2.neoRADIO2_settings object at 0x02C11D40&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div></blockquote>
+</div>
+<span id="document-classes"></span><div class="section" id="classes-list">
+<h1>Classes List<a class="headerlink" href="#classes-list" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="index.html#neoradio2.Exception" title="neoradio2.Exception"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.Exception</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="index.html#neoradio2.Neoradio2DeviceInfo" title="neoradio2.Neoradio2DeviceInfo"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.Neoradio2DeviceInfo</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="index.html#neoradio2.neoRADIO2Settings_ChannelName" title="neoradio2.neoRADIO2Settings_ChannelName"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.neoRADIO2Settings_ChannelName</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="index.html#neoradio2.neoRADIO2_deviceSettings" title="neoradio2.neoRADIO2_deviceSettings"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.neoRADIO2_deviceSettings</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="index.html#neoradio2.neoRADIO2_settings" title="neoradio2.neoRADIO2_settings"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.neoRADIO2_settings</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="index.html#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.neoRADIO2frame_calHeader</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="index.html#neoradio2.neoRADIO2settings_CAN" title="neoradio2.neoRADIO2settings_CAN"><code class="xref py py-obj docutils literal"><span class="pre">neoradio2.neoRADIO2settings_CAN</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Intrepid Control Systems, Inc..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

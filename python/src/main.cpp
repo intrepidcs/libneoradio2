@@ -28,46 +28,8 @@ PYBIND11_MODULE(neoradio2, m) {
 
     m.doc() = R"pbdoc(
         neoRADIO2 Python Library
-        -----------------------
-
-        .. currentmodule:: neoradio2
-
-        .. autosummary::
-           :toctree: _generate
-            
-
-			Exception
-			Neoradio2DeviceInfo
-			neoRADIO2_deviceSettings
-			neoRADIO2settings_CAN
-			neoRADIO2Settings_ChannelName
-			neoRADIO2_settings
-			neoRADIO2frame_calHeader
-
-            find
-            is_blocking
-            open
-            is_opened
-            close
-            is_closed
-            chain_is_identified
-            chain_identify
-            app_is_started
-            app_start
-            enter_bootloader
-            get_serial_number
-            get_manufacturer_date
-            get_firmware_version
-            get_hardware_revision
-            get_device_type
-            get_pcbsn
-            read_sensor_float
-            read_sensor_array
-            request_settings
-            read_settings
-            write_settings
-            get_chain_count
-            toggle_led
+        ----------------------
+		TODO
     )pbdoc";
     
     py::register_exception<NeoRadio2Exception>(m, "Exception");

@@ -4,8 +4,9 @@ import sys
 import setuptools
 from distutils.sysconfig import get_python_inc
 import os
+import version
 
-__version__ = '0.0.2'
+__version__ = version._get_version_str()
 
 
 class get_pybind_include(object):
@@ -23,13 +24,13 @@ class get_pybind_include(object):
         return pybind11.get_include(self.user)
 
 
-source_includes = ['python/src/main.cpp', 'fifo.c', 'device.cpp', 
-    'hiddevice.cpp', 'libneoradio2.cpp', 'neoradio2device.cpp',]
+source_includes = ['src/main.cpp', '../fifo.c', '../device.cpp', 
+    '../hiddevice.cpp', '../libneoradio2.cpp', '../neoradio2device.cpp',]
 
 if 'NT' in os.name.upper():
-    source_includes.append('hidapi/windows/hid.c')
+    source_includes.append('../hidapi/windows/hid.c')
 else:
-    source_includes.append('hidapi/linux/hid.c')
+    source_includes.append('../hidapi/linux/hid.c')
 
 ext_modules = [
     Extension(
@@ -40,13 +41,17 @@ ext_modules = [
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
-            './hidapi/hidapi',
-            './',
+            '../hidapi/hidapi',
             get_python_inc(True),
+            os.path.abspath('./'),
+            os.path.abspath('../'),
         ],
         language='c++'
     ),
 ]
+
+print(os.path.abspath('../'))
+
 
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
@@ -116,5 +121,4 @@ setup(
     install_requires=['pybind11>=2.2'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
-    define_macros=[],
 )
