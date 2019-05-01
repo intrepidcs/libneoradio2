@@ -661,7 +661,7 @@ bool neoRADIO2Device::processFrameReadSettings()
 				1, // len
 			},
 			{ // data
-				(uint8_t)parts_remaining-1,
+				(uint8_t)(parts_remaining-1),
 			},
 			0 // crc
 		};
@@ -1136,8 +1136,8 @@ bool neoRADIO2Device::writeSensorData(int device, int bank, int mask, int value,
 			2, // len
 		},
 		{ // data
-			mask & 0xFF,
-			value & 0xFF,
+			uint8_t(mask & 0xFF),
+			uint8_t(value & 0xFF),
 		},
 		0 // crc
 	};
@@ -1152,6 +1152,41 @@ bool neoRADIO2Device::writeSensorData(int device, int bank, int mask, int value,
 	//std::this_thread::sleep_for(1s);
 	return success;
 }
+
+bool neoRADIO2Device::writeSensorDataSuccessful(int device, int bank)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d = 0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b = 0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_WRITE_DATA, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			2, // len
+		},
+		{ // data
+			0, // mask & 0xFF,
+			0, // value & 0xFF,
+		},
+		0 // crc
+	};
+
+	// Is the command set?
+	bool success = mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, 0s);
+	//std::this_thread::sleep_for(1s);
+	return success;
+}
+
 
 bool neoRADIO2Device::requestSettings(int device, int bank, std::chrono::milliseconds timeout)
 {
@@ -1269,6 +1304,34 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& se
 			return false;
 	}
 	return mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout);
+}
+
+bool neoRADIO2Device::writeSettingsSuccessful(int device, int bank)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d = 0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b = 0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_WRITE_SETTINGS, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			sizeof(neoRADIO2_SettingsPart), // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	return mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, 0s);
 }
 
 bool neoRADIO2Device::requestCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout)
@@ -1429,6 +1492,35 @@ bool neoRADIO2Device::writeCalibration(int device, int bank, const neoRADIO2fram
 	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_WRITE_CAL, COMMAND_STATE_FINISHED, true, timeout);
 }
 
+bool neoRADIO2Device::writeCalibrationSuccessful(int device, int bank)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d = 0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b = 0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_WRITE_CAL, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+
+	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_WRITE_CAL, COMMAND_STATE_FINISHED, true, 0s);
+}
+
 bool neoRADIO2Device::writeCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
@@ -1470,6 +1562,35 @@ bool neoRADIO2Device::writeCalibrationPoints(int device, int bank, const neoRADI
 		return false;
 	// Is the command set?
 	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_WRITE_CALPOINTS, COMMAND_STATE_FINISHED, true, timeout);
+}
+
+
+bool neoRADIO2Device::writeCalibrationPointsSuccessful(int device, int bank)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d = 0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b = 0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_WRITE_CALPOINTS, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_WRITE_CALPOINTS, COMMAND_STATE_FINISHED, true, 0s);
 }
 
 bool neoRADIO2Device::requestStoreCalibration(int device, int bank, std::chrono::milliseconds timeout)
@@ -1601,6 +1722,28 @@ bool neoRADIO2Device::toggleLED(int device, int bank, int ms, std::chrono::milli
 		return false;
 	// Is the command set?
 	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_TOGGLE_LED, COMMAND_STATE_FINISHED, true, timeout);
+}
+
+bool neoRADIO2Device::toggleLEDSuccessful(int device, int bank)
+{
+	using namespace std::chrono;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_TOGGLE_LED, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			1, // len
+		},
+		{ // data
+			0xFF
+		},
+		0 // crc
+	};
+
+	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_TOGGLE_LED, COMMAND_STATE_FINISHED, true, 0s);
 }
 
 std::string neoRADIO2Device::frameToString(neoRADIO2frame& frame, bool is_bitfield)

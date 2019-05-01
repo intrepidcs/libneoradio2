@@ -60,12 +60,14 @@ public:
 	bool readSensorData(int device, int bank, std::vector<uint8_t>& data);
 
 	bool writeSensorData(int device, int bank, int mask, int value, std::chrono::milliseconds timeout);
+	bool writeSensorDataSuccessful(int device, int bank);
 
 	// neoRADIO2_deviceSettings
 	bool requestSettings(int device, int bank, std::chrono::milliseconds timeout);
 	bool readSettings(int device, int bank, neoRADIO2_settings& settings);
 
 	bool writeSettings(int device, int bank, neoRADIO2_settings& settings, std::chrono::milliseconds timeout);
+	bool writeSettingsSuccessful(int device, int bank);
 
 	bool requestCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
 	bool readCalibration(int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
@@ -75,13 +77,18 @@ public:
 
 
 	bool writeCalibration(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
+	bool writeCalibrationSuccessful(int device, int bank);
+
 	bool writeCalibrationPoints(int device, int bank, const neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout);
+	bool writeCalibrationPointsSuccessful(int device, int bank);
+
 	bool requestStoreCalibration(int device, int bank, std::chrono::milliseconds timeout);
 	bool isCalibrationStored(int device, int bank, bool& stored, std::chrono::milliseconds timeout);
 	bool requestCalibrationInfo(int device, int bank, std::chrono::milliseconds timeout);
 	bool readCalibrationInfo(int device, int bank, neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
 
 	bool toggleLED(int device, int bank, int ms, std::chrono::milliseconds timeout);
+	bool toggleLEDSuccessful(int device, int bank);
 
 protected:
 

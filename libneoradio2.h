@@ -58,16 +58,20 @@ LIBNEORADIO2_API int neoradio2_request_sensor_data(neoradio2_handle* handle, int
 LIBNEORADIO2_API int neoradio2_read_sensor_float(neoradio2_handle* handle, int device, int bank, float* value);
 LIBNEORADIO2_API int neoradio2_read_sensor_array(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size);
 LIBNEORADIO2_API int neoradio2_write_sensor(neoradio2_handle* handle, int device, int bank, int mask, int value);
+LIBNEORADIO2_API int neoradio2_write_sensor_successful(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_settings* settings);
 LIBNEORADIO2_API int neoradio2_write_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_settings* settings);
+LIBNEORADIO2_API int neoradio2_write_settings_successful(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* count, int identify);
 LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header);
 LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int* arr_size);
 LIBNEORADIO2_API int neoradio2_request_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header);
 LIBNEORADIO2_API int neoradio2_read_calibration_points_array(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int* arr_size);
 LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int arr_size);
+LIBNEORADIO2_API int neoradio2_write_calibration_successful(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int arr_size);
+LIBNEORADIO2_API int neoradio2_write_calibration_points_successful(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_is_calibration_stored(neoradio2_handle* handle, int device, int bank, int* stored);
 LIBNEORADIO2_API int neoradio2_get_calibration_is_valid(neoradio2_handle* handle, int device, int bank, int* is_valid);
@@ -77,6 +81,7 @@ LIBNEORADIO2_API int neoradio2_read_calibration_info(neoradio2_handle* handle, i
 
 
 LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int ms);
+LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, int device, int bank);
 
 #ifdef __cplusplus
 }
