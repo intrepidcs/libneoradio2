@@ -21,7 +21,7 @@ class NeoRadio2Exception : public std::runtime_error
 	using std::runtime_error::runtime_error;
 };
 
-class NeoRadio2ExceptionWouldBlock : NeoRadio2Exception
+class NeoRadio2ExceptionWouldBlock : public NeoRadio2Exception
 {
 	using NeoRadio2Exception::NeoRadio2Exception;
 };
