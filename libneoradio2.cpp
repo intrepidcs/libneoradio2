@@ -762,7 +762,7 @@ LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, 
 	return success;
 }
 
-LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, int device, int bank, int ms)
+LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, int device, int bank)
 {
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
