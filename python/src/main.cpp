@@ -137,12 +137,15 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
     
     m.def("open", [](Neoradio2DeviceInfo* device) {
-        py::gil_scoped_release release;
-        neoradio2_handle handle;
-        if (neoradio2_open(&handle, device) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_open() failed");
-        return handle;
-        }, R"pbdoc(
+		py::gil_scoped_release release;
+		neoradio2_handle handle;
+		auto result = neoradio2_open(&handle, device);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_open() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_open() failed");
+		return handle;
+		}, R"pbdoc(
 		open(device)
 
 		Open a neoRAD-IO2 Device
@@ -152,6 +155,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			A handle to the device.
@@ -165,13 +169,38 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> neoradio2.close(handle)
 	)pbdoc");
     
-    m.def("is_blocking", []() {
-        py::gil_scoped_release release;
-        return neoradio2_is_blocking() == 1;
-        }, R"pbdoc(
+	m.def("is_blocking", []() {
+		py::gil_scoped_release release;
+		return neoradio2_is_blocking() == 1;
+	}, R"pbdoc(
+		is_blocking()
+
         Check if API is blocking
         
-        Returns True/False.
+		Raises:
+			None
+
+		Returns:
+			True/False.
+    )pbdoc");
+
+	m.def("set_blocking", [](int blocking, long long ms_timeout) {
+		py::gil_scoped_release release;
+		neoradio2_set_blocking(blocking, ms_timeout);
+	}, R"pbdoc(
+		set_blocking(blocking, ms_timeout)
+
+		Sets the API to blocking or non-blocking mode.
+
+		Raises:
+			None
+		
+		Args:
+			blocking (int): 1 = blocking, 0 = non-blocking
+			ms_timeout (int): timeout in milliseconds. Only matters in blocking mode.
+
+		Returns:
+			Returns None.
     )pbdoc");
     
     m.def("is_opened", [](neoradio2_handle& handle) {
@@ -206,10 +235,13 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
     
     m.def("close", [](neoradio2_handle& handle) {
-        py::gil_scoped_release release;
-        if (neoradio2_close(&handle) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_close() failed");
-        return true;
+		py::gil_scoped_release release;
+		auto result = neoradio2_close(&handle);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_close() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_close() failed");
+		return handle;
         }, R"pbdoc(
 		close(handle)
 
@@ -217,6 +249,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success, Exception otherwise
@@ -296,10 +329,13 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
     
     m.def("chain_identify", [](neoradio2_handle& handle) {
-        py::gil_scoped_release release;
-        if (neoradio2_chain_identify(&handle) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_chain_identify() failed");
-        return true;
+		py::gil_scoped_release release;
+		auto result = neoradio2_chain_identify(&handle);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_chain_identify() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_chain_identify() failed");
+		return true;
         }, R"pbdoc(
 		chain_identify(handle)
 
@@ -307,6 +343,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True/False
@@ -324,7 +361,6 @@ PYBIND11_MODULE(neoradio2, m) {
 			True
 			>>>
 	)pbdoc");
-    
     
     m.def("app_is_started", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
@@ -363,10 +399,13 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
     
     m.def("app_start", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-        if (neoradio2_app_start(&handle, device, bank) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_app_start() failed");
-        return true;
+		py::gil_scoped_release release;
+		auto result = neoradio2_app_start(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_app_start() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_app_start() failed");
+		return true;
         }, R"pbdoc(
 		app_start(handle, device, bank)
 
@@ -380,6 +419,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True
@@ -400,11 +440,14 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
 
     m.def("get_serial_number", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-        unsigned int serial_number = 0;
-        if (neoradio2_get_serial_number(&handle, device, bank, &serial_number) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_get_serial_number() failed");
-        return serial_number;
+		py::gil_scoped_release release;
+		unsigned int serial_number = 0;
+		auto result = neoradio2_get_serial_number(&handle, device, bank, &serial_number);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_get_serial_number() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_get_serial_number() failed");
+		return serial_number;
         }, R"pbdoc(
 		get_serial_number(handle, device, bank)
 
@@ -418,6 +461,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True
@@ -438,10 +482,13 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
     
     m.def("enter_bootloader", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-        if (neoradio2_enter_bootloader(&handle, device, bank) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_enter_bootloader() failed");
-        return true;
+		py::gil_scoped_release release;
+		auto result = neoradio2_enter_bootloader(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_enter_bootloader() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_enter_bootloader() failed");
+		return true;
         }, R"pbdoc(
 		enter_bootloader(handle, device, bank)
 
@@ -455,6 +502,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True
@@ -600,8 +648,11 @@ PYBIND11_MODULE(neoradio2, m) {
     )pbdoc");
 
 	m.def("request_pcbsn", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-		if (neoradio2_request_pcbsn(&handle, device, bank) != NEORADIO2_SUCCESS)
+		py::gil_scoped_release release;
+		auto result = neoradio2_request_pcbsn(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_request_pcbsn() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_pcbsn() failed");
 		return true;
 	}, R"pbdoc(
@@ -617,6 +668,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -679,8 +731,11 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
 
 	m.def("request_sensor_data", [](neoradio2_handle& handle, int device, int bank, int enable_cal) {
-        py::gil_scoped_release release;
-		if (neoradio2_request_sensor_data(&handle, device, bank, enable_cal) != NEORADIO2_SUCCESS)
+		py::gil_scoped_release release;
+		auto result = neoradio2_request_sensor_data(&handle, device, bank, enable_cal);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_request_sensor_data() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_sensor_data() failed");
 		return true;
 	}, R"pbdoc(
@@ -697,6 +752,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns float on success.
@@ -761,7 +817,10 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, int value) {
 		py::gil_scoped_release release;
-		if (neoradio2_write_sensor(&handle, device, bank, mask, value) != NEORADIO2_SUCCESS)
+		auto result = neoradio2_write_sensor(&handle, device, bank, mask, value);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_write_sensor() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_sensor() failed");
 		return true;
 	}, R"pbdoc(
@@ -791,6 +850,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -822,17 +882,6 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Checks to see if write_sensor was successful for non-blocking mode.
 
-		Badge:
-			Device 1:
-				LED1 = 0x10
-				LED2 = 0x20
-				LED3 = 0x40
-				LED4 = 0x80
-				DIO1 = 0x01
-				DIO2 = 0x02
-				DIO3 = 0x04
-				DIO4 = 0x08
-
 		Args:
 			handle (int): handle to the neoRAD-IO2 Device.
 			device (int): device number in the chain to communicate with. First device is 0.
@@ -844,28 +893,13 @@ PYBIND11_MODULE(neoradio2, m) {
 		Returns:
 			Returns True on success.
 	)pbdoc");
-
-    m.def("read_sensor_array", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-        int arr[32] = {0};
-        int arr_size = 32;
-        if (neoradio2_read_sensor_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
-            throw NeoRadio2Exception("neoradio2_read_sensor_array() failed");
-        std::vector<int> values;
-        for (int i=0; i < arr_size; ++i)
-            values.push_back(arr[i]);
-        return values;
-        }, R"pbdoc(
-        Get Sensor value of the neoRAD-IO2 device bank.
-
-		TODO
-        
-        Returns tuple of integers, otherwise exception is thrown.
-    )pbdoc");
     
 	m.def("request_settings", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-		if (neoradio2_request_settings(&handle, device, bank) != NEORADIO2_SUCCESS)
+		py::gil_scoped_release release;
+		auto result = neoradio2_request_settings(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_request_settings() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_settings() failed");
 		return true;
 	}, R"pbdoc(
@@ -881,6 +915,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -943,7 +978,10 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	m.def("write_settings", [](neoradio2_handle& handle, int device, int bank, neoRADIO2_settings& settings) {
 		py::gil_scoped_release release;
-		if (neoradio2_write_settings(&handle, device, bank, &settings) != NEORADIO2_SUCCESS)
+		auto result = neoradio2_write_settings(&handle, device, bank, &settings);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_write_settings() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_settings() failed");
 		return true;
 	}, R"pbdoc(
@@ -960,6 +998,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -1003,22 +1042,26 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
 
 	m.def("get_chain_count", [](neoradio2_handle& handle, bool identify) {
-        py::gil_scoped_release release;
+		py::gil_scoped_release release;
 		int count = 0;
-		if (neoradio2_get_chain_count(&handle, &count, identify) != NEORADIO2_SUCCESS)
+		auto result = neoradio2_get_chain_count(&handle, &count, identify);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_get_chain_count() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_get_chain_count() failed");
 		return count;
 	}, R"pbdoc(
 		get_chain_count(handle, identify)
 
-		Get the chain count of the selected devices.
+		Get the chain count of the selected devices. Non-blocking mode expects chain to be identified first.
 
 		Args:
 			handle (int): handle to the neoRAD-IO2 Device.
-			identify (bool): Identify the chain, if needed.
+			identify (bool): Identify the chain, if needed. This is ignored in non-blocking mode.
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns (int) How many devices are in the chain.
@@ -1039,7 +1082,10 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, int ms) {
 		py::gil_scoped_release release;
-		if (neoradio2_toggle_led(&handle, device, bank, ms) != NEORADIO2_SUCCESS)
+		auto result = neoradio2_toggle_led(&handle, device, bank, ms);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_toggle_led() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_toggle_led() failed");
 		return true;
 	}, R"pbdoc(
@@ -1055,6 +1101,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -1093,24 +1140,14 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Returns:
 			Returns True on success.
-		
-		Example:
-			>>> import neoradio2
-			>>> devices = neoradio2.find()
-			>>> for device in devices:
-			...     print(device)
-			...     handle = neoradio2.open(device)
-			...     neoradio2.toggle_led(h, 0, 1, 250)
-			...     neoradio2.close(handle)
-			...
-			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
-			True
-			>>>
 	)pbdoc");
 
 	m.def("request_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
-        py::gil_scoped_release release;
-		if (neoradio2_request_calibration(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
+		py::gil_scoped_release release;
+		auto result = neoradio2_request_calibration(&handle, device, bank, &header);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_request_calibration() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_calibration() failed");
 		return true;
 	}, R"pbdoc(
@@ -1126,6 +1163,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -1195,8 +1233,11 @@ PYBIND11_MODULE(neoradio2, m) {
 
 
 	m.def("request_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
-        py::gil_scoped_release release;
-		if (neoradio2_request_calibration_points(&handle, device, bank, &header) != NEORADIO2_SUCCESS)
+		py::gil_scoped_release release;
+		auto result = neoradio2_request_calibration_points(&handle, device, bank, &header);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_request_calibration_points() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_calibration_points() failed");
 		return true;
 	}, R"pbdoc(
@@ -1212,6 +1253,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns Array of values on success.
@@ -1282,7 +1324,10 @@ PYBIND11_MODULE(neoradio2, m) {
 	// LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int arr_size)
 	m.def("write_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
 		py::gil_scoped_release release;
-		if (neoradio2_write_calibration(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
+		auto result = neoradio2_write_calibration(&handle, device, bank, &header, (float*)data.data(), data.size());
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_write_calibration() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_calibration() failed");
 		return true;
 	}, R"pbdoc(
@@ -1300,6 +1345,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -1354,7 +1400,10 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	m.def("write_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
 		py::gil_scoped_release release;
-		if (neoradio2_write_calibration_points(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
+		auto result = neoradio2_write_calibration_points(&handle, device, bank, &header, (float*)data.data(), data.size());
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_write_calibration_points() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_calibration_points() failed");
 		return true;
 	}, R"pbdoc(
@@ -1372,6 +1421,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -1426,8 +1476,11 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	//LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int device, int bank);
 	m.def("store_calibration", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-		if (neoradio2_store_calibration(&handle, device, bank) != NEORADIO2_SUCCESS)
+		py::gil_scoped_release release;
+		auto result = neoradio2_store_calibration(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_store_calibration() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_store_calibration() failed");
 		return true;
 	}, R"pbdoc(
@@ -1442,6 +1495,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
@@ -1534,8 +1588,11 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
 
 	m.def("request_calibration_info", [](neoradio2_handle& handle, int device, int bank) {
-        py::gil_scoped_release release;
-		if (neoradio2_request_calibration_info(&handle, device, bank) != NEORADIO2_SUCCESS)
+		py::gil_scoped_release release;
+		auto result = neoradio2_request_calibration_info(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_request_calibration_info() would block");
+		else if (result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_request_calibration_info() failed");
 		return true;
 	}, R"pbdoc(
@@ -1550,6 +1607,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Raises:
 			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
 
 		Returns:
 			Returns True on success.
