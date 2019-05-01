@@ -530,6 +530,9 @@ LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* co
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
+	if (!_set_blocking)
+		identify = false;
+
 	auto success = radio_dev->getChainCount(*count, identify==1, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
