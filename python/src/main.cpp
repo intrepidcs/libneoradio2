@@ -805,6 +805,39 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 	)pbdoc");
 
+	m.def("write_sensor_successful", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		if (neoradio2_write_sensor_successful(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_sensor_successful() failed");
+		return true;
+	}, R"pbdoc(
+		write_sensor_successful(handle, device, bank)
+
+		Checks to see if write_sensor was successful for non-blocking mode.
+
+		Badge:
+			Device 1:
+				LED1 = 0x10
+				LED2 = 0x20
+				LED3 = 0x40
+				LED4 = 0x80
+				DIO1 = 0x01
+				DIO2 = 0x02
+				DIO3 = 0x04
+				DIO4 = 0x08
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+	)pbdoc");
+
     m.def("read_sensor_array", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
         int arr[32] = {0};
@@ -940,6 +973,28 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 	)pbdoc");
 
+	m.def("write_settings_successful", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		if (neoradio2_write_settings_successful(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_settings_successful() failed");
+		return true;
+	}, R"pbdoc(
+		write_settings_successful(handle, device, bank)
+
+		Checks to see if write_settings was successful in non-blocking mode.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+	)pbdoc");
+
 	m.def("get_chain_count", [](neoradio2_handle& handle, bool identify) {
         py::gil_scoped_release release;
 		int count = 0;
@@ -976,7 +1031,7 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
 
 	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, int ms) {
-        py::gil_scoped_release release;
+		py::gil_scoped_release release;
 		if (neoradio2_toggle_led(&handle, device, bank, ms) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_toggle_led() failed");
 		return true;
@@ -1011,6 +1066,40 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 	)pbdoc");
 
+	m.def("toggle_led_successful", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		if (neoradio2_toggle_led_successful(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_toggle_led_successful() failed");
+		return true;
+	}, R"pbdoc(
+		toggle_led_successful(handle, device, bank)
+
+		Checks if toggle_led was successful in non-blocking mode.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.toggle_led(h, 0, 1, 250)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			>>>
+	)pbdoc");
 
 	m.def("request_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
         py::gil_scoped_release release;
@@ -1185,7 +1274,7 @@ PYBIND11_MODULE(neoradio2, m) {
 
 	// LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, int* arr, int arr_size)
 	m.def("write_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
-        py::gil_scoped_release release;
+		py::gil_scoped_release release;
 		if (neoradio2_write_calibration(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_calibration() failed");
 		return true;
@@ -1233,8 +1322,31 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 	)pbdoc");
 
+	m.def("write_calibration_successful", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		if (neoradio2_write_calibration_successful(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_calibration_successful() failed");
+		return true;
+	}, R"pbdoc(
+		write_calibration_successful(handle, device, bank)
+
+		Checks to see if write_calibration was successful in non-blocking mode.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+	)pbdoc");
+
 	m.def("write_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
-        py::gil_scoped_release release;
+		py::gil_scoped_release release;
 		if (neoradio2_write_calibration_points(&handle, device, bank, &header, (float*)data.data(), data.size()) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_write_calibration_points() failed");
 		return true;
@@ -1280,6 +1392,29 @@ PYBIND11_MODULE(neoradio2, m) {
 			True
 			True
 			>>>
+	)pbdoc");
+
+	m.def("write_calibration_points_successful", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		if (neoradio2_write_calibration_points_successful(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_calibration_points_successful() failed");
+		return true;
+	}, R"pbdoc(
+		write_calibration_points_successful(handle, device, bank, header, data)
+
+		Checks to see if write_calibration_points was successful in non-blocking mode.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+		
 	)pbdoc");
 
 	//LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int device, int bank);
