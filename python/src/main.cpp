@@ -142,7 +142,7 @@ PYBIND11_MODULE(neoradio2, m) {
 		auto result = neoradio2_open(&handle, device);
 		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
 			throw NeoRadio2ExceptionWouldBlock("neoradio2_open() would block");
-		else if (result != NEORADIO2_SUCCESS)
+		else if (neoradio2_is_blocking() && result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_open() failed");
 		return handle;
 		}, R"pbdoc(
@@ -390,7 +390,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
-			...     neoradio2.app_is_started(handle)
+			...     neoradio2.app_is_started(handle, 0, 0)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
