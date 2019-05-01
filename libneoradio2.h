@@ -36,6 +36,7 @@ typedef struct _Neoradio2DeviceInfo
 } Neoradio2DeviceInfo;
 
 
+LIBNEORADIO2_API void neoradio2_set_blocking(int blocking, long long ms_timeout);
 LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* device_count);
 LIBNEORADIO2_API int neoradio2_is_blocking();
 LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInfo* device);
