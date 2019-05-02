@@ -10,8 +10,8 @@ if __name__ == "__main__":
         
         
         f.write("\t.. autosummary::\n")
-        f.write("\t\t:toctree: _generate\n")
-        f.write("\n")
+        #f.write("\t\t:toctree: _generate\n")
+        #f.write("\n")
 
         for obj in inspect.getmembers(neoradio2):
             if "built-in method" in repr(obj[1]):
@@ -20,9 +20,12 @@ if __name__ == "__main__":
             else:
                 print(obj)
                 
-                
-                
-                
+        f.write("\n\t.. automodule:: neoradio2\n")
+        f.write("\t\t:members:\n")
+        f.write("\t\t:show-inheritance:\n")
+        f.write("\t\t:undoc-members:\n")
+                    
+
     # Generate all the functions
     with open('classes.rst', 'w+') as f:
         f.write("============================================================\n")
@@ -31,8 +34,8 @@ if __name__ == "__main__":
         
         
         f.write("\t.. autosummary::\n")
-        f.write("\t\t:toctree: _generate\n")
-        f.write("\n")
+        #f.write("\t\t:toctree: _generate\n")
+        #f.write("\n")
 
         for obj in inspect.getmembers(neoradio2):
             if "<class" in repr(obj[1]):

@@ -2,8 +2,6 @@
 Function List
 ============================================================
 	.. autosummary::
-		:toctree: _generate
-
 			neoradio2.app_is_started
 			neoradio2.app_start
 			neoradio2.chain_identify
@@ -19,6 +17,7 @@ Function List
 			neoradio2.get_manufacturer_date
 			neoradio2.get_pcbsn
 			neoradio2.get_serial_number
+			neoradio2.get_status
 			neoradio2.is_blocking
 			neoradio2.is_calibration_stored
 			neoradio2.is_closed
@@ -27,7 +26,6 @@ Function List
 			neoradio2.read_calibration_array
 			neoradio2.read_calibration_info
 			neoradio2.read_calibration_points_array
-			neoradio2.read_sensor_array
 			neoradio2.read_sensor_float
 			neoradio2.read_settings
 			neoradio2.request_calibration
@@ -36,12 +34,18 @@ Function List
 			neoradio2.request_pcbsn
 			neoradio2.request_sensor_data
 			neoradio2.request_settings
+			neoradio2.set_blocking
 			neoradio2.store_calibration
 			neoradio2.toggle_led
+			neoradio2.toggle_led_successful
 			neoradio2.write_calibration
 			neoradio2.write_calibration_points
+			neoradio2.write_calibration_points_successful
+			neoradio2.write_calibration_successful
 			neoradio2.write_sensor
+			neoradio2.write_sensor_successful
 			neoradio2.write_settings
+			neoradio2.write_settings_successful
 
 	.. automodule:: neoradio2
 		:members:
