@@ -8,7 +8,7 @@
 #include <map>
 
 #include "config.h"
-#include "libneoradio2.h"
+#include "libneoradio2common.h"
 
 
 #ifdef _MSC_VER

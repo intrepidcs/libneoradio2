@@ -1746,6 +1746,74 @@ bool neoRADIO2Device::toggleLEDSuccessful(int device, int bank)
 	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_TOGGLE_LED, COMMAND_STATE_FINISHED, true, 0s);
 }
 
+int neoRADIO2Device::getCommandStateTypeSof(CommandStateType type)
+{
+	switch (type)
+	{
+	case CommandStateType::CommandStateHost:
+		return 0xAA;
+		break;
+	case CommandStateType::CommandStateDevice:
+		return 0x55;
+		break;
+	default:
+		return -1;
+	};
+	return -1;
+}
+
+CommandStatus neoRADIO2Device::getCommandState(int device, int bank, bool bitfield, CommandStateType type, int command)
+{
+	// Converts CommandStates to a CommandStatus
+	auto convertStateToStatus = [](auto& state) {
+		switch (state)
+		{
+		case CommandStates::COMMAND_STATE_RESET:
+		case CommandStates::COMMAND_STATE_CRC_OKAY:
+		case CommandStates::COMMAND_STATE_RECEIVED_DATA:
+		case CommandStates::COMMAND_STATE_RECEIVED_HEADER:
+		case CommandStates::COMMAND_STATE_RECEIVING_DATA:
+			return CommandStatus::StatusInProgress;
+			break;
+		case CommandStates::COMMAND_STATE_FINISHED:
+			return CommandStatus::StatusFinished;
+			break;
+		case CommandStates::COMMAND_STATE_ERROR:
+		case CommandStates::COMMAND_STATE_CRC_ERROR:
+		default:
+			return CommandStatus::StatusError;
+			break;
+		};
+	};
+
+	// convert the bank to a bitfield
+	if (!bitfield)
+	{
+		bank = (1 << bank) & 0xFF;
+	}
+	
+	// Grab all the statuses from the banks
+	std::vector<CommandStatus> status;
+	for (int i = 0; i < 8; ++i)
+	{
+		// If the bank isn't enabled, lets skip it.
+		if (!((1 << i) & bank))
+		{
+			continue;
+		}
+		int bank_index = (1 << i) & 0xFF;
+		auto state = mDCH.getState(getCommandStateTypeSof(type), device, bank_index, command);
+		status.push_back(convertStateToStatus(state));
+	}
+
+	if (std::find(status.begin(), status.end(), CommandStatus::StatusError) != status.end())
+		return CommandStatus::StatusError;
+	if (std::find(status.begin(), status.end(), CommandStatus::StatusInProgress) != status.end())
+		return CommandStatus::StatusInProgress;
+	// We can't be any other state
+	return CommandStatus::StatusFinished;
+}
+
 std::string neoRADIO2Device::frameToString(neoRADIO2frame& frame, bool is_bitfield)
 {
 	/*

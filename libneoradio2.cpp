@@ -75,6 +75,50 @@ Device* _createNewDevice(neoradio2_handle* handle, Neoradio2DeviceInfo* device)
 	return NULL;
 }
 
+std::tuple<CommandStateType, int> _StatusType_to_cmd(StatusType& type)
+{
+	switch (type)
+	{
+	case StatusChain:
+	case StatusAppStart:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_IDENTIFY);
+		break;
+	case StatusPCBSN:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_READ_PCBSN);
+		break;
+	case StatusSensorRead:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_SENSOR);
+		break;
+	case StatusSensorWrite:
+		return std::make_tuple(CommandStateType::CommandStateHost, NEORADIO2_COMMAND_WRITE_DATA);
+		break;
+	case StatusSettingsRead:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_READ_SETTINGS);
+		break;
+	case StatusSettingsWrite:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_WRITE_SETTINGS);
+		break;
+	case StatusCalibration:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_CAL);
+		break;
+	case StatusCalibrationPoints:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_CALPOINTS);
+		break;
+	case StatusCalibrationStored:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_CAL_STORE);
+		break;
+	case StatusCalibrationInfo:
+		return std::make_tuple(CommandStateType::CommandStateDevice, NEORADIO2_STATUS_CAL_INFO);
+		break;
+	case StatusLedToggle:
+		return std::make_tuple(CommandStateType::CommandStateHost, NEORADIO2_COMMAND_TOGGLE_LED);
+		break;
+	default:
+		return std::make_tuple(CommandStateType::CommandStateUnknown, -1);
+	};
+	return std::make_tuple(CommandStateType::CommandStateUnknown, -1);
+}
+
 LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* device_count)
 {
 	if (!devices || !device_count)
@@ -774,4 +818,22 @@ LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, i
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 	return radio_dev->toggleLEDSuccessful(device, bank) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+}
+
+
+LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, int bank, int bitfield, StatusType type, CommandStatus* status)
+{
+	if (!status)
+		return NEORADIO2_FAILURE;
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev);
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	auto cmd = _StatusType_to_cmd(type);
+	*status = radio_dev->getCommandState(device, bank, bitfield, std::get<0>(cmd), std::get<1>(cmd));
+
+	return NEORADIO2_SUCCESS;
 }

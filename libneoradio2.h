@@ -11,29 +11,13 @@
 #include <stdint.h>
 #include "radio2_frames.h"
 
+#include "libneoradio2common.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define NEORADIO2_SUCCESS 0
-#define NEORADIO2_FAILURE 1
-#define NEORADIO2_ERR_WBLOCK 2
 
-
-#define NEORADIO2_MAX_DEVS 8
-
-#define neoradio2_handle long
-
-typedef struct _Neoradio2DeviceInfo
-{
-	char* name;
-	char* serial_str;
-
-	int vendor_id;
-	int product_id;
-
-	uint8_t _reserved[32];
-} Neoradio2DeviceInfo;
 
 
 LIBNEORADIO2_API void neoradio2_set_blocking(int blocking, long long ms_timeout);
@@ -83,6 +67,9 @@ LIBNEORADIO2_API int neoradio2_read_calibration_info(neoradio2_handle* handle, i
 
 LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int ms);
 LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, int device, int bank);
+
+
+LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, int bank, int bitfield, StatusType type, CommandStatus* status);
 
 #ifdef __cplusplus
 }

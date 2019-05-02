@@ -12,6 +12,8 @@
 
 #include "radio2_frames.h"
 
+#include "libneoradio2common.h"
+
 
 #define _InsertEnumIntoMap(m, cmd) m[cmd] = #cmd
 
@@ -89,6 +91,13 @@ public:
 
 	bool toggleLED(int device, int bank, int ms, std::chrono::milliseconds timeout);
 	bool toggleLEDSuccessful(int device, int bank);
+
+	
+	
+	int getCommandStateTypeSof(CommandStateType type);
+
+	CommandStatus getCommandState(int device, int bank, bool bitfield, CommandStateType type, int command);
+	
 
 protected:
 
