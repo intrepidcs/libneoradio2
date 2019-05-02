@@ -1804,8 +1804,7 @@ CommandStatus neoRADIO2Device::getCommandState(int device, int bank, bool bitfie
 		{
 			continue;
 		}
-		int bank_index = (1 << i) & 0xFF;
-		auto state = mDCH.getState(getCommandStateTypeSof(type), device, bank_index, command);
+		auto state = mDCH.getState(getCommandStateTypeSof(type), device, i, command);
 		status.push_back(convertStateToStatus(state));
 	}
 

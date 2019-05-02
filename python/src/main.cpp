@@ -40,7 +40,32 @@ PYBIND11_MODULE(neoradio2, m) {
 	py::register_exception<NeoRadio2Exception>(m, "Exception");
 	py::register_exception<NeoRadio2ExceptionWouldBlock>(m, "ExceptionWouldBlock");
 	
-    
+	py::enum_<StatusType>(m, "StatusType", py::arithmetic())
+		.value("StatusAppStart", StatusType::StatusAppStart)
+		.value("StatusChain", StatusType::StatusChain)
+		.value("StatusPCBSN", StatusType::StatusPCBSN)
+		.value("StatusSensorRead", StatusType::StatusSensorRead)
+		.value("StatusSensorWrite", StatusType::StatusSensorWrite)
+		.value("StatusSettingsRead", StatusType::StatusSettingsRead)
+		.value("StatusSettingsWrite", StatusType::StatusSettingsWrite)
+		.value("StatusCalibration", StatusType::StatusCalibration)
+		.value("StatusCalibrationPoints", StatusType::StatusCalibrationPoints)
+		.value("StatusCalibrationStored", StatusType::StatusCalibrationStored)
+		.value("StatusCalibrationInfo", StatusType::StatusCalibrationInfo)
+		.value("StatusLedToggle", StatusType::StatusLedToggle)
+		.export_values();
+
+	py::enum_<CommandStateType>(m, "CommandStateType", py::arithmetic())
+		.value("CommandStateHost", CommandStateType::CommandStateHost)
+		.value("CommandStateDevice", CommandStateType::CommandStateDevice)
+		.export_values();
+
+	py::enum_<CommandStatus>(m, "CommandStatus", py::arithmetic())
+		.value("StatusInProgress", CommandStatus::StatusInProgress)
+		.value("StatusFinished", CommandStatus::StatusFinished)
+		.value("StatusError", CommandStatus::StatusError)
+		.export_values();
+
     // libneoradio2.h
     py::class_<Neoradio2DeviceInfo>(m, "Neoradio2DeviceInfo")
         .def(py::init([]() { return new Neoradio2DeviceInfo{0}; }))
@@ -141,7 +166,10 @@ PYBIND11_MODULE(neoradio2, m) {
 		neoradio2_handle handle;
 		auto result = neoradio2_open(&handle, device);
 		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
-			throw NeoRadio2ExceptionWouldBlock("neoradio2_open() would block");
+		{
+			//throw NeoRadio2ExceptionWouldBlock("neoradio2_open() would block");
+			return handle;
+		}
 		else if (neoradio2_is_blocking() && result != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_open() failed");
 		return handle;
@@ -1679,6 +1707,34 @@ PYBIND11_MODULE(neoradio2, m) {
 			1
 			>>>
 	)pbdoc");
+
+	// LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, int bank, int bitfield, StatusType type, CommandStatus* status)
+	m.def("get_status", [](neoradio2_handle& handle, int device, int bank, bool bitfield, StatusType type) {
+		py::gil_scoped_release release;
+		CommandStatus status;
+		if (neoradio2_get_status(&handle, device, bank, bitfield, type, &status) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_get_status() failed");
+		return status;
+	}, R"pbdoc(
+		get_status(handle, device, bank, bitfield, type)
+
+		Get the status of commands. This is primarly used for checking states for non-blocking mode.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index or a bitmask depending on bitfield argument.
+			bitfield (bool): True = bank is a bitfield, False = bank is an index.
+			type (StatusType): Status Type to get.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns StatusType.
+
+	)pbdoc");
+	
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;

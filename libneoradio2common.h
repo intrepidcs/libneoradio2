@@ -15,6 +15,7 @@ typedef enum _CommandStatus
 	StatusFinished,
 	StatusError,
 } CommandStatus;
+
 typedef enum _CommandStateType
 {
 	CommandStateHost = 0,

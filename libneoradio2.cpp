@@ -167,7 +167,7 @@ LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInf
 
 	if (dev->open())
 	{
-		if (!_set_blocking)
+		if (_set_blocking)
 		{
 			auto start = high_resolution_clock::now();
 			std::lock_guard<std::mutex> lock(_lock);
@@ -203,7 +203,7 @@ LIBNEORADIO2_API int neoradio2_close(neoradio2_handle* handle)
 
 	if (dev->close())
 	{
-		if (!_set_blocking)
+		if (_set_blocking)
 		{
 			auto start = high_resolution_clock::now();
 			std::lock_guard<std::mutex> lock(_lock);
