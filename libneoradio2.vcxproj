@@ -163,6 +163,7 @@
     <ClInclude Include="fifo.h" />
     <ClInclude Include="hiddevice.h" />
     <ClInclude Include="libneoradio2.h" />
+    <ClInclude Include="libneoradio2common.h" />
     <ClInclude Include="neoradio2.h" />
     <ClInclude Include="neoradio2device.h" />
     <ClInclude Include="neoradio2framehandler.h" />
