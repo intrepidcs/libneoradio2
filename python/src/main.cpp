@@ -1733,6 +1733,28 @@ PYBIND11_MODULE(neoradio2, m) {
 		Returns:
 			Returns StatusType.
 
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     # Request/Get the sensor data on bank 8 for device 0
+			...     neoradio2.set_blocking(0, 0)
+			...     try:
+			...          neoradio2.request_sensor_data(handle, 0, 0xFF, 1)
+			...     except neoradio2.ExceptionWouldBlock as ex:
+			...          pass
+			...     while neoradio2.get_status(handle, 0, 0xFF, True, neoradio2.StatusType.StatusSensorRead) != neoradio2.CommandStatus.StatusFinished:
+			...          time.sleep(0.001) # Execute other code here
+			...     neoradio2.read_sensor_float(handle, 0, 7)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			4.953075885772705
+			>>>
+
 	)pbdoc");
 	
 
