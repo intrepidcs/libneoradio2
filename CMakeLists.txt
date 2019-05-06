@@ -1,25 +1,46 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(neoradio2 VERSION 0.0.4 DESCRIPTION "C Library to interface to neoRAD-IO-2 Devices")
+file(READ "version.txt" ver)
+
+string(REGEX MATCH "VERSION_MAJOR ([0-9]*)" _ "${ver}")
+set(ver_major ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_MINOR ([0-9]*)" _ "${ver}")
+set(ver_minor ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_PATCH ([0-9]*)" _ "${ver}")
+set(ver_patch ${CMAKE_MATCH_1})
+
+message("VERSION DETECTED: ${ver_major}.${ver_minor}.${ver_patch}")
+
+project(neoradio2 
+    VERSION 0.0.1 #"${ver_major}.${ver_minor}.${ver_patch}" 
+    DESCRIPTION "C Library to interface to neoRAD-IO-2 Devices")
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 include_directories(${PROJECT_SOURCE_DIR}/hidapi/hidapi)
-add_library(neoradio2 SHARED ${PROJECT_SOURCE_DIR}/cmake_hack.cpp
+add_library(neoradio2 SHARED
     ${PROJECT_SOURCE_DIR}/fifo.c
     ${PROJECT_SOURCE_DIR}/device.cpp
     ${PROJECT_SOURCE_DIR}/hiddevice.cpp
     ${PROJECT_SOURCE_DIR}/libneoradio2.cpp
-    ${PROJECT_SOURCE_DIR}/neoradio2device.cpp
-    ${PROJECT_SOURCE_DIR}/hidapi/linux/hid.c)
+    ${PROJECT_SOURCE_DIR}/neoradio2device.cpp)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    target_sources(neoradio2 PRIVATE ${PROJECT_SOURCE_DIR}/hidapi/linux/hid.c)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    target_sources(neoradio2 PRIVATE ${PROJECT_SOURCE_DIR}/hidapi/windows/hid.c)
+endif()
 
 set_target_properties(neoradio2 PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER libneoradio2.h neoradio2common.h radio2_frames.h
     C_VISIBILITY hidden
     CXX_VISIBILITY hidden)
+
+set_property(TARGET neoradio2 PROPERTY PUBLIC_HEADER libneoradio2.h libneoradio2common.h radio2_frames.h)
 
 target_link_libraries(neoradio2 PRIVATE)
 target_compile_options(neoradio2 PRIVATE)
