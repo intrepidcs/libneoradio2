@@ -4,12 +4,15 @@
 #include <sstream>
 #include <cstring> // memcpy
 
-Device::Device(DeviceInfoEx& di)
+Device::Device()
 {
-	memcpy(&mDevInfo, &di, sizeof(mDevInfo));
 	mState = DeviceStateIdle;
 	mQuit = false;
 	
+	
+	memset(&mDevInfo.di, 0, sizeof(mDevInfo.di));
+	mDevInfo.is_blocking = 0;
+	mDevInfo.is_open = 0;
 }
 
 Device::~Device()

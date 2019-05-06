@@ -21,12 +21,12 @@ class neoRADIO2Device : public HidDevice
 {
 public:
 
-	neoRADIO2Device(DeviceInfoEx& di);
+	neoRADIO2Device();
 	virtual ~neoRADIO2Device();
 
 	bool quit(bool wait_for_quit=true);
 
-	static std::vector<neoRADIO2Device*> _findAll();
+	Device _findAll();
 
 	// this code will loop forever until you return false or user requested a quit()
 	virtual bool runIdle();

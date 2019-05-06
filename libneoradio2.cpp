@@ -18,7 +18,7 @@
 using namespace std::chrono;
 using namespace std::chrono_literals;
 
-std::map<neoradio2_handle, Device*> _device_map;
+std::map<neoradio2_handle, std::shared_ptr<Device>> _device_map;
 
 // If set to true all APIs are blocking
 static bool _set_blocking = true;
@@ -32,7 +32,7 @@ std::chrono::milliseconds _blocking_timeout(2000);
 
 static std::mutex _lock;
 
-Device* _getDevice(neoradio2_handle handle)
+std::shared_ptr<Device> _getDevice(neoradio2_handle handle)
 {
 #ifdef DEBUG_ANNOYING
 	DEBUG_PRINT("_device_map size: %d", _device_map.size());
@@ -44,35 +44,31 @@ Device* _getDevice(neoradio2_handle handle)
 	return NULL;
 }
 
-Device* _createNewDevice(neoradio2_handle* handle, Neoradio2DeviceInfo* device)
+std::shared_ptr<Device> _createNewDevice(neoradio2_handle* handle, Neoradio2DeviceInfo* device)
 {
 	DEBUG_PRINT("creating New Device: %s %s", device->name, device->serial_str);
 	std::lock_guard<std::mutex> lock(_lock);
 	static neoradio2_handle counter = 0;
 	if (!device && !handle)
-		return NULL;
+		return nullptr;
 	for (auto& i : _device_map)
 	{
-		auto info = i.second->deviceInfo();
-		if (info.name == device->name && info.serial_str == device->serial_str)
+		auto info = i.second->getDeviceInfo();
+		if (info->di.name == device->name && info->di.serial_str == device->serial_str)
 			return i.second;
 	}
-	auto devs = DeviceFinder<neoRADIO2Device>::findAll();
+	auto devs = Device::findAll<neoRADIO2Device>();
 	for (auto& dev : devs)
 	{
-		auto info = dev->deviceInfo();
-		if (strcmp(info.name, device->name) == 0 && strcmp(info.serial_str, device->serial_str) == 0)
+		auto info = dev->getDeviceInfo();
+		if (strcmp(info->di.name, device->name) == 0 && strcmp(info->di.serial_str, device->serial_str) == 0)
 		{
 			*handle = ++counter;
 			_device_map[*handle] = dev;
 			return dev;
 		}
-		else
-		{
-			delete dev;
-		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 std::tuple<CommandStateType, int> _StatusType_to_cmd(StatusType& type)
@@ -124,7 +120,7 @@ LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* 
 	if (!devices || !device_count)
 		return NEORADIO2_FAILURE;
 
-	auto devs = neoRADIO2Device::_findAll();
+	auto devs = Device::findAll<neoRADIO2Device>();
 	memset(devices, 0, sizeof(Neoradio2DeviceInfo)*(*device_count));
 	for (unsigned int i=0; i < devs.size() && i < *device_count; ++i)
 	{

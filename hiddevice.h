@@ -73,10 +73,10 @@ typedef std::map<DeviceChannel, HidBuffer*> HidBuffers;
 class HidDevice : public Device
 {
 public:
-	HidDevice(DeviceInfoEx& di);
+	HidDevice();
 	virtual ~HidDevice();
 
-	static std::vector<HidDevice*> _findAll();
+	Devices _findAll();
 
 	// this code will loop forever until you return false or user requested a quit()
 	virtual bool runIdle();

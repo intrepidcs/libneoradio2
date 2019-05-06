@@ -12,8 +12,8 @@
 #include <iterator>
 #include <algorithm>
 
-neoRADIO2Device::neoRADIO2Device(DeviceInfoEx& di)
-	: HidDevice(di)
+neoRADIO2Device::neoRADIO2Device()
+	: HidDevice()
 {
 	mIsRunning = false;
 	mQuit = false;
@@ -97,7 +97,7 @@ bool neoRADIO2Device::quit(bool wait_for_quit)
 	return true;
 }
 
-std::vector<neoRADIO2Device*> neoRADIO2Device::_findAll()
+Device neoRADIO2Device::_findAll()
 {
 	std::vector<neoRADIO2Device*> devs;
 

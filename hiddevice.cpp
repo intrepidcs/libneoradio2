@@ -3,19 +3,10 @@
 #include <iostream>
 #include <sstream>
 
-HidDevice::HidDevice(DeviceInfoEx& di)
-	: Device(di)
+HidDevice::HidDevice()
+	: Device()
 {
 	hid_init();
-	// Insert the hid_paths to the map
-	if (di.channel_paths.size())
-	for (auto i : di.channel_paths)
-	{
-		HidBuffer* buffer = new HidBuffer();
-		buffer->path = i.second;
-		buffer->reset();
-		mBuffers[i.first] = buffer;
-	}
 }
 
 HidDevice::~HidDevice()
@@ -39,10 +30,11 @@ bool HidDevice::addPath(DeviceChannel channel, std::string path)
 	return Device::addPath(channel, path);
 }
 
-std::vector<HidDevice*> HidDevice::_findAll()
+Devices HidDevice::_findAll()
 {
 	
-	std::vector<HidDevice*> devs;
+	//std::vector<HidDevice*> devs;
+	Devices devs;
 
 	hid_device_info* hdi = NULL;
 	hid_device_info* first_hdi = hdi;
@@ -59,22 +51,24 @@ std::vector<HidDevice*> HidDevice::_findAll()
 		}
 #endif
 		//hdi->serial_number
-		DeviceInfoEx di;
-		memset(&di.di, 0, sizeof(di.di));
+		//auto hid_dev = new HidDevice;
+		auto hid_dev = std::make_shared<HidDevice>();
+		devs.push_back(hid_dev);
+		auto di = hid_dev->getDeviceInfo();
 		if (hdi->product_string)
 		{
-			di.di.name = new char[64]{0};
-			std::wcstombs(di.di.name, hdi->product_string, 64);
+			di->di.name = new char[64]{0};
+			std::wcstombs(di->di.name, hdi->product_string, 64);
 		}
 		if (hdi->serial_number)
 		{
-			di.di.serial_str = new char[64]{0};
-			std::wcstombs(di.di.serial_str, hdi->serial_number, 64);
+			di->di.serial_str = new char[64]{0};
+			std::wcstombs(di->di.serial_str, hdi->serial_number, 64);
 		}
-		di.di.product_id = hdi->product_id;
-		di.di.vendor_id = hdi->vendor_id;
+		di->di.product_id = hdi->product_id;
+		di->di.vendor_id = hdi->vendor_id;
 
-		auto hid_dev = new HidDevice(di);
+		
 		if (interface_number == 0)
 		{
 			hid_dev->addPath(CHANNEL_0, hdi->path);

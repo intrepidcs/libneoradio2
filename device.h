@@ -46,11 +46,7 @@
 #define DEBUG_PRINT_ANNOYING(fmt, args...) /* Don't do anything in release builds */
 #endif
 
-#endif 
-
-class Device;
-typedef std::vector<Device*> Devices;
-
+#endif
 
 typedef enum
 {
@@ -72,22 +68,13 @@ typedef struct _DeviceInfoEx
 	DeviceChannelMap channel_paths;
 } DeviceInfoEx;
 
+class Device;
+typedef std::vector<std::shared_ptr<Device>> Devices;
 
-template<class T>
-class DeviceFinder
+class Device
 {
 public:
-	static std::vector<T*> findAll()
-	{
-		return T::_findAll();
-	}
-};
-
-
-class Device : public DeviceFinder<Device>
-{
-public:
-	Device(DeviceInfoEx& di);
+	Device();
 	virtual ~Device();
 
 	virtual bool open();
@@ -95,37 +82,39 @@ public:
 
 	bool isOpen();
 
-	virtual Neoradio2DeviceInfo deviceInfo() const { return mDevInfo.di; }
+	DeviceInfoEx* getDeviceInfo() { return &mDevInfo; }
+
+	// Implement this in inherited classes
+	Devices _findAll() { return Devices(); }
+
+	template <class T>
+	static Devices findAll()
+	{
+		T t;
+		return t._findAll();
+	}
 
 protected:
 	DeviceInfoEx mDevInfo;
 
 	// this code will loop forever until you return false or user requested a quit()
-	virtual bool runIdle()=0;
-	virtual bool runConnecting()=0;
-	virtual bool runConnected()=0;
-	virtual bool runDisconnecting()=0;
+	virtual bool runIdle() { return false; };
+	virtual bool runConnecting() { return false; };
+	virtual bool runConnected() { return false; };
+	virtual bool runDisconnecting() { return false; };
 
-	virtual bool read(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel)=0;
-	virtual bool write(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel)=0;
+	virtual bool read(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel) { return false; };
+	virtual bool write(uint8_t* buffer, uint16_t* buffer_size, DeviceChannel channel) { return false; };
 
 	// returns how many bytes are available in the channel's buffer
-	virtual uint16_t canRead(DeviceChannel channel)=0;
+	virtual uint16_t canRead(DeviceChannel channel) { return false; };
 	// returns how many bytes can be written into the channel's buffer
-	virtual uint16_t canWrite(DeviceChannel channel)=0;
+	virtual uint16_t canWrite(DeviceChannel channel) { return false; };
 
 	virtual int channelCount() const { return mDevInfo.channel_paths.size(); }
 
 	virtual bool addPath(DeviceChannel channel, std::string path);
 	virtual std::string path(DeviceChannel channel);
-
-	
-
-	// Override this in inherited classes
-	static std::vector<Device*> findAll()
-	{
-		return std::vector<Device*>();
-	}
 
 	bool quit(bool wait_for_quit=true);
 
