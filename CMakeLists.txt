@@ -14,7 +14,7 @@ set(ver_patch ${CMAKE_MATCH_1})
 message("VERSION DETECTED: ${ver_major}.${ver_minor}.${ver_patch}")
 
 project(neoradio2 
-    VERSION 0.0.1 #"${ver_major}.${ver_minor}.${ver_patch}" 
+    VERSION "${ver_major}.${ver_minor}.${ver_patch}" 
     DESCRIPTION "C Library to interface to neoRAD-IO-2 Devices")
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
