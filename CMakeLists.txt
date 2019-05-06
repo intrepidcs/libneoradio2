@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.9)
 
+
+add_definitions(-DLIBNEORADIO2_EXPORTS)
+
 file(READ "version.txt" ver)
 
 string(REGEX MATCH "VERSION_MAJOR ([0-9]*)" _ "${ver}")
@@ -42,8 +45,7 @@ set_target_properties(neoradio2 PROPERTIES
 
 set_property(TARGET neoradio2 PROPERTY PUBLIC_HEADER libneoradio2.h libneoradio2common.h radio2_frames.h)
 
-target_link_libraries(neoradio2 PRIVATE)
-target_compile_options(neoradio2 PRIVATE)
+target_link_libraries(neoradio2 PRIVATE udev)
 
 configure_file(libneoradio2.pc.in libneoradio2.pc @ONLY)
 

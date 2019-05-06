@@ -1,11 +1,20 @@
 #ifndef __LIBNEORADIO2_H__
 #define __LIBNEORADIO2_H__
 
-#ifdef LIBNEORADIO2_EXPORTS
-#define LIBNEORADIO2_API __declspec(dllexport)
-#else
-//#define LIBNEORADIO2_API  __declspec(dllimport)
-#define LIBNEORADIO2_API  
+#if defined(_MSC_VER)
+    #ifdef LIBNEORADIO2_EXPORTS
+        #define LIBNEORADIO2_API __declspec(dllexport)
+    #else
+        //#define LIBNEORADIO2_API  __declspec(dllimport)
+        #define LIBNEORADIO2_API  
+    #endif
+#elif defined(__GNUC__)
+    #ifdef LIBNEORADIO2_EXPORTS
+        #define LIBNEORADIO2_API __attribute__((visibility("default")))
+    #else
+        //#define LIBNEORADIO2_API  __declspec(dllimport)
+        #define LIBNEORADIO2_API  
+    #endif
 #endif
 
 #include <stdint.h>
