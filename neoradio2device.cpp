@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <iterator>
+#include <algorithm>
 
 neoRADIO2Device::neoRADIO2Device(DeviceInfoEx& di)
 	: HidDevice(di)
