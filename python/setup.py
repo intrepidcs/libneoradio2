@@ -27,16 +27,19 @@ class get_pybind_include(object):
 source_includes = ['src/main.cpp', '../fifo.c', '../device.cpp', 
     '../hiddevice.cpp', '../libneoradio2.cpp', '../neoradio2device.cpp',]
 
+library_includes = []
 if 'NT' in os.name.upper():
     source_includes.append('../hidapi/windows/hid.c')
 else:
     source_includes.append('../hidapi/linux/hid.c')
+    library_includes.append('udev')
+
 
 ext_modules = [
     Extension(
         'neoradio2',
         source_includes,
-        libraries = [],
+        libraries = library_includes,
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
