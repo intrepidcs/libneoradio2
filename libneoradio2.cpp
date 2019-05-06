@@ -36,7 +36,7 @@ Device* _getDevice(neoradio2_handle handle)
 {
 #ifdef DEBUG_ANNOYING
 	DEBUG_PRINT("_device_map size: %d", _device_map.size());
-#endif DEBUG_ANNOYING
+#endif // DEBUG_ANNOYING
 	std::lock_guard<std::mutex> lock(_lock);
 	auto iter = _device_map.find(handle);
 	if (iter != _device_map.end())
