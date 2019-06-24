@@ -54,3 +54,5 @@ install(TARGETS neoradio2
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES ${CMAKE_BINARY_DIR}/libneoradio2.pc
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/example)

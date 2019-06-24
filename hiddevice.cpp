@@ -57,12 +57,10 @@ Devices HidDevice::_findAll()
 		auto di = hid_dev->getDeviceInfo();
 		if (hdi->product_string)
 		{
-			di->di.name = new char[64]{0};
 			std::wcstombs(di->di.name, hdi->product_string, 64);
 		}
 		if (hdi->serial_number)
 		{
-			di->di.serial_str = new char[64]{0};
 			std::wcstombs(di->di.serial_str, hdi->serial_number, 64);
 		}
 		di->di.product_id = hdi->product_id;

@@ -61,10 +61,16 @@ public:
 
 	void reset()
 	{
-		memset(tx_buffer, 0, HidBufferSize);
-		memset(rx_buffer, 0, HidBufferSize);
-		FIFO_Clear(&tx_fifo);
-		FIFO_Clear(&rx_fifo);
+		if (tx_buffer)
+		{
+			memset(tx_buffer, 0, HidBufferSize);
+			FIFO_Clear(&tx_fifo);
+		}
+		if (rx_buffer)
+		{
+			memset(rx_buffer, 0, HidBufferSize);
+			FIFO_Clear(&rx_fifo);
+		}
 	}
 };
 typedef std::map<DeviceChannel, HidBuffer*> HidBuffers;

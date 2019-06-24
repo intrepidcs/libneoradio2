@@ -41,8 +41,8 @@ typedef enum _CommandStateType
 
 typedef struct _Neoradio2DeviceInfo
 {
-	char* name;
-	char* serial_str;
+	char name[64];
+	char serial_str[64];
 
 	int vendor_id;
 	int product_id;

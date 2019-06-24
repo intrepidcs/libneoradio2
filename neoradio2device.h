@@ -26,7 +26,7 @@ public:
 
 	bool quit(bool wait_for_quit=true);
 
-	Device _findAll();
+	Devices _findAll();
 
 	// this code will loop forever until you return false or user requested a quit()
 	virtual bool runIdle();

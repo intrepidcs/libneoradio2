@@ -11,12 +11,14 @@
 #include <sstream>
 #include <iterator>
 #include <algorithm>
+#include <memory>
 
 neoRADIO2Device::neoRADIO2Device()
 	: HidDevice()
 {
 	mIsRunning = false;
 	mQuit = false;
+	mThread = nullptr;
 	mLastState = PROCESS_STATE_IDLE;
 	mDeviceCount = 1;
 
@@ -90,15 +92,27 @@ bool neoRADIO2Device::quit(bool wait_for_quit)
 	mMutex.lock();
 	mQuit = true;
 	mMutex.unlock();
-	if (wait_for_quit)
-		mThread->join();
+	if (mThread && wait_for_quit)
+	{
+		try
+		{
+			mThread->join();
+		}
+		catch(const std::exception& e)
+		{
+			DEBUG_PRINT("%s", e.what());
+		}
+	}
+		
 	delete mThread;
 	mThread = nullptr;
 	return true;
 }
 
-Device neoRADIO2Device::_findAll()
+Devices neoRADIO2Device::_findAll()
 {
+	Devices devices;
+
 	std::vector<neoRADIO2Device*> devs;
 
 	hid_device_info* hdi = NULL;
@@ -106,6 +120,9 @@ Device neoRADIO2Device::_findAll()
 	if (hdi = hid_enumerate(0x93C, 0x1300))
 		while (hdi != NULL)
 		{
+			auto device = std::make_shared<neoRADIO2Device>();
+			device->getDeviceInfo()->is_blocking = true;
+
 			auto interface_number = hdi->interface_number;
 #ifdef __APPLE__
 			// https://github.com/signal11/hidapi/issues/326
@@ -115,45 +132,38 @@ Device neoRADIO2Device::_findAll()
 				interface_number = hdi->path[strlen(hdi->path) - 1] - 0x30;
 			}
 #endif
-			//hdi->serial_number
-			DeviceInfoEx di;
-			di.is_open = false;
-			di.is_blocking = true;
-			memset(&di.di, 0, sizeof(di.di));
+			device->getDeviceInfo()->di.vendor_id = hdi->vendor_id;
+			device->getDeviceInfo()->di.product_id = hdi->product_id;
+
 			if (hdi->product_string)
 			{
-				di.di.name = new char[64]{ 0 };
-				std::wcstombs(di.di.name, hdi->product_string, 64);
+				std::wcstombs(device->getDeviceInfo()->di.name, hdi->product_string, 64);
 			}
 			if (hdi->serial_number)
 			{
-				di.di.serial_str = new char[64]{ 0 };
-				std::wcstombs(di.di.serial_str, hdi->serial_number, 64);
+				std::wcstombs(device->getDeviceInfo()->di.serial_str, hdi->serial_number, 64);
 			}
-			di.di.product_id = hdi->product_id;
-			di.di.vendor_id = hdi->vendor_id;
 
-			auto hid_dev = new neoRADIO2Device(di);
 			if (interface_number == 0)
 			{
-				hid_dev->addPath(CHANNEL_0, hdi->path);
+				device->addPath(CHANNEL_0, hdi->path);
 				if (hdi->next)
-					hid_dev->addPath(CHANNEL_1, hdi->next->path);
+					device->addPath(CHANNEL_1, hdi->next->path);
 				hdi = hdi->next->next;
 			}
 			else if (interface_number == 1)
 			{
 				if (hdi->next)
-					hid_dev->addPath(CHANNEL_0, hdi->next->path);
-				hid_dev->addPath(CHANNEL_1, hdi->path);
+					device->addPath(CHANNEL_0, hdi->next->path);
+				device->addPath(CHANNEL_1, hdi->path);
 				hdi = hdi->next->next;
 			}
 			else
 				hdi = hdi->next;
-			devs.push_back(hid_dev);
+			devices.push_back(device);
 		}
 	hid_free_enumeration(first_hdi);
-	return devs;
+	return devices;
 }
 
 // this code will loop forever until you return false or user requested a quit()

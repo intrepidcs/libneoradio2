@@ -8,6 +8,7 @@ Device::Device()
 {
 	mState = DeviceStateIdle;
 	mQuit = false;
+	mThread = nullptr;
 	
 	
 	memset(&mDevInfo.di, 0, sizeof(mDevInfo.di));
@@ -106,9 +107,19 @@ bool Device::quit(bool wait_for_quit)
 	if (mThread)
 	{
 		if (wait_for_quit)
-			mThread->join();
+		{
+			try
+			{
+				mThread->join();
+			}
+			catch(const std::exception& e)
+			{
+				DEBUG_PRINT("%s\n", e.what());
+			}
+		}
+			
 		delete mThread;
-		mThread = NULL;
+		mThread = nullptr;
 	}
 	return true;
 }
