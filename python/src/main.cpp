@@ -74,11 +74,23 @@ PYBIND11_MODULE(neoradio2, m) {
 			ss << "<neoradio2.Neoradio2DeviceInfo '" << self.name << " " << self.serial_str << "'>";
 			return ss.str();
 		})
-        .def_readwrite("name", &Neoradio2DeviceInfo::name)
-        .def_readwrite("serial_str", &Neoradio2DeviceInfo::serial_str)
+        .def_property_readonly("name",
+                      // Read Property
+                      [](const Neoradio2DeviceInfo& self) {
+                          return self.name;
+                      })
+        .def_property_readonly("serial_str",
+                      // Read Property
+                      [](const Neoradio2DeviceInfo& self) {
+                          return self.serial_str;
+                      })
         .def_readwrite("vendor_id", &Neoradio2DeviceInfo::vendor_id)
         .def_readwrite("product_id", &Neoradio2DeviceInfo::product_id)
-        ;//.def_readwrite("_reserved", &Neoradio2DeviceInfo::_reserved);
+        .def_property_readonly("_reserved",
+                      // Read Property
+                      [](const Neoradio2DeviceInfo& self) {
+                          return self._reserved;
+                      });
         
     // radio2_frame.h
 	py::class_<neoRADIO2_deviceSettings>(m, "neoRADIO2_deviceSettings")
