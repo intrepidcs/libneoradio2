@@ -115,6 +115,11 @@ std::tuple<CommandStateType, int> _StatusType_to_cmd(StatusType& type)
 	return std::make_tuple(CommandStateType::CommandStateUnknown, -1);
 }
 
+//! Finds all neoRAD-IO2 Devices.
+//! @param devices Array of Neoradio2DeviceInfo
+//! @param device_count Size of devices array, gets updated to device_count found.
+//! @see Neoradio2DeviceInfo
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* device_count)
 {
 	if (!devices || !device_count)
@@ -131,6 +136,10 @@ LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* 
 	return NEORADIO2_SUCCESS;
 }
 
+//! Sets the API to blocking or non-blocking mode.
+//! @param blocking 1 = blocking, 0 = non-blocking
+//! @param ms_timeout timeout in milliseconds. Only matters in blocking mode.
+//! @return void
 LIBNEORADIO2_API void neoradio2_set_blocking(int blocking, long long ms_timeout)
 {
 	std::lock_guard<std::mutex> lock(_lock);
@@ -141,12 +150,22 @@ LIBNEORADIO2_API void neoradio2_set_blocking(int blocking, long long ms_timeout)
 		_blocking_timeout = std::chrono::milliseconds(ms_timeout);
 }
 
+//! Determine if the API is setup in blocking mode
+//! @param devices Array of Neoradio2DeviceInfo
+//! @param device_count Size of devices array, gets updated to device_count found.
+//! @return 1 if blocking, 0 if not.
 LIBNEORADIO2_API int neoradio2_is_blocking()
 {
 	std::lock_guard<std::mutex> lock(_lock);
 	return (int)_set_blocking;
 }
 
+//! Open a neoRAD-IO2 Device.
+//! @param neoradio2_handle pointer to a neoradio2_handle. Needs to be allocated beforehand.
+//! @param Neoradio2DeviceInfo pointer to a Neoradio2DeviceInfo structure.
+//! @see neoradio2_find
+//! @see Neoradio2DeviceInfo
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInfo* device)
 {
 	auto dev = _getDevice(*handle);
@@ -178,6 +197,12 @@ LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInf
 	return NEORADIO2_FAILURE;
 }
 
+//! Determines if a neoRAD-IO2 Device is open.
+//! @param neoradio2_handle pointer to a valid neoradio2_handle.
+//! @param is_opened 0 = false, 1 = true
+//! @see neoradio2_find
+//! @see Neoradio2DeviceInfo
+//! @return NEORADIO2_SUCCESS if or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_is_opened(neoradio2_handle* handle, int* is_opened)
 {
 	if (!is_opened)
@@ -187,6 +212,10 @@ LIBNEORADIO2_API int neoradio2_is_opened(neoradio2_handle* handle, int* is_opene
 	return NEORADIO2_SUCCESS;
 }
 
+//! Determines if a neoRAD-IO2 Device is open.
+//! @param neoradio2_handle pointer to a valid neoradio2_handle.
+//! @param is_opened 0 = false, 1 = true
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_close(neoradio2_handle* handle)
 {
 	auto dev = _getDevice(*handle);
@@ -214,6 +243,10 @@ LIBNEORADIO2_API int neoradio2_close(neoradio2_handle* handle)
 	return NEORADIO2_FAILURE;
 }
 
+//! Determines if a neoRAD-IO2 Device is closed.
+//! @param neoradio2_handle pointer to a valid neoradio2_handle.
+//! @param is_closed 0 = false, 1 = true
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_is_closed(neoradio2_handle* handle, int* is_closed)
 {
 	if (!is_closed)
@@ -223,6 +256,11 @@ LIBNEORADIO2_API int neoradio2_is_closed(neoradio2_handle* handle, int* is_close
 	return NEORADIO2_SUCCESS;
 }
 
+//! Determines if the neoRAD-IO-2 Chain is identified.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param is_identified 0 = false, 1 = true
+//! @see neoradio2_chain_identify
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_chain_is_identified(neoradio2_handle* handle, int* is_identified)
 {
 	auto dev = _getDevice(*handle);
@@ -237,6 +275,10 @@ LIBNEORADIO2_API int neoradio2_chain_is_identified(neoradio2_handle* handle, int
 	return NEORADIO2_SUCCESS;
 }
 
+//! Identifies the neoRAD-IO-2 chain.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @see neoradio2_chain_is_identified
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_chain_identify(neoradio2_handle* handle)
 {
 	auto dev = _getDevice(*handle);
@@ -251,6 +293,14 @@ LIBNEORADIO2_API int neoradio2_chain_identify(neoradio2_handle* handle)
 	return success;
 }
 
+//! Determines if the neoRAD-IO-2 Application code is started. This should be called on first connect
+//! to make sure we aren't in bootloader still. Chain needs to be identified first.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @param is_started 0 = false, 1 = true
+//! @see neoradio2_chain_identify
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_app_is_started(neoradio2_handle* handle, int device, int bank, int* is_started)
 {
 	auto dev = _getDevice(*handle);
@@ -265,6 +315,14 @@ LIBNEORADIO2_API int neoradio2_app_is_started(neoradio2_handle* handle, int devi
 	return NEORADIO2_SUCCESS;
 }
 
+//! Tells the neoRAD-IO-2 bootloader to start Application code. This should be called on first connect
+//! to make sure we aren't in bootloader still. Chain needs to be identified first.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @see neoradio2_chain_identify
+//! @see neoradio2_app_is_started
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_app_start(neoradio2_handle* handle, int device, int bank)
 {
 	auto dev = _getDevice(*handle);
@@ -280,6 +338,13 @@ LIBNEORADIO2_API int neoradio2_app_start(neoradio2_handle* handle, int device, i
 	return success;
 }
 
+//! Tells the neoRAD-IO-2 to enter bootloader. This is typically not needed. Chain needs to be identified first.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @see neoradio2_chain_identify
+//! @see neoradio2_app_is_started
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_enter_bootloader(neoradio2_handle* handle, int device, int bank)
 {
 	auto dev = _getDevice(*handle);
@@ -295,6 +360,15 @@ LIBNEORADIO2_API int neoradio2_enter_bootloader(neoradio2_handle* handle, int de
 	return success;
 }
 
+//! Gets the serial number (base10) on the selected devices and banks. Chain needs to be identified first.
+//! The serial number is generally displayed in base36.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @param serial_number serial number in base10.
+//! @see neoradio2_chain_identify
+//! @see neoradio2_app_is_started
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_serial_number(neoradio2_handle* handle, int device, int bank, unsigned int* serial_number)
 {
 	if (!serial_number)
@@ -312,6 +386,13 @@ LIBNEORADIO2_API int neoradio2_get_serial_number(neoradio2_handle* handle, int d
 	return success;
 }
 
+//! Get the manufacturing date of the selected devices and banks. Chain needs to be identified first.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @see neoradio2_chain_identify
+//! @see neoradio2_app_is_started
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_manufacturer_date(neoradio2_handle* handle, int device, int bank, int* year, int* month, int* day)
 {
 	if (!year && !month && !day)
@@ -329,6 +410,13 @@ LIBNEORADIO2_API int neoradio2_get_manufacturer_date(neoradio2_handle* handle, i
 	return success;
 }
 
+//! Get the firmware version of the selected devices and banks. Chain needs to be identified first.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @see neoradio2_chain_identify
+//! @see neoradio2_app_is_started
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_firmware_version(neoradio2_handle* handle, int device, int bank, int* major, int* minor)
 {
 	if (!major && !minor)
@@ -346,6 +434,13 @@ LIBNEORADIO2_API int neoradio2_get_firmware_version(neoradio2_handle* handle, in
 	return success;
 }
 
+//! Get the hardware revision of the selected devices and banks. Chain needs to be identified first.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @see neoradio2_chain_identify
+//! @see neoradio2_app_is_started
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_hardware_revision(neoradio2_handle* handle, int device, int bank, int* major, int* minor)
 {
 	if (!major && !minor)
@@ -363,6 +458,15 @@ LIBNEORADIO2_API int neoradio2_get_hardware_revision(neoradio2_handle* handle, i
 	return success;
 }
 
+
+//! Get the device type of the selected devices and banks. Chain needs to be identified first.
+//! @param neoradio2_handle pointer to a neoradio2_handle.
+//! @param device device number in the chain to communicate with. First device is 0.
+//! @param bank bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+//! @see neoradio2_chain_identify
+//! @see neoradio2_app_is_started
+//! @see neoRADIO2_deviceTypes
+//! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_device_type(neoradio2_handle* handle, int device, int bank, unsigned int* device_type)
 {
 	if (!device_type)
