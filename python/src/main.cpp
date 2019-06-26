@@ -55,6 +55,17 @@ PYBIND11_MODULE(neoradio2, m) {
 		.value("StatusLedToggle", StatusType::StatusLedToggle)
 		.export_values();
 
+	py::enum_<neoRADIO2_deviceTypes>(m, "DeviceTypes", py::arithmetic())
+		.value("TC", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_TC)
+		.value("DIO", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_DIO)
+		.value("PWRRLY", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_PWRRLY)
+		.value("AIN", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_AIN)
+		.value("AOUT", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_AOUT)
+		.value("CANHUB", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_CANHUB)
+		.value("BADGE", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_BADGE)
+		.value("HOST", neoRADIO2_deviceTypes::NEORADIO2_DEVTYPE_HOST)
+		.export_values();
+
 	py::enum_<CommandStateType>(m, "CommandStateType", py::arithmetic())
 		.value("CommandStateHost", CommandStateType::CommandStateHost)
 		.value("CommandStateDevice", CommandStateType::CommandStateDevice)
