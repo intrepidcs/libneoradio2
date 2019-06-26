@@ -90,8 +90,10 @@ public:
 	template <class T>
 	static Devices findAll()
 	{
-		T t;
-		return t._findAll();
+		T* t = new T();
+		auto res = t->_findAll();
+		delete t;
+		return res;
 	}
 
 protected:
