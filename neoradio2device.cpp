@@ -982,7 +982,7 @@ bool neoRADIO2Device::getManufacturerDate(int device, int bank, int& year, int& 
 	return true;
 }
 
-bool neoRADIO2Device::getDeviceType(int device, int bank, int device_type, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::getDeviceType(int device, int bank, int& device_type, std::chrono::milliseconds timeout)
 {
 	// Chain needs to be identified in order to see if we are in bootloader
 	if (!isChainIdentified(timeout))

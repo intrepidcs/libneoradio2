@@ -51,7 +51,7 @@ public:
 
 	bool getSerialNumber(int device, int bank, unsigned int& sn, std::chrono::milliseconds timeout);
 	bool getManufacturerDate(int device, int bank, int& year, int& month, int& day, std::chrono::milliseconds timeout);
-	bool getDeviceType(int device, int bank, int device_type, std::chrono::milliseconds timeout);
+	bool getDeviceType(int device, int bank, int& device_type, std::chrono::milliseconds timeout);
 	bool getFirmwareVersion(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout);
 	bool getHardwareRevision(int device, int bank, int& major, int& minor, std::chrono::milliseconds timeout);
 

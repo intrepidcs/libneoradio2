@@ -478,7 +478,9 @@ LIBNEORADIO2_API int neoradio2_get_device_type(neoradio2_handle* handle, int dev
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	auto success = radio_dev->getDeviceType(device, bank, *device_type, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	int dev_type = 0;
+	auto success = radio_dev->getDeviceType(device, bank, dev_type, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	*device_type = dev_type;
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
