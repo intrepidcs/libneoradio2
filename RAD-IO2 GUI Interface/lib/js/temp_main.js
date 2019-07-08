@@ -1,0 +1,132 @@
+const english = {
+    menu_main:"Menu",
+    menu_about:"About",
+    menu_settings:"Settings",
+    menu_exit:"Quit",
+    menu_view:"View",
+    menu_view_device:"Devices",
+    menu_view_graph:"Graph",
+    menu_view_help:"Help",
+    menu_reload:"Reload",
+    menu_advanced:"Advanced",
+    menu_calibration:"Show Calibration",
+    menu_folder:"Open Data Folder",
+    calibration:"Calibration",
+    reload_message:"Are you sure you want to restart? \nAll UNSAVED DATA WILL BE LOST !!",
+    reload_ok:"Confirm",
+    reload_cancel:"Cancel",
+    not_available:"Not available",
+    cal_warning:"Warning, calibration settings is a one off feature that will set your device only once, if you use the wrong settings you will need to send your device back for recalibration",
+    cal_toggle_show:"Are you sure you want to\nSHOW\nCalibration feature?",
+    cal_toggle_hide:"Are you sure you want to\nHIDE\nCalibration feature?",
+    cal_leave:"All unsaved data will be lost when you leave Calibration!!",
+    quit:"Are you sure you want to quit?"
+};
+
+const japanese = {
+    menu_main:"メニュー",
+    menu_about:"About",
+    menu_settings:"設定",
+    menu_exit:"閉じる",
+    menu_view:"表示",
+    menu_view_device:"デバイス",
+    menu_view_graph:"グラフ",
+    menu_view_help:"ヘルプ",
+    menu_reload:"リロード",
+    menu_advanced:"アドバンスド",
+    menu_calibration:"較正",
+    menu_folder:"Open Data Folder",
+    calibration:"較正",
+    reload_message:"再起動してもよろしいですか？\nすべてのデータを失われる！！",
+    reload_ok:"確認",
+    reload_cancel:"キャンセル",
+    not_available:"利用不可",
+    cal_warning:"Warning, calibration settings is a one off feature that will set your device only once, if you use the wrong settings you will need to send your device back for recalibration",
+    cal_leave:"All unsaved data will be lost when you leave Calibration!!",
+    quit:"Are you sure you want to quit?"
+};
+
+const korean = {
+    menu_main:"Menu",
+    menu_about:"About",
+    menu_settings:"Settings",
+    menu_exit:"Quit",
+    menu_view:"View",
+    menu_view_device:"Devices",
+    menu_view_graph:"Graph",
+    menu_view_help:"Help",
+    menu_reload:"Reload",
+    menu_advanced:"Advanced",
+    menu_calibration:"Show Calibration",
+    menu_folder:"Open Data Folder",
+    calibration:"Calibration",
+    reload_message:"Are you sure you want to restart? \nAll UNSAVED DATA WILL BE LOST !!",
+    reload_ok:"Confirm",
+    reload_cancel:"Cancel",
+    not_available:"Not available",
+    cal_warning:"Warning, calibration settings is a one off feature that will set your device only once, if you use the wrong settings you will need to send your device back for recalibration",
+    cal_leave:"All unsaved data will be lost when you leave Calibration!!",
+    quit:"Are you sure you want to quit?"
+};
+
+const chinese = {
+    menu_main:"菜单",
+    menu_about:"关于",
+    menu_settings:"设置",
+    menu_exit:"退出",
+    menu_view:"查看",
+    menu_view_device:"设备列表",
+    menu_view_graph:"数据图表",
+    menu_view_help:"帮助",
+    menu_reload:"重载",
+    menu_advanced:"高级",
+    menu_calibration:"显示校准",
+    menu_folder:"打开数据文件目录",
+    calibration:"校准",
+    reload_message:"你确定是否要重新加载？\n所有未保存的记录都会丢失！！",
+    reload_ok:"确认",
+    reload_cancel:"取消",
+    not_available:"无法使用",
+    cal_warning:"警告, 校准设置只能进行一次，如果设置错误需要寄回设备重置校准数据",
+    cal_toggle_show:"你是否确定\n显示\n校准功能?",
+    cal_toggle_hide:"你是否确定\n隐藏\n校准功能?",
+    cal_leave:"确定是否要离开？所有未保存数据都将丢失!!",
+    quit:"Are you sure you want to quit?"
+};
+
+const Tchinese = {
+    menu_main:"菜单",
+    menu_about:"关于",
+    menu_settings:"设置",
+    menu_exit:"退出",
+    menu_view:"查看",
+    menu_view_device:"设备列表",
+    menu_view_graph:"数据图表",
+    menu_view_help:"帮助",
+    menu_reload:"重载",
+    menu_advanced:"高级",
+    menu_calibration:"显示校准",
+    menu_folder:"打开数据文件目录",
+    calibration:"校准",
+    reload_message:"你确定是否要重新加载？\n所有未保存的记录都会丢失！！",
+    reload_ok:"确认",
+    reload_cancel:"取消",
+    not_available:"无法使用",
+    cal_warning:"警告, 校准设置只能进行一次，如果设置错误需要寄回设备重置校准数据",
+    cal_toggle_show:"你是否确定\n显示\n校准功能?",
+    cal_toggle_hide:"你是否确定\n隐藏\n校准功能?",
+    cal_leave:"确定是否要离开？所有未保存数据都将丢失!!",
+    quit:"Are you sure you want to quit?"
+};
+
+const locale = {
+    "en": english,
+    "ja": japanese,
+    "jw": japanese,
+    "ko": korean,
+    "zh": chinese,
+    "zh-CN": chinese,
+    "zh-TW": Tchinese
+};
+
+module.exports = locale;

@@ -1,0 +1,161 @@
+.ma_calibration
+{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 30px 50px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+.cal_wrapper
+{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.sidepanel
+{
+    position: relative;
+    left: 0;
+    width: 25%;
+}
+.sidepanel_input_group
+{
+    padding: 0 15px 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.cal_table_tc
+{
+    position: relative;
+    left: 0;
+    width: 100%;
+}
+.cal_table_header
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background: rgb(51,163,243);
+}
+.cal_table_tc label
+{
+    margin: 0 1rem 0 0;
+}
+.cal_input, .cal_input_th
+{
+    width: 100%;
+    height: 2rem;
+    line-height: 2rem;
+    background: transparent no-repeat;
+    border: 0;
+    outline: none;
+    padding: 0;
+    background-image: linear-gradient(to bottom, #dc3545, #dc3545), linear-gradient(to bottom, transparent, transparent);
+    background-size: 0 2px, 100% 1px;
+    background-position: 50% 100%, 50% 100%;
+    transition: background-size 0.3s cubic-bezier(0.71, 0.33, 0.44, 0.84);
+}
+.cal_input:focus, .cal_input_th:focus
+{
+    color: #dc3545;
+    background-size: 100% 2px, 100% 1px;
+    outline: none;
+}
+.cal_input::selection
+{
+    background-color: transparent;
+}
+.cal_me::selection, .cal_input_th::selection
+{
+    background-color: #ACCEF7;
+}
+.cal_read
+{
+    color: #009900;
+}
+.cal_diff
+{
+    color: red;
+}
+.cal_input_th
+{
+    width: 50%;
+}
+.cal_table_tc td
+{
+    vertical-align: middle;
+}
+.cal_table_tc td:first-child, .cal_table_tc td:nth-child(2)
+{
+    position: relative;
+    background-color: #dee2e6;
+    -webkit-box-shadow: 3px 0 1px 0 rgba(0,0,0,0.4);
+    z-index: 5;
+}
+.theme-black-bg .cal_table_tc td:first-child, .theme-black-bg  .cal_table_tc td:nth-child(2)
+{
+    background-color: #000;
+}
+.theme-black-bg .cal_input:focus, .theme-black-bg .cal_input_th:focus
+{
+    color: white;
+}
+.fa-minus-square
+{
+    position: absolute;
+    font-size: 1.5rem;
+    top: 0;
+    right: 0;
+    color: red;
+}
+.fa-plus-square
+{
+    position: absolute;
+    font-size: 1.5rem;
+    bottom: 0;
+    left: 0;
+    color: #009900;
+}
+.button-group
+{
+    display: flex;
+    justify-content: flex-end;
+}
+.button-group button
+{
+    width: 7rem;
+    margin: 0 5px;
+}
+
+.slideLeft
+{
+    animation: slide .3s forwards;
+}
+@keyframes slide {
+    100% {
+        left: -30%;
+    }
+}
+.fullSize
+{
+    animation: full .3s forwards;
+}
+@keyframes full {
+    100% {
+        left: calc(0px - (15% - 32px));
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1400px)
+{
+    .sidepanel
+    {
+        width: 35%;
+    }
+}

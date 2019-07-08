@@ -1,0 +1,72 @@
+{
+  "name": "neoRAD-IO2",
+  "productName": "neoRAD-IO2",
+  "version": "1.5.3",
+  "description": "neoRAD-IO2 GUI app",
+  "main": "main.js",
+  "scripts": {
+    "install": "cmake-js compile",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "repository": "",
+  "keywords": [
+    "neoRAD-IO2",
+    "IntrepidCS"
+  ],
+  "author": "IntrepidCS",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^5.0.6",
+    "electron-builder": "^20.44.4"
+  },
+  "versions": {
+    "electron": "^5.0.6",
+    "electron-builder": "^20.44.4"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
+    "JSONStream": "^1.3.5",
+    "bindings": "^1.5.0",
+    "bootstrap": "^4.3.1",
+    "electron-is-dev": "^1.1.0",
+    "electron-settings": "^3.2.0",
+    "electron-window-state": "^5.0.3",
+    "emit-stream": "^0.1.2",
+    "jquery": "^3.4.1",
+    "nan": "^2.14.0",
+    "papaparse": "^4.6.3",
+    "popper.js": "^1.15.0",
+    "sudo-prompt": "^9.0.0",
+    "through": "^2.3.8"
+  },
+  "cmake-js": {
+    "runtime": "electron",
+    "runtimeVersion": "5.0.6",
+    "arch": "x64"
+  },
+  "build": {
+    "appId": "com.intrepidcs.neoRADIO2",
+    "directories": {
+      "buildResources": "build/release"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "win": {
+      "icon": "lib/img/icon.ico"
+    },
+    "mac": {
+      "icon": "lib/img/icon.icns"
+    },
+    "linux": {
+      "icon": "lib/img/icon.icns"
+    },
+    "copyright": "Copyright © 2019 ${author}"
+  }
+}
