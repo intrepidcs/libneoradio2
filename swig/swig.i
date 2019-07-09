@@ -1,8 +1,8 @@
 %module neoradio2
 %{
 
-#include "libneoradio2.h"
-#include "libneoradio2common.h"
+#include "../libneoradio2.h"
+#include "../libneoradio2common.h"
 
 extern void neoradio2_set_blocking(int blocking, long long ms_timeout);
 extern int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* device_count);
@@ -57,5 +57,5 @@ extern int neoradio2_get_status(neoradio2_handle* handle, int device, int bank, 
 
 %}
 
-/* $include "libneoradio2.h" */
-%include "libneoradio2common.h"
+/* $include "../libneoradio2.h" */
+%include "../libneoradio2common.h"

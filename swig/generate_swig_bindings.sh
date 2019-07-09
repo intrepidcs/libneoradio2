@@ -7,6 +7,7 @@ else
 fi
 
 supported_langs=("csharp" "d" "go" "guile" "java" "javascript" "lua" "octave" "perl5" "php7" "r" "ruby" "tcl8" "xml")
+#supported_langs=("csharp")
 
 for language in "${supported_langs[@]}"; do
     extra_opts=""
@@ -18,11 +19,7 @@ for language in "${supported_langs[@]}"; do
     mkdir -pv "./swig/${language}"
     echo "Generating ${language} Bindings..."
     
-    cd "./swig/${language}"
-    
-    
-    #echo "${swig_executable} -outdir ./swig/${language} -${language} swig.i"
-    $swig_executable -$language $extra_opts ../../swig.i
-    
-    cd ../..
+    cd "./${language}"
+    $swig_executable -$language $extra_opts -outcurrentdir ../swig.i
+    cd ../
 done
