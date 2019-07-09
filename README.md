@@ -26,6 +26,11 @@ $ make
 # make install
 ```
 
+udev rules are required to be able to access devices as a normal user:
+
+`99-intrepidcs.rules`
+
+
 ## Windows
 
 Visual studio 2015 or greater is required to build. cmake can also be used to build but is untested currently.

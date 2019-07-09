@@ -3,6 +3,8 @@
 
 # Documentation
 
+Current documentation is built as a zip [README.md](docs/html/html.zip) until official builds on readthedocs.io are finished.
+
 https://libneoradio2.readthedocs.io/
 
 
