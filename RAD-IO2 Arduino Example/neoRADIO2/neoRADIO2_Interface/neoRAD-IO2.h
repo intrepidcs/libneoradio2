@@ -1,7 +1,4 @@
 #pragma once
-#ifndef RADIO2_EMBEDDED_LIB
-#include "ft260.h"
-#endif /* RADIO2_EMBEDDED_LIB */
 #include "stdint.h"
 #include "neoRAD-IO2-TC.h"
 #include "neoRAD-IO2-AIN.h"
@@ -25,6 +22,9 @@ extern "C" {
 #define NEORADIO2_TX_BUFFER_SIZE 170
 #define NEORADIO2_RX_PACKET_BUFFER_SIZE 8
 
+#define CRC_POLYNIMIAL 0x07
+
+
 typedef enum _neoRADIO2_SettingsStates {
 	neoRADIO2Settings_NeedsRead = 0,
 	neoRADIO2Settings_NeedsWrite = 1,
@@ -43,14 +43,11 @@ typedef enum _neoRADIO2_RunStates {
 
 typedef struct _neoRADIO2_Sensor_Status {
     float data;
-    bool isConnected;
+    uint8_t isConnected;
 } neoRADIO2_Sensor_Status;
 
 
 typedef struct _neoRADIO2_DeviceInfo {
-#ifndef RADIO2_EMBEDDED_LIB
-	neoRADIO2_USBDevice usbDevice;
-#endif /* RADIO2_EMBEDDED_LIB */
     neoRADIO2_RunStates State;
     uint8_t LastDevice;
     uint8_t LastBank;
@@ -76,6 +73,14 @@ int neoRADIO2RequestSettings(neoRADIO2_DeviceInfo * deviceInfo);
 int neoRADIO2SettingsValid(neoRADIO2_DeviceInfo * deviceInfo);
 void neoRADIO2SerialToString(char * string, uint32_t serial);
 neoRADIO2_deviceTypes neoRADIO2GetGetDeviceType(neoRADIO2_DeviceInfo * deviceInfo, uint8_t device, uint8_t bank);
+int neoRADIO2IdentifyChain(neoRADIO2_DeviceInfo * deviceInfo);
+int neoRADIO2SendJumpToApp(neoRADIO2_DeviceInfo * deviceInfo);
+int neoRADIO2SendPacket(neoRADIO2_DeviceInfo * devInfo, uint8_t command, uint8_t device, uint8_t bank, uint8_t * data, uint8_t len, uint8_t blocking);
+void neoRADIO2LookForDevicePackets(neoRADIO2_DeviceInfo * deviceInfo);
+void neoRADIO2ToggleLED(neoRADIO2_DeviceInfo* deviceInfo, uint8_t device, uint8_t bank, int ms);
+int neoRADIO2InitInterfaceHardware(neoRADIO2_DeviceInfo* deviceInfo);
+
+
 
 #ifdef _MSC_VER
 #pragma pack(pop)

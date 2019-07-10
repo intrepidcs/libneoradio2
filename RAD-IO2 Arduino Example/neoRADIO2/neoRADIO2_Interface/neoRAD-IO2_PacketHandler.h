@@ -22,9 +22,6 @@ void neoRADIO2WriteSettings(neoRADIO2_DeviceInfo * deviceInfo);
 uint8_t neoRADIO2CalcCRC8(uint8_t * data, int len);
 void neoRADIO2CRC8_Init(void);
 uint8_t neoRADIO2GetBankPos(uint8_t x);
-
-#define CRC_POLYNIMIAL 0x07
-
 #ifdef __cplusplus
 }
 #endif
