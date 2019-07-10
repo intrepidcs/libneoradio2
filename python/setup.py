@@ -2,8 +2,11 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
+from distutils.sysconfig import get_python_inc
+import os
+import version
 
-__version__ = '0.0.1'
+__version__ = version._get_version_str()
 
 
 class get_pybind_include(object):
@@ -21,20 +24,37 @@ class get_pybind_include(object):
         return pybind11.get_include(self.user)
 
 
+source_includes = ['src/main.cpp', '../fifo.c', '../device.cpp', 
+    '../hiddevice.cpp', '../libneoradio2.cpp', '../neoradio2device.cpp',]
+
+library_includes = []
+if 'NT' in os.name.upper():
+    source_includes.append('../hidapi/windows/hid.c')
+else:
+    source_includes.append('../hidapi/linux/hid.c')
+    library_includes.append('udev')
+
+
 ext_modules = [
     Extension(
         'neoradio2',
-        ['src/main.cpp', '../fifo.c', '../device.cpp', '../hiddevice.cpp', '../libneoradio2.cpp', '../neoradio2device.cpp','../hidapi/windows/hid.c'],
+        source_includes,
+        libraries = library_includes,
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
             '../hidapi/hidapi',
-            '../',
+            get_python_inc(True),
+            os.path.abspath('./'),
+            os.path.abspath('../'),
         ],
         language='c++'
     ),
 ]
+
+print(os.path.abspath('../'))
+
 
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
@@ -71,8 +91,8 @@ class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
         
     c_opts = {
-        'msvc': ['/EHsc', '/TP', '/D_CRT_SECURE_NO_WARNINGS'],
-        'unix': [],
+        'msvc': ['/EHsc', '/TP', '/D_CRT_SECURE_NO_WARNINGS',],
+        'unix': ['-Wno-unused-function'],
     }
 
     if sys.platform == 'darwin':
@@ -97,7 +117,7 @@ setup(
     version=__version__,
     author='David Rebbe',
     author_email='drebbe@intrepidcs.com',
-    url='TODO',
+    url='https://github.com/intrepidcs/libneoradio2',
     description='neoRADIO2 python bindings',
     long_description='',
     ext_modules=ext_modules,

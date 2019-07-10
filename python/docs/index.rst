@@ -1,10 +1,11 @@
-neoradio2 Documentation
-============================
-
-Contents:
-
+.. currentmodule:: neoradio2
+   
 .. toctree::
-   :maxdepth: 2
-
-   neoradio2
+    :maxdepth: 4
+    
+    productline
+    installation
+    examples
+    functions
+    classes
 

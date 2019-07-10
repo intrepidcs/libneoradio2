@@ -2,6 +2,7 @@
 
 REM Command file for Sphinx documentation
 
+REM set SPHINXBUILD="C:\Python34\Scripts\sphinx-build.exe"
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )

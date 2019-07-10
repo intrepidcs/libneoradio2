@@ -1,0 +1,18 @@
+#ifndef __LIBNEORADIO2_CONFIG_H__
+#define __LIBNEORADIO2_CONFIG_H__
+
+//fifo.h
+//#define ICS_DEBUGGING
+//#define TRACK_USAGE
+//#define FIFO_INSPECT_PTRS
+
+// libneoradio2
+//#define ENABLE_DEBUG_PRINT
+//#define ENABLE_DEBUG_PRINT_ANNOYING
+//#define DEBUG_ANNOYING
+//#define SKIP_CHECKSUM_VERIFY
+//#define FT260_REPORT_ID_ALL
+//#define ENABLE_EXTENDED_BLOCKING_TIMEOUT
+//#define SLOW_DOWN_MAIN_LOOP
+
+#endif // __LIBNEORADIO2_CONFIG_H__
