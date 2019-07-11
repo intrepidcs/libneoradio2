@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.9)
 
+include(GNUInstallDirs)
 
 add_definitions(-DLIBNEORADIO2_EXPORTS)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 file(READ "version.txt" ver)
 
@@ -33,8 +38,15 @@ add_library(neoradio2 SHARED
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_sources(neoradio2 PRIVATE ${PROJECT_SOURCE_DIR}/hidapi/linux/hid.c)
+    find_library(UDEV_LIB_PATH udev)
+    message("UDEV LIBRARY PATH: ${UDEV_LIB_PATH}")
+    if(NOT UDEV_LIB_PATH)
+        message(FATAL_ERROR "udev not found, try running 'sudo apt install libudev-dev'")
+    endif()
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     target_sources(neoradio2 PRIVATE ${PROJECT_SOURCE_DIR}/hidapi/windows/hid.c)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_sources(neoradio2 PRIVATE ${PROJECT_SOURCE_DIR}/hidapi/mac/hid.c)
 endif()
 
 set_target_properties(neoradio2 PROPERTIES
@@ -45,7 +57,9 @@ set_target_properties(neoradio2 PROPERTIES
 
 set_property(TARGET neoradio2 PROPERTY PUBLIC_HEADER libneoradio2.h libneoradio2common.h radio2_frames.h)
 
-target_link_libraries(neoradio2 PRIVATE udev)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    target_link_libraries(neoradio2 PRIVATE udev)
+endif()
 
 configure_file(libneoradio2.pc.in libneoradio2.pc @ONLY)
 
