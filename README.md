@@ -20,16 +20,31 @@ See [README.md](python/) in the python subdirectory for more details.
 
 ## Linux
 
-```
-$ cmake .
-$ make
-# make install
-```
+### udev setup
 
 udev rules are required to be able to access devices as a normal user:
 
-`99-intrepidcs.rules`
+Copy [README.md](99-intrepidcs.rules) to `/etc/udev/rules.d/` and then run the following command to reload udev:
 
+`sudo udevadm control --reload-rules && sudo udevadm trigger`
+
+You may need to unplug and replug in the device in order for udev rules to fully take place.
+
+### Dependencies:
+
+Debian/Ubuntu: `sudo apt install cmake build-essential libudev-dev`
+
+Fedora: `sudo dnf install cmake gcc-c++ libudev-devel`
+
+### Build from source
+```
+$ git submodule update --init --recursive
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+$ sudo make install
+```
 
 ## Windows
 
