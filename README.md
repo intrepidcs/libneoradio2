@@ -24,7 +24,7 @@ See [README.md](python/) in the python subdirectory for more details.
 
 udev rules are required to be able to access devices as a normal user:
 
-Copy [README.md](99-intrepidcs.rules) to `/etc/udev/rules.d/` and then run the following command to reload udev:
+Copy [99-intrepidcs.rules](99-intrepidcs.rules) to `/etc/udev/rules.d/` and then run the following command to reload udev:
 
 `sudo udevadm control --reload-rules && sudo udevadm trigger`
 
