@@ -1,0 +1,618 @@
+\hypertarget{libneoradio2_8h}{}\section{libneoradio2.\+h File Reference}
+\label{libneoradio2_8h}\index{libneoradio2.\+h@{libneoradio2.\+h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}radio2\+\_\+frames.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}libneoradio2common.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI void \mbox{\hyperlink{libneoradio2_8h_aeb1f67d9234a880c96ac782717fe7400}{neoradio2\+\_\+set\+\_\+blocking}} (int blocking, long long ms\+\_\+timeout)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a58c35d2f04b115f1258ac2b6905409da}{neoradio2\+\_\+find}} (Neoradio2\+Device\+Info $\ast$devices, unsigned int $\ast$device\+\_\+count)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_ad56fdc65369d424aa03de00821d493bb}{neoradio2\+\_\+is\+\_\+blocking}} ()
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a2e164abc84f8b4d02c6fe79d32882891}{neoradio2\+\_\+open}} (neoradio2\+\_\+handle $\ast$handle, Neoradio2\+Device\+Info $\ast$device)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a9ab3aa4e74f97ed1673a7c23598bb5c8}{neoradio2\+\_\+is\+\_\+opened}} (neoradio2\+\_\+handle $\ast$handle, int $\ast$is\+\_\+opened)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_ab5b44ce56383c4740f4b48dabed1ee4d}{neoradio2\+\_\+close}} (neoradio2\+\_\+handle $\ast$handle)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_af833e51c4ecead3f25938dcdacf238f3}{neoradio2\+\_\+is\+\_\+closed}} (neoradio2\+\_\+handle $\ast$handle, int $\ast$is\+\_\+closed)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_aeb7dfbe1a431119436fcf8b57915e4a7}{neoradio2\+\_\+chain\+\_\+is\+\_\+identified}} (neoradio2\+\_\+handle $\ast$handle, int $\ast$is\+\_\+identified)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} (neoradio2\+\_\+handle $\ast$handle)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int $\ast$is\+\_\+started)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a7c371552deb25c262137f9143e72c207}{neoradio2\+\_\+app\+\_\+start}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a113b3446a0f2ec1150d478d22e7ce924}{neoradio2\+\_\+enter\+\_\+bootloader}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a7fb966617e07aa38d0884167a0d76714}{neoradio2\+\_\+get\+\_\+serial\+\_\+number}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, unsigned int $\ast$serial\+\_\+number)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a26f9b4e710dd42e5773a958a21ee12c1}{neoradio2\+\_\+get\+\_\+manufacturer\+\_\+date}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int $\ast$year, int $\ast$month, int $\ast$day)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_ab4b318da2d8d8b52a3c017661421ac0d}{neoradio2\+\_\+get\+\_\+firmware\+\_\+version}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int $\ast$major, int $\ast$minor)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_af5ce1e0de01e14a89b362b5d98116ed1}{neoradio2\+\_\+get\+\_\+hardware\+\_\+revision}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int $\ast$major, int $\ast$minor)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a0b565011583e6b841094d310c3ded915}{neoradio2\+\_\+get\+\_\+device\+\_\+type}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, unsigned int $\ast$device\+\_\+type)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a8e9ba484d6504938050451d63646fcdd}{neoradio2\+\_\+request\+\_\+pcbsn}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a6383bcf4bbaffa7e1eb178f93aff663b}{neoradio2\+\_\+get\+\_\+pcbsn}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, char $\ast$pcb\+\_\+sn)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a60bea5e01788bc9fcacb8d920f427ea0}{neoradio2\+\_\+request\+\_\+sensor\+\_\+data}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int enable\+\_\+cal)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_afce44d2163239436f815e80ba5ee4c0a}{neoradio2\+\_\+read\+\_\+sensor\+\_\+float}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, float $\ast$value)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a0496893a52eef2f0923ac0ca357830c0}{neoradio2\+\_\+read\+\_\+sensor\+\_\+array}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int $\ast$arr, int $\ast$arr\+\_\+size)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a3cb6fc8b306bcb87549b00d7d8b5db38}{neoradio2\+\_\+write\+\_\+sensor}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int mask, int value)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a6d237ed0307f88d429c99611b2575d16}{neoradio2\+\_\+write\+\_\+sensor\+\_\+successful}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a43bafde30317e4e86b3330da4df64e90}{neoradio2\+\_\+request\+\_\+settings}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a13c429f9cee6912deb13caa2a0c8176d}{neoradio2\+\_\+read\+\_\+settings}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2\+\_\+settings $\ast$settings)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_ab87ce3029efb7b0cc51de2372d954c5a}{neoradio2\+\_\+write\+\_\+settings}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2\+\_\+settings $\ast$settings)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_af71210f483669c7a5efbc7f5a9cd2d54}{neoradio2\+\_\+write\+\_\+settings\+\_\+successful}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a436f955c8b84ddb90919eeb343359a73}{neoradio2\+\_\+get\+\_\+chain\+\_\+count}} (neoradio2\+\_\+handle $\ast$handle, int $\ast$count, int identify)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_aa8723c36c5502c5ac5397d94d468f531}{neoradio2\+\_\+request\+\_\+calibration}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$header)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_ad367da41439296ba9f543986ea5e4638}{neoradio2\+\_\+read\+\_\+calibration\+\_\+array}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$header, float $\ast$arr, int $\ast$arr\+\_\+size)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_ae7df1fc5bcfa665ce14005ea4ede9efc}{neoradio2\+\_\+request\+\_\+calibration\+\_\+points}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$header)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a1b3c3dea21dd5c5a1a24011bab7fd59d}{neoradio2\+\_\+read\+\_\+calibration\+\_\+points\+\_\+array}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$header, float $\ast$arr, int $\ast$arr\+\_\+size)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a6f5e339f0b7cf98eea829fcc354ac4a4}{neoradio2\+\_\+write\+\_\+calibration}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$header, float $\ast$arr, int arr\+\_\+size)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_aef7dab3f433edf850500cd3c93e7ca10}{neoradio2\+\_\+write\+\_\+calibration\+\_\+successful}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_abca58f59a3820a95917e2f19396d2868}{neoradio2\+\_\+write\+\_\+calibration\+\_\+points}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$header, float $\ast$arr, int arr\+\_\+size)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a26b1e791db6971248ac9bdeeaecdec1c}{neoradio2\+\_\+write\+\_\+calibration\+\_\+points\+\_\+successful}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a52b921ff16a0ccebe2d5ce759a566ea9}{neoradio2\+\_\+store\+\_\+calibration}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a68d285c643fa83429ea2106c97f541b9}{neoradio2\+\_\+is\+\_\+calibration\+\_\+stored}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int $\ast$stored)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_adbf536e57372a9b0dbf0071f8aaaa12c}{neoradio2\+\_\+get\+\_\+calibration\+\_\+is\+\_\+valid}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int $\ast$is\+\_\+valid)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a3cf7e2fab4ef13b1bb1ebef8cb716559}{neoradio2\+\_\+request\+\_\+calibration\+\_\+info}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a19470d1907cbdd2d9aaa98f4a737f4b4}{neoradio2\+\_\+read\+\_\+calibration\+\_\+info}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$header)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_ad7834a7d75475682f26f34f1c5d17177}{neoradio2\+\_\+toggle\+\_\+led}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int ms)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_a663c7af347c2dd560491c0b964f501ae}{neoradio2\+\_\+toggle\+\_\+led\+\_\+successful}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank)
+\item 
+L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int \mbox{\hyperlink{libneoradio2_8h_af86004657204a4ce3c878baa0f72c75e}{neoradio2\+\_\+get\+\_\+status}} (neoradio2\+\_\+handle $\ast$handle, int device, int bank, int bitfield, Status\+Type type, Command\+Status $\ast$status)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{libneoradio2_8h_a4a1b06df6894fb34051a5c5af345de18}\label{libneoradio2_8h_a4a1b06df6894fb34051a5c5af345de18}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+app\+\_\+is\+\_\+started@{neoradio2\+\_\+app\+\_\+is\+\_\+started}}
+\index{neoradio2\+\_\+app\+\_\+is\+\_\+started@{neoradio2\+\_\+app\+\_\+is\+\_\+started}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+app\+\_\+is\+\_\+started()}{neoradio2\_app\_is\_started()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+app\+\_\+is\+\_\+started (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int $\ast$}]{is\+\_\+started }\end{DoxyParamCaption})}
+
+Determines if the neo\+R\+A\+D-\/\+I\+O-\/2 Application code is started. This should be called on first connect to make sure we aren\textquotesingle{}t in bootloader still. Chain needs to be identified first. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+{\em is\+\_\+started} & 0 = false, 1 = true \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a7c371552deb25c262137f9143e72c207}\label{libneoradio2_8h_a7c371552deb25c262137f9143e72c207}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+app\+\_\+start@{neoradio2\+\_\+app\+\_\+start}}
+\index{neoradio2\+\_\+app\+\_\+start@{neoradio2\+\_\+app\+\_\+start}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+app\+\_\+start()}{neoradio2\_app\_start()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+app\+\_\+start (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+Tells the neo\+R\+A\+D-\/\+I\+O-\/2 bootloader to start Application code. This should be called on first connect to make sure we aren\textquotesingle{}t in bootloader still. Chain needs to be identified first. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+
+\mbox{\hyperlink{libneoradio2_8cpp_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_acf2d74bbbae06872fdb785d88a97b5e4}\label{libneoradio2_8h_acf2d74bbbae06872fdb785d88a97b5e4}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+chain\+\_\+identify@{neoradio2\+\_\+chain\+\_\+identify}}
+\index{neoradio2\+\_\+chain\+\_\+identify@{neoradio2\+\_\+chain\+\_\+identify}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+chain\+\_\+identify()}{neoradio2\_chain\_identify()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+chain\+\_\+identify (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle }\end{DoxyParamCaption})}
+
+Identifies the neo\+R\+A\+D-\/\+I\+O-\/2 chain. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_aeb7dfbe1a431119436fcf8b57915e4a7}{neoradio2\+\_\+chain\+\_\+is\+\_\+identified}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_aeb7dfbe1a431119436fcf8b57915e4a7}\label{libneoradio2_8h_aeb7dfbe1a431119436fcf8b57915e4a7}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+chain\+\_\+is\+\_\+identified@{neoradio2\+\_\+chain\+\_\+is\+\_\+identified}}
+\index{neoradio2\+\_\+chain\+\_\+is\+\_\+identified@{neoradio2\+\_\+chain\+\_\+is\+\_\+identified}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+chain\+\_\+is\+\_\+identified()}{neoradio2\_chain\_is\_identified()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+chain\+\_\+is\+\_\+identified (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int $\ast$}]{is\+\_\+identified }\end{DoxyParamCaption})}
+
+Determines if the neo\+R\+A\+D-\/\+I\+O-\/2 Chain is identified. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em is\+\_\+identified} & 0 = false, 1 = true \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_ab5b44ce56383c4740f4b48dabed1ee4d}\label{libneoradio2_8h_ab5b44ce56383c4740f4b48dabed1ee4d}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+close@{neoradio2\+\_\+close}}
+\index{neoradio2\+\_\+close@{neoradio2\+\_\+close}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+close()}{neoradio2\_close()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+close (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle }\end{DoxyParamCaption})}
+
+Determines if a neo\+R\+A\+D-\/\+I\+O2 Device is open. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a valid neoradio2\+\_\+handle. \\
+\hline
+{\em is\+\_\+opened} & 0 = false, 1 = true \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a113b3446a0f2ec1150d478d22e7ce924}\label{libneoradio2_8h_a113b3446a0f2ec1150d478d22e7ce924}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+enter\+\_\+bootloader@{neoradio2\+\_\+enter\+\_\+bootloader}}
+\index{neoradio2\+\_\+enter\+\_\+bootloader@{neoradio2\+\_\+enter\+\_\+bootloader}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+enter\+\_\+bootloader()}{neoradio2\_enter\_bootloader()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+enter\+\_\+bootloader (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+Tells the neo\+R\+A\+D-\/\+I\+O-\/2 to enter bootloader. This is typically not needed. Chain needs to be identified first. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+
+\mbox{\hyperlink{libneoradio2_8cpp_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a58c35d2f04b115f1258ac2b6905409da}\label{libneoradio2_8h_a58c35d2f04b115f1258ac2b6905409da}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+find@{neoradio2\+\_\+find}}
+\index{neoradio2\+\_\+find@{neoradio2\+\_\+find}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+find()}{neoradio2\_find()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+find (\begin{DoxyParamCaption}\item[{Neoradio2\+Device\+Info $\ast$}]{devices,  }\item[{unsigned int $\ast$}]{device\+\_\+count }\end{DoxyParamCaption})}
+
+Finds all neo\+R\+A\+D-\/\+I\+O2 Devices. 
+\begin{DoxyParams}{Parameters}
+{\em devices} & Array of Neoradio2\+Device\+Info \\
+\hline
+{\em device\+\_\+count} & Size of devices array, gets updated to device\+\_\+count found. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Neoradio2\+Device\+Info 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_adbf536e57372a9b0dbf0071f8aaaa12c}\label{libneoradio2_8h_adbf536e57372a9b0dbf0071f8aaaa12c}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+calibration\+\_\+is\+\_\+valid@{neoradio2\+\_\+get\+\_\+calibration\+\_\+is\+\_\+valid}}
+\index{neoradio2\+\_\+get\+\_\+calibration\+\_\+is\+\_\+valid@{neoradio2\+\_\+get\+\_\+calibration\+\_\+is\+\_\+valid}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+calibration\+\_\+is\+\_\+valid()}{neoradio2\_get\_calibration\_is\_valid()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+calibration\+\_\+is\+\_\+valid (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int $\ast$}]{is\+\_\+valid }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a436f955c8b84ddb90919eeb343359a73}\label{libneoradio2_8h_a436f955c8b84ddb90919eeb343359a73}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+chain\+\_\+count@{neoradio2\+\_\+get\+\_\+chain\+\_\+count}}
+\index{neoradio2\+\_\+get\+\_\+chain\+\_\+count@{neoradio2\+\_\+get\+\_\+chain\+\_\+count}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+chain\+\_\+count()}{neoradio2\_get\_chain\_count()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+chain\+\_\+count (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int $\ast$}]{count,  }\item[{int}]{identify }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a0b565011583e6b841094d310c3ded915}\label{libneoradio2_8h_a0b565011583e6b841094d310c3ded915}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+device\+\_\+type@{neoradio2\+\_\+get\+\_\+device\+\_\+type}}
+\index{neoradio2\+\_\+get\+\_\+device\+\_\+type@{neoradio2\+\_\+get\+\_\+device\+\_\+type}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+device\+\_\+type()}{neoradio2\_get\_device\_type()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+device\+\_\+type (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{unsigned int $\ast$}]{device\+\_\+type }\end{DoxyParamCaption})}
+
+Get the device type of the selected devices and banks. Chain needs to be identified first. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+
+\mbox{\hyperlink{libneoradio2_8cpp_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} 
+
+neo\+R\+A\+D\+I\+O2\+\_\+device\+Types 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_ab4b318da2d8d8b52a3c017661421ac0d}\label{libneoradio2_8h_ab4b318da2d8d8b52a3c017661421ac0d}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+firmware\+\_\+version@{neoradio2\+\_\+get\+\_\+firmware\+\_\+version}}
+\index{neoradio2\+\_\+get\+\_\+firmware\+\_\+version@{neoradio2\+\_\+get\+\_\+firmware\+\_\+version}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+firmware\+\_\+version()}{neoradio2\_get\_firmware\_version()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+firmware\+\_\+version (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int $\ast$}]{major,  }\item[{int $\ast$}]{minor }\end{DoxyParamCaption})}
+
+Get the firmware version of the selected devices and banks. Chain needs to be identified first. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+
+\mbox{\hyperlink{libneoradio2_8cpp_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_af5ce1e0de01e14a89b362b5d98116ed1}\label{libneoradio2_8h_af5ce1e0de01e14a89b362b5d98116ed1}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+hardware\+\_\+revision@{neoradio2\+\_\+get\+\_\+hardware\+\_\+revision}}
+\index{neoradio2\+\_\+get\+\_\+hardware\+\_\+revision@{neoradio2\+\_\+get\+\_\+hardware\+\_\+revision}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+hardware\+\_\+revision()}{neoradio2\_get\_hardware\_revision()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+hardware\+\_\+revision (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int $\ast$}]{major,  }\item[{int $\ast$}]{minor }\end{DoxyParamCaption})}
+
+Get the hardware revision of the selected devices and banks. Chain needs to be identified first. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+
+\mbox{\hyperlink{libneoradio2_8cpp_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a26f9b4e710dd42e5773a958a21ee12c1}\label{libneoradio2_8h_a26f9b4e710dd42e5773a958a21ee12c1}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+manufacturer\+\_\+date@{neoradio2\+\_\+get\+\_\+manufacturer\+\_\+date}}
+\index{neoradio2\+\_\+get\+\_\+manufacturer\+\_\+date@{neoradio2\+\_\+get\+\_\+manufacturer\+\_\+date}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+manufacturer\+\_\+date()}{neoradio2\_get\_manufacturer\_date()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+manufacturer\+\_\+date (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int $\ast$}]{year,  }\item[{int $\ast$}]{month,  }\item[{int $\ast$}]{day }\end{DoxyParamCaption})}
+
+Get the manufacturing date of the selected devices and banks. Chain needs to be identified first. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+
+\mbox{\hyperlink{libneoradio2_8cpp_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a6383bcf4bbaffa7e1eb178f93aff663b}\label{libneoradio2_8h_a6383bcf4bbaffa7e1eb178f93aff663b}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+pcbsn@{neoradio2\+\_\+get\+\_\+pcbsn}}
+\index{neoradio2\+\_\+get\+\_\+pcbsn@{neoradio2\+\_\+get\+\_\+pcbsn}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+pcbsn()}{neoradio2\_get\_pcbsn()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+pcbsn (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{char $\ast$}]{pcb\+\_\+sn }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a7fb966617e07aa38d0884167a0d76714}\label{libneoradio2_8h_a7fb966617e07aa38d0884167a0d76714}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+serial\+\_\+number@{neoradio2\+\_\+get\+\_\+serial\+\_\+number}}
+\index{neoradio2\+\_\+get\+\_\+serial\+\_\+number@{neoradio2\+\_\+get\+\_\+serial\+\_\+number}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+serial\+\_\+number()}{neoradio2\_get\_serial\_number()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+serial\+\_\+number (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{unsigned int $\ast$}]{serial\+\_\+number }\end{DoxyParamCaption})}
+
+Gets the serial number (base10) on the selected devices and banks. Chain needs to be identified first. The serial number is generally displayed in base36. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. \\
+\hline
+{\em device} & device number in the chain to communicate with. First device is 0. \\
+\hline
+{\em bank} & bank of the device to communicate with. This is a bitmask (0b00001001 -\/ 0x09 = Bank 1 and 4). \\
+\hline
+{\em serial\+\_\+number} & serial number in base10. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_acf2d74bbbae06872fdb785d88a97b5e4}{neoradio2\+\_\+chain\+\_\+identify}} 
+
+\mbox{\hyperlink{libneoradio2_8cpp_a4a1b06df6894fb34051a5c5af345de18}{neoradio2\+\_\+app\+\_\+is\+\_\+started}} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_af86004657204a4ce3c878baa0f72c75e}\label{libneoradio2_8h_af86004657204a4ce3c878baa0f72c75e}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+get\+\_\+status@{neoradio2\+\_\+get\+\_\+status}}
+\index{neoradio2\+\_\+get\+\_\+status@{neoradio2\+\_\+get\+\_\+status}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+get\+\_\+status()}{neoradio2\_get\_status()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+get\+\_\+status (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int}]{bitfield,  }\item[{Status\+Type}]{type,  }\item[{Command\+Status $\ast$}]{status }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_ad56fdc65369d424aa03de00821d493bb}\label{libneoradio2_8h_ad56fdc65369d424aa03de00821d493bb}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+is\+\_\+blocking@{neoradio2\+\_\+is\+\_\+blocking}}
+\index{neoradio2\+\_\+is\+\_\+blocking@{neoradio2\+\_\+is\+\_\+blocking}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+is\+\_\+blocking()}{neoradio2\_is\_blocking()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+is\+\_\+blocking (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Determine if the A\+PI is setup in blocking mode 
+\begin{DoxyParams}{Parameters}
+{\em devices} & Array of Neoradio2\+Device\+Info \\
+\hline
+{\em device\+\_\+count} & Size of devices array, gets updated to device\+\_\+count found. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if blocking, 0 if not. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a68d285c643fa83429ea2106c97f541b9}\label{libneoradio2_8h_a68d285c643fa83429ea2106c97f541b9}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+is\+\_\+calibration\+\_\+stored@{neoradio2\+\_\+is\+\_\+calibration\+\_\+stored}}
+\index{neoradio2\+\_\+is\+\_\+calibration\+\_\+stored@{neoradio2\+\_\+is\+\_\+calibration\+\_\+stored}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+is\+\_\+calibration\+\_\+stored()}{neoradio2\_is\_calibration\_stored()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+is\+\_\+calibration\+\_\+stored (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int $\ast$}]{stored }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_af833e51c4ecead3f25938dcdacf238f3}\label{libneoradio2_8h_af833e51c4ecead3f25938dcdacf238f3}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+is\+\_\+closed@{neoradio2\+\_\+is\+\_\+closed}}
+\index{neoradio2\+\_\+is\+\_\+closed@{neoradio2\+\_\+is\+\_\+closed}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+is\+\_\+closed()}{neoradio2\_is\_closed()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+is\+\_\+closed (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int $\ast$}]{is\+\_\+closed }\end{DoxyParamCaption})}
+
+Determines if a neo\+R\+A\+D-\/\+I\+O2 Device is closed. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a valid neoradio2\+\_\+handle. \\
+\hline
+{\em is\+\_\+closed} & 0 = false, 1 = true \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a9ab3aa4e74f97ed1673a7c23598bb5c8}\label{libneoradio2_8h_a9ab3aa4e74f97ed1673a7c23598bb5c8}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+is\+\_\+opened@{neoradio2\+\_\+is\+\_\+opened}}
+\index{neoradio2\+\_\+is\+\_\+opened@{neoradio2\+\_\+is\+\_\+opened}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+is\+\_\+opened()}{neoradio2\_is\_opened()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+is\+\_\+opened (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int $\ast$}]{is\+\_\+opened }\end{DoxyParamCaption})}
+
+Determines if a neo\+R\+A\+D-\/\+I\+O2 Device is open. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a valid neoradio2\+\_\+handle. \\
+\hline
+{\em is\+\_\+opened} & 0 = false, 1 = true \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_a58c35d2f04b115f1258ac2b6905409da}{neoradio2\+\_\+find}} 
+
+Neoradio2\+Device\+Info 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a2e164abc84f8b4d02c6fe79d32882891}\label{libneoradio2_8h_a2e164abc84f8b4d02c6fe79d32882891}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+open@{neoradio2\+\_\+open}}
+\index{neoradio2\+\_\+open@{neoradio2\+\_\+open}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+open()}{neoradio2\_open()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+open (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{Neoradio2\+Device\+Info $\ast$}]{device }\end{DoxyParamCaption})}
+
+Open a neo\+R\+A\+D-\/\+I\+O2 Device. 
+\begin{DoxyParams}{Parameters}
+{\em neoradio2\+\_\+handle} & pointer to a neoradio2\+\_\+handle. Needs to be allocated beforehand. \\
+\hline
+{\em Neoradio2\+Device\+Info} & pointer to a Neoradio2\+Device\+Info structure. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{libneoradio2_8cpp_a58c35d2f04b115f1258ac2b6905409da}{neoradio2\+\_\+find}} 
+
+Neoradio2\+Device\+Info 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS if successful or N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE on failure. Returns N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK in non-\/blocking mode 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_ad367da41439296ba9f543986ea5e4638}\label{libneoradio2_8h_ad367da41439296ba9f543986ea5e4638}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+read\+\_\+calibration\+\_\+array@{neoradio2\+\_\+read\+\_\+calibration\+\_\+array}}
+\index{neoradio2\+\_\+read\+\_\+calibration\+\_\+array@{neoradio2\+\_\+read\+\_\+calibration\+\_\+array}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+read\+\_\+calibration\+\_\+array()}{neoradio2\_read\_calibration\_array()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+read\+\_\+calibration\+\_\+array (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$}]{header,  }\item[{float $\ast$}]{arr,  }\item[{int $\ast$}]{arr\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a19470d1907cbdd2d9aaa98f4a737f4b4}\label{libneoradio2_8h_a19470d1907cbdd2d9aaa98f4a737f4b4}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+read\+\_\+calibration\+\_\+info@{neoradio2\+\_\+read\+\_\+calibration\+\_\+info}}
+\index{neoradio2\+\_\+read\+\_\+calibration\+\_\+info@{neoradio2\+\_\+read\+\_\+calibration\+\_\+info}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+read\+\_\+calibration\+\_\+info()}{neoradio2\_read\_calibration\_info()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+read\+\_\+calibration\+\_\+info (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$}]{header }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a1b3c3dea21dd5c5a1a24011bab7fd59d}\label{libneoradio2_8h_a1b3c3dea21dd5c5a1a24011bab7fd59d}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+read\+\_\+calibration\+\_\+points\+\_\+array@{neoradio2\+\_\+read\+\_\+calibration\+\_\+points\+\_\+array}}
+\index{neoradio2\+\_\+read\+\_\+calibration\+\_\+points\+\_\+array@{neoradio2\+\_\+read\+\_\+calibration\+\_\+points\+\_\+array}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+read\+\_\+calibration\+\_\+points\+\_\+array()}{neoradio2\_read\_calibration\_points\_array()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+read\+\_\+calibration\+\_\+points\+\_\+array (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$}]{header,  }\item[{float $\ast$}]{arr,  }\item[{int $\ast$}]{arr\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a0496893a52eef2f0923ac0ca357830c0}\label{libneoradio2_8h_a0496893a52eef2f0923ac0ca357830c0}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+read\+\_\+sensor\+\_\+array@{neoradio2\+\_\+read\+\_\+sensor\+\_\+array}}
+\index{neoradio2\+\_\+read\+\_\+sensor\+\_\+array@{neoradio2\+\_\+read\+\_\+sensor\+\_\+array}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+read\+\_\+sensor\+\_\+array()}{neoradio2\_read\_sensor\_array()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+read\+\_\+sensor\+\_\+array (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int $\ast$}]{arr,  }\item[{int $\ast$}]{arr\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_afce44d2163239436f815e80ba5ee4c0a}\label{libneoradio2_8h_afce44d2163239436f815e80ba5ee4c0a}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+read\+\_\+sensor\+\_\+float@{neoradio2\+\_\+read\+\_\+sensor\+\_\+float}}
+\index{neoradio2\+\_\+read\+\_\+sensor\+\_\+float@{neoradio2\+\_\+read\+\_\+sensor\+\_\+float}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+read\+\_\+sensor\+\_\+float()}{neoradio2\_read\_sensor\_float()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+read\+\_\+sensor\+\_\+float (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{float $\ast$}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a13c429f9cee6912deb13caa2a0c8176d}\label{libneoradio2_8h_a13c429f9cee6912deb13caa2a0c8176d}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+read\+\_\+settings@{neoradio2\+\_\+read\+\_\+settings}}
+\index{neoradio2\+\_\+read\+\_\+settings@{neoradio2\+\_\+read\+\_\+settings}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+read\+\_\+settings()}{neoradio2\_read\_settings()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+read\+\_\+settings (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2\+\_\+settings $\ast$}]{settings }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_aa8723c36c5502c5ac5397d94d468f531}\label{libneoradio2_8h_aa8723c36c5502c5ac5397d94d468f531}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+request\+\_\+calibration@{neoradio2\+\_\+request\+\_\+calibration}}
+\index{neoradio2\+\_\+request\+\_\+calibration@{neoradio2\+\_\+request\+\_\+calibration}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+request\+\_\+calibration()}{neoradio2\_request\_calibration()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+request\+\_\+calibration (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$}]{header }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a3cf7e2fab4ef13b1bb1ebef8cb716559}\label{libneoradio2_8h_a3cf7e2fab4ef13b1bb1ebef8cb716559}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+request\+\_\+calibration\+\_\+info@{neoradio2\+\_\+request\+\_\+calibration\+\_\+info}}
+\index{neoradio2\+\_\+request\+\_\+calibration\+\_\+info@{neoradio2\+\_\+request\+\_\+calibration\+\_\+info}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+request\+\_\+calibration\+\_\+info()}{neoradio2\_request\_calibration\_info()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+request\+\_\+calibration\+\_\+info (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_ae7df1fc5bcfa665ce14005ea4ede9efc}\label{libneoradio2_8h_ae7df1fc5bcfa665ce14005ea4ede9efc}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+request\+\_\+calibration\+\_\+points@{neoradio2\+\_\+request\+\_\+calibration\+\_\+points}}
+\index{neoradio2\+\_\+request\+\_\+calibration\+\_\+points@{neoradio2\+\_\+request\+\_\+calibration\+\_\+points}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+request\+\_\+calibration\+\_\+points()}{neoradio2\_request\_calibration\_points()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+request\+\_\+calibration\+\_\+points (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$}]{header }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a8e9ba484d6504938050451d63646fcdd}\label{libneoradio2_8h_a8e9ba484d6504938050451d63646fcdd}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+request\+\_\+pcbsn@{neoradio2\+\_\+request\+\_\+pcbsn}}
+\index{neoradio2\+\_\+request\+\_\+pcbsn@{neoradio2\+\_\+request\+\_\+pcbsn}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+request\+\_\+pcbsn()}{neoradio2\_request\_pcbsn()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+request\+\_\+pcbsn (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a60bea5e01788bc9fcacb8d920f427ea0}\label{libneoradio2_8h_a60bea5e01788bc9fcacb8d920f427ea0}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+request\+\_\+sensor\+\_\+data@{neoradio2\+\_\+request\+\_\+sensor\+\_\+data}}
+\index{neoradio2\+\_\+request\+\_\+sensor\+\_\+data@{neoradio2\+\_\+request\+\_\+sensor\+\_\+data}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+request\+\_\+sensor\+\_\+data()}{neoradio2\_request\_sensor\_data()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+request\+\_\+sensor\+\_\+data (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int}]{enable\+\_\+cal }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a43bafde30317e4e86b3330da4df64e90}\label{libneoradio2_8h_a43bafde30317e4e86b3330da4df64e90}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+request\+\_\+settings@{neoradio2\+\_\+request\+\_\+settings}}
+\index{neoradio2\+\_\+request\+\_\+settings@{neoradio2\+\_\+request\+\_\+settings}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+request\+\_\+settings()}{neoradio2\_request\_settings()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+request\+\_\+settings (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_aeb1f67d9234a880c96ac782717fe7400}\label{libneoradio2_8h_aeb1f67d9234a880c96ac782717fe7400}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+set\+\_\+blocking@{neoradio2\+\_\+set\+\_\+blocking}}
+\index{neoradio2\+\_\+set\+\_\+blocking@{neoradio2\+\_\+set\+\_\+blocking}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+set\+\_\+blocking()}{neoradio2\_set\_blocking()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI void neoradio2\+\_\+set\+\_\+blocking (\begin{DoxyParamCaption}\item[{int}]{blocking,  }\item[{long long}]{ms\+\_\+timeout }\end{DoxyParamCaption})}
+
+Sets the A\+PI to blocking or non-\/blocking mode. 
+\begin{DoxyParams}{Parameters}
+{\em blocking} & 1 = blocking, 0 = non-\/blocking \\
+\hline
+{\em ms\+\_\+timeout} & timeout in milliseconds. Only matters in blocking mode. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{libneoradio2_8h_a52b921ff16a0ccebe2d5ce759a566ea9}\label{libneoradio2_8h_a52b921ff16a0ccebe2d5ce759a566ea9}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+store\+\_\+calibration@{neoradio2\+\_\+store\+\_\+calibration}}
+\index{neoradio2\+\_\+store\+\_\+calibration@{neoradio2\+\_\+store\+\_\+calibration}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+store\+\_\+calibration()}{neoradio2\_store\_calibration()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+store\+\_\+calibration (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_ad7834a7d75475682f26f34f1c5d17177}\label{libneoradio2_8h_ad7834a7d75475682f26f34f1c5d17177}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+toggle\+\_\+led@{neoradio2\+\_\+toggle\+\_\+led}}
+\index{neoradio2\+\_\+toggle\+\_\+led@{neoradio2\+\_\+toggle\+\_\+led}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+toggle\+\_\+led()}{neoradio2\_toggle\_led()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+toggle\+\_\+led (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int}]{ms }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a663c7af347c2dd560491c0b964f501ae}\label{libneoradio2_8h_a663c7af347c2dd560491c0b964f501ae}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+toggle\+\_\+led\+\_\+successful@{neoradio2\+\_\+toggle\+\_\+led\+\_\+successful}}
+\index{neoradio2\+\_\+toggle\+\_\+led\+\_\+successful@{neoradio2\+\_\+toggle\+\_\+led\+\_\+successful}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+toggle\+\_\+led\+\_\+successful()}{neoradio2\_toggle\_led\_successful()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+toggle\+\_\+led\+\_\+successful (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a6f5e339f0b7cf98eea829fcc354ac4a4}\label{libneoradio2_8h_a6f5e339f0b7cf98eea829fcc354ac4a4}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+calibration@{neoradio2\+\_\+write\+\_\+calibration}}
+\index{neoradio2\+\_\+write\+\_\+calibration@{neoradio2\+\_\+write\+\_\+calibration}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+calibration()}{neoradio2\_write\_calibration()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+calibration (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$}]{header,  }\item[{float $\ast$}]{arr,  }\item[{int}]{arr\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_abca58f59a3820a95917e2f19396d2868}\label{libneoradio2_8h_abca58f59a3820a95917e2f19396d2868}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+calibration\+\_\+points@{neoradio2\+\_\+write\+\_\+calibration\+\_\+points}}
+\index{neoradio2\+\_\+write\+\_\+calibration\+\_\+points@{neoradio2\+\_\+write\+\_\+calibration\+\_\+points}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+calibration\+\_\+points()}{neoradio2\_write\_calibration\_points()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+calibration\+\_\+points (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2frame\+\_\+cal\+Header $\ast$}]{header,  }\item[{float $\ast$}]{arr,  }\item[{int}]{arr\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a26b1e791db6971248ac9bdeeaecdec1c}\label{libneoradio2_8h_a26b1e791db6971248ac9bdeeaecdec1c}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+calibration\+\_\+points\+\_\+successful@{neoradio2\+\_\+write\+\_\+calibration\+\_\+points\+\_\+successful}}
+\index{neoradio2\+\_\+write\+\_\+calibration\+\_\+points\+\_\+successful@{neoradio2\+\_\+write\+\_\+calibration\+\_\+points\+\_\+successful}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+calibration\+\_\+points\+\_\+successful()}{neoradio2\_write\_calibration\_points\_successful()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+calibration\+\_\+points\+\_\+successful (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_aef7dab3f433edf850500cd3c93e7ca10}\label{libneoradio2_8h_aef7dab3f433edf850500cd3c93e7ca10}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+calibration\+\_\+successful@{neoradio2\+\_\+write\+\_\+calibration\+\_\+successful}}
+\index{neoradio2\+\_\+write\+\_\+calibration\+\_\+successful@{neoradio2\+\_\+write\+\_\+calibration\+\_\+successful}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+calibration\+\_\+successful()}{neoradio2\_write\_calibration\_successful()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+calibration\+\_\+successful (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a3cb6fc8b306bcb87549b00d7d8b5db38}\label{libneoradio2_8h_a3cb6fc8b306bcb87549b00d7d8b5db38}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+sensor@{neoradio2\+\_\+write\+\_\+sensor}}
+\index{neoradio2\+\_\+write\+\_\+sensor@{neoradio2\+\_\+write\+\_\+sensor}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+sensor()}{neoradio2\_write\_sensor()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+sensor (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{int}]{mask,  }\item[{int}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_a6d237ed0307f88d429c99611b2575d16}\label{libneoradio2_8h_a6d237ed0307f88d429c99611b2575d16}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+sensor\+\_\+successful@{neoradio2\+\_\+write\+\_\+sensor\+\_\+successful}}
+\index{neoradio2\+\_\+write\+\_\+sensor\+\_\+successful@{neoradio2\+\_\+write\+\_\+sensor\+\_\+successful}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+sensor\+\_\+successful()}{neoradio2\_write\_sensor\_successful()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+sensor\+\_\+successful (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_ab87ce3029efb7b0cc51de2372d954c5a}\label{libneoradio2_8h_ab87ce3029efb7b0cc51de2372d954c5a}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+settings@{neoradio2\+\_\+write\+\_\+settings}}
+\index{neoradio2\+\_\+write\+\_\+settings@{neoradio2\+\_\+write\+\_\+settings}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+settings()}{neoradio2\_write\_settings()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+settings (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank,  }\item[{neo\+R\+A\+D\+I\+O2\+\_\+settings $\ast$}]{settings }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{libneoradio2_8h_af71210f483669c7a5efbc7f5a9cd2d54}\label{libneoradio2_8h_af71210f483669c7a5efbc7f5a9cd2d54}} 
+\index{libneoradio2.\+h@{libneoradio2.\+h}!neoradio2\+\_\+write\+\_\+settings\+\_\+successful@{neoradio2\+\_\+write\+\_\+settings\+\_\+successful}}
+\index{neoradio2\+\_\+write\+\_\+settings\+\_\+successful@{neoradio2\+\_\+write\+\_\+settings\+\_\+successful}!libneoradio2.\+h@{libneoradio2.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+write\+\_\+settings\+\_\+successful()}{neoradio2\_write\_settings\_successful()}}
+{\footnotesize\ttfamily L\+I\+B\+N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+A\+PI int neoradio2\+\_\+write\+\_\+settings\+\_\+successful (\begin{DoxyParamCaption}\item[{neoradio2\+\_\+handle $\ast$}]{handle,  }\item[{int}]{device,  }\item[{int}]{bank }\end{DoxyParamCaption})}
+
