@@ -1,0 +1,244 @@
+\hypertarget{libneoradio2common_8h}{}\section{libneoradio2common.\+h File Reference}
+\label{libneoradio2common_8h}\index{libneoradio2common.\+h@{libneoradio2common.\+h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}radio2\+\_\+frames.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct___neoradio2_device_info}{\+\_\+\+Neoradio2\+Device\+Info}}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{libneoradio2common_8h_ad3232ffdb6969e7657392c75fbdb97aa}{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS}}~0
+\item 
+\#define \mbox{\hyperlink{libneoradio2common_8h_a77fb9a0fa53581fa3b82cfb76a4283be}{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE}}~1
+\item 
+\#define \mbox{\hyperlink{libneoradio2common_8h_abc2673c940ad71c40738c482782079a5}{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK}}~2
+\item 
+\#define \mbox{\hyperlink{libneoradio2common_8h_aad78c9813b3786b5227ab15681b3b9d9}{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+I\+N\+P\+R\+O\+G\+R\+E\+SS}}~3
+\item 
+\#define \mbox{\hyperlink{libneoradio2common_8h_a4287d5c706d4470abba724f98f28a9dc}{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+F\+A\+I\+L\+U\+RE}}~4
+\item 
+\#define \mbox{\hyperlink{libneoradio2common_8h_ac0606ca6dd3009cd2577fad1e3576533}{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+M\+A\+X\+\_\+\+D\+E\+VS}}~8
+\item 
+\#define \mbox{\hyperlink{libneoradio2common_8h_a3a1066100506c9d4d4dcd489f6ddb966}{neoradio2\+\_\+handle}}~long
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480}{\+\_\+\+Command\+Status}} \mbox{\hyperlink{libneoradio2common_8h_a72749992642f912be7c7946651b34471}{Command\+Status}}
+\item 
+typedef enum \mbox{\hyperlink{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0}{\+\_\+\+Command\+State\+Type}} \mbox{\hyperlink{libneoradio2common_8h_a3cf784549b057f7fdb6620aff66378c1}{Command\+State\+Type}}
+\item 
+typedef struct \mbox{\hyperlink{struct___neoradio2_device_info}{\+\_\+\+Neoradio2\+Device\+Info}} \mbox{\hyperlink{libneoradio2common_8h_ab29c674b321ba871c2770e3271fe09f6}{Neoradio2\+Device\+Info}}
+\item 
+typedef enum \mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3}{\+\_\+\+Status\+Type}} \mbox{\hyperlink{libneoradio2common_8h_a8693337d7548b4d1f2bdb36bb5e47c86}{Status\+Type}}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480}{\+\_\+\+Command\+Status}} \{ \mbox{\hyperlink{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480a84c762e923c11532d24eef6907cf2391}{Status\+In\+Progress}} = 0, 
+\mbox{\hyperlink{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480aa6becf58dca93020b166d274bc6d5564}{Status\+Finished}}, 
+\mbox{\hyperlink{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480a70864d0b86bb684b33a58b6c02a012c1}{Status\+Error}}
+ \}
+\item 
+enum \mbox{\hyperlink{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0}{\+\_\+\+Command\+State\+Type}} \{ \mbox{\hyperlink{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0a5b8004759def3bc123effe3cd9353ee5}{Command\+State\+Host}} = 0, 
+\mbox{\hyperlink{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0a10ea55ac172c188008fb645536eefcc5}{Command\+State\+Device}}, 
+\mbox{\hyperlink{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0abc8cf597982eda4976cb74ba8e776a27}{Command\+State\+Unknown}} = -\/1
+ \}
+\item 
+enum \mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3}{\+\_\+\+Status\+Type}} \{ \newline
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a3a3a7d606bc7de140bb2d95fe9edcfdc}{Status\+Chain}} = 0, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a62abc9da0406b9b9b8dff1b233c05406}{Status\+App\+Start}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a08477e4880b6a12e99b9588148f5f238}{Status\+P\+C\+B\+SN}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3aa82cf2d2456dd4c0071393a3f82c948f}{Status\+Sensor\+Read}}, 
+\newline
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a5b3ac6af040854823920e922a81904bc}{Status\+Sensor\+Write}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3ab9231afb64e7c4ca8145659b621fdb6d}{Status\+Settings\+Read}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a36f01a1f18967692c374a57064306ebd}{Status\+Settings\+Write}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3aad30c985dc029acf7bd9588940009b2a}{Status\+Calibration}}, 
+\newline
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a3c8796097c20d55bb3367f24930ca9ff}{Status\+Calibration\+Points}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a0348f3a71820d4954feeed0bb74f4048}{Status\+Calibration\+Stored}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a949583b00a6755d4c2ece9a56b5630a6}{Status\+Calibration\+Info}}, 
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3ab4b878ddde1e3f7d38d14bfbadb2631b}{Status\+Led\+Toggle}}, 
+\newline
+\mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a614d4679f4533df02259d4970ee8cf33}{Status\+Max}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{libneoradio2common_8h_a4287d5c706d4470abba724f98f28a9dc}\label{libneoradio2common_8h_a4287d5c706d4470abba724f98f28a9dc}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+F\+A\+I\+L\+U\+RE@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+F\+A\+I\+L\+U\+RE}}
+\index{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+F\+A\+I\+L\+U\+RE@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+F\+A\+I\+L\+U\+RE}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+F\+A\+I\+L\+U\+RE}{NEORADIO2\_ERR\_FAILURE}}
+{\footnotesize\ttfamily \#define N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+F\+A\+I\+L\+U\+RE~4}
+
+\mbox{\Hypertarget{libneoradio2common_8h_aad78c9813b3786b5227ab15681b3b9d9}\label{libneoradio2common_8h_aad78c9813b3786b5227ab15681b3b9d9}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+I\+N\+P\+R\+O\+G\+R\+E\+SS@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+I\+N\+P\+R\+O\+G\+R\+E\+SS}}
+\index{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+I\+N\+P\+R\+O\+G\+R\+E\+SS@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+I\+N\+P\+R\+O\+G\+R\+E\+SS}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+I\+N\+P\+R\+O\+G\+R\+E\+SS}{NEORADIO2\_ERR\_INPROGRESS}}
+{\footnotesize\ttfamily \#define N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+I\+N\+P\+R\+O\+G\+R\+E\+SS~3}
+
+\mbox{\Hypertarget{libneoradio2common_8h_abc2673c940ad71c40738c482782079a5}\label{libneoradio2common_8h_abc2673c940ad71c40738c482782079a5}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK}}
+\index{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK}{NEORADIO2\_ERR\_WBLOCK}}
+{\footnotesize\ttfamily \#define N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+E\+R\+R\+\_\+\+W\+B\+L\+O\+CK~2}
+
+\mbox{\Hypertarget{libneoradio2common_8h_a77fb9a0fa53581fa3b82cfb76a4283be}\label{libneoradio2common_8h_a77fb9a0fa53581fa3b82cfb76a4283be}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE}}
+\index{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE}{NEORADIO2\_FAILURE}}
+{\footnotesize\ttfamily \#define N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+F\+A\+I\+L\+U\+RE~1}
+
+\mbox{\Hypertarget{libneoradio2common_8h_a3a1066100506c9d4d4dcd489f6ddb966}\label{libneoradio2common_8h_a3a1066100506c9d4d4dcd489f6ddb966}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!neoradio2\+\_\+handle@{neoradio2\+\_\+handle}}
+\index{neoradio2\+\_\+handle@{neoradio2\+\_\+handle}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{neoradio2\+\_\+handle}{neoradio2\_handle}}
+{\footnotesize\ttfamily \#define neoradio2\+\_\+handle~long}
+
+\mbox{\Hypertarget{libneoradio2common_8h_ac0606ca6dd3009cd2577fad1e3576533}\label{libneoradio2common_8h_ac0606ca6dd3009cd2577fad1e3576533}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+M\+A\+X\+\_\+\+D\+E\+VS@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+M\+A\+X\+\_\+\+D\+E\+VS}}
+\index{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+M\+A\+X\+\_\+\+D\+E\+VS@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+M\+A\+X\+\_\+\+D\+E\+VS}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+M\+A\+X\+\_\+\+D\+E\+VS}{NEORADIO2\_MAX\_DEVS}}
+{\footnotesize\ttfamily \#define N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+M\+A\+X\+\_\+\+D\+E\+VS~8}
+
+\mbox{\Hypertarget{libneoradio2common_8h_ad3232ffdb6969e7657392c75fbdb97aa}\label{libneoradio2common_8h_ad3232ffdb6969e7657392c75fbdb97aa}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS}}
+\index{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS@{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS}{NEORADIO2\_SUCCESS}}
+{\footnotesize\ttfamily \#define N\+E\+O\+R\+A\+D\+I\+O2\+\_\+\+S\+U\+C\+C\+E\+SS~0}
+
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{libneoradio2common_8h_a3cf784549b057f7fdb6620aff66378c1}\label{libneoradio2common_8h_a3cf784549b057f7fdb6620aff66378c1}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Command\+State\+Type@{Command\+State\+Type}}
+\index{Command\+State\+Type@{Command\+State\+Type}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{Command\+State\+Type}{CommandStateType}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0}{\+\_\+\+Command\+State\+Type}}  \mbox{\hyperlink{libneoradio2common_8h_a3cf784549b057f7fdb6620aff66378c1}{Command\+State\+Type}}}
+
+\mbox{\Hypertarget{libneoradio2common_8h_a72749992642f912be7c7946651b34471}\label{libneoradio2common_8h_a72749992642f912be7c7946651b34471}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Command\+Status@{Command\+Status}}
+\index{Command\+Status@{Command\+Status}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{Command\+Status}{CommandStatus}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480}{\+\_\+\+Command\+Status}}  \mbox{\hyperlink{libneoradio2common_8h_a72749992642f912be7c7946651b34471}{Command\+Status}}}
+
+\mbox{\Hypertarget{libneoradio2common_8h_ab29c674b321ba871c2770e3271fe09f6}\label{libneoradio2common_8h_ab29c674b321ba871c2770e3271fe09f6}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Neoradio2\+Device\+Info@{Neoradio2\+Device\+Info}}
+\index{Neoradio2\+Device\+Info@{Neoradio2\+Device\+Info}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{Neoradio2\+Device\+Info}{Neoradio2DeviceInfo}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct___neoradio2_device_info}{\+\_\+\+Neoradio2\+Device\+Info}}  \mbox{\hyperlink{libneoradio2common_8h_ab29c674b321ba871c2770e3271fe09f6}{Neoradio2\+Device\+Info}}}
+
+\mbox{\Hypertarget{libneoradio2common_8h_a8693337d7548b4d1f2bdb36bb5e47c86}\label{libneoradio2common_8h_a8693337d7548b4d1f2bdb36bb5e47c86}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Type@{Status\+Type}}
+\index{Status\+Type@{Status\+Type}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{Status\+Type}{StatusType}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3}{\+\_\+\+Status\+Type}}  \mbox{\hyperlink{libneoradio2common_8h_a8693337d7548b4d1f2bdb36bb5e47c86}{Status\+Type}}}
+
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0}\label{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!\+\_\+\+Command\+State\+Type@{\+\_\+\+Command\+State\+Type}}
+\index{\+\_\+\+Command\+State\+Type@{\+\_\+\+Command\+State\+Type}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+\+Command\+State\+Type}{\_CommandStateType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0}{\+\_\+\+Command\+State\+Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Command\+State\+Host@{Command\+State\+Host}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Command\+State\+Host@{Command\+State\+Host}}}\mbox{\Hypertarget{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0a5b8004759def3bc123effe3cd9353ee5}\label{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0a5b8004759def3bc123effe3cd9353ee5}} 
+Command\+State\+Host&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Command\+State\+Device@{Command\+State\+Device}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Command\+State\+Device@{Command\+State\+Device}}}\mbox{\Hypertarget{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0a10ea55ac172c188008fb645536eefcc5}\label{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0a10ea55ac172c188008fb645536eefcc5}} 
+Command\+State\+Device&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Command\+State\+Unknown@{Command\+State\+Unknown}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Command\+State\+Unknown@{Command\+State\+Unknown}}}\mbox{\Hypertarget{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0abc8cf597982eda4976cb74ba8e776a27}\label{libneoradio2common_8h_ac3b37b0750591d2e2fba4927e2287ac0abc8cf597982eda4976cb74ba8e776a27}} 
+Command\+State\+Unknown&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480}\label{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!\+\_\+\+Command\+Status@{\+\_\+\+Command\+Status}}
+\index{\+\_\+\+Command\+Status@{\+\_\+\+Command\+Status}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+\+Command\+Status}{\_CommandStatus}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480}{\+\_\+\+Command\+Status}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+In\+Progress@{Status\+In\+Progress}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+In\+Progress@{Status\+In\+Progress}}}\mbox{\Hypertarget{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480a84c762e923c11532d24eef6907cf2391}\label{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480a84c762e923c11532d24eef6907cf2391}} 
+Status\+In\+Progress&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Finished@{Status\+Finished}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Finished@{Status\+Finished}}}\mbox{\Hypertarget{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480aa6becf58dca93020b166d274bc6d5564}\label{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480aa6becf58dca93020b166d274bc6d5564}} 
+Status\+Finished&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Error@{Status\+Error}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Error@{Status\+Error}}}\mbox{\Hypertarget{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480a70864d0b86bb684b33a58b6c02a012c1}\label{libneoradio2common_8h_aff3c8b246e3c472a0497e1bc6ad75480a70864d0b86bb684b33a58b6c02a012c1}} 
+Status\+Error&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3}} 
+\index{libneoradio2common.\+h@{libneoradio2common.\+h}!\+\_\+\+Status\+Type@{\+\_\+\+Status\+Type}}
+\index{\+\_\+\+Status\+Type@{\+\_\+\+Status\+Type}!libneoradio2common.\+h@{libneoradio2common.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+\+Status\+Type}{\_StatusType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3}{\+\_\+\+Status\+Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Chain@{Status\+Chain}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Chain@{Status\+Chain}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a3a3a7d606bc7de140bb2d95fe9edcfdc}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a3a3a7d606bc7de140bb2d95fe9edcfdc}} 
+Status\+Chain&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+App\+Start@{Status\+App\+Start}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+App\+Start@{Status\+App\+Start}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a62abc9da0406b9b9b8dff1b233c05406}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a62abc9da0406b9b9b8dff1b233c05406}} 
+Status\+App\+Start&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+P\+C\+B\+SN@{Status\+P\+C\+B\+SN}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+P\+C\+B\+SN@{Status\+P\+C\+B\+SN}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a08477e4880b6a12e99b9588148f5f238}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a08477e4880b6a12e99b9588148f5f238}} 
+Status\+P\+C\+B\+SN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Sensor\+Read@{Status\+Sensor\+Read}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Sensor\+Read@{Status\+Sensor\+Read}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3aa82cf2d2456dd4c0071393a3f82c948f}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3aa82cf2d2456dd4c0071393a3f82c948f}} 
+Status\+Sensor\+Read&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Sensor\+Write@{Status\+Sensor\+Write}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Sensor\+Write@{Status\+Sensor\+Write}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a5b3ac6af040854823920e922a81904bc}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a5b3ac6af040854823920e922a81904bc}} 
+Status\+Sensor\+Write&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Settings\+Read@{Status\+Settings\+Read}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Settings\+Read@{Status\+Settings\+Read}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3ab9231afb64e7c4ca8145659b621fdb6d}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3ab9231afb64e7c4ca8145659b621fdb6d}} 
+Status\+Settings\+Read&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Settings\+Write@{Status\+Settings\+Write}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Settings\+Write@{Status\+Settings\+Write}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a36f01a1f18967692c374a57064306ebd}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a36f01a1f18967692c374a57064306ebd}} 
+Status\+Settings\+Write&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Calibration@{Status\+Calibration}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Calibration@{Status\+Calibration}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3aad30c985dc029acf7bd9588940009b2a}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3aad30c985dc029acf7bd9588940009b2a}} 
+Status\+Calibration&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Calibration\+Points@{Status\+Calibration\+Points}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Calibration\+Points@{Status\+Calibration\+Points}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a3c8796097c20d55bb3367f24930ca9ff}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a3c8796097c20d55bb3367f24930ca9ff}} 
+Status\+Calibration\+Points&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Calibration\+Stored@{Status\+Calibration\+Stored}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Calibration\+Stored@{Status\+Calibration\+Stored}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a0348f3a71820d4954feeed0bb74f4048}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a0348f3a71820d4954feeed0bb74f4048}} 
+Status\+Calibration\+Stored&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Calibration\+Info@{Status\+Calibration\+Info}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Calibration\+Info@{Status\+Calibration\+Info}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a949583b00a6755d4c2ece9a56b5630a6}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a949583b00a6755d4c2ece9a56b5630a6}} 
+Status\+Calibration\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Led\+Toggle@{Status\+Led\+Toggle}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Led\+Toggle@{Status\+Led\+Toggle}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3ab4b878ddde1e3f7d38d14bfbadb2631b}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3ab4b878ddde1e3f7d38d14bfbadb2631b}} 
+Status\+Led\+Toggle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Status\+Max@{Status\+Max}!libneoradio2common.\+h@{libneoradio2common.\+h}}\index{libneoradio2common.\+h@{libneoradio2common.\+h}!Status\+Max@{Status\+Max}}}\mbox{\Hypertarget{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a614d4679f4533df02259d4970ee8cf33}\label{libneoradio2common_8h_a871b9564cd201be9e0500a45f351a4a3a614d4679f4533df02259d4970ee8cf33}} 
+Status\+Max&\\
+\hline
+
+\end{DoxyEnumFields}

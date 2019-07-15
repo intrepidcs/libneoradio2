@@ -78,106 +78,106 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:acf5614c79c52d00bbda6394894f50277"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#acf5614c79c52d00bbda6394894f50277">_blocking_timeout</a> (2000)</td></tr>
 <tr class="separator:acf5614c79c52d00bbda6394894f50277"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27bccf85ce7ae4ee0b4f598bd099617a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; Device &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a27bccf85ce7ae4ee0b4f598bd099617a">_getDevice</a> (neoradio2_handle handle)</td></tr>
+<tr class="memitem:a27bccf85ce7ae4ee0b4f598bd099617a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; Device &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a27bccf85ce7ae4ee0b4f598bd099617a">_getDevice</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> handle)</td></tr>
 <tr class="separator:a27bccf85ce7ae4ee0b4f598bd099617a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a759a41baf07146aa9c0e05574de29c5f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; Device &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a759a41baf07146aa9c0e05574de29c5f">_createNewDevice</a> (neoradio2_handle *handle, Neoradio2DeviceInfo *device)</td></tr>
+<tr class="memitem:a759a41baf07146aa9c0e05574de29c5f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; Device &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a759a41baf07146aa9c0e05574de29c5f">_createNewDevice</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, <a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> *device)</td></tr>
 <tr class="separator:a759a41baf07146aa9c0e05574de29c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01286e1a16495ff76f54c8ccd7eed67a"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; CommandStateType, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a01286e1a16495ff76f54c8ccd7eed67a">_StatusType_to_cmd</a> (StatusType &amp;type)</td></tr>
+<tr class="memitem:a01286e1a16495ff76f54c8ccd7eed67a"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="libneoradio2common_8h.html#a3cf784549b057f7fdb6620aff66378c1">CommandStateType</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a01286e1a16495ff76f54c8ccd7eed67a">_StatusType_to_cmd</a> (<a class="el" href="libneoradio2common_8h.html#a8693337d7548b4d1f2bdb36bb5e47c86">StatusType</a> &amp;type)</td></tr>
 <tr class="separator:a01286e1a16495ff76f54c8ccd7eed67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58c35d2f04b115f1258ac2b6905409da"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a58c35d2f04b115f1258ac2b6905409da">neoradio2_find</a> (Neoradio2DeviceInfo *devices, unsigned int *device_count)</td></tr>
+<tr class="memitem:a58c35d2f04b115f1258ac2b6905409da"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a58c35d2f04b115f1258ac2b6905409da">neoradio2_find</a> (<a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> *devices, unsigned int *device_count)</td></tr>
 <tr class="separator:a58c35d2f04b115f1258ac2b6905409da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb1f67d9234a880c96ac782717fe7400"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#aeb1f67d9234a880c96ac782717fe7400">neoradio2_set_blocking</a> (int blocking, long long ms_timeout)</td></tr>
 <tr class="separator:aeb1f67d9234a880c96ac782717fe7400"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad56fdc65369d424aa03de00821d493bb"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ad56fdc65369d424aa03de00821d493bb">neoradio2_is_blocking</a> ()</td></tr>
 <tr class="separator:ad56fdc65369d424aa03de00821d493bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e164abc84f8b4d02c6fe79d32882891"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a2e164abc84f8b4d02c6fe79d32882891">neoradio2_open</a> (neoradio2_handle *handle, Neoradio2DeviceInfo *device)</td></tr>
+<tr class="memitem:a2e164abc84f8b4d02c6fe79d32882891"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a2e164abc84f8b4d02c6fe79d32882891">neoradio2_open</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, <a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> *device)</td></tr>
 <tr class="separator:a2e164abc84f8b4d02c6fe79d32882891"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ab3aa4e74f97ed1673a7c23598bb5c8"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a9ab3aa4e74f97ed1673a7c23598bb5c8">neoradio2_is_opened</a> (neoradio2_handle *handle, int *is_opened)</td></tr>
+<tr class="memitem:a9ab3aa4e74f97ed1673a7c23598bb5c8"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a9ab3aa4e74f97ed1673a7c23598bb5c8">neoradio2_is_opened</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int *is_opened)</td></tr>
 <tr class="separator:a9ab3aa4e74f97ed1673a7c23598bb5c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5b44ce56383c4740f4b48dabed1ee4d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ab5b44ce56383c4740f4b48dabed1ee4d">neoradio2_close</a> (neoradio2_handle *handle)</td></tr>
+<tr class="memitem:ab5b44ce56383c4740f4b48dabed1ee4d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ab5b44ce56383c4740f4b48dabed1ee4d">neoradio2_close</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle)</td></tr>
 <tr class="separator:ab5b44ce56383c4740f4b48dabed1ee4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af833e51c4ecead3f25938dcdacf238f3"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af833e51c4ecead3f25938dcdacf238f3">neoradio2_is_closed</a> (neoradio2_handle *handle, int *is_closed)</td></tr>
+<tr class="memitem:af833e51c4ecead3f25938dcdacf238f3"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af833e51c4ecead3f25938dcdacf238f3">neoradio2_is_closed</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int *is_closed)</td></tr>
 <tr class="separator:af833e51c4ecead3f25938dcdacf238f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb7dfbe1a431119436fcf8b57915e4a7"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#aeb7dfbe1a431119436fcf8b57915e4a7">neoradio2_chain_is_identified</a> (neoradio2_handle *handle, int *is_identified)</td></tr>
+<tr class="memitem:aeb7dfbe1a431119436fcf8b57915e4a7"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#aeb7dfbe1a431119436fcf8b57915e4a7">neoradio2_chain_is_identified</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int *is_identified)</td></tr>
 <tr class="separator:aeb7dfbe1a431119436fcf8b57915e4a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf2d74bbbae06872fdb785d88a97b5e4"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#acf2d74bbbae06872fdb785d88a97b5e4">neoradio2_chain_identify</a> (neoradio2_handle *handle)</td></tr>
+<tr class="memitem:acf2d74bbbae06872fdb785d88a97b5e4"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#acf2d74bbbae06872fdb785d88a97b5e4">neoradio2_chain_identify</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle)</td></tr>
 <tr class="separator:acf2d74bbbae06872fdb785d88a97b5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a1b06df6894fb34051a5c5af345de18"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a4a1b06df6894fb34051a5c5af345de18">neoradio2_app_is_started</a> (neoradio2_handle *handle, int device, int bank, int *is_started)</td></tr>
+<tr class="memitem:a4a1b06df6894fb34051a5c5af345de18"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a4a1b06df6894fb34051a5c5af345de18">neoradio2_app_is_started</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int *is_started)</td></tr>
 <tr class="separator:a4a1b06df6894fb34051a5c5af345de18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c371552deb25c262137f9143e72c207"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a7c371552deb25c262137f9143e72c207">neoradio2_app_start</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a7c371552deb25c262137f9143e72c207"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a7c371552deb25c262137f9143e72c207">neoradio2_app_start</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a7c371552deb25c262137f9143e72c207"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a113b3446a0f2ec1150d478d22e7ce924"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a113b3446a0f2ec1150d478d22e7ce924">neoradio2_enter_bootloader</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a113b3446a0f2ec1150d478d22e7ce924"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a113b3446a0f2ec1150d478d22e7ce924">neoradio2_enter_bootloader</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a113b3446a0f2ec1150d478d22e7ce924"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fb966617e07aa38d0884167a0d76714"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a7fb966617e07aa38d0884167a0d76714">neoradio2_get_serial_number</a> (neoradio2_handle *handle, int device, int bank, unsigned int *serial_number)</td></tr>
+<tr class="memitem:a7fb966617e07aa38d0884167a0d76714"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a7fb966617e07aa38d0884167a0d76714">neoradio2_get_serial_number</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, unsigned int *serial_number)</td></tr>
 <tr class="separator:a7fb966617e07aa38d0884167a0d76714"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26f9b4e710dd42e5773a958a21ee12c1"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a26f9b4e710dd42e5773a958a21ee12c1">neoradio2_get_manufacturer_date</a> (neoradio2_handle *handle, int device, int bank, int *year, int *month, int *day)</td></tr>
+<tr class="memitem:a26f9b4e710dd42e5773a958a21ee12c1"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a26f9b4e710dd42e5773a958a21ee12c1">neoradio2_get_manufacturer_date</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int *year, int *month, int *day)</td></tr>
 <tr class="separator:a26f9b4e710dd42e5773a958a21ee12c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4b318da2d8d8b52a3c017661421ac0d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ab4b318da2d8d8b52a3c017661421ac0d">neoradio2_get_firmware_version</a> (neoradio2_handle *handle, int device, int bank, int *major, int *minor)</td></tr>
+<tr class="memitem:ab4b318da2d8d8b52a3c017661421ac0d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ab4b318da2d8d8b52a3c017661421ac0d">neoradio2_get_firmware_version</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int *major, int *minor)</td></tr>
 <tr class="separator:ab4b318da2d8d8b52a3c017661421ac0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5ce1e0de01e14a89b362b5d98116ed1"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af5ce1e0de01e14a89b362b5d98116ed1">neoradio2_get_hardware_revision</a> (neoradio2_handle *handle, int device, int bank, int *major, int *minor)</td></tr>
+<tr class="memitem:af5ce1e0de01e14a89b362b5d98116ed1"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af5ce1e0de01e14a89b362b5d98116ed1">neoradio2_get_hardware_revision</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int *major, int *minor)</td></tr>
 <tr class="separator:af5ce1e0de01e14a89b362b5d98116ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b565011583e6b841094d310c3ded915"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a0b565011583e6b841094d310c3ded915">neoradio2_get_device_type</a> (neoradio2_handle *handle, int device, int bank, unsigned int *device_type)</td></tr>
+<tr class="memitem:a0b565011583e6b841094d310c3ded915"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a0b565011583e6b841094d310c3ded915">neoradio2_get_device_type</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, unsigned int *device_type)</td></tr>
 <tr class="separator:a0b565011583e6b841094d310c3ded915"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e9ba484d6504938050451d63646fcdd"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a8e9ba484d6504938050451d63646fcdd">neoradio2_request_pcbsn</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a8e9ba484d6504938050451d63646fcdd"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a8e9ba484d6504938050451d63646fcdd">neoradio2_request_pcbsn</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a8e9ba484d6504938050451d63646fcdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6383bcf4bbaffa7e1eb178f93aff663b"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a6383bcf4bbaffa7e1eb178f93aff663b">neoradio2_get_pcbsn</a> (neoradio2_handle *handle, int device, int bank, char *pcb_sn)</td></tr>
+<tr class="memitem:a6383bcf4bbaffa7e1eb178f93aff663b"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a6383bcf4bbaffa7e1eb178f93aff663b">neoradio2_get_pcbsn</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, char *pcb_sn)</td></tr>
 <tr class="separator:a6383bcf4bbaffa7e1eb178f93aff663b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60bea5e01788bc9fcacb8d920f427ea0"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a60bea5e01788bc9fcacb8d920f427ea0">neoradio2_request_sensor_data</a> (neoradio2_handle *handle, int device, int bank, int enable_cal)</td></tr>
+<tr class="memitem:a60bea5e01788bc9fcacb8d920f427ea0"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a60bea5e01788bc9fcacb8d920f427ea0">neoradio2_request_sensor_data</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int enable_cal)</td></tr>
 <tr class="separator:a60bea5e01788bc9fcacb8d920f427ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afce44d2163239436f815e80ba5ee4c0a"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#afce44d2163239436f815e80ba5ee4c0a">neoradio2_read_sensor_float</a> (neoradio2_handle *handle, int device, int bank, float *value)</td></tr>
+<tr class="memitem:afce44d2163239436f815e80ba5ee4c0a"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#afce44d2163239436f815e80ba5ee4c0a">neoradio2_read_sensor_float</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, float *value)</td></tr>
 <tr class="separator:afce44d2163239436f815e80ba5ee4c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0496893a52eef2f0923ac0ca357830c0"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a0496893a52eef2f0923ac0ca357830c0">neoradio2_read_sensor_array</a> (neoradio2_handle *handle, int device, int bank, int *arr, int *arr_size)</td></tr>
+<tr class="memitem:a0496893a52eef2f0923ac0ca357830c0"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a0496893a52eef2f0923ac0ca357830c0">neoradio2_read_sensor_array</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int *arr, int *arr_size)</td></tr>
 <tr class="separator:a0496893a52eef2f0923ac0ca357830c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cb6fc8b306bcb87549b00d7d8b5db38"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a3cb6fc8b306bcb87549b00d7d8b5db38">neoradio2_write_sensor</a> (neoradio2_handle *handle, int device, int bank, int mask, int value)</td></tr>
+<tr class="memitem:a3cb6fc8b306bcb87549b00d7d8b5db38"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a3cb6fc8b306bcb87549b00d7d8b5db38">neoradio2_write_sensor</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int mask, int value)</td></tr>
 <tr class="separator:a3cb6fc8b306bcb87549b00d7d8b5db38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d237ed0307f88d429c99611b2575d16"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a6d237ed0307f88d429c99611b2575d16">neoradio2_write_sensor_successful</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a6d237ed0307f88d429c99611b2575d16"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a6d237ed0307f88d429c99611b2575d16">neoradio2_write_sensor_successful</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a6d237ed0307f88d429c99611b2575d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43bafde30317e4e86b3330da4df64e90"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a43bafde30317e4e86b3330da4df64e90">neoradio2_request_settings</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a43bafde30317e4e86b3330da4df64e90"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a43bafde30317e4e86b3330da4df64e90">neoradio2_request_settings</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a43bafde30317e4e86b3330da4df64e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13c429f9cee6912deb13caa2a0c8176d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a13c429f9cee6912deb13caa2a0c8176d">neoradio2_read_settings</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2_settings *settings)</td></tr>
+<tr class="memitem:a13c429f9cee6912deb13caa2a0c8176d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a13c429f9cee6912deb13caa2a0c8176d">neoradio2_read_settings</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a5a2bf5dac6fd502cb9f7e8782888fce3">neoRADIO2_settings</a> *settings)</td></tr>
 <tr class="separator:a13c429f9cee6912deb13caa2a0c8176d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab87ce3029efb7b0cc51de2372d954c5a"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ab87ce3029efb7b0cc51de2372d954c5a">neoradio2_write_settings</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2_settings *settings)</td></tr>
+<tr class="memitem:ab87ce3029efb7b0cc51de2372d954c5a"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ab87ce3029efb7b0cc51de2372d954c5a">neoradio2_write_settings</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a5a2bf5dac6fd502cb9f7e8782888fce3">neoRADIO2_settings</a> *settings)</td></tr>
 <tr class="separator:ab87ce3029efb7b0cc51de2372d954c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af71210f483669c7a5efbc7f5a9cd2d54"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af71210f483669c7a5efbc7f5a9cd2d54">neoradio2_write_settings_successful</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:af71210f483669c7a5efbc7f5a9cd2d54"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af71210f483669c7a5efbc7f5a9cd2d54">neoradio2_write_settings_successful</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:af71210f483669c7a5efbc7f5a9cd2d54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a436f955c8b84ddb90919eeb343359a73"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a436f955c8b84ddb90919eeb343359a73">neoradio2_get_chain_count</a> (neoradio2_handle *handle, int *count, int identify)</td></tr>
+<tr class="memitem:a436f955c8b84ddb90919eeb343359a73"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a436f955c8b84ddb90919eeb343359a73">neoradio2_get_chain_count</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int *count, int identify)</td></tr>
 <tr class="separator:a436f955c8b84ddb90919eeb343359a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8723c36c5502c5ac5397d94d468f531"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#aa8723c36c5502c5ac5397d94d468f531">neoradio2_request_calibration</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2frame_calHeader *header)</td></tr>
+<tr class="memitem:aa8723c36c5502c5ac5397d94d468f531"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#aa8723c36c5502c5ac5397d94d468f531">neoradio2_request_calibration</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *header)</td></tr>
 <tr class="separator:aa8723c36c5502c5ac5397d94d468f531"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad367da41439296ba9f543986ea5e4638"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ad367da41439296ba9f543986ea5e4638">neoradio2_read_calibration_array</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2frame_calHeader *header, float *arr, int *arr_size)</td></tr>
+<tr class="memitem:ad367da41439296ba9f543986ea5e4638"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ad367da41439296ba9f543986ea5e4638">neoradio2_read_calibration_array</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *header, float *arr, int *arr_size)</td></tr>
 <tr class="separator:ad367da41439296ba9f543986ea5e4638"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7df1fc5bcfa665ce14005ea4ede9efc"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ae7df1fc5bcfa665ce14005ea4ede9efc">neoradio2_request_calibration_points</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2frame_calHeader *header)</td></tr>
+<tr class="memitem:ae7df1fc5bcfa665ce14005ea4ede9efc"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ae7df1fc5bcfa665ce14005ea4ede9efc">neoradio2_request_calibration_points</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *header)</td></tr>
 <tr class="separator:ae7df1fc5bcfa665ce14005ea4ede9efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b3c3dea21dd5c5a1a24011bab7fd59d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a1b3c3dea21dd5c5a1a24011bab7fd59d">neoradio2_read_calibration_points_array</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2frame_calHeader *header, float *arr, int *arr_size)</td></tr>
+<tr class="memitem:a1b3c3dea21dd5c5a1a24011bab7fd59d"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a1b3c3dea21dd5c5a1a24011bab7fd59d">neoradio2_read_calibration_points_array</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *header, float *arr, int *arr_size)</td></tr>
 <tr class="separator:a1b3c3dea21dd5c5a1a24011bab7fd59d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f5e339f0b7cf98eea829fcc354ac4a4"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a6f5e339f0b7cf98eea829fcc354ac4a4">neoradio2_write_calibration</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2frame_calHeader *header, float *arr, int arr_size)</td></tr>
+<tr class="memitem:a6f5e339f0b7cf98eea829fcc354ac4a4"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a6f5e339f0b7cf98eea829fcc354ac4a4">neoradio2_write_calibration</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *header, float *arr, int arr_size)</td></tr>
 <tr class="separator:a6f5e339f0b7cf98eea829fcc354ac4a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef7dab3f433edf850500cd3c93e7ca10"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#aef7dab3f433edf850500cd3c93e7ca10">neoradio2_write_calibration_successful</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:aef7dab3f433edf850500cd3c93e7ca10"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#aef7dab3f433edf850500cd3c93e7ca10">neoradio2_write_calibration_successful</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:aef7dab3f433edf850500cd3c93e7ca10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abca58f59a3820a95917e2f19396d2868"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#abca58f59a3820a95917e2f19396d2868">neoradio2_write_calibration_points</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2frame_calHeader *header, float *arr, int arr_size)</td></tr>
+<tr class="memitem:abca58f59a3820a95917e2f19396d2868"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#abca58f59a3820a95917e2f19396d2868">neoradio2_write_calibration_points</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *header, float *arr, int arr_size)</td></tr>
 <tr class="separator:abca58f59a3820a95917e2f19396d2868"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26b1e791db6971248ac9bdeeaecdec1c"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a26b1e791db6971248ac9bdeeaecdec1c">neoradio2_write_calibration_points_successful</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a26b1e791db6971248ac9bdeeaecdec1c"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a26b1e791db6971248ac9bdeeaecdec1c">neoradio2_write_calibration_points_successful</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a26b1e791db6971248ac9bdeeaecdec1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52b921ff16a0ccebe2d5ce759a566ea9"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a52b921ff16a0ccebe2d5ce759a566ea9">neoradio2_store_calibration</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a52b921ff16a0ccebe2d5ce759a566ea9"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a52b921ff16a0ccebe2d5ce759a566ea9">neoradio2_store_calibration</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a52b921ff16a0ccebe2d5ce759a566ea9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68d285c643fa83429ea2106c97f541b9"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a68d285c643fa83429ea2106c97f541b9">neoradio2_is_calibration_stored</a> (neoradio2_handle *handle, int device, int bank, int *stored)</td></tr>
+<tr class="memitem:a68d285c643fa83429ea2106c97f541b9"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a68d285c643fa83429ea2106c97f541b9">neoradio2_is_calibration_stored</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int *stored)</td></tr>
 <tr class="separator:a68d285c643fa83429ea2106c97f541b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbf536e57372a9b0dbf0071f8aaaa12c"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#adbf536e57372a9b0dbf0071f8aaaa12c">neoradio2_get_calibration_is_valid</a> (neoradio2_handle *handle, int device, int bank, int *is_valid)</td></tr>
+<tr class="memitem:adbf536e57372a9b0dbf0071f8aaaa12c"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#adbf536e57372a9b0dbf0071f8aaaa12c">neoradio2_get_calibration_is_valid</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int *is_valid)</td></tr>
 <tr class="separator:adbf536e57372a9b0dbf0071f8aaaa12c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cf7e2fab4ef13b1bb1ebef8cb716559"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a3cf7e2fab4ef13b1bb1ebef8cb716559">neoradio2_request_calibration_info</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a3cf7e2fab4ef13b1bb1ebef8cb716559"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a3cf7e2fab4ef13b1bb1ebef8cb716559">neoradio2_request_calibration_info</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a3cf7e2fab4ef13b1bb1ebef8cb716559"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19470d1907cbdd2d9aaa98f4a737f4b4"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a19470d1907cbdd2d9aaa98f4a737f4b4">neoradio2_read_calibration_info</a> (neoradio2_handle *handle, int device, int bank, neoRADIO2frame_calHeader *header)</td></tr>
+<tr class="memitem:a19470d1907cbdd2d9aaa98f4a737f4b4"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a19470d1907cbdd2d9aaa98f4a737f4b4">neoradio2_read_calibration_info</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, <a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *header)</td></tr>
 <tr class="separator:a19470d1907cbdd2d9aaa98f4a737f4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7834a7d75475682f26f34f1c5d17177"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ad7834a7d75475682f26f34f1c5d17177">neoradio2_toggle_led</a> (neoradio2_handle *handle, int device, int bank, int ms)</td></tr>
+<tr class="memitem:ad7834a7d75475682f26f34f1c5d17177"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#ad7834a7d75475682f26f34f1c5d17177">neoradio2_toggle_led</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int ms)</td></tr>
 <tr class="separator:ad7834a7d75475682f26f34f1c5d17177"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a663c7af347c2dd560491c0b964f501ae"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a663c7af347c2dd560491c0b964f501ae">neoradio2_toggle_led_successful</a> (neoradio2_handle *handle, int device, int bank)</td></tr>
+<tr class="memitem:a663c7af347c2dd560491c0b964f501ae"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a663c7af347c2dd560491c0b964f501ae">neoradio2_toggle_led_successful</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank)</td></tr>
 <tr class="separator:a663c7af347c2dd560491c0b964f501ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af86004657204a4ce3c878baa0f72c75e"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af86004657204a4ce3c878baa0f72c75e">neoradio2_get_status</a> (neoradio2_handle *handle, int device, int bank, int bitfield, StatusType type, CommandStatus *status)</td></tr>
+<tr class="memitem:af86004657204a4ce3c878baa0f72c75e"><td class="memItemLeft" align="right" valign="top">LIBNEORADIO2_API int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#af86004657204a4ce3c878baa0f72c75e">neoradio2_get_status</a> (<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *handle, int device, int bank, int bitfield, <a class="el" href="libneoradio2common_8h.html#a8693337d7548b4d1f2bdb36bb5e47c86">StatusType</a> type, <a class="el" href="libneoradio2common_8h.html#a72749992642f912be7c7946651b34471">CommandStatus</a> *status)</td></tr>
 <tr class="separator:af86004657204a4ce3c878baa0f72c75e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a452e9a62fa2301cc774c7e68cd060f93"><td class="memItemLeft" align="right" valign="top">std::map&lt; neoradio2_handle, std::shared_ptr&lt; Device &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a452e9a62fa2301cc774c7e68cd060f93">_device_map</a></td></tr>
+<tr class="memitem:a452e9a62fa2301cc774c7e68cd060f93"><td class="memItemLeft" align="right" valign="top">std::map&lt; <a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a>, std::shared_ptr&lt; Device &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libneoradio2_8cpp.html#a452e9a62fa2301cc774c7e68cd060f93">_device_map</a></td></tr>
 <tr class="separator:a452e9a62fa2301cc774c7e68cd060f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -208,13 +208,13 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">std::shared_ptr&lt;Device&gt; _createNewDevice </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Neoradio2DeviceInfo *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> *&#160;</td>
           <td class="paramname"><em>device</em>&#160;</td>
         </tr>
         <tr>
@@ -236,7 +236,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">std::shared_ptr&lt;Device&gt; _getDevice </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a>&#160;</td>
           <td class="paramname"><em>handle</em></td><td>)</td>
           <td></td>
         </tr>
@@ -252,9 +252,9 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::tuple&lt;CommandStateType, int&gt; _StatusType_to_cmd </td>
+          <td class="memname">std::tuple&lt;<a class="el" href="libneoradio2common_8h.html#a3cf784549b057f7fdb6620aff66378c1">CommandStateType</a>, int&gt; _StatusType_to_cmd </td>
           <td>(</td>
-          <td class="paramtype">StatusType &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a8693337d7548b4d1f2bdb36bb5e47c86">StatusType</a> &amp;&#160;</td>
           <td class="paramname"><em>type</em></td><td>)</td>
           <td></td>
         </tr>
@@ -272,7 +272,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_app_is_started </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -323,7 +323,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_app_start </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -369,7 +369,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_chain_identify </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em></td><td>)</td>
           <td></td>
         </tr>
@@ -395,7 +395,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_chain_is_identified </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -432,7 +432,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_close </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em></td><td>)</td>
           <td></td>
         </tr>
@@ -458,7 +458,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_enter_bootloader </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -504,7 +504,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_find </td>
           <td>(</td>
-          <td class="paramtype">Neoradio2DeviceInfo *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> *&#160;</td>
           <td class="paramname"><em>devices</em>, </td>
         </tr>
         <tr>
@@ -527,7 +527,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>Neoradio2DeviceInfo </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. </dd></dl>
 
 </div>
@@ -541,7 +541,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_calibration_is_valid </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -581,7 +581,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_chain_count </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -615,7 +615,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_device_type </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -655,7 +655,7 @@ Variables</h2></td></tr>
 <dd>
 <a class="el" href="libneoradio2_8cpp.html#a4a1b06df6894fb34051a5c5af345de18">neoradio2_app_is_started</a> </dd>
 <dd>
-neoRADIO2_deviceTypes </dd></dl>
+<a class="el" href="radio2__frames_8h.html#afd6fd5a2e04081f5b57dbf721aa1934a">neoRADIO2_deviceTypes</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode </dd></dl>
 
 </div>
@@ -669,7 +669,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_firmware_version </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -727,7 +727,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_hardware_revision </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -785,7 +785,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_manufacturer_date </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -849,7 +849,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_pcbsn </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -889,7 +889,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_serial_number </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -942,7 +942,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_get_status </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -966,13 +966,13 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">StatusType&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a8693337d7548b4d1f2bdb36bb5e47c86">StatusType</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">CommandStatus *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a72749992642f912be7c7946651b34471">CommandStatus</a> *&#160;</td>
           <td class="paramname"><em>status</em>&#160;</td>
         </tr>
         <tr>
@@ -1019,7 +1019,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_is_calibration_stored </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1059,7 +1059,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_is_closed </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1095,7 +1095,7 @@ neoRADIO2_deviceTypes </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_is_opened </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1120,7 +1120,7 @@ neoRADIO2_deviceTypes </dd></dl>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="libneoradio2_8cpp.html#a58c35d2f04b115f1258ac2b6905409da">neoradio2_find</a> </dd>
 <dd>
-Neoradio2DeviceInfo </dd></dl>
+<a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>NEORADIO2_SUCCESS if or NEORADIO2_FAILURE on failure. </dd></dl>
 
 </div>
@@ -1134,13 +1134,13 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_open </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Neoradio2DeviceInfo *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> *&#160;</td>
           <td class="paramname"><em>device</em>&#160;</td>
         </tr>
         <tr>
@@ -1159,7 +1159,7 @@ Neoradio2DeviceInfo </dd></dl>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="libneoradio2_8cpp.html#a58c35d2f04b115f1258ac2b6905409da">neoradio2_find</a> </dd>
 <dd>
-Neoradio2DeviceInfo </dd></dl>
+<a class="el" href="libneoradio2common_8h.html#ab29c674b321ba871c2770e3271fe09f6">Neoradio2DeviceInfo</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode </dd></dl>
 
 </div>
@@ -1173,7 +1173,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_read_calibration_array </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1191,7 +1191,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2frame_calHeader *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *&#160;</td>
           <td class="paramname"><em>header</em>, </td>
         </tr>
         <tr>
@@ -1225,7 +1225,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_read_calibration_info </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1243,7 +1243,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2frame_calHeader *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *&#160;</td>
           <td class="paramname"><em>header</em>&#160;</td>
         </tr>
         <tr>
@@ -1265,7 +1265,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_read_calibration_points_array </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1283,7 +1283,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2frame_calHeader *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *&#160;</td>
           <td class="paramname"><em>header</em>, </td>
         </tr>
         <tr>
@@ -1317,7 +1317,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_read_sensor_array </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1363,7 +1363,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_read_sensor_float </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1403,7 +1403,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_read_settings </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1421,7 +1421,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2_settings *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a5a2bf5dac6fd502cb9f7e8782888fce3">neoRADIO2_settings</a> *&#160;</td>
           <td class="paramname"><em>settings</em>&#160;</td>
         </tr>
         <tr>
@@ -1443,7 +1443,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_request_calibration </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1461,7 +1461,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2frame_calHeader *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *&#160;</td>
           <td class="paramname"><em>header</em>&#160;</td>
         </tr>
         <tr>
@@ -1483,7 +1483,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_request_calibration_info </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1517,7 +1517,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_request_calibration_points </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1535,7 +1535,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2frame_calHeader *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *&#160;</td>
           <td class="paramname"><em>header</em>&#160;</td>
         </tr>
         <tr>
@@ -1557,7 +1557,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_request_pcbsn </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1591,7 +1591,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_request_sensor_data </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1631,7 +1631,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_request_settings </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1701,7 +1701,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_store_calibration </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1735,7 +1735,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_toggle_led </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1775,7 +1775,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_toggle_led_successful </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1809,7 +1809,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_calibration </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1827,7 +1827,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2frame_calHeader *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *&#160;</td>
           <td class="paramname"><em>header</em>, </td>
         </tr>
         <tr>
@@ -1861,7 +1861,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_calibration_points </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1879,7 +1879,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2frame_calHeader *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a1c34203f22ab29661798362ba71b5ea8">neoRADIO2frame_calHeader</a> *&#160;</td>
           <td class="paramname"><em>header</em>, </td>
         </tr>
         <tr>
@@ -1913,7 +1913,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_calibration_points_successful </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1947,7 +1947,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_calibration_successful </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -1981,7 +1981,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_sensor </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -2027,7 +2027,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_sensor_successful </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -2061,7 +2061,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_settings </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -2079,7 +2079,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">neoRADIO2_settings *&#160;</td>
+          <td class="paramtype"><a class="el" href="radio2__frames_8h.html#a5a2bf5dac6fd502cb9f7e8782888fce3">neoRADIO2_settings</a> *&#160;</td>
           <td class="paramname"><em>settings</em>&#160;</td>
         </tr>
         <tr>
@@ -2101,7 +2101,7 @@ Neoradio2DeviceInfo </dd></dl>
         <tr>
           <td class="memname">LIBNEORADIO2_API int neoradio2_write_settings_successful </td>
           <td>(</td>
-          <td class="paramtype">neoradio2_handle *&#160;</td>
+          <td class="paramtype"><a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a> *&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
         </tr>
         <tr>
@@ -2134,7 +2134,7 @@ Neoradio2DeviceInfo </dd></dl>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;neoradio2_handle, std::shared_ptr&lt;Device&gt; &gt; _device_map</td>
+          <td class="memname">std::map&lt;<a class="el" href="libneoradio2common_8h.html#a3a1066100506c9d4d4dcd489f6ddb966">neoradio2_handle</a>, std::shared_ptr&lt;Device&gt; &gt; _device_map</td>
         </tr>
       </table>
 </div><div class="memdoc">

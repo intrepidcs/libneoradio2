@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['serial_5fnumber',['serial_number',['../struct__neo_r_a_d_i_o2frame__identify_response.html#a2ad7c614c6e3c7b1ff8b77a56ec20830',1,'_neoRADIO2frame_identifyResponse']]],
+  ['serial_5fstr',['serial_str',['../struct___neoradio2_device_info.html#ac31c3f6863cf271c8def99f1bcf16612',1,'_Neoradio2DeviceInfo']]],
+  ['start_5fof_5fframe',['start_of_frame',['../struct__neo_r_a_d_i_o2frame__header.html#a7aeb33b54573897247eb9e47d77d574b',1,'_neoRADIO2frame_header']]],
+  ['statusappstart',['StatusAppStart',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a62abc9da0406b9b9b8dff1b233c05406',1,'libneoradio2common.h']]],
+  ['statuscalibration',['StatusCalibration',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3aad30c985dc029acf7bd9588940009b2a',1,'libneoradio2common.h']]],
+  ['statuscalibrationinfo',['StatusCalibrationInfo',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a949583b00a6755d4c2ece9a56b5630a6',1,'libneoradio2common.h']]],
+  ['statuscalibrationpoints',['StatusCalibrationPoints',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a3c8796097c20d55bb3367f24930ca9ff',1,'libneoradio2common.h']]],
+  ['statuscalibrationstored',['StatusCalibrationStored',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a0348f3a71820d4954feeed0bb74f4048',1,'libneoradio2common.h']]],
+  ['statuschain',['StatusChain',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a3a3a7d606bc7de140bb2d95fe9edcfdc',1,'libneoradio2common.h']]],
+  ['statuserror',['StatusError',['../libneoradio2common_8h.html#aff3c8b246e3c472a0497e1bc6ad75480a70864d0b86bb684b33a58b6c02a012c1',1,'libneoradio2common.h']]],
+  ['statusfinished',['StatusFinished',['../libneoradio2common_8h.html#aff3c8b246e3c472a0497e1bc6ad75480aa6becf58dca93020b166d274bc6d5564',1,'libneoradio2common.h']]],
+  ['statusinprogress',['StatusInProgress',['../libneoradio2common_8h.html#aff3c8b246e3c472a0497e1bc6ad75480a84c762e923c11532d24eef6907cf2391',1,'libneoradio2common.h']]],
+  ['statusledtoggle',['StatusLedToggle',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3ab4b878ddde1e3f7d38d14bfbadb2631b',1,'libneoradio2common.h']]],
+  ['statusmax',['StatusMax',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a614d4679f4533df02259d4970ee8cf33',1,'libneoradio2common.h']]],
+  ['statuspcbsn',['StatusPCBSN',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a08477e4880b6a12e99b9588148f5f238',1,'libneoradio2common.h']]],
+  ['statussensorread',['StatusSensorRead',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3aa82cf2d2456dd4c0071393a3f82c948f',1,'libneoradio2common.h']]],
+  ['statussensorwrite',['StatusSensorWrite',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a5b3ac6af040854823920e922a81904bc',1,'libneoradio2common.h']]],
+  ['statussettingsread',['StatusSettingsRead',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3ab9231afb64e7c4ca8145659b621fdb6d',1,'libneoradio2common.h']]],
+  ['statussettingswrite',['StatusSettingsWrite',['../libneoradio2common_8h.html#a871b9564cd201be9e0500a45f351a4a3a36f01a1f18967692c374a57064306ebd',1,'libneoradio2common.h']]],
+  ['statustype',['StatusType',['../libneoradio2common_8h.html#a8693337d7548b4d1f2bdb36bb5e47c86',1,'libneoradio2common.h']]]
+];
