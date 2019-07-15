@@ -3,10 +3,7 @@
 
 # Documentation
 
-Current documentation is built as a zip [html.zip](docs/html/html.zip) until official builds on readthedocs.io are finished.
-
-https://libneoradio2.readthedocs.io/
-
+https://intrepidcs.github.io/libneoradio2/python/docs/html/
 
 # Quick Start
 
