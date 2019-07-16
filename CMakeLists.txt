@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+
+
 file(READ "version.txt" ver)
 
 string(REGEX MATCH "VERSION_MAJOR ([0-9]*)" _ "${ver}")
@@ -21,8 +23,8 @@ set(ver_patch ${CMAKE_MATCH_1})
 
 message("VERSION DETECTED: ${ver_major}.${ver_minor}.${ver_patch}")
 
-project(neoradio2 
-    VERSION "${ver_major}.${ver_minor}.${ver_patch}" 
+project(neoradio2
+    VERSION "${ver_major}.${ver_minor}.${ver_patch}"
     DESCRIPTION "C Library to interface to neoRAD-IO-2 Devices")
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
@@ -59,6 +61,12 @@ set_property(TARGET neoradio2 PROPERTY PUBLIC_HEADER libneoradio2.h libneoradio2
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(neoradio2 PRIVATE udev)
+endif()
+
+if (APPLE)
+  target_link_libraries(neoradio2 "-framework CoreFoundation")
+  target_link_libraries(neoradio2 "-framework IOKit")
+  set_target_properties(neoradio2 PROPERTIES LINK_FLAGS "-Wl,-F/Library/Frameworks")
 endif()
 
 configure_file(libneoradio2.pc.in libneoradio2.pc @ONLY)
