@@ -1,6 +1,6 @@
-MAJOR = 0
+MAJOR = 1
 MINOR = 0
-MICRO = 4
+MICRO = 0
 POST = None
 
 
