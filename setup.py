@@ -25,45 +25,48 @@ class get_pybind_include(object):
         return pybind11.get_include(self.user)
 
 
-source_includes = ['src/main.cpp', '../fifo.c', '../device.cpp',
-    '../hiddevice.cpp', '../libneoradio2.cpp', '../neoradio2device.cpp',]
+source_includes = ['python/src/main.cpp', 'fifo.c', 'device.cpp',
+    'hiddevice.cpp', 'libneoradio2.cpp', 'neoradio2device.cpp',]
+
+header_includes = []
+for root, dirs, files in os.walk('.'):
+    for file in files:
+        if file.endswith('.h'):
+            header_includes.append(os.path.join(root, file))
+
 
 library_includes = []
 if 'NT' in os.name.upper():
-    source_includes.append('../hidapi/windows/hid.c')
+    source_includes.append('hidapi/windows/hid.c')
 elif platform.system().upper() == 'DARWIN':
-    source_includes.append('../hidapi/mac/hid.c')
-    #library_includes.append('IOKit')
+    source_includes.append('hidapi/mac/hid.c')
 else:
-    source_includes.append('../hidapi/linux/hid.c')
+    source_includes.append('hidapi/linux/hid.c')
     library_includes.append('udev')
 
-# Clang complains about the c++14 flag when its the clang c compiler so lets force
-# it here to use the clang++ compiler always.
+# macOS X clang linker complains if these are at the end of the argument parameters
+# LDFLAGS puts them in the beginning.
 if platform.system().upper() == 'DARWIN':
     os.environ["LDFLAGS"] = "-framework IOKit -framework CoreFoundation"
 
 ext_modules = [
     Extension(
         'neoradio2',
-        source_includes,
-        libraries = library_includes,
+        sources=source_includes,
+        libraries=library_includes,
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
-            '../hidapi/hidapi',
+            'hidapi/hidapi',
+            '.',
             get_python_inc(True),
-            os.path.abspath('./'),
-            os.path.abspath('../'),
+            os.path.abspath('.'),
         ],
         language='c++'
     ),
 ]
-
-print(os.path.abspath('../'))
-
-
+print(os.path.abspath('.'))
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
 # cf http://bugs.python.org/issue26689
@@ -147,6 +150,8 @@ class BuildExt(build_ext):
         build_ext.build_extensions(self)
 
 
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
     name='neoradio2',
@@ -154,11 +159,22 @@ setup(
     author='David Rebbe',
     author_email='drebbe@intrepidcs.com',
     url='https://github.com/intrepidcs/libneoradio2',
+    download_url='https://github.com/intrepidcs/libneoradio2/releases',
     description='neoRADIO2 python bindings',
-    long_description='',
+    long_description=read('README.md'),
     ext_modules=ext_modules,
+    data_files=[('', ['version.py'].append(header_includes))],
     install_requires=['pybind11>=2.2'],
     setup_requires=['pybind11>=2.2'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
+
+    classifiers = [
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        ],
 )
