@@ -153,6 +153,9 @@ class BuildExt(build_ext):
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+
+data_files = ['version.py']
+data_files.extend(header_includes)
 setup(
     name='neoradio2',
     version=__version__,
@@ -163,7 +166,7 @@ setup(
     description='neoRADIO2 python bindings',
     long_description=read('README.md'),
     ext_modules=ext_modules,
-    data_files=[('', ['version.py'].append(header_includes))],
+    data_files=[('', data_files)],
     install_requires=['pybind11>=2.2'],
     setup_requires=['pybind11>=2.2'],
     cmdclass={'build_ext': BuildExt},
