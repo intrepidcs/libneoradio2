@@ -34,6 +34,8 @@ for root, dirs, files in os.walk('.'):
         if file.endswith('.h'):
             header_includes.append(os.path.join(root, file))
 
+data_files = ['version.py']
+data_files.extend(header_includes)
 
 library_includes = []
 if 'NT' in os.name.upper():
@@ -43,6 +45,11 @@ elif platform.system().upper() == 'DARWIN':
 else:
     source_includes.append('hidapi/linux/hid.c')
     library_includes.append('udev')
+
+# We build sdist on windows but we still need the others included.
+data_files.append('hidapi/linux/hid.c')
+data_files.append('hidapi/mac/hid.c')
+data_files.append('hidapi/windows/hid.c')
 
 # macOS X clang linker complains if these are at the end of the argument parameters
 # LDFLAGS puts them in the beginning.
@@ -153,9 +160,6 @@ class BuildExt(build_ext):
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-
-data_files = ['version.py']
-data_files.extend(header_includes)
 setup(
     name='neoradio2',
     version=__version__,
