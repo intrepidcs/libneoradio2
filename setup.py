@@ -171,8 +171,8 @@ setup(
     long_description=read('README.md'),
     ext_modules=ext_modules,
     data_files=[('', data_files)],
-    install_requires=['pybind11>=2.2'],
-    setup_requires=['pybind11>=2.2'],
+    install_requires=['pybind11'],
+    setup_requires=['pybind11'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
 
