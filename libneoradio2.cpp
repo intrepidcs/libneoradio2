@@ -935,3 +935,18 @@ LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, 
 
 	return NEORADIO2_SUCCESS;
 }
+
+LIBNEORADIO2_API int neoradio2_write_default_settings(neoradio2_handle* handle, int device, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev.get());
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	auto success = radio_dev->writeDefaultSettings(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	if (!_set_blocking && success == NEORADIO2_FAILURE)
+		return NEORADIO2_ERR_WBLOCK;
+	return success;
+}

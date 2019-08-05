@@ -71,6 +71,12 @@ PYBIND11_MODULE(neoradio2, m) {
 		.value("CommandStateDevice", CommandStateType::CommandStateDevice)
 		.export_values();
 
+	py::enum_<neoRADIO2CalType>(m, "CalType", py::arithmetic())
+		.value("ENABLED", neoRADIO2CalType::NEORADIO2CALTYPE_ENABLED)
+		.value("NOCAL", neoRADIO2CalType::NEORADIO2CALTYPE_NOCAL)
+		.value("NOCAL_ENHANCED", neoRADIO2CalType::NEORADIO2CALTYPE_NOCAL_ENHANCED)
+		.export_values();
+
 	py::enum_<CommandStatus>(m, "CommandStatus", py::arithmetic())
 		.value("StatusInProgress", CommandStatus::StatusInProgress)
 		.value("StatusFinished", CommandStatus::StatusFinished)
@@ -799,7 +805,10 @@ PYBIND11_MODULE(neoradio2, m) {
 			handle (int): handle to the neoRAD-IO2 Device.
 			device (int): device number in the chain to communicate with. First device is 0.
 			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
-			enable_cal (int): Enable reading based on calibration inside the unit. 0 = raw, 1 = use calibration.
+			enable_cal (int): Enable reading based on calibration inside the unit.
+				CalType.ENABLED: Reads raw sensor value with using calibration values. Use this if unsure.
+				CalType.NOCAL: Reads sensor value without calibration applied
+				CalType.NOCAL_ENHANCED: Same as CALTYPE_NOCAL but with slower sample rate. Ignores setting poll rate.
 
 		Raises:
 			neoradio2.Exception on error
@@ -815,7 +824,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			...     print(device)
 			...     handle = neoradio2.open(device)
 			...     # Request/Get the sensor data on bank 8 for device 0
-			...     neoradio2.request_sensor_data(handle, 0, 0xFF, True)
+			...     neoradio2.request_sensor_data(handle, 0, 0xFF, neoradio2.CalType.CALTYPE_ENABLED)
 			...     neoradio2.read_sensor_float(handle, 0, 7)
 			...     neoradio2.close(handle)
 			...
@@ -1060,6 +1069,50 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...     neoradio2.request_settings(h, 0, 1)
+			...     settings = neoradio2.read_settings(h, 0, 1)
+			...     neoradio2.write_settings(h, 0, 1, settings)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			True
+			>>>
+	)pbdoc");
+
+	m.def("write_default_settings", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		auto result = neoradio2_write_default_settings(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_write_default_settings() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_write_default_settings() failed");
+		return true;
+	}, R"pbdoc(
+		neoradio2_write_default_settings(handle, device, bank)
+
+		Request to load default settings of the selected devices and banks. Chain needs to be identified first.
+		Must be in application firmware.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
+
+		Returns:
+			Returns True on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.write_default_settings(h, 0, 1)
 			...     neoradio2.request_settings(h, 0, 1)
 			...     neoradio2.read_settings(h, 0, 1)
 			...     neoradio2.close(handle)

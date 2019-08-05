@@ -28,7 +28,7 @@ neoRADIO2Device::neoRADIO2Device()
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_DATA);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_SETTINGS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_SETTINGS);
-	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DONT_USE1);
+	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_STATUS_WRITE_SETTINGS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DONT_USE2);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_TOGGLE_LED);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_PCBSN);
@@ -1758,6 +1758,56 @@ bool neoRADIO2Device::toggleLEDSuccessful(int device, int bank)
 	};
 
 	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_TOGGLE_LED, COMMAND_STATE_FINISHED, true, 0s);
+}
+
+bool neoRADIO2Device::writeDefaultSettings(int device, int bank, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d = 0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b = 0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	const int frame_count = getSettingsPartsCount();
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_DEFAULT_SETTINGS, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+
+	neoRADIO2frame response_frame =
+	{
+		{ // header
+			0x55, // start_of_frame
+			NEORADIO2_STATUS_WRITE_SETTINGS, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+
+	if (!mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout))
+		return false;
+
+	return mDCH.isStateSet(&response_frame.header, COMMAND_STATE_FINISHED, true, timeout);
 }
 
 int neoRADIO2Device::getCommandStateTypeSof(CommandStateType type)

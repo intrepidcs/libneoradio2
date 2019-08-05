@@ -92,7 +92,7 @@ public:
 	bool toggleLED(int device, int bank, int ms, std::chrono::milliseconds timeout);
 	bool toggleLEDSuccessful(int device, int bank);
 
-	
+	bool writeDefaultSettings(int device, int bank, std::chrono::milliseconds timeout);
 	
 	int getCommandStateTypeSof(CommandStateType type);
 

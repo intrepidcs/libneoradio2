@@ -80,6 +80,8 @@ LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, i
 
 LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, int bank, int bitfield, StatusType type, CommandStatus* status);
 
+LIBNEORADIO2_API int neoradio2_write_default_settings(neoradio2_handle* handle, int device, int bank);
+
 #ifdef __cplusplus
 }
 #endif
