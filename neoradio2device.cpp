@@ -28,7 +28,7 @@ neoRADIO2Device::neoRADIO2Device()
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_DATA);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_SETTINGS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_SETTINGS);
-	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_STATUS_WRITE_SETTINGS);
+	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DEFAULT_SETTINGS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DONT_USE2);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_TOGGLE_LED);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_PCBSN);
