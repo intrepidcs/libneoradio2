@@ -1,7 +1,7 @@
 MAJOR = 1
-MINOR = 0
+MINOR = 1
 MICRO = 0
-POST = 3
+POST = None
 
 
 def _get_version_str():
