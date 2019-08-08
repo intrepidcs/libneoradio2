@@ -77,6 +77,13 @@ PYBIND11_MODULE(neoradio2, m) {
 		.value("NOCAL_ENHANCED", neoRADIO2CalType::NEORADIO2CALTYPE_NOCAL_ENHANCED)
 		.export_values();
 
+	py::enum_<neoRADIO2_LEDMode>(m, "LEDMode", py::arithmetic())
+		.value("OFF", neoRADIO2_LEDMode::LEDMODE_OFF)
+		.value("ON", neoRADIO2_LEDMode::LEDMODE_ON)
+		.value("BLINK_ONCE", neoRADIO2_LEDMode::LEDMODE_BLINK_ONCE)
+		.value("BLINK_DURATION_MS", neoRADIO2_LEDMode::LEDMODE_BLINK_DURATION_MS)
+		.export_values();
+
 	py::enum_<CommandStatus>(m, "CommandStatus", py::arithmetic())
 		.value("StatusInProgress", CommandStatus::StatusInProgress)
 		.value("StatusFinished", CommandStatus::StatusFinished)
@@ -1184,7 +1191,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 	)pbdoc");
 
-	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, int mode, int led_enables, int ms) {
+	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, neoRADIO2_LEDMode mode, int led_enables, int ms) {
 		py::gil_scoped_release release;
 		auto result = neoradio2_toggle_led(&handle, device, bank, mode, led_enables, ms);
 		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
@@ -1201,7 +1208,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			handle (int): handle to the neoRAD-IO2 Device.
 			device (int): device number in the chain to communicate with. First device is 0.
 			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
-			mode (int): Selects the LED mode to send to the LED.
+			mode (LEDMode): Selects the LED mode to send to the LED.
 			led_enables (int): LED of the bank to communicate with. This is a bitmask (0b00001001 - 0x09 = LED 1 and 4).
 			ms (int): Time in milliseconds to keep the led illuminated for.
 
