@@ -1702,7 +1702,7 @@ bool neoRADIO2Device::readCalibrationInfo(int device, int bank, neoRADIO2frame_c
 	return true;
 }
 
-bool neoRADIO2Device::toggleLED(int device, int bank, int ms, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::toggleLED(int device, int bank, int mode, int led_enables, int ms, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 
@@ -1719,16 +1719,11 @@ bool neoRADIO2Device::toggleLED(int device, int bank, int ms, std::chrono::milli
 		},
 		0 // crc
 	};
-	//if (ms <= 255)
-	//{
-		frame.data[0] = ms & 0xFF;
-		frame.header.len = 1;
-	//}
-	//else
-	//{
-	//	*(uint32_t*)&frame.data[0] = ms;
-	//	frame.header.len = sizeof(uint32_t);
-	//}
+	frame.data[0] = led_enables;
+	frame.data[1] = mode;
+	*(uint16_t*)&(frame.data[2]) = (uint16_t)ms;
+	frame.header.len = 4;
+
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 	// send the packets

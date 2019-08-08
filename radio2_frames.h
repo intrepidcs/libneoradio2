@@ -125,7 +125,7 @@ typedef struct _neoRADIO2frame_calHeader {
 typedef enum _neoRADIO2CalType {
 	NEORADIO2CALTYPE_ENABLED = 0, // Reads raw sensor value with using calibration values. This is the same as reading without a caltype
 	NEORADIO2CALTYPE_NOCAL = 1, // Reads sensor value without calibration applied
-	NEORADIO2CALTYPE_NOCAL_ENHANCED = 2, // Same as ENABLE but with slower sample rate
+	NEORADIO2CALTYPE_NOCAL_ENHANCED = 2, // Same as NOCAL but with slower sample rate
 } neoRADIO2CalType;
 
 typedef enum _neoRADIO2_CANMsgType {
@@ -174,6 +174,13 @@ typedef struct _neoRADIO2_SettingsPart {
 #define NEORADIO2_DESTINATION_BANK6 0x20
 #define NEORADIO2_DESTINATION_BANK7 0x40
 #define NEORADIO2_DESTINATION_BANK8 0x80
+
+typedef enum _neoRADIO2_LEDMode {
+	LEDMODE_OFF = 0, // Turn the LED off.
+	LEDMODE_ON, // Turn the LED on.
+	LEDMODE_BLINK_ONCE, // Blink the LED quickly, once.
+	LEDMODE_BLINK_DURATION_MS, // Expects two bytes after in LSB, 65535ms max.
+} neoRADIO2_LEDMode;
 
 typedef union _bytesToFloat {
 	float fp;

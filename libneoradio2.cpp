@@ -893,7 +893,7 @@ LIBNEORADIO2_API int neoradio2_read_calibration_info(neoradio2_handle* handle, i
 	return success ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 }
 
-LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int ms)
+LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int mode, int led_enables, int ms)
 {
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
@@ -901,7 +901,7 @@ LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, 
 	auto radio_dev = static_cast<neoRADIO2Device*>(dev.get());
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
-	auto success = radio_dev->toggleLED(device, bank, ms, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	auto success = radio_dev->toggleLED(device, bank, mode, led_enables, ms, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;

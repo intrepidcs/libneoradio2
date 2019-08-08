@@ -74,7 +74,7 @@ LIBNEORADIO2_API int neoradio2_request_calibration_info(neoradio2_handle* handle
 LIBNEORADIO2_API int neoradio2_read_calibration_info(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header);
 
 
-LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int ms);
+LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int mode, int led_enables, int ms);
 LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, int device, int bank);
 
 

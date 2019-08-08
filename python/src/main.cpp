@@ -1184,9 +1184,9 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 	)pbdoc");
 
-	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, int ms) {
+	m.def("toggle_led", [](neoradio2_handle& handle, int device, int bank, int mode, int led_enables, int ms) {
 		py::gil_scoped_release release;
-		auto result = neoradio2_toggle_led(&handle, device, bank, ms);
+		auto result = neoradio2_toggle_led(&handle, device, bank, mode, led_enables, ms);
 		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
 			throw NeoRadio2ExceptionWouldBlock("neoradio2_toggle_led() would block");
 		else if (result != NEORADIO2_SUCCESS)
@@ -1201,6 +1201,8 @@ PYBIND11_MODULE(neoradio2, m) {
 			handle (int): handle to the neoRAD-IO2 Device.
 			device (int): device number in the chain to communicate with. First device is 0.
 			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+			mode (int): Selects the LED mode to send to the LED.
+			led_enables (int): LED of the bank to communicate with. This is a bitmask (0b00001001 - 0x09 = LED 1 and 4).
 			ms (int): Time in milliseconds to keep the led illuminated for.
 
 		Raises:
