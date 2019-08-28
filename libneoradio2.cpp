@@ -950,3 +950,36 @@ LIBNEORADIO2_API int neoradio2_write_default_settings(neoradio2_handle* handle, 
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
 }
+
+LIBNEORADIO2_API int neoradio2_request_statistics(neoradio2_handle* handle, int device, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev.get());
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	auto success = radio_dev->requestStatistics(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	if (!_set_blocking && success == NEORADIO2_FAILURE)
+		return NEORADIO2_ERR_WBLOCK;
+	return success;
+}
+LIBNEORADIO2_API int neoradio2_read_statistics(neoradio2_handle* handle, int device, int bank, neoRADIO2_PerfStatistics* stats)
+{
+	if (!stats)
+		return NEORADIO2_FAILURE;
+
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev.get());
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+
+	std::vector<uint8_t> data;
+	auto success = radio_dev->readStatistics(device, bank, *stats, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	if (!_set_blocking && success == NEORADIO2_FAILURE)
+		return NEORADIO2_ERR_WBLOCK;
+	return success;
+}

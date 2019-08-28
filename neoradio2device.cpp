@@ -40,6 +40,8 @@ neoRADIO2Device::neoRADIO2Device()
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CALPOINTS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CAL_INFO);
 
+	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_PERF_STATS);
+
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_WRITEBUFFER);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_WRITETOFLASH);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_BL_VERIFY);
@@ -55,6 +57,7 @@ neoRADIO2Device::neoRADIO2Device()
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL_STORE);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL_INFO);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CALPOINTS);
+	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_PERF_STATS);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_NEED_ID);
 
 	_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_RESET);
@@ -1803,6 +1806,47 @@ bool neoRADIO2Device::writeDefaultSettings(int device, int bank, std::chrono::mi
 		return false;
 
 	return mDCH.isStateSet(&response_frame.header, COMMAND_STATE_FINISHED, true, timeout);
+}
+
+
+bool neoRADIO2Device::requestStatistics(int device, int bank, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_PERF_STATS, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+
+	// Reset commands
+	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
+	mDCH.updateCommand(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_PERF_STATS, COMMAND_STATE_RESET, true);
+
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+
+	return mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout);
+}
+
+bool neoRADIO2Device::readStatistics(int device, int bank, neoRADIO2_PerfStatistics& perf, std::chrono::milliseconds timeout)
+{
+	memset(&perf, 0, sizeof(perf));
+	if (!mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_PERF_STATS, COMMAND_STATE_FINISHED, false, timeout))
+		return false;
+	std::vector<uint8_t> _data = mDCH.getData(0x55, device, bank, NEORADIO2_STATUS_PERF_STATS);
+	if (_data.size() != sizeof(perf))
+		return false;
+	memcpy(&perf, _data.data(), _data.size());
+	return true;
 }
 
 int neoRADIO2Device::getCommandStateTypeSof(CommandStateType type)

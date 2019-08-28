@@ -82,6 +82,12 @@ LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, 
 
 LIBNEORADIO2_API int neoradio2_write_default_settings(neoradio2_handle* handle, int device, int bank);
 
+LIBNEORADIO2_API int neoradio2_request_statistics(neoradio2_handle* handle, int device, int bank);
+LIBNEORADIO2_API int neoradio2_read_statistics(neoradio2_handle* handle, int device, int bank, neoRADIO2_PerfStatistics* stats);
+
+
+
+
 #ifdef __cplusplus
 }
 #endif

@@ -164,6 +164,19 @@ PYBIND11_MODULE(neoradio2, m) {
 		.def_readwrite("range", &neoRADIO2frame_calHeader::range)
 		.def_readwrite("cal_is_valid", &neoRADIO2frame_calHeader::cal_is_valid);
 
+	py::class_<neoRADIO2_PerfStatistics>(m, "neoRADIO2_PerfStatistics")
+		.def(py::init([]() { return new neoRADIO2_PerfStatistics{ 0 }; }))
+		.def_readwrite("comm_timeout_reset_cnt", &neoRADIO2_PerfStatistics::comm_timeout_reset_cnt)
+		.def_readwrite("cmd_process_time_ms", &neoRADIO2_PerfStatistics::cmd_process_time_ms)
+		.def_readwrite("max_cmd_process_time_ms", &neoRADIO2_PerfStatistics::max_cmd_process_time_ms)
+		.def_readwrite("bytes_rx", &neoRADIO2_PerfStatistics::bytes_rx)
+		.def_readwrite("bytes_tx", &neoRADIO2_PerfStatistics::bytes_tx)
+		.def_readwrite("ignored_rx", &neoRADIO2_PerfStatistics::ignored_rx)
+		.def_readwrite("checksum_error_cnt", &neoRADIO2_PerfStatistics::checksum_error_cnt)
+		.def_readwrite("last_cmd", &neoRADIO2_PerfStatistics::last_cmd)
+		.def_readwrite("buffer_current", &neoRADIO2_PerfStatistics::buffer_current)
+		.def_readwrite("buffer_max", &neoRADIO2_PerfStatistics::buffer_max);
+
     // Functions ==============================================================
     m.def("find", []() {
         const unsigned int size = 8;
@@ -1841,7 +1854,25 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 
 	)pbdoc");
-	
+
+	m.def("request_statistics", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		if (neoradio2_request_statistics(&handle, device, bank) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_request_statistics() failed");
+		return true;
+	}, R"pbdoc(
+		TODO
+	)pbdoc");
+
+	m.def("read_statistics", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		neoRADIO2_PerfStatistics stats;
+		if (neoradio2_read_statistics(&handle, device, bank, &stats) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_statistics() failed");
+		return stats;
+	}, R"pbdoc(
+		TODO
+	)pbdoc");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;

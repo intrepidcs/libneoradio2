@@ -93,6 +93,8 @@ public:
 	bool toggleLEDSuccessful(int device, int bank);
 
 	bool writeDefaultSettings(int device, int bank, std::chrono::milliseconds timeout);
+	bool requestStatistics(int device, int bank, std::chrono::milliseconds timeout);
+	bool readStatistics(int device, int bank, neoRADIO2_PerfStatistics& perf, std::chrono::milliseconds timeout);
 	
 	int getCommandStateTypeSof(CommandStateType type);
 
