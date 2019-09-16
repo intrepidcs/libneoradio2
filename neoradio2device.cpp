@@ -1320,7 +1320,7 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& se
 		if (!mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout))
 			return false;
 	}
-	return mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout);
+	return mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_WRITE_SETTINGS, COMMAND_STATE_FINISHED, true, timeout);
 }
 
 bool neoRADIO2Device::writeSettingsSuccessful(int device, int bank)
