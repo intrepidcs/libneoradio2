@@ -1292,6 +1292,9 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& se
 
 	for (unsigned int i = 0; i <= getSettingsPartsCount(); ++i)
 	{
+		// we are sending too fast here, need to slow it down.
+		std::this_thread::sleep_for(2ms);
+
 		mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 
 		neoRADIO2_SettingsPart part = {};
@@ -1320,6 +1323,8 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& se
 		if (!mDCH.isStateSet(&frame.header, COMMAND_STATE_FINISHED, true, timeout))
 			return false;
 	}
+	// we are sending too fast here, need to slow it down.
+	std::this_thread::sleep_for(30ms);
 	return mDCH.isStateSet(0x55, device, bank, NEORADIO2_STATUS_WRITE_SETTINGS, COMMAND_STATE_FINISHED, true, timeout);
 }
 
