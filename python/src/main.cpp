@@ -1312,6 +1312,51 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>>
 	)pbdoc");
 
+	m.def("clear_calibration", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		auto result = neoradio2_clear_calibration(&handle, device, bank);
+		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+			throw NeoRadio2ExceptionWouldBlock("neoradio2_clear_calibration() would block");
+		else if (result != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_clear_calibration() failed");
+		return true;
+		}, R"pbdoc(
+		neoradio2_clear_calibration(handle, device, bank)
+
+		clears calibration on the selected devices and banks. This sets calibration back to firmware defaults.
+		NOTE: When in doubt, do NOT uses this function as it will clear factory calibrated values.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
+
+		Raises:
+			neoradio2.Exception on error
+			neoradio2.ExceptionWouldBlock on blocking error in non-blocking mode.
+
+		Returns:
+			Returns True on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     header = neoradio2.neoRADIO2frame_calHeader()
+			...     header.channel = 0
+			...     header.range = 0
+			...     neoradio2.clear_calibration(handle, 0, 1)
+			...     neoradio2.request_calibration(handle, 0, 1, header)
+			...     cal_values = neoradio2.read_calibration_array(handle, 0, 1)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			>>>
+	)pbdoc");
+
 	m.def("read_calibration_array", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
         py::gil_scoped_release release;
 		float arr[64] ={0};
