@@ -66,6 +66,7 @@ ext_modules = [
             get_pybind_include(),
             get_pybind_include(user=True),
             'hidapi/hidapi',
+            'neoRAD-IO2-FrameDescription',
             '.',
             get_python_inc(True),
             os.path.abspath('.'),
