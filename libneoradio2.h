@@ -69,6 +69,8 @@ LIBNEORADIO2_API int neoradio2_write_calibration_points_successful(neoradio2_han
 LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_is_calibration_stored(neoradio2_handle* handle, int device, int bank, int* stored);
 LIBNEORADIO2_API int neoradio2_get_calibration_is_valid(neoradio2_handle* handle, int device, int bank, int* is_valid);
+LIBNEORADIO2_API int neoradio2_clear_calibration(neoradio2_handle* handle, int device, int bank);
+
 
 LIBNEORADIO2_API int neoradio2_request_calibration_info(neoradio2_handle* handle, int device, int bank);
 LIBNEORADIO2_API int neoradio2_read_calibration_info(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header);

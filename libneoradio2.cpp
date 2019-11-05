@@ -865,6 +865,19 @@ LIBNEORADIO2_API int neoradio2_get_calibration_is_valid(neoradio2_handle* handle
 	return success;
 }
 
+LIBNEORADIO2_API int neoradio2_clear_calibration(neoradio2_handle* handle, int device, int bank)
+{
+	auto dev = _getDevice(*handle);
+	if (!dev->isOpen())
+		return NEORADIO2_FAILURE;
+	auto radio_dev = static_cast<neoRADIO2Device*>(dev.get());
+	if (!radio_dev)
+		return NEORADIO2_FAILURE;
+	bool valid = false;
+	bool success = radio_dev->clearCalibration(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	return success;
+}
+
 LIBNEORADIO2_API int neoradio2_request_calibration_info(neoradio2_handle* handle, int device, int bank)
 {
 	auto dev = _getDevice(*handle);

@@ -89,6 +89,8 @@ public:
 	bool requestCalibrationInfo(int device, int bank, std::chrono::milliseconds timeout);
 	bool readCalibrationInfo(int device, int bank, neoRADIO2frame_calHeader& header, std::chrono::milliseconds timeout);
 
+	bool clearCalibration(int device, int bank, std::chrono::milliseconds timeout);
+
 	bool toggleLED(int device, int bank, int mode, int led_enables, int ms, std::chrono::milliseconds timeout);
 	bool toggleLEDSuccessful(int device, int bank);
 

@@ -29,8 +29,9 @@ neoRADIO2Device::neoRADIO2Device()
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_WRITE_SETTINGS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_SETTINGS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DEFAULT_SETTINGS);
-	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_DONT_USE2);
+	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_FAST);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_TOGGLE_LED);
+	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_SET_BAUD);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_PCBSN);
 
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CAL);
@@ -39,6 +40,7 @@ neoRADIO2Device::neoRADIO2Device()
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_STORE_CAL);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CALPOINTS);
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_READ_CAL_INFO);
+	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_CLEAR_CAL);
 
 	_InsertEnumIntoMap(mHostFrameCommandNames, NEORADIO2_COMMAND_PERF_STATS);
 
@@ -58,6 +60,7 @@ neoRADIO2Device::neoRADIO2Device()
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CAL_INFO);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_CALPOINTS);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_PERF_STATS);
+	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_SETBAUD);
 	_InsertEnumIntoMap(mDeviceFrameCommandNames, NEORADIO2_STATUS_NEED_ID);
 
 	_InsertEnumIntoMap(mCommandStateNames, COMMAND_STATE_RESET);
@@ -1662,6 +1665,9 @@ bool neoRADIO2Device::isCalibrationStored(int device, int bank, bool& stored, st
 	return true;
 }
 
+
+
+
 bool neoRADIO2Device::requestCalibrationInfo(int device, int bank, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
@@ -1708,6 +1714,42 @@ bool neoRADIO2Device::readCalibrationInfo(int device, int bank, neoRADIO2frame_c
 		return false;
 	memcpy(&header, _data.data(), sizeof(header));
 	return true;
+}
+
+bool neoRADIO2Device::clearCalibration(int device, int bank, std::chrono::milliseconds timeout)
+{
+	using namespace std::chrono;
+	// This command is only available in application code
+	// isApplicationStarted isn't a bitmask
+	for (int d = 0; d < 8; ++d)
+		if ((d << 1) & device)
+			for (int b = 0; b < 8; ++b)
+				if ((b << 1) & bank)
+					if (!isApplicationStarted(d, b, 0s))
+						return false;
+
+	neoRADIO2frame frame =
+	{
+		{ // header
+			0xAA, // start_of_frame
+			NEORADIO2_COMMAND_CLEAR_CAL, // command_status
+			(uint8_t)device,
+			(uint8_t)bank, // bank
+			0, // len
+		},
+		{ // data
+		},
+		0 // crc
+	};
+	// Reset commands
+	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
+	mDCH.updateCommand(0x55, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_CLEAR_CAL, COMMAND_STATE_RESET, true);
+	// send the packets
+	if (!writeUartFrame(&frame, CHANNEL_1))
+		return false;
+	// Is the command set?
+	//bool success = mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_READ_CAL_INFO, COMMAND_STATE_FINISHED, true, timeout); 
+	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_CLEAR_CAL, COMMAND_STATE_FINISHED, true, timeout);
 }
 
 bool neoRADIO2Device::toggleLED(int device, int bank, int mode, int led_enables, int ms, std::chrono::milliseconds timeout)

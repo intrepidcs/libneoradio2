@@ -42,7 +42,6 @@ EXPORTS
 	neoradio2_write_sensor @ 36
 	neoradio2_write_settings_successful @ 37
 
-	neoradio2_write_settings_successful @ 38
 	neoradio2_write_calibration_successful @ 39
 
 	neoradio2_write_calibration_points_successful @ 40
@@ -50,3 +49,5 @@ EXPORTS
 	neoradio2_toggle_led_successful @ 41
 
 	neoradio2_get_status @ 42
+
+	neoradio2_clear_calibration @ 43
