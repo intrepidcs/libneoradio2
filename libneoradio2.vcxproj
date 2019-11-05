@@ -88,7 +88,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;_USRDLL;LIBNEORADIO2_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>hidapi\hidapi;neoRAD-IO2-FrameDescription\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <PrecompiledHeaderFile />
     </ClCompile>
@@ -107,7 +107,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;_USRDLL;LIBNEORADIO2_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>hidapi\hidapi;neoRAD-IO2-FrameDescription\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,7 +126,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;_USRDLL;LIBNEORADIO2_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>hidapi\hidapi;neoRAD-IO2-FrameDescription\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;_USRDLL;LIBNEORADIO2_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>hidapi\hidapi;neoRAD-IO2-FrameDescription\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -171,10 +171,15 @@
     <ClInclude Include="hiddevice.h" />
     <ClInclude Include="libneoradio2.h" />
     <ClInclude Include="libneoradio2common.h" />
+    <ClInclude Include="neoRAD-IO2-FrameDescription\neoRAD-IO2-AIN.h" />
+    <ClInclude Include="neoRAD-IO2-FrameDescription\neoRAD-IO2-AOUT.h" />
+    <ClInclude Include="neoRAD-IO2-FrameDescription\neoRAD-IO2-DIO.h" />
+    <ClInclude Include="neoRAD-IO2-FrameDescription\neoRAD-IO2-PWRRLY.h" />
+    <ClInclude Include="neoRAD-IO2-FrameDescription\neoRAD-IO2-TC.h" />
+    <ClInclude Include="neoRAD-IO2-FrameDescription\radio2_frames.h" />
     <ClInclude Include="neoradio2.h" />
     <ClInclude Include="neoradio2device.h" />
     <ClInclude Include="neoradio2framehandler.h" />
-    <ClInclude Include="radio2_frames.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="device.cpp" />

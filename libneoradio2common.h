@@ -3,7 +3,13 @@
 
 
 #include <stdint.h>
+#if defined(_MSC_VER)
+// I spent about an hour trying to get visual studio project files 
+// to try and include this submodule header... giving up and "hardcoding" it here
+#include "neoRAD-IO2-FrameDescription\radio2_frames.h"
+#else
 #include "radio2_frames.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
