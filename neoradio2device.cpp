@@ -1749,7 +1749,7 @@ bool neoRADIO2Device::clearCalibration(int device, int bank, std::chrono::millis
 		return false;
 	// Is the command set?
 	//bool success = mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_READ_CAL_INFO, COMMAND_STATE_FINISHED, true, timeout); 
-	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_CLEAR_CAL, COMMAND_STATE_FINISHED, true, timeout);
+	return mDCH.isStateSet(0xAA, frame.header.device, frame.header.bank, NEORADIO2_COMMAND_CLEAR_CAL, COMMAND_STATE_FINISHED, true, timeout);
 }
 
 bool neoRADIO2Device::toggleLED(int device, int bank, int mode, int led_enables, int ms, std::chrono::milliseconds timeout)
