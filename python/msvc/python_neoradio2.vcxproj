@@ -111,7 +111,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\;..\..\neoRAD-IO2-FrameDescription</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>c:\Python36-32\libs</AdditionalLibraryDirectories>
@@ -119,7 +119,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\;..\..\neoRAD-IO2-FrameDescription</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>c:\Python36-32\libs</AdditionalLibraryDirectories>
