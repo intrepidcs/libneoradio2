@@ -79,7 +79,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\;..\..\neoRAD-IO2-FrameDescription</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -98,7 +98,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\Python36-32\include;..\..;..\..\hidapi\hidapi\;..\..\neoRAD-IO2-FrameDescription</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -142,10 +142,15 @@
     <ClInclude Include="..\..\fifo.h" />
     <ClInclude Include="..\..\hiddevice.h" />
     <ClInclude Include="..\..\libneoradio2.h" />
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-AIN.h" />
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-AOUT.h" />
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-DIO.h" />
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-PWRRLY.h" />
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-TC.h" />
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\radio2_frames.h" />
     <ClInclude Include="..\..\neoradio2.h" />
     <ClInclude Include="..\..\neoradio2device.h" />
     <ClInclude Include="..\..\neoradio2framehandler.h" />
-    <ClInclude Include="..\..\radio2_frames.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\test.py" />

@@ -74,7 +74,22 @@
     <ClInclude Include="..\..\neoradio2framehandler.h">
       <Filter>Header Files\libneoradio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\radio2_frames.h">
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-AIN.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-AOUT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-DIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-PWRRLY.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\neoRAD-IO2-TC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\neoRAD-IO2-FrameDescription\radio2_frames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
