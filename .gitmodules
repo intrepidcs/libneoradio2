@@ -4,3 +4,6 @@
 [submodule "test/ice"]
 	path = test/ice
 	url = https://github.com/ic3man5/ice.git
+[submodule "neoRAD-IO2-FrameDescription"]
+	path = neoRAD-IO2-FrameDescription
+	url = https://github.com/emende-intrepid/neoRAD-IO2-FrameDescription.git
