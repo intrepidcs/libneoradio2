@@ -915,9 +915,10 @@ PYBIND11_MODULE(neoradio2, m) {
 			4.953075885772705
 			>>>
 	)pbdoc");
-	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, int value) {
-		py::gil_scoped_release release;
-		auto result = neoradio2_write_sensor(&handle, device, bank, mask, value);
+	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, std::vector<uint8_t> data) {
+		//py::gil_scoped_release release;
+		data.insert(data.begin(), mask);
+		auto result = neoradio2_write_sensor(&handle, device, bank, data.data(), data.size());
 		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
 			throw NeoRadio2ExceptionWouldBlock("neoradio2_write_sensor() would block");
 		else if (result != NEORADIO2_SUCCESS)
