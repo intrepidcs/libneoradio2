@@ -206,7 +206,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...
-			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-AOUT IC0009'>
 			>>>
 	)pbdoc");
     
@@ -467,14 +467,15 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     neoradio2.app_is_started(handle, 0, 0)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
 			True
+			True
 			>>>
 	)pbdoc");
-    
     m.def("app_start", [](neoradio2_handle& handle, int device, int bank) {
 		py::gil_scoped_release release;
 		auto result = neoradio2_app_start(&handle, device, bank);
@@ -507,11 +508,13 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Start application firmware on all banks for device 0
 			...     neoradio2.app_start(handle, 0, 0xFF) 
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			True
 			True
 			>>>
 	)pbdoc");
@@ -549,12 +552,16 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Get serial number of Bank 1
 			...     neoradio2.app_start(handle, 0, 1) 
+			...		neoradio2.get_serial_number(handle, 0 , 1)
 			...     neoradio2.close(handle)
 			...
-			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
-			1106386131
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-AOUT IC0009'>
+			True
+			True
+			1108546569
 			>>>
 	)pbdoc");
     
@@ -590,11 +597,13 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Start application firmware on all banks for device 0
 			...     neoradio2.enter_bootloader(handle, 0, 0xFF) 
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			True
 			True
 			>>>
 	)pbdoc");
@@ -627,15 +636,16 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Get the manufacturing date on bank 1 for device 0
 			...     neoradio2.get_manufacturer_date(handle, 0, 0x01)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-TC IAPP03'>
+			True
 			(2019, 4, 26)
 			>>>
 	)pbdoc");
-    
     m.def("get_firmware_version", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
         int major, minor;
@@ -664,6 +674,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Get the manufacturing date on bank 1 for device 0
 			...     neoradio2.get_firmware_version(handle, 0, 0x01)
 			...     neoradio2.close(handle)
@@ -701,6 +712,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Get the hardware revision on bank 1 for device 0
 			...     neoradio2.get_hardware_revision(handle, 0, 0x01)
 			...     neoradio2.close(handle)
@@ -756,12 +768,16 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
+			...		neoradio2.app_start(handle, 0, 0xFF)
 			...     # Request/Get the PCB SN on bank 1 for device 0
 			...     neoradio2.request_pcb_sn(handle, 0, 0xFF)
 			...     neoradio2.get_pcbsn(handle, 0, 1)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			True
 			True
 			R2TC050031902002
 			>>>
@@ -796,12 +812,16 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
+			...		neoradio2.app_start(handle, 0, 0xFF)
 			...     # Request/Get the PCB SN on bank 1 for device 0
 			...     neoradio2.request_pcb_sn(handle, 0, 0xFF)
 			...     neoradio2.get_pcbsn(handle, 0, 1)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			True
 			True
 			R2TC050031902002
 			>>>
@@ -843,6 +863,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Request/Get the sensor data on bank 8 for device 0
 			...     neoradio2.request_sensor_data(handle, 0, 0xFF, neoradio2.CalType.CALTYPE_ENABLED)
 			...     neoradio2.read_sensor_float(handle, 0, 7)
@@ -853,7 +874,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			4.953075885772705
 			>>>
 	)pbdoc");
-    
+
 	m.def("read_sensor_float", [](neoradio2_handle& handle, int device, int bank) {
 		py::gil_scoped_release release;
 		float value = 0;
@@ -883,6 +904,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
 			...     # Request/Get the sensor data on bank 8 for device 0
 			...     neoradio2.request_sensor_data(handle, 0, 0xFF, True)
 			...     neoradio2.read_sensor_float(handle, 0, 7)
@@ -893,8 +915,6 @@ PYBIND11_MODULE(neoradio2, m) {
 			4.953075885772705
 			>>>
 	)pbdoc");
-
-
 	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, int value) {
 		py::gil_scoped_release release;
 		auto result = neoradio2_write_sensor(&handle, device, bank, mask, value);
@@ -921,12 +941,27 @@ PYBIND11_MODULE(neoradio2, m) {
 				DIO3 = 0x04
 				DIO4 = 0x08
 
+		RADIO2 Series:
+			AOUT:
+				Channel 1 = 0x01
+				Channel 2 = 0x02
+				Channel 3 = 0x04
+				
+
+				Buffer = [(Channel_1 Data Byte 0), (Channel_1 Data Byte 1), (Channel_2 Data Byte 0), (Channel_2 Data Byte 1), (Channel_3 Data Byte 0), (Channel_3 Data Byte 1)]
+
+			DIO:
+				Channel 1 = 0x01
+				Channel 2 = 0x02
+				Channel 3 = 0x04
+
+
 		Args:
 			handle (int): handle to the neoRAD-IO2 Device.
 			device (int): device number in the chain to communicate with. First device is 0.
 			bank (int): bank of the device to communicate with. This is a bitmask (0b00001001 - 0x09 = Bank 1 and 4).
-			mask (int): bank of the device to communicate with. This is a bitmask.
-			value (int): bank of the device to communicate with. This is a bitmask.
+			mask (int): channel of the bank to send data to. This is a bitmask (0b00000101 - 0x05 = Channel 1 and 3).
+			value (int): Buffer to send to the bank. Different structer for each device.
 
 		Raises:
 			neoradio2.Exception on error
@@ -940,15 +975,18 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
-			...     # Write the sensor data for device 1 (neoRAD-IO2-Badge)
+			...		neoradio2.chain_identify(handle)
 			...     mask = 0x10 | 0x20 # Which channels do we want to modify
-			...     value = 0x10 | 0x20 # Which channels do we want enabled
-			...     neoradio2.write_sensor(handle, 1, 0, mask, value)
+			...     values = [0xFF, 0xFF] #Put channels to 5V  (65535.0f / 5.0f) * desired_voltage(5V)
+			...     neoradio2.write_sensor(handle, 0, (1 << bank), mask, values)
 			...     neoradio2.close(handle)
 			...
-			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-AOUT IC0009'>
 			True
+			True
+
 			>>>
 	)pbdoc");
 
@@ -972,8 +1010,29 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Returns:
 			Returns True on success.
+
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...		bank = 0
+			...     handle = neoradio2.open(device)
+			...		neoradio2.chain_identify(handle)
+			...     mask = 0x10 | 0x20 # Which channels do we want to modify
+			...     values = [0xFF, 0xFF] #Put channels to 5V  (65535.0f / 5.0f) * desired_voltage(5V)
+			...     neoradio2.write_sensor(handle, 0, (1 << bank), mask, values)
+			...		neoraido2.write_sensor_successful(handle, 0, (1 << bank))
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-AOUT IC0009'>
+			True
+			True
+			True
+
+			>>>
 	)pbdoc");
-    
+
 	m.def("request_settings", [](neoradio2_handle& handle, int device, int bank) {
 		py::gil_scoped_release release;
 		auto result = neoradio2_request_settings(&handle, device, bank);
@@ -1005,8 +1064,9 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+            ...		bank = 0
 			...     handle = neoradio2.open(device)
-			...     neoradio2.request_settings(h, 0, 1)
+			...     neoradio2.request_settings(h, 0, (1 << bank))
 			...     neoradio2.read_settings(h, 0, 1)
 			...     neoradio2.close(handle)
 			...
@@ -1015,7 +1075,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			<neoradio2.neoRADIO2_settings object at 0x02C11D40>
 			>>>
 	)pbdoc");
-    
+
 	m.def("read_settings", [](neoradio2_handle& handle, int device, int bank) {
         py::gil_scoped_release release;
 		neoRADIO2_settings settings;
@@ -1045,8 +1105,8 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
-			...     neoradio2.request_settings(h, 0, 1)
-			...     neoradio2.read_settings(h, 0, 1)
+			...     neoradio2.request_settings(handle, 0, 1)
+			...     neoradio2.read_settings(handle, 0, 1)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1163,6 +1223,24 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Returns:
 			Returns True on success.
+
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.request_settings(h, 0, 1)
+			...     settings = neoradio2.read_settings(h, 0, 1)
+			...     neoradio2.write_settings(h, 0, 1, settings)
+			...     neoradio2.write_settings_successful(handle, 0 ,1)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			True
+			True
+			>>>
 	)pbdoc");
 
 	m.def("get_chain_count", [](neoradio2_handle& handle, bool identify) {
@@ -1238,7 +1316,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
-			...     neoradio2.toggle_led(h, 0, 1, 250)
+			...     neoradio2.toggle_led(handle, 0, 1, neoradio2.neoRADIO2_LEDMode, 1, 250)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1266,6 +1344,20 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Returns:
 			Returns True on success.
+
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     handle = neoradio2.open(device)
+			...     neoradio2.toggle_led(handle, 0, 1, neoradio2.neoRADIO2_LEDMode, 1, 250)
+			...		neoradio2.toggle_led_successful(handle, 0, 1)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			>>>
 	)pbdoc");
 
 	m.def("request_calibration", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
@@ -1299,12 +1391,13 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
 			...     header = neoradio2.neoRADIO2frame_calHeader()
 			...     header.channel = 0
 			...     header.range = 0
-			...     neoradio2.request_calibration(handle, 0, 1, header)
-			...     cal_values = neoradio2.read_calibration_array(handle, 0, 1)
+			...     neoradio2.request_calibration(handle, 0, (1 << bank), header)
+			...     cal_values = neoradio2.read_calibration_array(handle, 0, bank)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1343,13 +1436,14 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
 			...     header = neoradio2.neoRADIO2frame_calHeader()
 			...     header.channel = 0
 			...     header.range = 0
-			...     neoradio2.clear_calibration(handle, 0, 1)
-			...     neoradio2.request_calibration(handle, 0, 1, header)
-			...     cal_values = neoradio2.read_calibration_array(handle, 0, 1)
+			...     neoradio2.clear_calibration(handle, 0, (1 << bank))
+			...     neoradio2.request_calibration(handle, 0, (1 << bank), header)
+			...     cal_values = neoradio2.read_calibration_array(handle, 0, bank)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1389,12 +1483,13 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...     bank = 0 
 			...     handle = neoradio2.open(device)
 			...     header = neoradio2.neoRADIO2frame_calHeader()
 			...     header.channel = 0
 			...     header.range = 0
-			...     neoradio2.request_calibration(handle, 0, 1, header)
-			...     cal_values = neoradio2.read_calibration_array(handle, 0, 1)
+			...     neoradio2.request_calibration(handle, 0, (1 << bank), header)
+			...     cal_values = neoradio2.read_calibration_array(handle, 0, bank)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1434,12 +1529,14 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
 			...     header = neoradio2.neoRADIO2frame_calHeader()
 			...     header.channel = 0
 			...     header.range = 0
-			...     neoradio2.request_calibration_points(handle, 0, 1, header)
-			...     cal_points = neoradio2.read_calibration_points_array(handle, 0, 1)
+			...     neoradio2.request_calibration_points(handle, 0, (1 << bank), header)
+			...     cal_points = neoradio2.read_calibration_points_array(handle, 0, bank)
+            ...     print("Calibration Points:   {}".format(cal_points))
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1479,12 +1576,14 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
 			...     header = neoradio2.neoRADIO2frame_calHeader()
 			...     header.channel = 0
 			...     header.range = 0
-			...     neoradio2.request_calibration_points(handle, 0, 1, header)
-			...     cal_points = neoradio2.read_calibration_points_array(handle, 0, 1)
+			...     neoradio2.request_calibration_points(handle, 0, (1 << bank), header)
+			...     cal_points = neoradio2.read_calibration_points_array(handle, 0, bank)
+            ...     print("Calibration Points:   {}".format(cal_points))
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1526,6 +1625,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...     bank = 0
 			...     handle = neoradio2.open(device)
 			...     points = [-50.0, 0.0, 75.0, 650.0]
 			...     values = [-49.8, 2.1, 68.0, 590.0]
@@ -1533,10 +1633,10 @@ PYBIND11_MODULE(neoradio2, m) {
 			...     header.channel = 0
 			...     header.range = 0
 			...     header.num_of_pts = len(points)
-			...     neoradio2.write_calibration_points(handle, 0, 1, header, points)
-			...     neoradio2.write_calibration(handle, 0, 1, header, values)
-			...     neoradio2.store_calibration(handle, 0, 1, header)
-			...     neoradio2.is_calibration_stored(handle, 0, 1,)
+			...     neoradio2.write_calibration_points(handle, 0, (1 << bank), header, points)
+			...     neoradio2.write_calibration(handle, 0, (1 << bank), header, values)
+			...     neoradio2.store_calibration(handle, 0, (1 << bank), header)
+			...     neoradio2.is_calibration_stored(handle, 0, bank)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1567,6 +1667,29 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Returns:
 			Returns True on success.
+
+
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...     bank = 0
+			...     handle = neoradio2.open(device)
+			...     values = [-49.8, 2.1, 68.0, 590.0]
+			...     header = neoradio2.neoRADIO2frame_calHeader()
+			...     header.channel = 0
+			...     header.range = 0
+			...     header.num_of_pts = len(points)
+			...     neoradio2.write_calibration(handle, 0, (1<<bank), header, values)
+			...     neoradio2.write_calibration_successful(handle, 0, (1<<bank), header)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			True
+			True
+			>>>
 	)pbdoc");
 
 	m.def("write_calibration_points", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float> data) {
@@ -1599,9 +1722,11 @@ PYBIND11_MODULE(neoradio2, m) {
 		
 		Example:
 			>>> import neoradio2
+			>>> import time
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
 			...     points = [-50.0, 0.0, 75.0, 650.0]
 			...     values = [-49.8, 2.1, 68.0, 590.0]
@@ -1609,10 +1734,11 @@ PYBIND11_MODULE(neoradio2, m) {
 			...     header.channel = 0
 			...     header.range = 0
 			...     header.num_of_pts = len(points)
-			...     neoradio2.write_calibration_points(handle, 0, 1, header, points)
-			...     neoradio2.write_calibration(handle, 0, 1, header, values)
-			...     neoradio2.store_calibration(handle, 0, 1, header)
-			...     neoradio2.is_calibration_stored(handle, 0, 1,)
+			...     neoradio2.write_calibration_points(handle, 0, (1<<bank), header, points)
+			...     neoradio2.write_calibration(handle, 0, (1<<bank), header, values)
+			...     neoradio2.store_calibration(handle, 0, (1<<bank), header)
+			...		time.sleep(0.5)
+			...     neoradio2.is_calibration_stored(handle, 0, 0)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1642,6 +1768,26 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Returns:
 			Returns True on success.
+
+		Example:
+			>>> import neoradio2
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...		bank = 0
+			...     handle = neoradio2.open(device)
+			...     points = [-50.0, 0.0, 75.0, 650.0]
+			...     header = neoradio2.neoRADIO2frame_calHeader()
+			...     header.channel = 0
+			...     header.range = 0
+			...     header.num_of_pts = len(points)
+			...     neoradio2.write_calibration_points(handle, 0, (1 << bank), header, points)
+			...     neoradio2.write_calibration_points_successful(handle, 0, (1 << bank))
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			True
+			>>>
 		
 	)pbdoc");
 
@@ -1657,7 +1803,7 @@ PYBIND11_MODULE(neoradio2, m) {
 	}, R"pbdoc(
 		store_calibration(handle, device, bank)
 
-		Stores calibration on the selected devices and banks.
+		Stores calibration on the selected devices and banks. You must wait 500 ms so that the calibration values can be stored in flash. Otherwise messages will be lost.
 
 		Args:
 			handle (int): handle to the neoRAD-IO2 Device.
@@ -1676,6 +1822,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
 			...     points = [-50.0, 0.0, 75.0, 650.0]
 			...     values = [-49.8, 2.1, 68.0, 590.0]
@@ -1683,13 +1830,15 @@ PYBIND11_MODULE(neoradio2, m) {
 			...     header.channel = 0
 			...     header.range = 0
 			...     header.num_of_pts = len(points)
-			...     neoradio2.write_calibration_points(handle, 0, 1, header, points)
-			...     neoradio2.write_calibration(handle, 0, 1, header, values)
-			...     neoradio2.store_calibration(handle, 0, 1, header)
-			...     neoradio2.is_calibration_stored(handle, 0, 1,)
+			...     neoradio2.write_calibration_points(handle, 0, (1 << bank), header, points)
+			...     neoradio2.write_calibration(handle, 0, (1 << bank), header, values)
+			...     neoradio2.store_calibration(handle, 0, (1 << bank), header)
+			...     time.sleep(0.5)
+			...     neoradio2.is_calibration_stored(handle, 0, (1 << bank))
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
 			True
 			True
 			True
@@ -1720,9 +1869,11 @@ PYBIND11_MODULE(neoradio2, m) {
 		
 		Example:
 			>>> import neoradio2
+			>>> import time
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...		bank = 0
 			...     handle = neoradio2.open(device)
 			...     points = [-50.0, 0.0, 75.0, 650.0]
 			...     values = [-49.8, 2.1, 68.0, 590.0]
@@ -1730,13 +1881,15 @@ PYBIND11_MODULE(neoradio2, m) {
 			...     header.channel = 0
 			...     header.range = 0
 			...     header.num_of_pts = len(points)
-			...     neoradio2.write_calibration_points(handle, 0, 1, header, points)
-			...     neoradio2.write_calibration(handle, 0, 1, header, values)
-			...     neoradio2.store_calibration(handle, 0, 1, header)
-			...     neoradio2.is_calibration_stored(handle, 0, 1,)
+			...     neoradio2.write_calibration_points(handle, 0, (1 << bank), header, points)
+			...     neoradio2.write_calibration(handle, 0, (1 << bank), header, values)
+			...     neoradio2.store_calibration(handle, 0, (1 << bank), header)
+			...     time.sleep(0.5)
+			...     neoradio2.is_calibration_stored(handle, 0, bank)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
 			True
 			True
 			True
@@ -1755,7 +1908,46 @@ PYBIND11_MODULE(neoradio2, m) {
 
 		Check if calibration is Valid.
 
-		TODO
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index and not a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns True on success.
+		
+		Example:
+			>>> import neoradio2
+			>>> import time
+			>>> devices = neoradio2.find()
+			>>> for device in devices:
+			...     print(device)
+			...		bank = 0
+			...     handle = neoradio2.open(device)
+			...     points = [-50.0, 0.0, 75.0, 650.0]
+			...     values = [-49.8, 2.1, 68.0, 590.0]
+			...     header = neoradio2.neoRADIO2frame_calHeader()
+			...     header.channel = 0
+			...     header.range = 0
+			...     header.num_of_pts = len(points)
+			...     neoradio2.write_calibration_points(handle, 0, (1 << bank), header, points)
+			...     neoradio2.write_calibration(handle, 0, (1 << bank), header, values)
+			...     neoradio2.get_calibration_is_valid(handle, 0, bank)
+			...     neoradio2.store_calibration(handle, 0, (1 << bank), header)
+			...     time.sleep(0.5)
+			...     neoradio2.is_calibration_stored(handle, 0, 1)
+			...     neoradio2.close(handle)
+			...
+			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
+			True
+			True
+			True
+			True
+			True
+			>>>
 	)pbdoc");
 
 	m.def("request_calibration_info", [](neoradio2_handle& handle, int device, int bank) {
@@ -1769,7 +1961,7 @@ PYBIND11_MODULE(neoradio2, m) {
 	}, R"pbdoc(
 		request_calibration_info(handle, device, bank)
 
-		Verifies calibration is stored on the selected devices and banks.
+		Requests calibration info on the selected devices and banks.
 
 		Args:
 			handle (int): handle to the neoRAD-IO2 Device.
@@ -1788,9 +1980,10 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...     bank = 0
 			...     handle = neoradio2.open(device)
-			...     neoradio2.request_calibration_info(handle, 0, 1)
-			...     header = neoradio2.read_calibration_info(handle, 0, 1)
+			...     neoradio2.request_calibration_info(handle, 0, (1 << bank))
+			...     header = neoradio2.read_calibration_info(handle, 0, bank)
 			...     print(header.channel)
 			...     print(header.range)
 			...     print(header.num_of_pts)
@@ -1833,9 +2026,10 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> devices = neoradio2.find()
 			>>> for device in devices:
 			...     print(device)
+			...     bank = 0
 			...     handle = neoradio2.open(device)
-			...     neoradio2.request_calibration_info(handle, 0, 1)
-			...     header = neoradio2.read_calibration_info(handle, 0, 1)
+			...     neoradio2.request_calibration_info(handle, 0, (1 << bank))
+			...     header = neoradio2.read_calibration_info(handle, 0, bank)
 			...     print(header.channel)
 			...     print(header.range)
 			...     print(header.num_of_pts)
