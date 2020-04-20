@@ -51,13 +51,11 @@ if __name__ == "__main__":
                 neoradio2.chain_identify(handle)
                 s = time.time()
                 
-                #points = [1,1,1,1]
+                #points = [-50,0,50,600]
                 header = neoradio2.neoRADIO2frame_calHeader()
-                header.cr_is_bitmask = 0
                 header.channel = 0
                 header.range = 0
                 header.num_of_pts = 4
-                header.cal_type_size = 4 # sizeof(int)
                 e = time.time()
                 msg = str(e-s)
 
@@ -101,11 +99,9 @@ if __name__ == "__main__":
                 cal = [ -48.67, 1.19, 75.72, 650.36 ]
                 #points = [1,1,1,1]
                 header = neoradio2.neoRADIO2frame_calHeader()
-                header.cr_is_bitmask = 0
                 header.channel = 0
                 header.range = 0
                 header.num_of_pts = len(points)
-                header.cal_type_size = 4 # sizeof(int)
                 e = time.time()
                 msg = str(e-s)
 
@@ -153,8 +149,6 @@ if __name__ == "__main__":
                     print("num_of_pts:    {}".format(cal_info.num_of_pts))
                     print("channel:       {}".format(cal_info.channel))
                     print("range:         {}".format(cal_info.range))
-                    print("cal_type_size: {}".format(cal_info.cal_type_size))
-                    print("cr_is_bitmask: {}".format(cal_info.cr_is_bitmask))
                     print("cal_is_valid:  {}".format(cal_info.cal_is_valid))
                 time.sleep(0.1)
         except Exception as ex:
@@ -184,7 +178,7 @@ if __name__ == "__main__":
                 for x in range(8):
                     value = neoradio2.read_calibration_array(handle, 0, x)
                     #try:
-                    #    neoradio2.toggle_led(handle, 0, 0xFF, 255)
+                    #    neoradio2.toggle_led(handle, 0, 0xFF, neoradio2.neoRADIO2_LEDMode.ON, 1, 255)
                     #except neoradio2.Exception as ex:
                     #    print(ex)
                     #value = neoradio2.get_manufacturer_date(handle, 0, x)
@@ -218,7 +212,7 @@ if __name__ == "__main__":
                 for x in range(8):
                     value = neoradio2.read_sensor_float(handle, 1, x)
                     #try:
-                    #    neoradio2.toggle_led(handle, 0, 0xFF, 255)
+                    #    neoradio2.toggle_led(handle, 0, 0xFF, neoradio2.neoRADIO2_LEDMode.ON, 1, 255)
                     #except neoradio2.Exception as ex:
                     #    print(ex)
                     #value = neoradio2.get_manufacturer_date(handle, 0, x)
