@@ -332,3 +332,27 @@ ASALocalRun/
 .localhistory/
 
 build/
+
+neoradio2.egg-info/PKG-INFO
+
+neoRAD-IO2-FrameDescription
+
+neoradio2.egg-info/top_level.txt
+
+neoradio2.egg-info/requires.txt
+
+neoradio2.egg-info/not-zip-safe
+
+neoradio2.egg-info/dependency_links.txt
+
+neoRAD-IO2-FrameDescription
+
+hidapi
+
+dist/neoradio2-1.1.0-py3.8-win-amd64.egg
+
+neoradio2.egg-info/SOURCES.txt
+
+neoRAD-IO2-FrameDescription
+
+neoRAD-IO2-FrameDescription
