@@ -177,6 +177,60 @@ PYBIND11_MODULE(neoradio2, m) {
 		.def_readwrite("buffer_current", &neoRADIO2_PerfStatistics::buffer_current)
 		.def_readwrite("buffer_max", &neoRADIO2_PerfStatistics::buffer_max);
 
+	// neoRAD-IO2-AOUT.h
+	py::class_<neoRADIO2AOUT_header>(m, "neoRADIO2AOUT_header")
+		.def(py::init([]() { return new neoRADIO2AOUT_header{ 0 }; }))
+		.def_property("byte",
+			[](neoRADIO2AOUT_header& self)
+			{
+				return self.byte;
+			},
+			[](neoRADIO2AOUT_header& self)
+			{
+				return self.bits;
+			}
+			);
+
+	py::class_<neoRADIO2AOUT_channelConfig>(m, "neoRADIO2AOUT_channelConfig")
+		.def(py::init([]() {return new neoRADIO2AOUT_channelConfig{ 0 }; }))
+		.def_property("u32",
+			[](neoRADIO2AOUT_channelConfig& self)
+			{
+				return self.u32;
+			},
+			[](neoRADIO2AOUT_channelConfig& self, const uint32_t& value)
+			{
+				self.u32 = value;
+			})
+		.def_property("initOutputValue",
+			[](neoRADIO2AOUT_channelConfig& self)
+			{
+				return self.data.initOutputValue;
+			},
+			[](neoRADIO2AOUT_channelConfig& self, uint16_t& value)
+			{
+				self.data.initOutputValue = value;
+			})
+		.def_property("initEnabled",
+			[](neoRADIO2AOUT_channelConfig& self)
+			{
+				return self.data.initEnabled;
+			},
+			[](neoRADIO2AOUT_channelConfig& self, uint8_t& value)
+			{
+				self.data.initEnabled = value;
+			})
+		.def_property("enabled",
+			[](neoRADIO2AOUT_channelConfig& self)
+			{
+				return self.data.enabled;
+			},
+			[](neoRADIO2AOUT_channelConfig& self, uint8_t& value)
+			{
+				self.data.enabled = value;
+			
+			}
+			);
     // Functions ==============================================================
     m.def("find", []() {
         const unsigned int size = 8;
