@@ -573,7 +573,7 @@ LIBNEORADIO2_API int neoradio2_read_sensor_array(neoradio2_handle* handle, int d
 	return success;
 }
 
-LIBNEORADIO2_API int neoradio2_write_sensor(neoradio2_handle* handle, int device, int bank, int mask, int value)
+LIBNEORADIO2_API int neoradio2_write_sensor(neoradio2_handle* handle, int device, int bank, uint8_t * data, int len)
 {
 	auto dev = _getDevice(*handle);
 	if (!dev->isOpen())
@@ -582,7 +582,7 @@ LIBNEORADIO2_API int neoradio2_write_sensor(neoradio2_handle* handle, int device
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 
-	auto success = radio_dev->writeSensorData(device, bank, mask, value, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	auto success = radio_dev->writeSensorData(device, bank, data, len, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;

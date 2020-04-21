@@ -731,29 +731,19 @@ bool neoRADIO2Device::writeUartFrame(neoRADIO2frame* frame, DeviceChannel channe
 		DEBUG_PRINT("ERROR: Failed to generate frame checksum!");
 		return false;
 	}
-	// http://www.ftdichip.com/Support/Documents/ProgramGuides/AN_394_User_Guide_for_FT260.pdf
-	// 4.6.2 UART Write Request - Report ID = 0xF0
-	const int max_data_payload = 60;
 	uint8_t buffer[64] ={0};
 	uint16_t size = sizeof(frame->header)+2+1; // frame + ft260 header + crc
 											   // copy the header into the buffer
-	memcpy(&buffer[2], (uint8_t*)&frame->header, sizeof(frame->header));
+	memcpy(&buffer[0], (uint8_t*)&frame->header, sizeof(frame->header));
 	// copy the data into the buffer
 	if (frame->header.len)
 	{
-		memcpy(&buffer[2+sizeof(frame->header)], (uint8_t*)&frame->data, frame->header.len);
+		memcpy(&buffer[sizeof(frame->header)], (uint8_t*)&frame->data, frame->header.len);
 		// update the size for the data
 		size += frame->header.len;
 	}
 	// copy the crc into the buffer
-	buffer[2+sizeof(frame->header)+frame->header.len] = frame->crc;
-	if (size > max_data_payload)
-		return false;
-	// calculate the FT260 header
-	buffer[0] = 0xF0;
-	buffer[0] = (0xF0 + (size/4)) & 0xFF;
-	buffer[1] = (uint8_t)size;
-
+	buffer[sizeof(frame->header)+frame->header.len] = frame->crc;
 	const int sent_size = size;
 
 	DEBUG_PRINT("SENDING FRAME: %s", frameToString(*frame, true).c_str());
@@ -1134,7 +1124,7 @@ bool neoRADIO2Device::readSensorData(int device, int bank, std::vector<uint8_t>&
 	return true;
 }
 
-bool neoRADIO2Device::writeSensorData(int device, int bank, int mask, int value, std::chrono::milliseconds timeout)
+bool neoRADIO2Device::writeSensorData(int device, int bank, uint8_t * data, int len, std::chrono::milliseconds timeout)
 {
 	using namespace std::chrono;
 	// This command is only available in application code
@@ -1156,12 +1146,14 @@ bool neoRADIO2Device::writeSensorData(int device, int bank, int mask, int value,
 			2, // len
 		},
 		{ // data
-			uint8_t(mask & 0xFF),
-			uint8_t(value & 0xFF),
 		},
 		0 // crc
 	};
 
+	for (int i = 0; i < len; ++i)
+	{
+		frame.data[i] = data[i];
+	}
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 	// send the packets

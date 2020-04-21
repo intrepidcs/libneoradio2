@@ -158,14 +158,24 @@ bool HidDevice::runConnected()
 		auto count = FIFO_GetCount(&buf->tx_fifo);
 		if (count)
 		{
-			FIFO_Pop(&buf->tx_fifo, temp, count);
+			//We can only Send 60 bytes at a time
+			if (count > 60)
+			{
+				count = 60;
+			}
+			FIFO_Pop(&buf->tx_fifo, &temp[2], count);   
+			
+			//Format packet for FT260
+			temp[0] = 240 + (count / 4);
+			temp[1] = count;
+			int txlen = count + 2;
 #ifdef DEBUG_ANNOYING
 			std::stringstream ss2;
-			for (int i=0; i < count && i < 30; ++i)
+			for (int i=0; i < txlen && i < 30; ++i)
 				ss2 << "0x" << std::hex << (int)temp[i] << " ";
-			DEBUG_PRINT("hid_write(): len: %d channel: %d\n\t\tdata: %s", count, buffer.first, ss2.str().c_str());
+			DEBUG_PRINT("hid_write(): len: %d channel: %d\n\t\tdata: %s", txlen, buffer.first, ss2.str().c_str());
 #endif // DEBUG_ANNOYING
-			length = hid_write(buf->handle, (unsigned char*)temp, count);
+			length = hid_write(buf->handle, (unsigned char*)temp, txlen);
 			// TODO Error handling (length == -1)
 		}
 		buf->tx_lock.unlock();
