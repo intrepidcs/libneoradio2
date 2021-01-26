@@ -763,11 +763,6 @@ bool neoRADIO2Device::requestIdentifyChain(std::chrono::milliseconds timeout)
 	// TODO: THIS IS A DIRTY HACK, FIX THIS LATER
 	uint8_t device_mask = 0xFF;
 	uint8_t bank_mask = 0xFF;
-	if (isBadge())
-	{
-		//device_mask = 0x00;
-		//bank_mask = 0x01;
-	}
 	neoRADIO2frame frame =
 	{
 		{ // header
@@ -792,7 +787,15 @@ bool neoRADIO2Device::requestIdentifyChain(std::chrono::milliseconds timeout)
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Is the command set?
-	bool success = mDCH.isStateSet(0x55, 0, isBadge() ? 0x01 : frame.header.bank, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout);
+	bool success = true;
+	for (auto device = 0; device < mDeviceCount; ++device)
+	{
+		if (!mDCH.isStateSet(0x55, device, isSingleChip(device, timeout) ? 0x01 : 0xFF, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout))
+		{
+			success = false;
+			break;
+		}
+	}
 
 	return success;
 }
@@ -805,18 +808,11 @@ bool neoRADIO2Device::requestIdentifyChain(std::chrono::milliseconds timeout)
 //! @return true if chain was successfully identified.
 bool neoRADIO2Device::isChainIdentified(std::chrono::milliseconds timeout)
 {
-	auto count = mDeviceCount;
-	auto device = 0;
-	bool success = true;
-	for (auto i=0; i < mDeviceCount; ++i)
+	if (mDCH.isStateSet(0x55, 0, 0x01, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout))
 	{
-		if (!mDCH.isStateSet(0x55, device, isBadge() ? 0x01 : 0xFF, NEORADIO2_STATUS_IDENTIFY, COMMAND_STATE_FINISHED, true, timeout))
-		{
-			success = false;
-			break;
-		}
+		return true;
 	}
-	return success;
+	return false;
 }
 
 //! Receive the identify response frame data. Chain needs to be identified before this call.
@@ -950,6 +946,23 @@ bool neoRADIO2Device::isApplicationStarted(int device, int bank, std::chrono::mi
 	if (!getIdentifyResponse(device, bank, response, timeout))
 		return false;
 	return (response.current_state == NEORADIO2STATE_RUNNING);
+}
+
+bool neoRADIO2Device::isApplicationStarted(int device, std::chrono::milliseconds timeout)
+{
+	// Chain needs to be identified in order to see if we are in bootloader
+	if (!isChainIdentified(timeout))
+		return false;
+
+	neoRADIO2frame_identifyResponse response;
+	for (int bank = 0; bank < getDeviceNumChip(device, timeout); ++bank)
+	{
+		if (!getIdentifyResponse(device, bank, response, timeout))
+			return false;
+		if (response.current_state != NEORADIO2STATE_RUNNING)
+			return false;
+	}
+	return true;
 }
 
 bool neoRADIO2Device::getSerialNumber(int device, int bank, unsigned int& sn, std::chrono::milliseconds timeout)
@@ -1099,8 +1112,11 @@ bool neoRADIO2Device::requestSensorData(int device, int bank, int enable_cal, st
 		},
 		0 // crc
 	};
-	frame.data[0] = enable_cal & 0xFF;
-	frame.header.len = 1;
+	if (enable_cal |= NEORADIO2CALTYPE_ENABLED)
+	{
+		frame.header.len = 1;
+		frame.data[0] = enable_cal & 0xFF;
+	}
 	// Reset commands
 	mDCH.updateCommand(&frame.header, COMMAND_STATE_RESET, true);
 	mDCH.updateCommand(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_SENSOR, COMMAND_STATE_RESET, true);
@@ -1143,7 +1159,7 @@ bool neoRADIO2Device::writeSensorData(int device, int bank, uint8_t * data, int 
 			NEORADIO2_COMMAND_WRITE_DATA, // command_status
 			(uint8_t)device,
 			(uint8_t)bank, // bank
-			2, // len
+			len, // len
 		},
 		{ // data
 		},
@@ -2092,3 +2108,30 @@ bool neoRADIO2Device::verifyFrameChecksum(neoRADIO2frame* frame, uint8_t* calcul
 
 	return checksum == frame->crc;
 }
+bool neoRADIO2Device::isSingleChip(int device, std::chrono::milliseconds timeout)
+{
+	if (!isChainIdentified(timeout))
+		return false;
+	neoRADIO2frame_identifyResponse response;
+	if (!getIdentifyResponse(device, 0, response, timeout))
+		return false;
+	if (response.device_type == NEORADIO2_DEVTYPE_PWRRLY ||
+		response.device_type == NEORADIO2_DEVTYPE_BADGE ||
+		response.device_type == NEORADIO2_DEVTYPE_CANHUB)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int neoRADIO2Device::getDeviceNumChip(int device, std::chrono::milliseconds timeout)
+{
+	if (isSingleChip(device, timeout))
+		return 1;
+	else
+		return 8;
+}
+

@@ -47,6 +47,7 @@ public:
 
 	bool startApplication(int device, int bank, std::chrono::milliseconds timeout);
 	bool isApplicationStarted(int device, int bank, std::chrono::milliseconds timeout);
+	bool isApplicationStarted(int device, std::chrono::milliseconds timeout);
 	bool enterBootloader(int device, int bank, std::chrono::milliseconds timeout);
 
 	bool getSerialNumber(int device, int bank, unsigned int& sn, std::chrono::milliseconds timeout);
@@ -189,8 +190,8 @@ private:
 
 	//bool resetCommands(int start_of_frame, int cmd, int banks);
 
-	// This shouldn't be here, implement the correct way later.
-	bool isBadge() const { return std::string(mDevInfo.di.name).find("Badge") != std::string::npos; }
+	int getDeviceNumChip(int device, std::chrono::milliseconds timeout);
+	bool isSingleChip(int device, std::chrono::milliseconds timeout);
 };
 
 #endif // __NEORADIO2_DEVICE_H_

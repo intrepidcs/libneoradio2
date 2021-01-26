@@ -22,6 +22,7 @@
 // I spent about an hour trying to get visual studio project files 
 // to try and include this submodule header... giving up and "hardcoding" it here
 #include "neoRAD-IO2-FrameDescription\radio2_frames.h"
+#include "neoRAD-IO2-FrameDescription\neoRAD-IO2-AOUT.h"
 #else
 #include "radio2_frames.h"
 #endif
