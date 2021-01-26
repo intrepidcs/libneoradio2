@@ -77,8 +77,8 @@ void Device::start()
 		};
 		// Make sure we don't hog the CPU
 		auto elapsed_time = std::chrono::high_resolution_clock::now() - start_time;
-		if (elapsed_time < 3ms)
-			std::this_thread::sleep_for(3ms - elapsed_time);
+		if (elapsed_time < 1ms)
+			std::this_thread::sleep_for(1ms - elapsed_time);
 	}
 	
 	mMutex.lock();

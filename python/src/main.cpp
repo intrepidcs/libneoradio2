@@ -969,6 +969,36 @@ PYBIND11_MODULE(neoradio2, m) {
 			4.953075885772705
 			>>>
 	)pbdoc");
+	m.def("read_sensor_array", [](neoradio2_handle& handle, int device, int bank) {
+		py::gil_scoped_release release;
+		int arr[64] = {0};
+		int arr_size = sizeof(arr);
+		if (neoradio2_read_sensor_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
+			throw NeoRadio2Exception("neoradio2_read_sensor_array() failed");
+		std::vector<int> values;
+		for (int i=0; i < arr_size; ++i)
+			values.push_back(arr[i]);
+		return values;
+	}, R"pbdoc(
+		read_sensor_array(handle, device, bank)
+
+		Get the sensor data of the selected devices and banks. Chain needs to be identified first.
+		Must be in application firmware.
+
+		Args:
+			handle (int): handle to the neoRAD-IO2 Device.
+			device (int): device number in the chain to communicate with. First device is 0.
+			bank (int): bank of the device to communicate with. This is an index and not a bitmask.
+
+		Raises:
+			neoradio2.Exception on error
+
+		Returns:
+			Returns array on success.
+		
+		Example:
+			TODO
+	)pbdoc");
 	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, std::vector<uint8_t> data) {
 		//py::gil_scoped_release release;
 		data.insert(data.begin(), mask);

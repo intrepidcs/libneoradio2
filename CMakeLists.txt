@@ -57,7 +57,7 @@ set_target_properties(neoradio2 PROPERTIES
     C_VISIBILITY hidden
     CXX_VISIBILITY hidden)
 
-set_property(TARGET neoradio2 PROPERTY PUBLIC_HEADER libneoradio2.h libneoradio2common.h radio2_frames.h)
+set_property(TARGET neoradio2 PROPERTY PUBLIC_HEADER libneoradio2.h libneoradio2common.h radio2_frames.h neoRAD-IO2-AIN.h)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(neoradio2 PRIVATE udev)

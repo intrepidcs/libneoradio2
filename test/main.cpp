@@ -67,6 +67,7 @@ int main(int argc, char* argv[])
 		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_sensor_data(lib, "neoradio2_request_sensor_data");
 		ice::Function <int(neoradio2_handle*, int, int)> neoradio2_request_settings(lib, "neoradio2_request_settings");
 		ice::Function <int(neoradio2_handle*, int*, int)> neoradio2_get_chain_count(lib, "neoradio2_get_chain_count");
+		ice::Function <int(neoradio2_handle*, int, int, uint8_t*, int)> neoradio2_write_sensor(lib, "neoradio2_write_sensor");
 		ice::Function <int(neoradio2_handle*)> neoradio2_close(lib, "neoradio2_close");
 
 		Neoradio2DeviceInfo devices[8];
@@ -102,25 +103,25 @@ int main(int argc, char* argv[])
 			std::cout << "Found " << dev_count << " device(s) on the chain...\n";
 			std::this_thread::sleep_for(3s);
 
-			for (int d=0; d < dev_count; ++d)
+			for (int d = 0; d < dev_count; ++d)
 			{
 				std::cout << "\n==============================================================================\n";
-				std::cout << "Device " << d+1 << "...\n";
+				std::cout << "Device " << d + 1 << "...\n";
 				std::cout << "==============================================================================\n";
 				unsigned int dev = d;
-//#define NO_BOOTLOADER
+				//#define NO_BOOTLOADER
 #if !defined(NO_BOOTLOADER)
 				// Always make sure we are in bootloader to start with
 
 				std::cout << "Entering Bootloader...\n";
-				if (neoradio2_enter_bootloader(&handle, dev, 0xFF) != NEORADIO2_SUCCESS)
+				//if (neoradio2_enter_bootloader(&handle, dev, 0xFF) != NEORADIO2_SUCCESS)
 					std::cout << "Failed to enter bootloader...\n";
 				//std::this_thread::sleep_for(1s);
 
-				for (int x=0; x < 8; ++x)
+				for (int x = 0; x < 1; ++x)
 				{
 					std::cout << "Getting device information on bank " << x << "...\n";
-					if (!get_device_info(handle, device, dev, x))
+					//if (!get_device_info(handle, device, dev, x))
 						std::cerr << "Failed to get device info...\n";
 				}
 #endif
@@ -136,13 +137,26 @@ int main(int argc, char* argv[])
 
 				//std::this_thread::sleep_for(1s);
 
-				for (int x=0; x < 8; ++x)
+				for (int x = 0; x < 1; ++x)
 				{
 					std::cout << "Getting device information on bank " << x << "...\n";
 					if (!get_device_info(handle, device, dev, x))
 						std::cerr << "Failed to get device info...\n";
 				}
 
+				for (int v = 0; v <= 5; v++)
+				{
+					const float conv = 65535.0 / 5;
+					uint16_t intval = (float)v * conv;
+					uint8_t mb = 0xFF & (intval >> 8);
+					uint8_t lb = 0xFF & (intval);
+					uint8_t buf[3] = {0x81, mb, lb};
+					if (neoradio2_write_sensor(&handle, dev, 1, buf, sizeof(buf)) != NEORADIO2_SUCCESS)
+					{
+						std::cerr << "Failed set relays...\n";
+					}
+					std::this_thread::sleep_for(1s);
+				}
 				if (neoradio2_request_sensor_data(&handle, dev, 0xFF) != NEORADIO2_SUCCESS)
 					std::cerr << "Failed to neoradio2_request_sensor_data...\n";
 
@@ -318,11 +332,11 @@ bool toggle_led(neoradio2_handle& handle, Neoradio2DeviceInfo& device, int dev, 
 		auto mgr = ice::LibraryManager::getLibraryManager();
 		auto lib = mgr->get("libneoradio2");
 		//std::cout << mgr["libneoradio2"].getPath() << "\n";
-		ice::Function <int(neoradio2_handle*, int, int, int)> neoradio2_toggle_led(lib, "neoradio2_toggle_led");
+		ice::Function <int(neoradio2_handle*, int, int, int, int, int)> neoradio2_toggle_led(lib, "neoradio2_toggle_led");
 
 		for (int i=0; i < 20; ++i)
 		{
-			if (neoradio2_toggle_led(&handle, dev, bank, 50) != NEORADIO2_SUCCESS)
+			if (neoradio2_toggle_led(&handle, dev, bank, 3, 0xFF, 50) != NEORADIO2_SUCCESS)
 			{
 				std::cout << "neoradio2_toggle_led() failed!\n";
 				return false;
