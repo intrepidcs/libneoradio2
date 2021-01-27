@@ -1,5 +1,5 @@
 MAJOR = 1
-MINOR = 1
+MINOR = 2
 MICRO = 0
 POST = None
 
