@@ -1458,7 +1458,7 @@ bool neoRADIO2Device::requestCalibrationPoints(int device, int bank, const neoRA
 	if (!writeUartFrame(&frame, CHANNEL_1))
 		return false;
 	// Is the command set?
-	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_CAL, COMMAND_STATE_FINISHED, true, timeout);
+	return mDCH.isStateSet(0x55, frame.header.device, frame.header.bank, NEORADIO2_STATUS_CALPOINTS, COMMAND_STATE_FINISHED, true, timeout);
 }
 
 bool neoRADIO2Device::readCalibrationPoints(int device, int bank, neoRADIO2frame_calHeader& header, std::vector<float>& data, std::chrono::milliseconds timeout)
