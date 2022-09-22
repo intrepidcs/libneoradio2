@@ -2199,7 +2199,13 @@ PYBIND11_MODULE(neoradio2, m) {
 	)pbdoc");
 
 #ifdef VERSION_INFO
-    m.attr("__version__") = VERSION_INFO;
+	// Microsoft decided to change how strings were passed through MSVC
+	// so we are just going stringify/quote the string ourselves now.
+	// Also Python SetupTools has no way to detect MSVC version being used.
+	// This should work with MSVC 2015-2022 now.
+	#define __stringify(x) (#x)
+	m.attr("__version__") = __stringify(VERSION_INFO);
+	#undef __stringify
 #else
     m.attr("__version__") = "dev";
 #endif
