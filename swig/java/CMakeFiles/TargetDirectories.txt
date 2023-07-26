@@ -1,3 +1,0 @@
-/home/drebbe/dev/libneoradio2/swig/java/CMakeFiles/rebuild_cache.dir
-/home/drebbe/dev/libneoradio2/swig/java/CMakeFiles/neoradio2.dir
-/home/drebbe/dev/libneoradio2/swig/java/CMakeFiles/edit_cache.dir
