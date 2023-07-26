@@ -1,6 +1,8 @@
 # libneoradio2
 ![Intrepid Control Systems, Inc.](IntrepidCS_logo.png)
 
+![](https://github.com/intrepidcs/libneoradio2/actions/workflows/wheels.yml/badge.svg)
+
 # Documentation
 
 libneoradio2 is a library to interface to Intrepid Control Systems, Inc. neoRAD-IO-2 product line. This library is a C library with binding to Python. More language bindings are in the works but unfinished currently.
@@ -71,8 +73,7 @@ The neoRAD-IO2 family communicates on an open source UART based serial communica
 
 ## License - MIT
 
-<img src="https://opensource.org/files/OSI_Approved_License.png" width="185" height="254">
-Copyright <2019> <Intrepid Control Systems, Inc.>
+Copyright <Intrepid Control Systems, Inc.>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
