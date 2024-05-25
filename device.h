@@ -6,6 +6,7 @@
 #include <thread>
 #include <mutex>
 #include <map>
+#include <memory>
 
 #include "config.h"
 #include "libneoradio2common.h"
