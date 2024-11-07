@@ -5,9 +5,9 @@ import setuptools
 from distutils.sysconfig import get_python_inc
 import os
 import platform
-import version
+import python.version as version
 
-__version__ = version._get_version_str()
+#__version__ = version._get_version_str()
 
 
 class get_pybind_include(object):
@@ -25,8 +25,8 @@ class get_pybind_include(object):
         return pybind11.get_include(self.user)
 
 
-source_includes = ['python/src/main.cpp', 'fifo.c', 'device.cpp',
-    'hiddevice.cpp', 'libneoradio2.cpp', 'neoradio2device.cpp',]
+source_includes = ['src/main.cpp', '../fifo.c', '../device.cpp',
+    '../hiddevice.cpp', '../libneoradio2.cpp', '../neoradio2device.cpp',]
 
 header_includes = []
 for root, dirs, files in os.walk('.'):
@@ -39,17 +39,17 @@ data_files.extend(header_includes)
 
 library_includes = []
 if 'NT' in os.name.upper():
-    source_includes.append('hidapi/windows/hid.c')
+    source_includes.append('../hidapi/windows/hid.c')
 elif platform.system().upper() == 'DARWIN':
-    source_includes.append('hidapi/mac/hid.c')
+    source_includes.append('../hidapi/mac/hid.c')
 else:
-    source_includes.append('hidapi/linux/hid.c')
+    source_includes.append('../hidapi/linux/hid.c')
     library_includes.append('udev')
 
 # We build sdist on windows but we still need the others included.
-data_files.append('hidapi/linux/hid.c')
-data_files.append('hidapi/mac/hid.c')
-data_files.append('hidapi/windows/hid.c')
+data_files.append('../hidapi/linux/hid.c')
+data_files.append('../hidapi/mac/hid.c')
+data_files.append('../hidapi/windows/hid.c')
 
 # macOS X clang linker complains if these are at the end of the argument parameters
 # LDFLAGS puts them in the beginning.
@@ -65,9 +65,9 @@ ext_modules = [
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
-            'hidapi/hidapi',
-            'neoRAD-IO2-FrameDescription',
-            '.',
+            '../hidapi/hidapi',
+            '../neoRAD-IO2-FrameDescription',
+            '..',
             get_python_inc(True),
             os.path.abspath('.'),
         ],
@@ -163,26 +163,11 @@ def read(fname):
 
 setup(
     name='neoradio2',
-    version=__version__,
-    author='David Rebbe',
-    author_email='drebbe@intrepidcs.com',
-    url='https://github.com/intrepidcs/libneoradio2',
     download_url='https://github.com/intrepidcs/libneoradio2/releases',
-    description='neoRADIO2 python bindings',
-    long_description=read('README.md'),
     ext_modules=ext_modules,
     data_files=[('', data_files)],
     install_requires=['pybind11'],
     setup_requires=['pybind11'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
-
-    classifiers = [
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        ],
 )

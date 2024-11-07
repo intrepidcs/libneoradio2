@@ -22,9 +22,11 @@ jobs:
         run: python -m pip install cibuildwheel==2.21.3
 
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
+        run: |
+          cd python
+          python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v4
         with:
-          path: ./wheelhouse/*.whl
+          path: ./python/wheelhouse/*.whl
           if-no-files-found: error
