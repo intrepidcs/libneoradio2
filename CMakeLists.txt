@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 3.25)
 project (libneoradio2_all LANGUAGES C CXX)
 
 option(BUILD_PYTHON_BINDINGS "Enable Python bindings" OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 add_subdirectory(libneoradio2)
 
