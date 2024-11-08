@@ -18,7 +18,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 print(sys.path)
 print(os.path.join(sys.path[0], '..'))
-import version
+import python.version as version
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -67,7 +67,7 @@ author = u'David Rebbe'
 #
 # The short X.Y version.
 
-version = version._get_version_str()
+version = 1.3.1
 #version = u'0.0.1'
 # The full version, including alpha/beta/rc tags.
 #release = u'0.0.1'

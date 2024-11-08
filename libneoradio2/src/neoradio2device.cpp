@@ -121,53 +121,52 @@ Devices neoRADIO2Device::_findAll()
 
 	std::vector<neoRADIO2Device*> devs;
 
-	hid_device_info* hdi = NULL;
+	hid_device_info* hdi = hid_enumerate(0x93C, 0x1300);
 	hid_device_info* first_hdi = hdi;
-	if (hdi = hid_enumerate(0x93C, 0x1300))
-		while (hdi != NULL)
-		{
-			auto device = std::make_shared<neoRADIO2Device>();
-			device->getDeviceInfo()->is_blocking = true;
+	while (hdi != NULL)
+	{
+		auto device = std::make_shared<neoRADIO2Device>();
+		device->getDeviceInfo()->is_blocking = true;
 
-			auto interface_number = hdi->interface_number;
+		auto interface_number = hdi->interface_number;
 #ifdef __APPLE__
-			// https://github.com/signal11/hidapi/issues/326
-			// hidapi after 02/11/17 shouldn't have this problem
-			if (interface_number == -1)
-			{
-				interface_number = hdi->path[strlen(hdi->path) - 1] - 0x30;
-			}
-#endif
-			device->getDeviceInfo()->di.vendor_id = hdi->vendor_id;
-			device->getDeviceInfo()->di.product_id = hdi->product_id;
-
-			if (hdi->product_string)
-			{
-				std::wcstombs(device->getDeviceInfo()->di.name, hdi->product_string, 64);
-			}
-			if (hdi->serial_number)
-			{
-				std::wcstombs(device->getDeviceInfo()->di.serial_str, hdi->serial_number, 64);
-			}
-
-			if (interface_number == 0)
-			{
-				device->addPath(CHANNEL_0, hdi->path);
-				if (hdi->next)
-					device->addPath(CHANNEL_1, hdi->next->path);
-				hdi = hdi->next->next;
-			}
-			else if (interface_number == 1)
-			{
-				if (hdi->next)
-					device->addPath(CHANNEL_0, hdi->next->path);
-				device->addPath(CHANNEL_1, hdi->path);
-				hdi = hdi->next->next;
-			}
-			else
-				hdi = hdi->next;
-			devices.push_back(device);
+		// https://github.com/signal11/hidapi/issues/326
+		// hidapi after 02/11/17 shouldn't have this problem
+		if (interface_number == -1)
+		{
+			interface_number = hdi->path[strlen(hdi->path) - 1] - 0x30;
 		}
+#endif
+		device->getDeviceInfo()->di.vendor_id = hdi->vendor_id;
+		device->getDeviceInfo()->di.product_id = hdi->product_id;
+
+		if (hdi->product_string)
+		{
+			std::wcstombs(device->getDeviceInfo()->di.name, hdi->product_string, 64);
+		}
+		if (hdi->serial_number)
+		{
+			std::wcstombs(device->getDeviceInfo()->di.serial_str, hdi->serial_number, 64);
+		}
+
+		if (interface_number == 0)
+		{
+			device->addPath(CHANNEL_0, hdi->path);
+			if (hdi->next)
+				device->addPath(CHANNEL_1, hdi->next->path);
+			hdi = hdi->next->next;
+		}
+		else if (interface_number == 1)
+		{
+			if (hdi->next)
+				device->addPath(CHANNEL_0, hdi->next->path);
+			device->addPath(CHANNEL_1, hdi->path);
+			hdi = hdi->next->next;
+		}
+		else
+			hdi = hdi->next;
+		devices.push_back(device);
+	}
 	hid_free_enumeration(first_hdi);
 	return devices;
 }
@@ -1112,7 +1111,7 @@ bool neoRADIO2Device::requestSensorData(int device, int bank, int enable_cal, st
 		},
 		0 // crc
 	};
-	if (enable_cal |= NEORADIO2CALTYPE_ENABLED)
+	if ((enable_cal |= NEORADIO2CALTYPE_ENABLED))
 	{
 		frame.header.len = 1;
 		frame.data[0] = enable_cal & 0xFF;
@@ -1159,7 +1158,7 @@ bool neoRADIO2Device::writeSensorData(int device, int bank, uint8_t * data, int 
 			NEORADIO2_COMMAND_WRITE_DATA, // command_status
 			(uint8_t)device,
 			(uint8_t)bank, // bank
-			len, // len
+			static_cast<uint8_t>(len), // len
 		},
 		{ // data
 		},

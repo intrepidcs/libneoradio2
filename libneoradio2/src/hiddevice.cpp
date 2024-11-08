@@ -35,10 +35,8 @@ Devices HidDevice::_findAll()
 	
 	//std::vector<HidDevice*> devs;
 	Devices devs;
-
-	hid_device_info* hdi = NULL;
+	hid_device_info* hdi = hid_enumerate(0, 0);
 	hid_device_info* first_hdi = hdi;
-	if (hdi = hid_enumerate(0, 0))
 	while (hdi != NULL)
 	{
 		auto interface_number = hdi->interface_number;
