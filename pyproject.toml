@@ -1,6 +1,6 @@
 [project]
 name = "neoradio2"
-dynamic = ["version"]
+version = "1.3.1"
 authors = [
   {name = "David Rebbe", email = "drebbe@intrepidcs.com"},
 ]
@@ -32,15 +32,27 @@ Homepage = "https://intrepidcs.com"
 Repository = "https://github.com/intrepidcs/libneoradio2/"
 Issues = "https://github.com/intrepidcs/libneoradio2/issues"
 
-[build-system]
-requires = [
-    "setuptools", 
-    "wheel",
-    "pybind11",
-]
+# [build-system]
+# requires = [
+#     "setuptools>=61.0.0", 
+#     "wheel",
+#     "pybind11",
+# ]
+# build-backend = "setuptools.build_meta"
 
-[tool.setuptools.dynamic]
-version = {attr = "version.__version__"}
+# [tool.setuptools.dynamic]
+# version = {attr = "version.__version__"}
+
+[build-system]
+requires = ["scikit-build-core", "pybind11", "wheel"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+cmake.verbose = true
+logging.level = "INFO"
+
+[tool.scikit-build.cmake.define]
+BUILD_PYTHON_BINDINGS = true
 
 [tool.cibuildwheel]
 build = "{*-win32,*-win_amd64,*-macosx_universal2,*-manylinux_x86_64,*-manylinux_aarch64}"

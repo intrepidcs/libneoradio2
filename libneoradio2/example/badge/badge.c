@@ -1,6 +1,5 @@
 #include <libneoradio2.h>
 #include <stdio.h>
-#include <unistd.h>
 
 #define BANK_LED1 0x10
 #define BANK_LED2 0x20
@@ -97,7 +96,7 @@ int main(int argc, char* argv[])
         }
         
         printf("Turning off all LEDs...\n");
-        sleep(2);
+        //sleep(2);
         toggle_io(&handle,
             BANK_LED1 | BANK_LED2 | BANK_LED3 | BANK_LED4,
             0);
@@ -108,7 +107,7 @@ int main(int argc, char* argv[])
             printf("neoradio2_close() failed!\n");
             return 1;
         }
-        sleep(1);
+        //sleep(1);
         printf("Closed!\n");
     }
     printf("Done.\n");

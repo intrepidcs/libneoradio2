@@ -1,9 +1,9 @@
 [submodule "hidapi"]
-	path = hidapi
+	path = libneoradio2/hidapi
 	url = https://github.com/libusb/hidapi.git
 [submodule "test/ice"]
-	path = test/ice
+	path = libneoradio2/test/ice
 	url = https://github.com/ic3man5/ice.git
 [submodule "neoRAD-IO2-FrameDescription"]
-	path = neoRAD-IO2-FrameDescription
+	path = libneoradio2/neoRAD-IO2-FrameDescription
 	url = https://github.com/emende-intrepid/neoRAD-IO2-FrameDescription.git
