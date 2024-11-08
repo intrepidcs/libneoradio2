@@ -28,5 +28,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          path: ./python/wheelhouse/*.whl
+          path: ./wheelhouse/*.whl
           if-no-files-found: error
