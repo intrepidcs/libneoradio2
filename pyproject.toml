@@ -53,6 +53,7 @@ logging.level = "INFO"
 
 [tool.scikit-build.cmake.define]
 BUILD_PYTHON_BINDINGS = true
+BUILD_SHARED_LIBS = true
 
 [tool.cibuildwheel]
 build = "{*-win32,*-win_amd64,*-macosx_universal2,*-manylinux_x86_64,*-manylinux_aarch64}"

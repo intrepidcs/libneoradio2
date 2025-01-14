@@ -26,4 +26,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${IncludeDirectories})
 
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/hidapi)
-target_link_libraries(${PROJECT_NAME} hidapi)
+if (WIN32)
+    # For some reason this doesn't work on linux, static linking pulls in -lhidapi and it fails.
+    target_link_libraries(${PROJECT_NAME} hidapi)
+endif()

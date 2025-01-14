@@ -1,0 +1,3 @@
+graft libneoradio2/hidapi
+graft libneoradio2/neoRAD-IO2-FrameDescription
+graft libneoradio2/test/ice
