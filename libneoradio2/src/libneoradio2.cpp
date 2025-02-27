@@ -17,8 +17,8 @@
 #include <chrono>
 #include <thread>
 
-+using namespace std::chrono;
-+using namespace std::chrono_literals;
+using namespace std::chrono;
+using namespace std::chrono_literals;
 
 std::map<neoradio2_handle, std::shared_ptr<Device>> _device_map;
 
