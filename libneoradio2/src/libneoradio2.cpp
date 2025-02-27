@@ -14,9 +14,11 @@
 #include <iostream>
 #include <map>
 #include <mutex>
+#include <chrono>
+#include <thread>
 
-using namespace std::chrono;
-using namespace std::chrono_literals;
++using namespace std::chrono;
++using namespace std::chrono_literals;
 
 std::map<neoradio2_handle, std::shared_ptr<Device>> _device_map;
 
@@ -145,7 +147,7 @@ LIBNEORADIO2_API void neoradio2_set_blocking(int blocking, long long ms_timeout)
 	std::lock_guard<std::mutex> lock(_lock);
 	_set_blocking = blocking == 1;
 	if (!_set_blocking)
-		_blocking_timeout = 0ms;
+		_blocking_timeout = std::chrono::milliseconds(0);
 	else
 		_blocking_timeout = std::chrono::milliseconds(ms_timeout);
 }
@@ -180,15 +182,17 @@ LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInf
 	{
 		if (_set_blocking)
 		{
-			auto start = high_resolution_clock::now();
+			auto start = std::chrono::high_resolution_clock::now();
+			auto now = std::chrono::high_resolution_clock::now();
+
 			std::lock_guard<std::mutex> lock(_lock);
 			while (!dev->isOpen())
 			{
-				auto now = high_resolution_clock::now();
-				auto elapsed = duration_cast<milliseconds>(now - start);
+				auto now = std::chrono::high_resolution_clock::now();
+				auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start);
 				if (elapsed >= _blocking_timeout)
 					return NEORADIO2_FAILURE;
-				std::this_thread::sleep_for(1ms);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
 			return NEORADIO2_SUCCESS;
 		}

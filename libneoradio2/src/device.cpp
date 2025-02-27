@@ -3,6 +3,11 @@
 #include <string>
 #include <sstream>
 #include <cstring> // memcpy
+#include <thread>  // Required for sleep_for
+#include <chrono>
+
+using namespace std::chrono;  // Ensure chrono is recognized
+using namespace std::chrono_literals;
 
 Device::Device()
 {
@@ -50,8 +55,6 @@ void Device::start()
 	DEBUG_PRINT("Started... %s", temp.str().c_str());
 #endif // ENABLE_DEBUG_PRINT
 
-	using namespace std::chrono;
-
 	mMutex.lock();
 	mIsRunning = true;
 	mMutex.unlock();
@@ -59,6 +62,7 @@ void Device::start()
 	while (!mQuit)
 	{
 		auto start_time = std::chrono::high_resolution_clock::now();
+
 		bool success = false;
 		switch (mState)
 		{
@@ -78,7 +82,7 @@ void Device::start()
 		// Make sure we don't hog the CPU
 		auto elapsed_time = std::chrono::high_resolution_clock::now() - start_time;
 		if (elapsed_time < 1ms)
-			std::this_thread::sleep_for(1ms - elapsed_time);
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 	
 	mMutex.lock();

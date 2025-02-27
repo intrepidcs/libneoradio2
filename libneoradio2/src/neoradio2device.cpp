@@ -12,6 +12,11 @@
 #include <iterator>
 #include <algorithm>
 #include <memory>
+#include <chrono>
+#include <thread>  // Required for std::this_thread::sleep_for
+
+using namespace std::chrono;
+using namespace std::chrono_literals; // Enables `ms` literals
 
 neoRADIO2Device::neoRADIO2Device()
 	: HidDevice()
@@ -322,11 +327,11 @@ void neoRADIO2Device::start()
 		// Nothing to do if we aren't connected
 		if (state() != DeviceStateConnected)
 		{
-			std::this_thread::sleep_for(1ms);
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			continue;
 		}
 #ifdef SLOW_DOWN_MAIN_LOOP
-		std::this_thread::sleep_for(100ms);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 #endif
 		mMutex.lock();
 		switch (mLastState)
@@ -337,7 +342,7 @@ void neoRADIO2Device::start()
 			{
 				mMutex.unlock();
 				// Make sure we don't hog the CPU when Idle
-				std::this_thread::sleep_for(1ms);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 				mMutex.lock();
 				break;
 			}
