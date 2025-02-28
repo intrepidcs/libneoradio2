@@ -1,6 +1,7 @@
 #ifndef __DEVICE_H__
 #define __DEVICE_H__
 
+#include <chrono>
 #include <string>
 #include <vector>
 #include <thread>
