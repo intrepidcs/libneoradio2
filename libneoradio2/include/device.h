@@ -7,6 +7,7 @@
 #include <mutex>
 #include <map>
 #include <memory>
+#include <chrono>
 
 #include "config.h"
 #include "libneoradio2common.h"
