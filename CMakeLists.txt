@@ -2,6 +2,10 @@ cmake_minimum_required (VERSION 3.25)
  
 project (libneoradio2_all LANGUAGES C CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 option(BUILD_PYTHON_BINDINGS "Enable Python bindings" OFF)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
