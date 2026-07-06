@@ -48,7 +48,7 @@ requires = ["scikit-build-core", "pybind11", "wheel"]
 build-backend = "scikit_build_core.build"
 
 [tool.scikit-build]
-cmake.verbose = true
+build.verbose = true
 logging.level = "INFO"
 
 [tool.scikit-build.cmake.define]
