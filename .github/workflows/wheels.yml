@@ -7,37 +7,39 @@ jobs:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [windows-latest] #os: [ubuntu-latest, windows-latest, macOS-13, macOS-latest]
+        # macOS-latest builds universal2 (arm64 + x86_64), so a separate
+        # Intel macOS-13 runner is redundant.
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: 'recursive'
 
       # Used to host cibuildwheel
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel==2.21.3 build==1.2.2.post1
+        # cibuildwheel 4.x is needed to build CPython 3.14 wheels.
+        run: python -m pip install cibuildwheel==4.1.0 build==1.2.2.post1
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
 
       - name: Build sdist
+        if: runner.os == 'Linux'
         run: python -m build --sdist --outdir ./wheelhouse/
+
+      # Name the artifact per-OS so the matrix jobs don't collide (upload-artifact
+      # v4 errors on duplicate names).
       - uses: actions/upload-artifact@v4
         with:
+          name: neoradio2-${{ matrix.os }}
           path: |
             ./wheelhouse/*.whl
             ./wheelhouse/*.tar.gz
           if-no-files-found: error
-      
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: neoradio2-*
-          merge-multiple: true
-          path: ./wheelhouse/
