@@ -9,7 +9,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-13, macOS-latest]
+        # macOS-latest builds universal2 (arm64 + x86_64), so a separate
+        # Intel macOS-13 runner is redundant.
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
       - uses: actions/checkout@v4
