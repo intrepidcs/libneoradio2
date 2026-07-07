@@ -34,7 +34,10 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/hidapi)
-target_link_libraries(${PROJECT_NAME} hidapi)
+# Use the namespaced target: hidapi only defines a plain `hidapi` alias on
+# Windows/macOS, so linking `hidapi` resolves to a bogus `-lhidapi` on Linux.
+# `hidapi::hidapi` is defined on every platform.
+target_link_libraries(${PROJECT_NAME} hidapi::hidapi)
 
 # Install rules for using the C library from an install tree (e.g. the
 # `make install` documented in the README). Skipped inside the Python wheel
