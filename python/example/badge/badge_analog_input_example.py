@@ -4,8 +4,9 @@ import neoradio2
 import time
 
 def enable_device_io(device, io_mask, enable_mask=0xFF):
-    # The second device bank 1 in the "chain" controls all the IO
-    neoradio2.write_sensor(device, 1, 1, io_mask, enable_mask)
+    # The second device bank 1 in the "chain" controls all the IO.
+    # write_sensor() expects the value payload as a list of bytes.
+    neoradio2.write_sensor(device, 1, 1, io_mask, [enable_mask])
 
 if __name__ == "__main__":
     # Find all devices
@@ -19,9 +20,9 @@ if __name__ == "__main__":
     device = neoradio2.open(devices[0])
     print("Opened {} {}...".format(devices[0].name, devices[0].serial_str))
     
-    # Make sure we are in application firmware and chain is identified.
-    neoradio2.app_start(device, 0, 0xFF)
+    # The chain must be identified before starting the application firmware.
     neoradio2.chain_identify(device)
+    neoradio2.app_start(device, 0, 0xFF)
         
     # Read all the AIN values
     neoradio2.request_sensor_data(device, 0x00, 0xFF, True)

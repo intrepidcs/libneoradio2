@@ -24,11 +24,11 @@ def sample_sensor(event):
     devs = neoradio2.find()
     handle = neoradio2.open(devs[0])
     title = "{} {} Bank 1".format(devs[0].name, devs[0].serial_str)
+    # Make sure the chain is Identified first
+    neoradio2.chain_identify(handle)
+
     # Make sure we are in application firmware
     neoradio2.app_start(handle, 0, 0xFF)
-    
-    # Make sure the chain is Identified
-    neoradio2.chain_identify(handle)
     
     while True:
         samples = []
