@@ -278,15 +278,22 @@ PYBIND11_MODULE(neoradio2, m) {
     
     m.def("open", [](Neoradio2DeviceInfo* device) {
 		py::gil_scoped_release release;
-		neoradio2_handle handle;
+		// Initialize to an invalid handle so we never return (or have
+		// neoradio2_open read) an uninitialized value.
+		neoradio2_handle handle = -1;
 		auto result = neoradio2_open(&handle, device);
-		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)
+		if (neoradio2_is_blocking())
 		{
-			//throw NeoRadio2ExceptionWouldBlock("neoradio2_open() would block");
-			return handle;
+			if (result != NEORADIO2_SUCCESS)
+				throw NeoRadio2Exception("neoradio2_open() failed");
 		}
-		else if (neoradio2_is_blocking() && result != NEORADIO2_SUCCESS)
-			throw NeoRadio2Exception("neoradio2_open() failed");
+		else
+		{
+			// Non-blocking: WBLOCK means the open is in progress; any other
+			// non-success result is a real failure, not a valid handle.
+			if (result != NEORADIO2_SUCCESS && result != NEORADIO2_ERR_WBLOCK)
+				throw NeoRadio2Exception("neoradio2_open() failed");
+		}
 		return handle;
 		}, R"pbdoc(
 		open(device)
@@ -1012,7 +1019,9 @@ PYBIND11_MODULE(neoradio2, m) {
 			TODO
 	)pbdoc");
 	m.def("write_sensor", [](neoradio2_handle& handle, int device, int bank, int mask, std::vector<uint8_t> data) {
-		//py::gil_scoped_release release;
+		// data is already copied from Python above; safe to drop the GIL for the
+		// (potentially blocking) write.
+		py::gil_scoped_release release;
 		data.insert(data.begin(), mask);
 		auto result = neoradio2_write_sensor(&handle, device, bank, data.data(), data.size());
 		if (!neoradio2_is_blocking() && result == NEORADIO2_ERR_WBLOCK)

@@ -55,7 +55,6 @@ Devices HidDevice::_findAll()
 		//hdi->serial_number
 		//auto hid_dev = new HidDevice;
 		auto hid_dev = std::make_shared<HidDevice>();
-		devs.push_back(hid_dev);
 		auto di = hid_dev->getDeviceInfo();
 		if (hdi->product_string)
 		{
@@ -74,14 +73,14 @@ Devices HidDevice::_findAll()
 			hid_dev->addPath(CHANNEL_0, hdi->path);
 			if (hdi->next)
 				hid_dev->addPath(CHANNEL_1, hdi->next->path);
-			hdi = hdi->next->next;
+			hdi = hdi->next ? hdi->next->next : NULL;
 		}
 		else if (interface_number == 1)
 		{
 			if (hdi->next)
 				hid_dev->addPath(CHANNEL_0, hdi->next->path);
 			hid_dev->addPath(CHANNEL_1, hdi->path);
-			hdi = hdi->next->next;
+			hdi = hdi->next ? hdi->next->next : NULL;
 		}
 		else
 			hdi = hdi->next;
