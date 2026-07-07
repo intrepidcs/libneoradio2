@@ -1151,7 +1151,10 @@ bool neoRADIO2Device::requestSensorData(int device, int bank, int enable_cal, st
 		},
 		0 // crc
 	};
-	if ((enable_cal |= NEORADIO2CALTYPE_ENABLED))
+	// CALTYPE_ENABLED (0) means "calibrated", which the device treats the same
+	// as sending no caltype byte, so only append the byte for the non-default
+	// caltypes. (Behaviour-equivalent to the old `|=` no-op, minus the smell.)
+	if (enable_cal != NEORADIO2CALTYPE_ENABLED)
 	{
 		frame.header.len = 1;
 		frame.data[0] = enable_cal & 0xFF;

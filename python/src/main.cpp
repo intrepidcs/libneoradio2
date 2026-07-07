@@ -194,9 +194,9 @@ PYBIND11_MODULE(neoradio2, m) {
 			{
 				return self.byte;
 			},
-			[](neoRADIO2AOUT_header& self)
+			[](neoRADIO2AOUT_header& self, uint8_t value)
 			{
-				return self.bits;
+				self.byte = value;
 			}
 			);
 
@@ -264,7 +264,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			neoradio2.Exception on error
 
 		Returns:
-			Returns a tuple of neoradio2.Neoradio2DeviceInfo
+			Returns a list of neoradio2.Neoradio2DeviceInfo
 		
 		Example:
 			>>> import neoradio2
@@ -938,7 +938,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			...     handle = neoradio2.open(device)
 			...		neoradio2.chain_identify(handle)
 			...     # Request/Get the sensor data on bank 8 for device 0
-			...     neoradio2.request_sensor_data(handle, 0, 0xFF, neoradio2.CalType.CALTYPE_ENABLED)
+			...     neoradio2.request_sensor_data(handle, 0, 0xFF, neoradio2.CalType.ENABLED)
 			...     neoradio2.read_sensor_float(handle, 0, 7)
 			...     neoradio2.close(handle)
 			...
@@ -1397,7 +1397,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			throw NeoRadio2Exception("neoradio2_toggle_led() failed");
 		return true;
 	}, R"pbdoc(
-		toggle_led(handle, device, bank, ms)
+		toggle_led(handle, device, bank, mode, led_enables, ms)
 
 		Toggle the leds on the selected devices and banks.
 
@@ -1422,7 +1422,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
-			...     neoradio2.toggle_led(handle, 0, 1, neoradio2.neoRADIO2_LEDMode, 1, 250)
+			...     neoradio2.toggle_led(handle, 0, 1, neoradio2.LEDMode.ON, 1, 250)
 			...     neoradio2.close(handle)
 			...
 			<neoradio2.Neoradio2DeviceInfo 'neoRAD-IO2-Badge IG0001'>
@@ -1457,7 +1457,7 @@ PYBIND11_MODULE(neoradio2, m) {
 			>>> for device in devices:
 			...     print(device)
 			...     handle = neoradio2.open(device)
-			...     neoradio2.toggle_led(handle, 0, 1, neoradio2.neoRADIO2_LEDMode, 1, 250)
+			...     neoradio2.toggle_led(handle, 0, 1, neoradio2.LEDMode.ON, 1, 250)
 			...		neoradio2.toggle_led_successful(handle, 0, 1)
 			...     neoradio2.close(handle)
 			...
@@ -2224,9 +2224,14 @@ PYBIND11_MODULE(neoradio2, m) {
 	// so we are just going stringify/quote the string ourselves now.
 	// Also Python SetupTools has no way to detect MSVC version being used.
 	// This should work with MSVC 2015-2022 now.
-	#define __stringify(x) (#x)
+	// Two-level indirection so VERSION_INFO is expanded to its value (e.g.
+	// 1.3.1) before being stringized, rather than stringizing the literal
+	// token "VERSION_INFO".
+	#define __stringify_impl(x) #x
+	#define __stringify(x) __stringify_impl(x)
 	m.attr("__version__") = __stringify(VERSION_INFO);
 	#undef __stringify
+	#undef __stringify_impl
 #else
     m.attr("__version__") = "dev";
 #endif
