@@ -148,6 +148,12 @@ extern "C" {
 #if defined(INLINE_FIFO_PUSH_POP)
 	ics_inline void FIFO_Push(fifo_t* f, const uint8_t* bytes, unsigned int numBytes)
 	{
+		/* Never write more than the free space: overflowing corrupts numItems
+		   (making FIFO_GetFreeSpace underflow) and, for numBytes > maxSz, would
+		   write past the backing buffer. Excess bytes are dropped. */
+		unsigned int freeSpace = FIFO_GetFreeSpace(f);
+		if (numBytes > freeSpace)
+			numBytes = freeSpace;
 		unsigned int copySz = numBytes;
 		if (copySz > (f->maxSz - f->in))
 			copySz = (f->maxSz - f->in);
@@ -162,6 +168,11 @@ extern "C" {
 
 	ics_inline void FIFO_Pop(fifo_t* f, uint8_t* bytes, unsigned int numBytes)
 	{
+		/* Never read more than is available: underflowing corrupts numItems and
+		   reads stale data. Callers requesting more get only what exists. */
+		unsigned int count = FIFO_GetCount(f);
+		if (numBytes > count)
+			numBytes = count;
 		unsigned int copySz = numBytes;
 		if (copySz > (f->maxSz - f->out))
 			copySz = (f->maxSz - f->out);

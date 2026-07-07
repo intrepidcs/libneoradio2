@@ -95,23 +95,31 @@ neoRADIO2Device::~neoRADIO2Device()
 
 bool neoRADIO2Device::quit(bool wait_for_quit)
 {
-	mMutex.lock();
 	mQuit = true;
-	mMutex.unlock();
-	if (mThread && wait_for_quit)
+	if (mThread)
 	{
-		try
+		if (mThread->joinable())
 		{
-			mThread->join();
+			// Never delete a joinable std::thread (that calls std::terminate).
+			if (wait_for_quit)
+			{
+				try
+				{
+					mThread->join();
+				}
+				catch(const std::exception& e)
+				{
+					DEBUG_PRINT("%s", e.what());
+				}
+			}
+			else
+			{
+				mThread->detach();
+			}
 		}
-		catch(const std::exception& e)
-		{
-			DEBUG_PRINT("%s", e.what());
-		}
+		delete mThread;
+		mThread = nullptr;
 	}
-		
-	delete mThread;
-	mThread = nullptr;
 	return true;
 }
 
@@ -288,7 +296,12 @@ bool neoRADIO2Device::runConnecting()
 		return false;
 	}
 	*/
-	mThread = new std::thread(&neoRADIO2Device::start, this);
+	// Only spawn the frame-processing thread once; a reconnect reuses it.
+	if (!mThread)
+	{
+		mQuit = false;
+		mThread = new std::thread(&neoRADIO2Device::start, this);
+	}
 	DEBUG_PRINT_ANNOYING("Changing state to connected!");
 	changeState(DeviceStateConnected);
 	return success;
@@ -2062,9 +2075,8 @@ std::string neoRADIO2Device::frameToString(neoRADIO2frame& frame, bool is_bitfie
 
 void neoRADIO2Device::updateDeviceCount(int device_count)
 {
-	//mMutex.lock();
+	// mDeviceCount is atomic; this store is safe against concurrent readers.
 	mDeviceCount = device_count;
-	//mMutex.unlock();
 }
 
 uint8_t neoRADIO2Device::crc8_Calc(uint8_t* data, int len)

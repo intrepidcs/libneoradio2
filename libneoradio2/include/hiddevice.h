@@ -42,7 +42,10 @@ public:
 	virtual ~HidBuffer()
 	{
 		if (handle)
+		{
+			hid_close(handle);
 			handle = NULL;
+		}
 
 		if (tx_buffer)
 		{

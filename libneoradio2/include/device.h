@@ -8,6 +8,7 @@
 #include <mutex>
 #include <map>
 #include <memory>
+#include <atomic>
 
 #include "config.h"
 #include "libneoradio2common.h"
@@ -153,14 +154,12 @@ protected:
 	}
 
 private:
-	bool mIsRunning;
-	bool mQuit;
+	std::atomic<bool> mIsRunning;
+	std::atomic<bool> mQuit;
 	std::thread* mThread;
 	std::mutex mMutex;
 
-	
-
-	DeviceState mState;
+	std::atomic<DeviceState> mState;
 
 	// this is the actual thread loop that calls run()
 	void start();

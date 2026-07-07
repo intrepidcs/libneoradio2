@@ -8,8 +8,9 @@ Device::Device()
 {
 	mState = DeviceStateIdle;
 	mQuit = false;
+	mIsRunning = false;
 	mThread = nullptr;
-	
+
 	
 	memset(&mDevInfo.di, 0, sizeof(mDevInfo.di));
 	mDevInfo.is_blocking = 0;
@@ -26,6 +27,10 @@ bool Device::open()
 {
 	if (!isOpen())
 	{
+		// Tear down any previous worker before starting a new one so we never
+		// leak the std::thread object or run two workers on the same device.
+		quit(true);
+		mQuit = false;
 		changeState(DeviceStateConnecting);
 		mThread = new std::thread(&Device::start, this);
 	}
@@ -60,7 +65,7 @@ void Device::start()
 	{
 		auto start_time = std::chrono::high_resolution_clock::now();
 		bool success = false;
-		switch (mState)
+		switch (state())
 		{
 		case DeviceStateIdle:
 			success = runIdle();
@@ -106,18 +111,25 @@ bool Device::quit(bool wait_for_quit)
 	mMutex.unlock();
 	if (mThread)
 	{
-		if (wait_for_quit)
+		if (mThread->joinable())
 		{
-			try
+			// Never delete a joinable std::thread (that calls std::terminate).
+			if (wait_for_quit)
 			{
-				mThread->join();
+				try
+				{
+					mThread->join();
+				}
+				catch(const std::exception& e)
+				{
+					DEBUG_PRINT("%s\n", e.what());
+				}
 			}
-			catch(const std::exception& e)
+			else
 			{
-				DEBUG_PRINT("%s\n", e.what());
+				mThread->detach();
 			}
 		}
-			
 		delete mThread;
 		mThread = nullptr;
 	}
