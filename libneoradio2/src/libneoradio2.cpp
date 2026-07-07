@@ -122,6 +122,7 @@ std::tuple<CommandStateType, int> _StatusType_to_cmd(StatusType& type)
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* device_count)
 {
+	try {
 	if (!devices || !device_count)
 		return NEORADIO2_FAILURE;
 
@@ -138,6 +139,7 @@ LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* 
 	*device_count = count;
 
 	return NEORADIO2_SUCCESS;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Sets the API to blocking or non-blocking mode.
@@ -146,12 +148,14 @@ LIBNEORADIO2_API int neoradio2_find(Neoradio2DeviceInfo* devices, unsigned int* 
 //! @return void
 LIBNEORADIO2_API void neoradio2_set_blocking(int blocking, long long ms_timeout)
 {
+	try {
 	std::lock_guard<std::mutex> lock(_lock);
 	_set_blocking = blocking == 1;
 	if (!_set_blocking)
 		_blocking_timeout = 0ms;
 	else
 		_blocking_timeout = std::chrono::milliseconds(ms_timeout);
+	} catch (...) { }
 }
 
 //! Determine if the API is setup in blocking mode
@@ -160,8 +164,10 @@ LIBNEORADIO2_API void neoradio2_set_blocking(int blocking, long long ms_timeout)
 //! @return 1 if blocking, 0 if not.
 LIBNEORADIO2_API int neoradio2_is_blocking()
 {
+	try {
 	std::lock_guard<std::mutex> lock(_lock);
 	return (int)_set_blocking;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Open a neoRAD-IO2 Device.
@@ -172,6 +178,7 @@ LIBNEORADIO2_API int neoradio2_is_blocking()
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInfo* device)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev)
 	{
@@ -199,6 +206,7 @@ LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInf
 		return NEORADIO2_ERR_WBLOCK;
 	}
 	return NEORADIO2_FAILURE;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Determines if a neoRAD-IO2 Device is open.
@@ -209,6 +217,7 @@ LIBNEORADIO2_API int neoradio2_open(neoradio2_handle* handle, Neoradio2DeviceInf
 //! @return NEORADIO2_SUCCESS if or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_is_opened(neoradio2_handle* handle, int* is_opened)
 {
+	try {
 	if (!is_opened)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -216,6 +225,7 @@ LIBNEORADIO2_API int neoradio2_is_opened(neoradio2_handle* handle, int* is_opene
 		return NEORADIO2_FAILURE;
 	*is_opened = dev->isOpen();
 	return NEORADIO2_SUCCESS;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Determines if a neoRAD-IO2 Device is open.
@@ -224,6 +234,7 @@ LIBNEORADIO2_API int neoradio2_is_opened(neoradio2_handle* handle, int* is_opene
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_close(neoradio2_handle* handle)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev)
 		return NEORADIO2_FAILURE;
@@ -247,6 +258,7 @@ LIBNEORADIO2_API int neoradio2_close(neoradio2_handle* handle)
 		return NEORADIO2_ERR_WBLOCK;
 	}
 	return NEORADIO2_FAILURE;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Determines if a neoRAD-IO2 Device is closed.
@@ -255,6 +267,7 @@ LIBNEORADIO2_API int neoradio2_close(neoradio2_handle* handle)
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_is_closed(neoradio2_handle* handle, int* is_closed)
 {
+	try {
 	if (!is_closed)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -262,6 +275,7 @@ LIBNEORADIO2_API int neoradio2_is_closed(neoradio2_handle* handle, int* is_close
 		return NEORADIO2_FAILURE;
 	*is_closed = !dev->isOpen();
 	return NEORADIO2_SUCCESS;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Determines if the neoRAD-IO-2 Chain is identified.
@@ -271,6 +285,7 @@ LIBNEORADIO2_API int neoradio2_is_closed(neoradio2_handle* handle, int* is_close
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_chain_is_identified(neoradio2_handle* handle, int* is_identified)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev)
 		return NEORADIO2_FAILURE;
@@ -283,6 +298,7 @@ LIBNEORADIO2_API int neoradio2_chain_is_identified(neoradio2_handle* handle, int
 	*is_identified = radio_dev->isChainIdentified(_blocking_timeout);
 
 	return NEORADIO2_SUCCESS;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Identifies the neoRAD-IO-2 chain.
@@ -291,6 +307,7 @@ LIBNEORADIO2_API int neoradio2_chain_is_identified(neoradio2_handle* handle, int
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_chain_identify(neoradio2_handle* handle)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -301,6 +318,7 @@ LIBNEORADIO2_API int neoradio2_chain_identify(neoradio2_handle* handle)
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Determines if the neoRAD-IO-2 Application code is started. This should be called on first connect
@@ -313,6 +331,7 @@ LIBNEORADIO2_API int neoradio2_chain_identify(neoradio2_handle* handle)
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure.
 LIBNEORADIO2_API int neoradio2_app_is_started(neoradio2_handle* handle, int device, int bank, int* is_started)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev)
 		return NEORADIO2_FAILURE;
@@ -325,6 +344,7 @@ LIBNEORADIO2_API int neoradio2_app_is_started(neoradio2_handle* handle, int devi
 	*is_started = radio_dev->isApplicationStarted(device, bank, _blocking_timeout);
 
 	return NEORADIO2_SUCCESS;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Tells the neoRAD-IO-2 bootloader to start Application code. This should be called on first connect
@@ -337,6 +357,7 @@ LIBNEORADIO2_API int neoradio2_app_is_started(neoradio2_handle* handle, int devi
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_app_start(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -348,6 +369,7 @@ LIBNEORADIO2_API int neoradio2_app_start(neoradio2_handle* handle, int device, i
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Tells the neoRAD-IO-2 to enter bootloader. This is typically not needed. Chain needs to be identified first.
@@ -359,6 +381,7 @@ LIBNEORADIO2_API int neoradio2_app_start(neoradio2_handle* handle, int device, i
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_enter_bootloader(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -370,6 +393,7 @@ LIBNEORADIO2_API int neoradio2_enter_bootloader(neoradio2_handle* handle, int de
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Gets the serial number (base10) on the selected devices and banks. Chain needs to be identified first.
@@ -383,6 +407,7 @@ LIBNEORADIO2_API int neoradio2_enter_bootloader(neoradio2_handle* handle, int de
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_serial_number(neoradio2_handle* handle, int device, int bank, unsigned int* serial_number)
 {
+	try {
 	if (!serial_number)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -396,6 +421,7 @@ LIBNEORADIO2_API int neoradio2_get_serial_number(neoradio2_handle* handle, int d
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Get the manufacturing date of the selected devices and banks. Chain needs to be identified first.
@@ -407,6 +433,7 @@ LIBNEORADIO2_API int neoradio2_get_serial_number(neoradio2_handle* handle, int d
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_manufacturer_date(neoradio2_handle* handle, int device, int bank, int* year, int* month, int* day)
 {
+	try {
 	if (!year || !month || !day)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -420,6 +447,7 @@ LIBNEORADIO2_API int neoradio2_get_manufacturer_date(neoradio2_handle* handle, i
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Get the firmware version of the selected devices and banks. Chain needs to be identified first.
@@ -431,6 +459,7 @@ LIBNEORADIO2_API int neoradio2_get_manufacturer_date(neoradio2_handle* handle, i
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_firmware_version(neoradio2_handle* handle, int device, int bank, int* major, int* minor)
 {
+	try {
 	if (!major || !minor)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -444,6 +473,7 @@ LIBNEORADIO2_API int neoradio2_get_firmware_version(neoradio2_handle* handle, in
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 //! Get the hardware revision of the selected devices and banks. Chain needs to be identified first.
@@ -455,6 +485,7 @@ LIBNEORADIO2_API int neoradio2_get_firmware_version(neoradio2_handle* handle, in
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_hardware_revision(neoradio2_handle* handle, int device, int bank, int* major, int* minor)
 {
+	try {
 	if (!major || !minor)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -468,6 +499,7 @@ LIBNEORADIO2_API int neoradio2_get_hardware_revision(neoradio2_handle* handle, i
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 
@@ -481,6 +513,7 @@ LIBNEORADIO2_API int neoradio2_get_hardware_revision(neoradio2_handle* handle, i
 //! @return NEORADIO2_SUCCESS if successful or NEORADIO2_FAILURE on failure. Returns NEORADIO2_ERR_WBLOCK in non-blocking mode
 LIBNEORADIO2_API int neoradio2_get_device_type(neoradio2_handle* handle, int device, int bank, unsigned int* device_type)
 {
+	try {
 	if (!device_type)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -496,10 +529,12 @@ LIBNEORADIO2_API int neoradio2_get_device_type(neoradio2_handle* handle, int dev
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_request_pcbsn(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -510,10 +545,12 @@ LIBNEORADIO2_API int neoradio2_request_pcbsn(neoradio2_handle* handle, int devic
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_get_pcbsn(neoradio2_handle* handle, int device, int bank, char* pcb_sn)
 {
+	try {
 	if (!pcb_sn)
 		return NEORADIO2_FAILURE;
 
@@ -534,10 +571,12 @@ LIBNEORADIO2_API int neoradio2_get_pcbsn(neoradio2_handle* handle, int device, i
 		copy_len = 16;
 	memcpy(pcb_sn, temp.c_str(), copy_len);
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_request_sensor_data(neoradio2_handle* handle, int device, int bank, int enable_cal)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -548,10 +587,12 @@ LIBNEORADIO2_API int neoradio2_request_sensor_data(neoradio2_handle* handle, int
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_read_sensor_float(neoradio2_handle* handle, int device, int bank, float* value)
 {
+	try {
 	if (!value)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -567,10 +608,12 @@ LIBNEORADIO2_API int neoradio2_read_sensor_float(neoradio2_handle* handle, int d
 		return NEORADIO2_FAILURE;
 	memcpy(value, data.data(), sizeof(*value));
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_read_sensor_array(neoradio2_handle* handle, int device, int bank, int* arr, int* arr_size)
 {
+	try {
 	if (!arr || !arr_size)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -588,10 +631,12 @@ LIBNEORADIO2_API int neoradio2_read_sensor_array(neoradio2_handle* handle, int d
 		arr[i] = data[i];
 	*arr_size = data.size();
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_sensor(neoradio2_handle* handle, int device, int bank, uint8_t * data, int len)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -603,10 +648,12 @@ LIBNEORADIO2_API int neoradio2_write_sensor(neoradio2_handle* handle, int device
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_sensor_successful(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -615,10 +662,12 @@ LIBNEORADIO2_API int neoradio2_write_sensor_successful(neoradio2_handle* handle,
 		return NEORADIO2_FAILURE;
 	// TODO
 	return radio_dev->writeSensorDataSuccessful(device, bank) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -629,10 +678,12 @@ LIBNEORADIO2_API int neoradio2_request_settings(neoradio2_handle* handle, int de
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_settings* settings)
 {
+	try {
 	if (!settings)
 		return NEORADIO2_FAILURE;
 
@@ -646,10 +697,12 @@ LIBNEORADIO2_API int neoradio2_read_settings(neoradio2_handle* handle, int devic
 	std::vector<uint8_t> data;
 	bool success = radio_dev->readSettings(device, bank, *settings) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_settings(neoradio2_handle* handle, int device, int bank, neoRADIO2_settings* settings)
 {
+	try {
 	if (!settings)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -663,11 +716,13 @@ LIBNEORADIO2_API int neoradio2_write_settings(neoradio2_handle* handle, int devi
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 
 LIBNEORADIO2_API int neoradio2_write_settings_successful(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -676,10 +731,12 @@ LIBNEORADIO2_API int neoradio2_write_settings_successful(neoradio2_handle* handl
 		return NEORADIO2_FAILURE;
 
 	return radio_dev->writeSettingsSuccessful(device, bank) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* count, int identify)
 {
+	try {
 	if (!count)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -696,10 +753,12 @@ LIBNEORADIO2_API int neoradio2_get_chain_count(neoradio2_handle* handle, int* co
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -711,10 +770,12 @@ LIBNEORADIO2_API int neoradio2_request_calibration(neoradio2_handle* handle, int
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int* arr_size)
 {
+	try {
 	if (!arr || !arr_size)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -732,10 +793,12 @@ LIBNEORADIO2_API int neoradio2_read_calibration_array(neoradio2_handle* handle, 
 		arr[i] = data[i];
 	*arr_size = data.size();
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_request_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -747,10 +810,12 @@ LIBNEORADIO2_API int neoradio2_request_calibration_points(neoradio2_handle* hand
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_read_calibration_points_array(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int* arr_size)
 {
+	try {
 	if (!arr || !arr_size)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -768,10 +833,12 @@ LIBNEORADIO2_API int neoradio2_read_calibration_points_array(neoradio2_handle* h
 		arr[i] = data[i];
 	*arr_size = data.size();
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int arr_size)
 {
+	try {
 	if (!header || !arr || !arr_size)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -788,10 +855,12 @@ LIBNEORADIO2_API int neoradio2_write_calibration(neoradio2_handle* handle, int d
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_calibration_successful(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -801,10 +870,12 @@ LIBNEORADIO2_API int neoradio2_write_calibration_successful(neoradio2_handle* ha
 
 
 	return radio_dev->writeCalibrationSuccessful(device, bank) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header, float* arr, int arr_size)
 {
+	try {
 	if (!header || !arr || !arr_size)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -821,10 +892,12 @@ LIBNEORADIO2_API int neoradio2_write_calibration_points(neoradio2_handle* handle
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_calibration_points_successful(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -833,10 +906,12 @@ LIBNEORADIO2_API int neoradio2_write_calibration_points_successful(neoradio2_han
 		return NEORADIO2_FAILURE;
 
 	return radio_dev->writeCalibrationPointsSuccessful(device, bank) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -848,10 +923,12 @@ LIBNEORADIO2_API int neoradio2_store_calibration(neoradio2_handle* handle, int d
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_is_calibration_stored(neoradio2_handle* handle, int device, int bank, int* stored)
 {
+	try {
 	if (!stored)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -864,10 +941,12 @@ LIBNEORADIO2_API int neoradio2_is_calibration_stored(neoradio2_handle* handle, i
 	bool success = radio_dev->isCalibrationStored(device, bank, _stored, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 	*stored = _stored ? 1 : 0;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_get_calibration_is_valid(neoradio2_handle* handle, int device, int bank, int* is_valid)
 {
+	try {
 	if (!is_valid)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -880,10 +959,12 @@ LIBNEORADIO2_API int neoradio2_get_calibration_is_valid(neoradio2_handle* handle
 	bool success = radio_dev->isCalibrationStored(device, bank, valid, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 	*is_valid = valid;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_clear_calibration(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -893,10 +974,12 @@ LIBNEORADIO2_API int neoradio2_clear_calibration(neoradio2_handle* handle, int d
 	bool valid = false;
 	bool success = radio_dev->clearCalibration(device, bank, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_request_calibration_info(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -907,10 +990,12 @@ LIBNEORADIO2_API int neoradio2_request_calibration_info(neoradio2_handle* handle
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_read_calibration_info(neoradio2_handle* handle, int device, int bank, neoRADIO2frame_calHeader* header)
 {
+	try {
 	if (!header)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -921,10 +1006,12 @@ LIBNEORADIO2_API int neoradio2_read_calibration_info(neoradio2_handle* handle, i
 		return NEORADIO2_FAILURE;
 	bool success = radio_dev->readCalibrationInfo(device, bank, *header, _blocking_timeout) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, int bank, int mode, int led_enables, int ms)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -935,10 +1022,12 @@ LIBNEORADIO2_API int neoradio2_toggle_led(neoradio2_handle* handle, int device, 
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -946,11 +1035,13 @@ LIBNEORADIO2_API int neoradio2_toggle_led_successful(neoradio2_handle* handle, i
 	if (!radio_dev)
 		return NEORADIO2_FAILURE;
 	return radio_dev->toggleLEDSuccessful(device, bank) ? NEORADIO2_SUCCESS : NEORADIO2_FAILURE;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 
 LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, int bank, int bitfield, StatusType type, CommandStatus* status)
 {
+	try {
 	if (!status)
 		return NEORADIO2_FAILURE;
 	auto dev = _getDevice(*handle);
@@ -964,10 +1055,12 @@ LIBNEORADIO2_API int neoradio2_get_status(neoradio2_handle* handle, int device, 
 	*status = radio_dev->getCommandState(device, bank, bitfield, std::get<0>(cmd), std::get<1>(cmd));
 
 	return NEORADIO2_SUCCESS;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_write_default_settings(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -979,10 +1072,12 @@ LIBNEORADIO2_API int neoradio2_write_default_settings(neoradio2_handle* handle, 
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 
 LIBNEORADIO2_API int neoradio2_request_statistics(neoradio2_handle* handle, int device, int bank)
 {
+	try {
 	auto dev = _getDevice(*handle);
 	if (!dev || !dev->isOpen())
 		return NEORADIO2_FAILURE;
@@ -994,9 +1089,11 @@ LIBNEORADIO2_API int neoradio2_request_statistics(neoradio2_handle* handle, int 
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
 LIBNEORADIO2_API int neoradio2_read_statistics(neoradio2_handle* handle, int device, int bank, neoRADIO2_PerfStatistics* stats)
 {
+	try {
 	if (!stats)
 		return NEORADIO2_FAILURE;
 
@@ -1012,4 +1109,5 @@ LIBNEORADIO2_API int neoradio2_read_statistics(neoradio2_handle* handle, int dev
 	if (!_set_blocking && success == NEORADIO2_FAILURE)
 		return NEORADIO2_ERR_WBLOCK;
 	return success;
+	} catch (...) { return NEORADIO2_FAILURE; }
 }
