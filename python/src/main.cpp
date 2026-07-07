@@ -138,13 +138,22 @@ PYBIND11_MODULE(neoradio2, m) {
 		.def_readwrite("charSize", &neoRADIO2Settings_ChannelName::charSize)
 		//.def_readwrite("chars", &neoRADIO2Settings_ChannelName::chars)
 		.def_property("chars", 
-			[](neoRADIO2Settings_ChannelName& self) 
+			[](neoRADIO2Settings_ChannelName& self)
 			{
-				return std::string((char*)self.chars.u8);
+				// The buffer is not guaranteed to be NUL-terminated; bound the length.
+				const char* p = (const char*)self.chars.u8;
+				size_t n = 0;
+				while (n < sizeof(self.chars.u8) && p[n] != '\0')
+					++n;
+				return std::string(p, n);
 			},
 			[](neoRADIO2Settings_ChannelName& self, std::string value)
 			{
-				memcpy(self.chars.u8, value.c_str(), value.size());
+				// Never copy more than the fixed buffer can hold.
+				size_t copy_len = value.size();
+				if (copy_len > sizeof(self.chars.u8))
+					copy_len = sizeof(self.chars.u8);
+				memcpy(self.chars.u8, value.c_str(), copy_len);
 			});
 
 	// radio2_frame.h
@@ -240,6 +249,9 @@ PYBIND11_MODULE(neoradio2, m) {
         auto res = neoradio2_find(temp, &device_count);
         if (res != NEORADIO2_SUCCESS)
             throw NeoRadio2Exception("neoradio2_find() failed");
+        // Never trust a returned count larger than the array we passed in.
+        if (device_count > size)
+            device_count = size;
         devs.reserve(device_count);
         std::copy(std::begin(temp), std::begin(temp)+device_count, std::back_inserter(devs));
         return devs;
@@ -972,7 +984,7 @@ PYBIND11_MODULE(neoradio2, m) {
 	m.def("read_sensor_array", [](neoradio2_handle& handle, int device, int bank) {
 		py::gil_scoped_release release;
 		int arr[64] = {0};
-		int arr_size = sizeof(arr);
+		int arr_size = sizeof(arr) / sizeof(arr[0]);
 		if (neoradio2_read_sensor_array(&handle, device, bank, arr, &arr_size) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_sensor_array() failed");
 		std::vector<int> values;
@@ -1539,7 +1551,7 @@ PYBIND11_MODULE(neoradio2, m) {
 	m.def("read_calibration_array", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
         py::gil_scoped_release release;
 		float arr[64] ={0};
-		int arr_size = sizeof(arr);
+		int arr_size = sizeof(arr) / sizeof(arr[0]);
 		if (neoradio2_read_calibration_array(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_calibration_array() failed");
 		std::vector<float> values;
@@ -1632,7 +1644,7 @@ PYBIND11_MODULE(neoradio2, m) {
 	m.def("read_calibration_points_array", [](neoradio2_handle& handle, int device, int bank, neoRADIO2frame_calHeader& header) {
         py::gil_scoped_release release;
 		float arr[64] ={0};
-		int arr_size = sizeof(arr);
+		int arr_size = sizeof(arr) / sizeof(arr[0]);
 		if (neoradio2_read_calibration_points_array(&handle, device, bank, &header, arr, &arr_size) != NEORADIO2_SUCCESS)
 			throw NeoRadio2Exception("neoradio2_read_calibration_points_array() failed");
 		std::vector<float> values;
