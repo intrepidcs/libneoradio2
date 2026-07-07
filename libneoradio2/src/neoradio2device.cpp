@@ -162,14 +162,14 @@ Devices neoRADIO2Device::_findAll()
 			device->addPath(CHANNEL_0, hdi->path);
 			if (hdi->next)
 				device->addPath(CHANNEL_1, hdi->next->path);
-			hdi = hdi->next->next;
+			hdi = hdi->next ? hdi->next->next : NULL;
 		}
 		else if (interface_number == 1)
 		{
 			if (hdi->next)
 				device->addPath(CHANNEL_0, hdi->next->path);
 			device->addPath(CHANNEL_1, hdi->path);
-			hdi = hdi->next->next;
+			hdi = hdi->next ? hdi->next->next : NULL;
 		}
 		else
 			hdi = hdi->next;
@@ -669,9 +669,25 @@ bool neoRADIO2Device::processFrameReadSettings()
 	data.resize(getSettingsSize());
 
 	// Push the partial data into the real vector.
-	const auto offset = NEORADIO2_SETTINGS_PARTSIZE * part.part;
+	const size_t offset = NEORADIO2_SETTINGS_PARTSIZE * part.part;
 
-	std::copy(&part.data[0], &part.data[frame->header.len-1], data.begin() + offset);
+	// header.len counts the part byte plus the payload; the payload is len-1
+	// bytes. Bound both the offset and the copy length to the settings buffer
+	// so a malformed frame (e.g. part index at the tail, or an oversized len)
+	// can't write past data.end().
+	size_t copy_len = (frame->header.len > 0) ? (size_t)(frame->header.len - 1) : 0;
+	if (offset >= data.size())
+	{
+		mDCH.updateCommand(&frame->header, COMMAND_STATE_ERROR, mLastframe.isBitField());
+		DEBUG_PRINT("ERROR: settings part offset %zu is past the settings buffer (%zu)", offset, data.size());
+		return false;
+	}
+	if (copy_len > sizeof(part.data))
+		copy_len = sizeof(part.data);
+	if (offset + copy_len > data.size())
+		copy_len = data.size() - offset;
+
+	std::copy(&part.data[0], &part.data[copy_len], data.begin() + offset);
 	// Update the data with the new partial
 	mDCH.updateExtraData(&frame->header, data, mLastframe.isBitField());
 
@@ -1055,9 +1071,9 @@ bool neoRADIO2Device::requestPCBSN(int device, int bank, std::chrono::millisecon
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1093,9 +1109,9 @@ bool neoRADIO2Device::getPCBSN(int device, int bank, std::string& pcbsn)
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 	pcbsn.clear();
@@ -1113,9 +1129,9 @@ bool neoRADIO2Device::requestSensorData(int device, int bank, int enable_cal, st
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1166,9 +1182,9 @@ bool neoRADIO2Device::writeSensorData(int device, int bank, uint8_t * data, int 
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d = 0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b = 0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1207,9 +1223,9 @@ bool neoRADIO2Device::writeSensorDataSuccessful(int device, int bank)
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d = 0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b = 0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1242,9 +1258,9 @@ bool neoRADIO2Device::requestSettings(int device, int bank, std::chrono::millise
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1297,9 +1313,9 @@ bool neoRADIO2Device::writeSettings(int device, int bank, neoRADIO2_settings& se
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1365,9 +1381,9 @@ bool neoRADIO2Device::writeSettingsSuccessful(int device, int bank)
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d = 0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b = 0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1393,9 +1409,9 @@ bool neoRADIO2Device::requestCalibration(int device, int bank, const neoRADIO2fr
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1450,9 +1466,9 @@ bool neoRADIO2Device::requestCalibrationPoints(int device, int bank, const neoRA
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1507,9 +1523,9 @@ bool neoRADIO2Device::writeCalibration(int device, int bank, const neoRADIO2fram
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1554,9 +1570,9 @@ bool neoRADIO2Device::writeCalibrationSuccessful(int device, int bank)
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d = 0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b = 0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1583,9 +1599,9 @@ bool neoRADIO2Device::writeCalibrationPoints(int device, int bank, const neoRADI
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1630,9 +1646,9 @@ bool neoRADIO2Device::writeCalibrationPointsSuccessful(int device, int bank)
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d = 0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b = 0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1658,9 +1674,9 @@ bool neoRADIO2Device::requestStoreCalibration(int device, int bank, std::chrono:
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1708,9 +1724,9 @@ bool neoRADIO2Device::requestCalibrationInfo(int device, int bank, std::chrono::
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d=0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b=0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1756,9 +1772,9 @@ bool neoRADIO2Device::clearCalibration(int device, int bank, std::chrono::millis
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d = 0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b = 0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
@@ -1845,9 +1861,9 @@ bool neoRADIO2Device::writeDefaultSettings(int device, int bank, std::chrono::mi
 	// This command is only available in application code
 	// isApplicationStarted isn't a bitmask
 	for (int d = 0; d < 8; ++d)
-		if ((d << 1) & device)
+		if ((1 << d) & device)
 			for (int b = 0; b < 8; ++b)
-				if ((b << 1) & bank)
+				if ((1 << b) & bank)
 					if (!isApplicationStarted(d, b, 0s))
 						return false;
 
