@@ -10,6 +10,7 @@ maintainers = [
 description = "neoRADIO2 python bindings"
 keywords = ["intrepidcs", "Automotive", "ICS"]
 readme = {file = "python/README.md", content-type = "text/markdown"}
+license = {file = "LICENSE"}
 requires-python = ">=3.8"
 classifiers=[ 
         "Development Status :: 5 - Production/Stable",
@@ -51,22 +52,32 @@ build-backend = "scikit_build_core.build"
 build.verbose = true
 logging.level = "INFO"
 
+# The HID backend and frame-description headers live in git submodules whose
+# contents are not tracked by this repo, so they must be explicitly bundled or
+# an sdist install fails at add_subdirectory(.../hidapi).
+[tool.scikit-build.sdist]
+include = [
+    "libneoradio2/hidapi/**",
+    "libneoradio2/neoRAD-IO2-FrameDescription/**",
+]
+
 [tool.scikit-build.cmake.define]
 BUILD_PYTHON_BINDINGS = true
 
 [tool.cibuildwheel]
-build = "{*-win32,*-win_amd64,*-macosx_universal2,*-manylinux_x86_64,*-manylinux_aarch64}"
+# aarch64 is intentionally omitted: it needs QEMU/native-runner setup that CI
+# does not currently provide, so listing it only produced silent no-ops.
+build = "{*-win32,*-win_amd64,*-macosx_universal2,*-manylinux_x86_64}"
 skip = "cp36-* pp* *-manylinux_i686 *-musllinux_*"
-environment = {DISTUTILS_DEBUG=1}
-before-build = "python -m pip install wheel"
 manylinux-x86_64-image = "quay.io/pypa/manylinux_2_28_x86_64"
+# Smoke-test every built wheel so a broken import never ships green.
+test-command = "python -c \"import neoradio2; print(neoradio2.__version__)\""
 
 [tool.cibuildwheel.linux]
 before-build = "dnf install -y libpcap-devel cmake libusbx-devel clang clang-tools-extra libudev-devel"
 
 [tool.cibuildwheel.macos]
 archs = ["universal2"]
-before-build = "brew install automake libtool cmake clang-format"
+before-build = "brew install cmake"
 
-[tool.cibuildwheel.windows]
-before-build = "choco install llvm"
+# Windows builds with MSVC (already present on the runner); no extra toolchain.
