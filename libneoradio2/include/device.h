@@ -135,7 +135,9 @@ protected:
 	void changeState(DeviceState state)
 	{
 		std::lock_guard<std::mutex> lock(mMutex);
-		DEBUG_PRINT("State: old: %d, new: %d", mState, state);
+		// mState is atomic; load it to a plain enum before passing to the
+		// variadic DEBUG_PRINT (an atomic can't be passed to a vararg).
+		DEBUG_PRINT("State: old: %d, new: %d", (int)mState.load(), (int)state);
 		mState = state;
 	}
 	DeviceState state()
@@ -143,10 +145,10 @@ protected:
 		std::lock_guard<std::mutex> lock(mMutex);
 #ifdef DEBUG_ANNOYING
 		// Report every time we change
-		static auto last_state = mState;
+		static DeviceState last_state = mState;
 		if (mState != last_state)
 		{
-			DEBUG_PRINT("State: %d", mState);
+			DEBUG_PRINT("State: %d", (int)mState.load());
 			last_state = mState;
 		}
 #endif // DEBUG_ANNOYING
