@@ -9,6 +9,7 @@
 #include "neoradio2framehandler.h"
 #include "devicecommandhandler.h"
 #include <unordered_map>
+#include <atomic>
 
 #include "radio2_frames.h"
 
@@ -171,12 +172,12 @@ protected:
 	}
 
 private:
-	bool mIsRunning;
-	bool mQuit;
+	std::atomic<bool> mIsRunning;
+	std::atomic<bool> mQuit;
 	std::thread* mThread;
 	std::mutex mMutex;
 
-	int mDeviceCount;
+	std::atomic<int> mDeviceCount;
 
 	void updateDeviceCount(int device_count);
 

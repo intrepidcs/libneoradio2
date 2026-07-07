@@ -11,6 +11,10 @@ HidDevice::HidDevice()
 
 HidDevice::~HidDevice()
 {
+	// Stop the worker thread before freeing the buffers and HID handles it
+	// touches in runConnected()/runDisconnecting(); otherwise the still-running
+	// loop dereferences freed memory (use-after-free).
+	quit(true);
 	for (auto i : mBuffers)
 	{
 		if (i.second)
@@ -195,6 +199,12 @@ bool HidDevice::runDisconnecting()
 	for (auto& buffer : mBuffers)
 	{
 		auto buf = buffer.second;
+		if (!buf)
+			continue;
+		// Hold both locks so we don't close the handle out from under a
+		// concurrent read()/write()/sendFeatureReport() on another thread.
+		std::lock_guard<std::mutex> tx(buf->tx_lock);
+		std::lock_guard<std::mutex> rx(buf->rx_lock);
 		if (buf->handle != NULL)
 			hid_close(buf->handle);
 		buf->handle = NULL;
@@ -295,6 +305,11 @@ bool HidDevice::sendFeatureReport(uint8_t* buffer, uint16_t* buffer_size, Device
 	std::lock_guard<std::mutex> lock(buf->tx_lock);
 
 	if (*buffer_size > sizeof(temp_buf))
+		return false;
+
+	// The handle may have been closed by runDisconnecting(); don't hand a
+	// NULL handle to hidapi.
+	if (buf->handle == NULL)
 		return false;
 
 	// We need exactly 64 bytes to send the report message
