@@ -8,8 +8,11 @@ try:
     import neoradio2
     print(neoradio2.__file__)
 except Exception as ex:
-    input(str(ex))
+    print(str(ex))
 import time
+
+# Bitmask of banks to read settings from (all eight banks).
+banks = 0xFF
 
 
 if __name__ == "__main__":
@@ -38,7 +41,6 @@ if __name__ == "__main__":
             time.sleep(1)
         finally:
             neoradio2.close(handle)
-            input("Press any key to continue...")
 
 """
 if __name__ == "__main__":
