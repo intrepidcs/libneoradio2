@@ -612,8 +612,11 @@ bool neoRADIO2Device::processStateFinished()
 	if (isDeviceHeaderId(mLastframe.frame()->header.start_of_frame) && mLastframe.frame()->header.command_status == NEORADIO2_STATUS_IDENTIFY)
 	{
 		auto device_count = mLastframe.frame()->header.device + 1;
-		updateDeviceCount(device_count > mDeviceCount ? device_count : mDeviceCount);
-		DEBUG_PRINT_ANNOYING("Device Count = %d", mDeviceCount);
+		// Load the atomic into a plain int; a ternary mixing int and
+		// std::atomic<int> is ambiguous under clang.
+		const int current_count = mDeviceCount;
+		updateDeviceCount(device_count > current_count ? device_count : current_count);
+		DEBUG_PRINT_ANNOYING("Device Count = %d", current_count);
 	}
 	DEBUG_PRINT("%s", frameToString(*mLastframe.frame(), is_bitfield).c_str());
 	DEBUG_PRINT_ANNOYING("PROCESS_STATE_FINISHED COMPLETE\n");

@@ -11,7 +11,9 @@ description = "neoRADIO2 python bindings"
 keywords = ["intrepidcs", "Automotive", "ICS"]
 readme = {file = "python/README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
-requires-python = ">=3.8"
+# Python 3.8 is EOL and no longer shipped in the manylinux_2_28 image, so cp38
+# wheels can't be built there.
+requires-python = ">=3.9"
 classifiers=[ 
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
@@ -20,7 +22,6 @@ classifiers=[
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
