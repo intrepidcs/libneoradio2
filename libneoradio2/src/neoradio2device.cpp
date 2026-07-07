@@ -730,7 +730,15 @@ bool neoRADIO2Device::writeUartFrame(neoRADIO2frame* frame, DeviceChannel channe
 		DEBUG_PRINT("ERROR: Failed to generate frame checksum!");
 		return false;
 	}
-	uint8_t buffer[64] ={0};
+	// A device payload is at most sizeof(frame->data) bytes; reject anything
+	// larger so the header + data + crc copies below cannot overflow buffer.
+	if (frame->header.len > sizeof(frame->data))
+	{
+		DEBUG_PRINT("ERROR: frame length %d exceeds maximum payload %d!", frame->header.len, (int)sizeof(frame->data));
+		return false;
+	}
+	// header + full data payload + crc
+	uint8_t buffer[sizeof(frame->header) + sizeof(frame->data) + 1] = {0};
 	uint16_t size = sizeof(frame->header)+2+1; // frame + ft260 header + crc
 											   // copy the header into the buffer
 	memcpy(&buffer[0], (uint8_t*)&frame->header, sizeof(frame->header));
@@ -1506,7 +1514,10 @@ bool neoRADIO2Device::writeCalibration(int device, int bank, const neoRADIO2fram
 		0 // crc
 	};
 
-	if (data.size() > sizeof(frame.data))
+	// frame.data holds the cal header followed by the float payload, so the
+	// number of floats is bounded by the remaining space, not sizeof(frame.data).
+	const size_t max_floats = (sizeof(frame.data) - sizeof(header)) / sizeof(float);
+	if (data.size() > max_floats)
 		return false;
 	memcpy(frame.data, &header, sizeof(header));
 	for (unsigned int i=0; i < data.size(); ++i)
@@ -1578,7 +1589,10 @@ bool neoRADIO2Device::writeCalibrationPoints(int device, int bank, const neoRADI
 		},
 		0 // crc
 	};
-	if (data.size() > sizeof(frame.data))
+	// frame.data holds the cal header followed by the float payload, so the
+	// number of floats is bounded by the remaining space, not sizeof(frame.data).
+	const size_t max_floats = (sizeof(frame.data) - sizeof(header)) / sizeof(float);
+	if (data.size() > max_floats)
 		return false;
 	memcpy(frame.data, &header, sizeof(header));
 	for (unsigned int i=0; i < data.size(); ++i)

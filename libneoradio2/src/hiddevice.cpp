@@ -140,14 +140,23 @@ bool HidDevice::runConnected()
 			{
 				DEBUG_PRINT("ERROR: Not a valid FT260 Report ID! (length too small: %d)", length);
 			}
-			const int report_id_size = temp[1];
+			else
+			{
+				// temp[1] is the device-reported payload length. Clamp it to the
+				// number of bytes actually received (length - 2) so a bad or
+				// oversized value can't read past temp[64] into the rx fifo.
+				int report_id_size = temp[1];
+				const int max_payload = length - 2;
+				if (report_id_size > max_payload)
+					report_id_size = max_payload;
 #ifdef DEBUG_ANNOYING
-			std::stringstream ss2;
-			for (int i=0; i < report_id_size && i < 30; ++i)
-				ss2 << "0x" << std::hex << (int)temp[i+2] << " ";
-			DEBUG_PRINT("hid_read_parsed(): len: %d channel: %d\n\t\tdata: %s", report_id_size, buffer.first, ss2.str().c_str());
+				std::stringstream ss2;
+				for (int i=0; i < report_id_size && i < 30; ++i)
+					ss2 << "0x" << std::hex << (int)temp[i+2] << " ";
+				DEBUG_PRINT("hid_read_parsed(): len: %d channel: %d\n\t\tdata: %s", report_id_size, buffer.first, ss2.str().c_str());
 #endif // DEBUG_ANNOYING
-			FIFO_Push(&buf->rx_fifo, &temp[2], report_id_size);
+				FIFO_Push(&buf->rx_fifo, &temp[2], report_id_size);
+			}
 		}
 		buf->rx_lock.unlock();
 		// TODO Error handling (length == -1)
