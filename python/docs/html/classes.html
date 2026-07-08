@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classes &mdash; neoradio2 1.3.1</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bb516dca"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Functions" href="functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            neoradio2
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="productline.html">neoRAD-IO2 Product Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.CalType"><code class="docutils literal notranslate"><span class="pre">CalType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.CommandStateType"><code class="docutils literal notranslate"><span class="pre">CommandStateType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.CommandStatus"><code class="docutils literal notranslate"><span class="pre">CommandStatus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.DeviceTypes"><code class="docutils literal notranslate"><span class="pre">DeviceTypes</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.Exception"><code class="docutils literal notranslate"><span class="pre">Exception</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.ExceptionWouldBlock"><code class="docutils literal notranslate"><span class="pre">ExceptionWouldBlock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.LEDMode"><code class="docutils literal notranslate"><span class="pre">LEDMode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.Neoradio2DeviceInfo"><code class="docutils literal notranslate"><span class="pre">Neoradio2DeviceInfo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.StatusType"><code class="docutils literal notranslate"><span class="pre">StatusType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2AOUT_channelConfig"><code class="docutils literal notranslate"><span class="pre">neoRADIO2AOUT_channelConfig</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2AOUT_header"><code class="docutils literal notranslate"><span class="pre">neoRADIO2AOUT_header</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2Settings_ChannelName"><code class="docutils literal notranslate"><span class="pre">neoRADIO2Settings_ChannelName</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2_PerfStatistics"><code class="docutils literal notranslate"><span class="pre">neoRADIO2_PerfStatistics</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2_deviceSettings"><code class="docutils literal notranslate"><span class="pre">neoRADIO2_deviceSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2_settings"><code class="docutils literal notranslate"><span class="pre">neoRADIO2_settings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2frame_calHeader"><code class="docutils literal notranslate"><span class="pre">neoRADIO2frame_calHeader</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neoradio2.neoRADIO2settings_CAN"><code class="docutils literal notranslate"><span class="pre">neoRADIO2settings_CAN</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">neoradio2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Classes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/classes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="classes">
+<h1>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h1>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.CalType" title="neoradio2.CalType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CalType</span></code></a></p></td>
+<td><p>Members:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.CommandStateType" title="neoradio2.CommandStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandStateType</span></code></a></p></td>
+<td><p>Members:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.CommandStatus" title="neoradio2.CommandStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandStatus</span></code></a></p></td>
+<td><p>Members:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.DeviceTypes" title="neoradio2.DeviceTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DeviceTypes</span></code></a></p></td>
+<td><p>Members:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.Exception" title="neoradio2.Exception"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Exception</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.ExceptionWouldBlock" title="neoradio2.ExceptionWouldBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExceptionWouldBlock</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.LEDMode" title="neoradio2.LEDMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LEDMode</span></code></a></p></td>
+<td><p>Members:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.Neoradio2DeviceInfo" title="neoradio2.Neoradio2DeviceInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Neoradio2DeviceInfo</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.StatusType" title="neoradio2.StatusType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StatusType</span></code></a></p></td>
+<td><p>Members:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2AOUT_channelConfig" title="neoradio2.neoRADIO2AOUT_channelConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2AOUT_channelConfig</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2AOUT_header" title="neoradio2.neoRADIO2AOUT_header"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2AOUT_header</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2Settings_ChannelName" title="neoradio2.neoRADIO2Settings_ChannelName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2Settings_ChannelName</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2_PerfStatistics" title="neoradio2.neoRADIO2_PerfStatistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2_PerfStatistics</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2_deviceSettings" title="neoradio2.neoRADIO2_deviceSettings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2_deviceSettings</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2_settings" title="neoradio2.neoRADIO2_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2_settings</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2frame_calHeader" title="neoradio2.neoRADIO2frame_calHeader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2frame_calHeader</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neoradio2.neoRADIO2settings_CAN" title="neoradio2.neoRADIO2settings_CAN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neoRADIO2settings_CAN</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.CalType">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">CalType</span></span><a class="headerlink" href="#neoradio2.CalType" title="Link to this definition"></a></dt>
+<dd><p>Members:</p>
+<p>ENABLED</p>
+<p>NOCAL</p>
+<p>NOCAL_ENHANCED</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.CommandStateType">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">CommandStateType</span></span><a class="headerlink" href="#neoradio2.CommandStateType" title="Link to this definition"></a></dt>
+<dd><p>Members:</p>
+<p>CommandStateHost</p>
+<p>CommandStateDevice</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.CommandStatus">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">CommandStatus</span></span><a class="headerlink" href="#neoradio2.CommandStatus" title="Link to this definition"></a></dt>
+<dd><p>Members:</p>
+<p>StatusInProgress</p>
+<p>StatusFinished</p>
+<p>StatusError</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.DeviceTypes">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">DeviceTypes</span></span><a class="headerlink" href="#neoradio2.DeviceTypes" title="Link to this definition"></a></dt>
+<dd><p>Members:</p>
+<p>TC</p>
+<p>DIO</p>
+<p>PWRRLY</p>
+<p>AIN</p>
+<p>AOUT</p>
+<p>CANHUB</p>
+<p>BADGE</p>
+<p>HOST</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.Exception">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Exception</span></span><a class="headerlink" href="#neoradio2.Exception" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.ExceptionWouldBlock">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ExceptionWouldBlock</span></span><a class="headerlink" href="#neoradio2.ExceptionWouldBlock" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.LEDMode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">LEDMode</span></span><a class="headerlink" href="#neoradio2.LEDMode" title="Link to this definition"></a></dt>
+<dd><p>Members:</p>
+<p>OFF</p>
+<p>ON</p>
+<p>BLINK_ONCE</p>
+<p>BLINK_DURATION_MS</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.Neoradio2DeviceInfo">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Neoradio2DeviceInfo</span></span><a class="headerlink" href="#neoradio2.Neoradio2DeviceInfo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.StatusType">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">StatusType</span></span><a class="headerlink" href="#neoradio2.StatusType" title="Link to this definition"></a></dt>
+<dd><p>Members:</p>
+<p>StatusAppStart</p>
+<p>StatusChain</p>
+<p>StatusPCBSN</p>
+<p>StatusSensorRead</p>
+<p>StatusSensorWrite</p>
+<p>StatusSettingsRead</p>
+<p>StatusSettingsWrite</p>
+<p>StatusCalibration</p>
+<p>StatusCalibrationPoints</p>
+<p>StatusCalibrationStored</p>
+<p>StatusCalibrationInfo</p>
+<p>StatusLedToggle</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2AOUT_channelConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2AOUT_channelConfig</span></span><a class="headerlink" href="#neoradio2.neoRADIO2AOUT_channelConfig" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2AOUT_header">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2AOUT_header</span></span><a class="headerlink" href="#neoradio2.neoRADIO2AOUT_header" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2Settings_ChannelName">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2Settings_ChannelName</span></span><a class="headerlink" href="#neoradio2.neoRADIO2Settings_ChannelName" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2_PerfStatistics">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2_PerfStatistics</span></span><a class="headerlink" href="#neoradio2.neoRADIO2_PerfStatistics" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2_deviceSettings">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2_deviceSettings</span></span><a class="headerlink" href="#neoradio2.neoRADIO2_deviceSettings" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2_settings">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2_settings</span></span><a class="headerlink" href="#neoradio2.neoRADIO2_settings" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2frame_calHeader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2frame_calHeader</span></span><a class="headerlink" href="#neoradio2.neoRADIO2frame_calHeader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neoradio2.neoRADIO2settings_CAN">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">neoRADIO2settings_CAN</span></span><a class="headerlink" href="#neoradio2.neoRADIO2settings_CAN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="functions.html" class="btn btn-neutral float-left" title="Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019–2026, Intrepid Control Systems, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
