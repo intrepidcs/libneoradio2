@@ -40,7 +40,7 @@ jobs:
       # hidapi's Linux backend needs libudev; the wheels job gets it inside the
       # manylinux container, but this job builds on the bare runner.
       - name: Install build dependencies
-        run: sudo apt-get update && sudo apt-get install -y libudev-dev
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev libusb-1.0-0-dev
 
       - name: Install neoradio2 and docs dependencies
         run: |
