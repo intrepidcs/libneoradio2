@@ -38,6 +38,6 @@ language = "en"
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
 # -- HTML output -------------------------------------------------------------
-html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 html_static_path = []
 html_title = f"neoradio2 {release}"
