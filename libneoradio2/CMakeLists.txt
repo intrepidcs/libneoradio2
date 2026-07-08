@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(libneoradio2 VERSION 1.3.1 LANGUAGES C CXX)
+project(libneoradio2 VERSION 1.4.0 LANGUAGES C CXX)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
