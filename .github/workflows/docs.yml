@@ -15,6 +15,7 @@ on:
     paths:
       - 'python/src/**'
       - 'python/docs/**'
+      - '.github/workflows/docs.yml'
   workflow_dispatch:
 
 permissions:
