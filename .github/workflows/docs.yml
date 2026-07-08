@@ -36,6 +36,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      # hidapi's Linux backend needs libudev; the wheels job gets it inside the
+      # manylinux container, but this job builds on the bare runner.
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev
+
       - name: Install neoradio2 and docs dependencies
         run: |
           python -m pip install --upgrade pip
