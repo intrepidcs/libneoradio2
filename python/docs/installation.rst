@@ -9,14 +9,37 @@ Installation
 
     pip install neoradio2
 
-    **Windows:** ``pip.exe`` is usually located under the ``Scripts`` directory
-    of your Python installation.
+**Windows:** ``pip.exe`` is usually located under the ``Scripts`` directory of
+your Python installation.
 
-    **Linux:** the udev rules must be installed so devices are accessible as a
-    normal user. Copy `99-intrepidcs.rules
-    <https://github.com/intrepidcs/libneoradio2/blob/master/libneoradio2/99-intrepidcs.rules>`_
-    to ``/etc/udev/rules.d/`` and run
-    ``sudo udevadm control --reload-rules && sudo udevadm trigger``.
+Linux — udev rules
+==================
+
+On Linux the udev rules must be installed so the device is accessible without
+root. Download `99-intrepidcs.rules
+<https://raw.githubusercontent.com/intrepidcs/libneoradio2/master/99-intrepidcs.rules>`_
+and install it:
+
+.. code-block:: console
+
+    sudo cp 99-intrepidcs.rules /etc/udev/rules.d/
+    sudo udevadm control --reload-rules && sudo udevadm trigger
+
+Then add your user to the ``users`` group and log out/in for it to take effect:
+
+.. code-block:: console
+
+    sudo usermod -aG users $USER
+
+If you would rather write the rule by hand, the neoRAD-IO2 uses USB vendor id
+``093c`` and product id ``1300``:
+
+.. code-block:: none
+
+    SUBSYSTEM=="hidraw", ATTRS{idVendor}=="093c", ATTRS{idProduct}=="1300", GROUP="users", MODE="0666"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="093c", ATTRS{idProduct}=="1300", GROUP="users", MODE="0666"
+
+Re-plug the device after installing the rules.
 
 Building from source
 ====================
