@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Examples" href="examples.html"><link rel="prev" title="neoRAD-IO2 Product Line" href="productline.html">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>Installation - neoradio2 1.4.0</title>
+        <title>Installation - neoradio2 1.4.1</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">neoradio2 1.4.0</div></a>
+      <a href="index.html"><div class="brand">neoradio2 1.4.1</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">neoradio2 1.4.0</span>
+  <span class="sidebar-brand-text">neoradio2 1.4.1</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,17 +239,31 @@
 <p><code class="docutils literal notranslate"><span class="pre">neoradio2</span></code> publishes pre-built wheels for Windows, macOS, and Linux
 (CPython 3.9–3.14), so in most cases installation is simply:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install neoradio2</span>
-
-<span class="go">**Windows:** ``pip.exe`` is usually located under the ``Scripts`` directory</span>
-<span class="go">of your Python installation.</span>
-
-<span class="go">**Linux:** the udev rules must be installed so devices are accessible as a</span>
-<span class="go">normal user. Copy `99-intrepidcs.rules</span>
-<span class="go">&lt;https://github.com/intrepidcs/libneoradio2/blob/master/libneoradio2/99-intrepidcs.rules&gt;`_</span>
-<span class="go">to ``/etc/udev/rules.d/`` and run</span>
-<span class="go">``sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger``.</span>
 </pre></div>
 </div>
+<p><strong>Windows:</strong> <code class="docutils literal notranslate"><span class="pre">pip.exe</span></code> is usually located under the <code class="docutils literal notranslate"><span class="pre">Scripts</span></code> directory of
+your Python installation.</p>
+<section id="linux-udev-rules">
+<h2>Linux — udev rules<a class="headerlink" href="#linux-udev-rules" title="Link to this heading">¶</a></h2>
+<p>On Linux the udev rules must be installed so the device is accessible without
+root. Download <a class="reference external" href="https://raw.githubusercontent.com/intrepidcs/libneoradio2/master/99-intrepidcs.rules">99-intrepidcs.rules</a>
+and install it:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo cp 99-intrepidcs.rules /etc/udev/rules.d/</span>
+<span class="go">sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger</span>
+</pre></div>
+</div>
+<p>Then add your user to the <code class="docutils literal notranslate"><span class="pre">users</span></code> group and log out/in for it to take effect:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo usermod -aG users $USER</span>
+</pre></div>
+</div>
+<p>If you would rather write the rule by hand, the neoRAD-IO2 uses USB vendor id
+<code class="docutils literal notranslate"><span class="pre">093c</span></code> and product id <code class="docutils literal notranslate"><span class="pre">1300</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SUBSYSTEM==&quot;hidraw&quot;, ATTRS{idVendor}==&quot;093c&quot;, ATTRS{idProduct}==&quot;1300&quot;, GROUP=&quot;users&quot;, MODE=&quot;0666&quot;
+KERNEL==&quot;hidraw*&quot;, ATTRS{idVendor}==&quot;093c&quot;, ATTRS{idProduct}==&quot;1300&quot;, GROUP=&quot;users&quot;, MODE=&quot;0666&quot;
+</pre></div>
+</div>
+<p>Re-plug the device after installing the rules.</p>
+</section>
 <section id="building-from-source">
 <h2>Building from source<a class="headerlink" href="#building-from-source" title="Link to this heading">¶</a></h2>
 <p>If no wheel is available for your platform, <code class="docutils literal notranslate"><span class="pre">pip</span></code> builds from source. The
@@ -314,6 +328,7 @@ a compiler (MSVC on Windows, GCC/Clang elsewhere). See the <a class="reference e
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#linux-udev-rules">Linux — udev rules</a></li>
 <li><a class="reference internal" href="#building-from-source">Building from source</a></li>
 </ul>
 </li>
@@ -326,7 +341,7 @@ a compiler (MSVC on Windows, GCC/Clang elsewhere). See the <a class="reference e
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=9172181d"></script>
+</div><script src="_static/documentation_options.js?v=350a9c04"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

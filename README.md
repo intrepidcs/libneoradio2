@@ -50,9 +50,9 @@ Add `-DBUILD_SHARED_LIBS=ON` for a shared library, or `-DBUILD_PYTHON_BINDINGS=O
 to build the Python extension via CMake directly.
 
 **Linux:** install the udev rules so devices are accessible as a normal user —
-copy [`libneoradio2/99-intrepidcs.rules`](libneoradio2/99-intrepidcs.rules) to
-`/etc/udev/rules.d/` and run
-`sudo udevadm control --reload-rules && sudo udevadm trigger`.
+copy [`99-intrepidcs.rules`](99-intrepidcs.rules) to `/etc/udev/rules.d/`, run
+`sudo udevadm control --reload-rules && sudo udevadm trigger`, and add your user
+to the `users` group (`sudo usermod -aG users $USER`).
 Build dependencies: `sudo apt install cmake build-essential libudev-dev`
 (Debian/Ubuntu) or `sudo dnf install cmake gcc-c++ libudev-devel` (Fedora).
 
