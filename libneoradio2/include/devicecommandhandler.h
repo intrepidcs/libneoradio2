@@ -9,6 +9,8 @@
 #include <tuple>
 #include <vector>
 #include <mutex>
+#include <condition_variable>
+#include <chrono>
 #include <string>
 #include <cassert>
 
@@ -35,6 +37,7 @@ public:
 			std::lock_guard<std::mutex> lock(mSof[sof][device][bank][cmd].lock);
 			mSof[sof][device][bank][cmd].state = cmd_state;
 			DEBUG_PRINT_ANNOYING("updateCommand(): %d -- [0x%x][0x%x][0x%x][0x%x]", cmd_state, sof, device, bank, cmd);
+			signalStateChange();
 			return true;
 		}
 		for (auto d = 0; d < 8; ++d)
@@ -51,6 +54,7 @@ public:
 			}
 		}
 		DEBUG_PRINT_ANNOYING("updateCommand(): %d -- [0x%x][0x%x][0x%x][0x%x] bitfield", cmd_state, sof, device, bank, cmd);
+		signalStateChange();
 		return true;
 	}
 
@@ -76,6 +80,7 @@ public:
 				mSof[sof][device][bank][cmd].state = cmd_state;
 				DEBUG_PRINT_ANNOYING("updateCommand(): %d -- [0x%x][0x%x][0x%x][0x%x]", cmd_state, sof, device, bank, cmd);
 			}
+			signalStateChange();
 			return true;
 		}
 		for (auto d = 0; d < 8; ++d)
@@ -95,6 +100,7 @@ public:
 			}
 		}
 		DEBUG_PRINT_ANNOYING("updateCommand(): %d -- [0x%x][0x%x][0x%x][0x%x] bitfield", cmd_state, sof, device, bank, cmd);
+		signalStateChange();
 		return true;
 	}
 
@@ -265,15 +271,24 @@ public:
 	bool isStateSet(int sof, int device, int bank, int cmd, T cmd_state, bool bitfield, std::chrono::milliseconds timeout)
 	{
 		using namespace std::chrono;
-		auto start_time = std::chrono::high_resolution_clock::now();
-		do
+		auto start_time = high_resolution_clock::now();
+		for (;;)
 		{
 			if (isStateSet(sof, device, bank, cmd, cmd_state, bitfield))
 				return true;
-			else
-				std::this_thread::sleep_for(1ms);
-		} while ((std::chrono::high_resolution_clock::now() - start_time) <= timeout);
-		return false;
+			auto elapsed = high_resolution_clock::now() - start_time;
+			if (elapsed > timeout)
+				return false;
+			// Wake as soon as a command state changes (signalStateChange), so
+			// a completed command returns near the wire round-trip instead of
+			// waiting for a fixed poll tick. The wait is capped so a
+			// notification missed between the check above and the wait below
+			// only costs a couple of milliseconds, never the full timeout.
+			auto remaining = duration_cast<milliseconds>(timeout - elapsed);
+			auto wait = remaining < milliseconds(2) ? remaining : milliseconds(2);
+			std::unique_lock<std::mutex> lk(mCondMutex);
+			mCond.wait_for(lk, wait);
+		}
 	}
 
 	bool isStateSet(int sof, int device, int bank, int cmd, T cmd_state, bool bitfield)
@@ -374,6 +389,16 @@ private:
 
 private:
 	std::mutex mLock;
+
+	// Signalled whenever a command state changes so blocking waiters
+	// (isStateSet with a timeout) wake immediately instead of sleep-polling.
+	std::condition_variable mCond;
+	std::mutex mCondMutex;
+
+	void signalStateChange()
+	{
+		mCond.notify_all();
+	}
 };
 
 #endif // __DEVICE_COMMAND_HANDLER_H__
