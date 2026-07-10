@@ -28,13 +28,32 @@ More detail: [`python/README.md`](python/README.md) ·
 [Python docs](https://intrepidcs.github.io/libneoradio2/python/docs/html/) ·
 [C library docs](https://intrepidcs.github.io/libneoradio2/doc/html/libneoradio2_8h.html)
 
+## Linux: device access (udev rules)
+
+> **On Linux you must install the udev rules once** so the devices are
+> accessible without root. This applies to **all** bindings — Python, Rust, and
+> C alike. (No special setup is needed on Windows or macOS.)
+
+[`99-intrepidcs.rules`](99-intrepidcs.rules) lives in the repository root:
+
+```
+sudo cp 99-intrepidcs.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules && sudo udevadm trigger
+sudo usermod -aG users $USER    # then log out and back in
+```
+
+Re-plug the device after installing the rules. See
+[`python/docs`](https://intrepidcs.github.io/libneoradio2/python/docs/html/installation.html)
+for the hand-written rule if you'd rather not download the file.
+
 ## Rust
 
-Safe Rust bindings are published as the [`neoradio2`](https://crates.io/crates/neoradio2) crate.
+Safe Rust bindings live in the `neoradio2` crate. It is **not yet published to
+crates.io**, so add it as a git dependency:
 
 ```toml
 [dependencies]
-neoradio2 = "0.1"
+neoradio2 = { git = "https://github.com/intrepidcs/libneoradio2" }
 ```
 
 ```rust
@@ -50,9 +69,12 @@ for info in Device::find()? {
 # Ok::<(), neoradio2::Error>(())
 ```
 
+**Rust API docs:** <https://intrepidcs.github.io/libneoradio2/rust/doc/neoradio2/>
+
 Building the crate compiles the bundled C library from source, so it needs CMake
-and a C/C++ toolchain (the same as a source build above); no libclang is
-required. On Linux install `libudev-dev`.
+and a C/C++ toolchain (the same as a source build below); no libclang is
+required. On Linux also install `libudev-dev` and the
+[udev rules](#linux-device-access-udev-rules) above.
 
 ## Build from source
 
@@ -75,12 +97,10 @@ cmake --build build
 Add `-DBUILD_SHARED_LIBS=ON` for a shared library, or `-DBUILD_PYTHON_BINDINGS=ON`
 to build the Python extension via CMake directly.
 
-**Linux:** install the udev rules so devices are accessible as a normal user —
-copy [`99-intrepidcs.rules`](99-intrepidcs.rules) to `/etc/udev/rules.d/`, run
-`sudo udevadm control --reload-rules && sudo udevadm trigger`, and add your user
-to the `users` group (`sudo usermod -aG users $USER`).
-Build dependencies: `sudo apt install cmake build-essential libudev-dev`
-(Debian/Ubuntu) or `sudo dnf install cmake gcc-c++ libudev-devel` (Fedora).
+**Linux:** build dependencies are `sudo apt install cmake build-essential libudev-dev`
+(Debian/Ubuntu) or `sudo dnf install cmake gcc-c++ libudev-devel` (Fedora). To
+access devices as a normal user, install the
+[udev rules](#linux-device-access-udev-rules) described above.
 
 **Windows:** Visual Studio 2019 or newer (MSVC) with CMake.
 

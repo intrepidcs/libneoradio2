@@ -37,7 +37,7 @@ bindgen = ["dep:bindgen"]
 
 [build-dependencies]
 cmake = "0.1"
-bindgen = { version = "0.70", optional = true }
+bindgen = { version = "0.72", optional = true }
 
 # docs.rs builds docs only; build.rs skips the native build there (DOCS_RS guard).
 [package.metadata.docs.rs]
