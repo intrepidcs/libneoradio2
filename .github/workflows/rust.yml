@@ -2,9 +2,9 @@ name: Rust
 
 on:
   push:
-    paths: ['src/**', 'build.rs', 'Cargo.toml', 'tests/**', 'examples/**', '.github/workflows/rust.yml']
+    paths: ['src/**', 'build.rs', 'Cargo.toml', 'Cargo.lock', 'libneoradio2/**', 'tests/**', 'examples/**', '.github/workflows/rust.yml']
   pull_request:
-    paths: ['src/**', 'build.rs', 'Cargo.toml', 'tests/**', 'examples/**', '.github/workflows/rust.yml']
+    paths: ['src/**', 'build.rs', 'Cargo.toml', 'Cargo.lock', 'libneoradio2/**', 'tests/**', 'examples/**', '.github/workflows/rust.yml']
 
 jobs:
   build:

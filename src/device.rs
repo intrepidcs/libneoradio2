@@ -55,6 +55,8 @@ impl std::fmt::Debug for DeviceInfo {
 ///
 /// `Device` is `Send` but not `Sync`: the underlying C library is not safe for
 /// concurrent calls on the same handle, and blocking mode is process-global.
+/// Note: the underlying C library also keeps process-global state, so using
+/// even separate `Device` values concurrently across threads is not supported.
 pub struct Device {
     pub(crate) handle: Handle,
     // `Handle` (`c_long`) is itself `Sync`, so without this marker the compiler
@@ -228,7 +230,7 @@ impl Device {
         Ok(out)
     }
 
-    /// Read the raw sensor sample as an array of integers (one per byte).
+    /// Read the raw sensor sample as up to 64 integer values (device/mode specific).
     pub fn read_sensor_array(&self, device: i32, bank: i32) -> Result<Vec<i32>> {
         let mut arr = [0 as c_int; 64];
         let mut len: c_int = arr.len() as c_int;
