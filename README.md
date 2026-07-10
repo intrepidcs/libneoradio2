@@ -2,8 +2,8 @@
 
 ![Build](https://github.com/intrepidcs/libneoradio2/actions/workflows/wheels.yml/badge.svg)
 
-C library (with Python bindings) for communicating with the Intrepid Control
-Systems [neoRAD-IO2](https://www.intrepidcs.com/products/analog-daq-devices/rad-io2-series/)
+C library (with Python and Rust bindings) for communicating with the Intrepid
+Control Systems [neoRAD-IO2](https://www.intrepidcs.com/products/analog-daq-devices/rad-io2-series/)
 product line — a family of ruggedized, isolated analog / digital / temperature
 DAQ devices that connect over USB. Up to eight devices can be daisy-chained,
 with 2.5 kV bank-to-bank isolation.
@@ -24,9 +24,10 @@ for device in neoradio2.find():
     neoradio2.close(handle)
 ```
 
-More detail: [`python/README.md`](python/README.md) ·
-[Python docs](https://intrepidcs.github.io/libneoradio2/python/docs/html/) ·
-[C library docs](https://intrepidcs.github.io/libneoradio2/doc/html/libneoradio2_8h.html)
+Documentation: [Python docs](https://intrepidcs.github.io/libneoradio2/python/docs/html/) ·
+[Rust docs](https://intrepidcs.github.io/libneoradio2/rust/doc/neoradio2/) ·
+[C library docs](https://intrepidcs.github.io/libneoradio2/doc/html/libneoradio2_8h.html) ·
+[`python/README.md`](python/README.md)
 
 ## Linux: device access (udev rules)
 
