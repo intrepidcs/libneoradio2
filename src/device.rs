@@ -91,6 +91,52 @@ impl Device {
     }
 }
 
+impl Device {
+    /// Identify the device chain.
+    pub fn chain_identify(&self) -> Result<()> {
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_chain_identify(&mut h) })
+    }
+
+    /// Whether the chain has been identified.
+    pub fn chain_is_identified(&self) -> Result<bool> {
+        let mut out: c_int = 0;
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_chain_is_identified(&mut h, &mut out) })?;
+        Ok(out != 0)
+    }
+
+    /// Number of devices in the chain. `identify` re-identifies first.
+    pub fn chain_count(&self, identify: bool) -> Result<i32> {
+        let mut out: c_int = 0;
+        let mut h = self.handle;
+        check(unsafe {
+            ffi::neoradio2_get_chain_count(&mut h, &mut out, identify as c_int)
+        })?;
+        Ok(out)
+    }
+
+    /// Start application firmware on `device`/`bank` (bank is a bitmask).
+    pub fn app_start(&self, device: i32, bank: i32) -> Result<()> {
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_app_start(&mut h, device, bank) })
+    }
+
+    /// Whether application firmware is running on `device`/`bank`.
+    pub fn app_is_started(&self, device: i32, bank: i32) -> Result<bool> {
+        let mut out: c_int = 0;
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_app_is_started(&mut h, device, bank, &mut out) })?;
+        Ok(out != 0)
+    }
+
+    /// Enter the bootloader on `device`/`bank`.
+    pub fn enter_bootloader(&self, device: i32, bank: i32) -> Result<()> {
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_enter_bootloader(&mut h, device, bank) })
+    }
+}
+
 impl Drop for Device {
     fn drop(&mut self) {
         unsafe { ffi::neoradio2_close(&mut self.handle) };
