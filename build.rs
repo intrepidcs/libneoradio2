@@ -43,8 +43,15 @@ fn main() {
     let mut link_names: Vec<String> = Vec::new();
     for entry in walk(&build_dir) {
         let name = entry.file_name().unwrap().to_string_lossy().to_string();
+        // Strip exactly ONE `lib` prefix, not greedily: the CMake target is
+        // named `libneoradio2`, so on Unix the archive is `lib` + `libneoradio2`
+        // = `liblibneoradio2.a`. A greedy `trim_start_matches("lib")` would strip
+        // both and yield `neoradio2`, so rustc would look for `libneoradio2.a`
+        // and miss the actual `liblibneoradio2.a`. (MSVC keeps the exact target
+        // name, `libneoradio2.lib`, and is handled by the `is_msvc` branch below.)
         let stem = name
-            .trim_start_matches("lib")
+            .strip_prefix("lib")
+            .unwrap_or(name.as_str())
             .trim_end_matches(&format!(".{lib_ext}"));
         let is_static = name.ends_with(&format!(".{lib_ext}"))
             && (name.contains("neoradio2") || name.contains("hidapi"));
