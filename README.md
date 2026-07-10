@@ -28,6 +28,32 @@ More detail: [`python/README.md`](python/README.md) ·
 [Python docs](https://intrepidcs.github.io/libneoradio2/python/docs/html/) ·
 [C library docs](https://intrepidcs.github.io/libneoradio2/doc/html/libneoradio2_8h.html)
 
+## Rust
+
+Safe Rust bindings are published as the [`neoradio2`](https://crates.io/crates/neoradio2) crate.
+
+```toml
+[dependencies]
+neoradio2 = "0.1"
+```
+
+```rust
+use neoradio2::{Device, CalType};
+
+for info in Device::find()? {
+    let dev = Device::open(&info)?;
+    dev.chain_identify()?;
+    dev.app_start(0, 0xFF)?;
+    dev.request_sensor_data(0, 0xFF, CalType::Enabled)?;
+    println!("{} = {}", info.serial(), dev.read_sensor_float(0, 0)?);
+}
+# Ok::<(), neoradio2::Error>(())
+```
+
+Building the crate compiles the bundled C library from source, so it needs CMake
+and a C/C++ toolchain (the same as a source build above); no libclang is
+required. On Linux install `libudev-dev`.
+
 ## Build from source
 
 This repository uses git submodules for the HID backend and the frame
