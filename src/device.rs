@@ -137,6 +137,68 @@ impl Device {
     }
 }
 
+impl Device {
+    /// Serial number (base-10) of `device`/`bank`.
+    pub fn serial_number(&self, device: i32, bank: i32) -> Result<u32> {
+        let mut out: c_uint = 0;
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_get_serial_number(&mut h, device, bank, &mut out) })?;
+        Ok(out)
+    }
+
+    /// Manufacturing date `(year, month, day)`.
+    pub fn manufacturer_date(&self, device: i32, bank: i32) -> Result<(i32, i32, i32)> {
+        let (mut y, mut m, mut d) = (0, 0, 0);
+        let mut h = self.handle;
+        check(unsafe {
+            ffi::neoradio2_get_manufacturer_date(&mut h, device, bank, &mut y, &mut m, &mut d)
+        })?;
+        Ok((y, m, d))
+    }
+
+    /// Firmware version `(major, minor)`.
+    pub fn firmware_version(&self, device: i32, bank: i32) -> Result<(i32, i32)> {
+        let (mut major, mut minor) = (0, 0);
+        let mut h = self.handle;
+        check(unsafe {
+            ffi::neoradio2_get_firmware_version(&mut h, device, bank, &mut major, &mut minor)
+        })?;
+        Ok((major, minor))
+    }
+
+    /// Hardware revision `(major, minor)`.
+    pub fn hardware_revision(&self, device: i32, bank: i32) -> Result<(i32, i32)> {
+        let (mut major, mut minor) = (0, 0);
+        let mut h = self.handle;
+        check(unsafe {
+            ffi::neoradio2_get_hardware_revision(&mut h, device, bank, &mut major, &mut minor)
+        })?;
+        Ok((major, minor))
+    }
+
+    /// Device type code (see [`DeviceType::from_raw`](crate::DeviceType::from_raw)).
+    pub fn device_type(&self, device: i32, bank: i32) -> Result<u32> {
+        let mut out: c_uint = 0;
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_get_device_type(&mut h, device, bank, &mut out) })?;
+        Ok(out)
+    }
+
+    /// Request the PCB serial number (call before [`pcbsn`](Device::pcbsn)).
+    pub fn request_pcbsn(&self, device: i32, bank: i32) -> Result<()> {
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_request_pcbsn(&mut h, device, bank) })
+    }
+
+    /// PCB serial number string.
+    pub fn pcbsn(&self, device: i32, bank: i32) -> Result<String> {
+        let mut buf = [0 as c_char; 17];
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_get_pcbsn(&mut h, device, bank, buf.as_mut_ptr()) })?;
+        Ok(cstr_to_string(&buf))
+    }
+}
+
 impl Drop for Device {
     fn drop(&mut self) {
         unsafe { ffi::neoradio2_close(&mut self.handle) };
