@@ -1,5 +1,5 @@
-use std::os::raw::{c_char, c_int, c_uint};
 use crate::{check, ffi, Result};
+use std::os::raw::{c_char, c_int, c_uint};
 
 /// The raw C handle type. `neoradio2_handle` is `#define neoradio2_handle long`
 /// in the C headers, so bindgen inlines it as `c_long` rather than emitting an
@@ -9,7 +9,11 @@ pub(crate) type Handle = std::os::raw::c_long;
 const MAX_DEVS: usize = ffi::NEORADIO2_MAX_DEVS as usize;
 
 fn cstr_to_string(buf: &[c_char]) -> String {
-    let bytes: Vec<u8> = buf.iter().take_while(|&&c| c != 0).map(|&c| c as u8).collect();
+    let bytes: Vec<u8> = buf
+        .iter()
+        .take_while(|&&c| c != 0)
+        .map(|&c| c as u8)
+        .collect();
     String::from_utf8_lossy(&bytes).into_owned()
 }
 
@@ -19,13 +23,21 @@ pub struct DeviceInfo(pub(crate) ffi::Neoradio2DeviceInfo);
 
 impl DeviceInfo {
     /// Product name (e.g. "neoRAD-IO2-AIN").
-    pub fn name(&self) -> String { cstr_to_string(&self.0.name) }
+    pub fn name(&self) -> String {
+        cstr_to_string(&self.0.name)
+    }
     /// Serial string (e.g. "IB0370").
-    pub fn serial(&self) -> String { cstr_to_string(&self.0.serial_str) }
+    pub fn serial(&self) -> String {
+        cstr_to_string(&self.0.serial_str)
+    }
     /// USB vendor id.
-    pub fn vendor_id(&self) -> i32 { self.0.vendor_id }
+    pub fn vendor_id(&self) -> i32 {
+        self.0.vendor_id
+    }
     /// USB product id.
-    pub fn product_id(&self) -> i32 { self.0.product_id }
+    pub fn product_id(&self) -> i32 {
+        self.0.product_id
+    }
 }
 
 impl std::fmt::Debug for DeviceInfo {
@@ -58,8 +70,7 @@ unsafe impl Send for Device {}
 impl Device {
     /// Enumerate attached neoRAD-IO2 USB devices.
     pub fn find() -> Result<Vec<DeviceInfo>> {
-        let mut buf: [ffi::Neoradio2DeviceInfo; MAX_DEVS] =
-            unsafe { std::mem::zeroed() };
+        let mut buf: [ffi::Neoradio2DeviceInfo; MAX_DEVS] = unsafe { std::mem::zeroed() };
         let mut count: c_uint = MAX_DEVS as c_uint;
         check(unsafe { ffi::neoradio2_find(buf.as_mut_ptr(), &mut count) })?;
         let n = (count as usize).min(MAX_DEVS);
@@ -71,7 +82,10 @@ impl Device {
         let mut raw = info.0;
         let mut handle: Handle = -1;
         check(unsafe { ffi::neoradio2_open(&mut handle, &mut raw) })?;
-        Ok(Device { handle, _not_sync: std::marker::PhantomData })
+        Ok(Device {
+            handle,
+            _not_sync: std::marker::PhantomData,
+        })
     }
 
     /// Whether the device is currently open.
@@ -110,9 +124,7 @@ impl Device {
     pub fn chain_count(&self, identify: bool) -> Result<i32> {
         let mut out: c_int = 0;
         let mut h = self.handle;
-        check(unsafe {
-            ffi::neoradio2_get_chain_count(&mut h, &mut out, identify as c_int)
-        })?;
+        check(unsafe { ffi::neoradio2_get_chain_count(&mut h, &mut out, identify as c_int) })?;
         Ok(out)
     }
 
@@ -205,9 +217,7 @@ impl Device {
     /// Request a fresh sensor sample for `device`/`bank`.
     pub fn request_sensor_data(&self, device: i32, bank: i32, cal: CalType) -> Result<()> {
         let mut h = self.handle;
-        check(unsafe {
-            ffi::neoradio2_request_sensor_data(&mut h, device, bank, cal.as_raw())
-        })
+        check(unsafe { ffi::neoradio2_request_sensor_data(&mut h, device, bank, cal.as_raw()) })
     }
 
     /// Read a single sensor value as `f32`.
@@ -235,8 +245,11 @@ impl Device {
         let mut h = self.handle;
         check(unsafe {
             ffi::neoradio2_write_sensor(
-                &mut h, device, bank,
-                data.as_ptr() as *mut u8, data.len() as c_int,
+                &mut h,
+                device,
+                bank,
+                data.as_ptr() as *mut u8,
+                data.len() as c_int,
             )
         })
     }

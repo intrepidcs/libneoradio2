@@ -29,22 +29,46 @@ fn main() {
     let build_dir = dst.join("build");
 
     // --- 3. Find and link the static archives the CMake build produced ---
-    let (lib_ext, is_msvc) = if cfg!(target_env = "msvc") { ("lib", true) } else { ("a", false) };
-    let mut linked = false;
+    let (lib_ext, is_msvc) = if cfg!(target_env = "msvc") {
+        ("lib", true)
+    } else {
+        ("a", false)
+    };
+    // Collect the link names first instead of emitting `rustc-link-lib`
+    // directives as each archive is discovered: filesystem walk order is
+    // arbitrary, but on GNU ld (Linux) link order matters and `libneoradio2`
+    // (which references hidapi symbols) must be emitted before `hidapi`, or
+    // the link fails with unresolved symbols. Windows/MSVC is order-insensitive,
+    // but we sort unconditionally so the behavior is deterministic everywhere.
+    let mut link_names: Vec<String> = Vec::new();
     for entry in walk(&build_dir) {
         let name = entry.file_name().unwrap().to_string_lossy().to_string();
-        let stem = name.trim_start_matches("lib").trim_end_matches(&format!(".{lib_ext}"));
+        let stem = name
+            .trim_start_matches("lib")
+            .trim_end_matches(&format!(".{lib_ext}"));
         let is_static = name.ends_with(&format!(".{lib_ext}"))
             && (name.contains("neoradio2") || name.contains("hidapi"));
         if is_static {
             let dir = entry.parent().unwrap();
             println!("cargo:rustc-link-search=native={}", dir.display());
-            let link_name = if is_msvc { name.trim_end_matches(".lib") } else { stem };
-            println!("cargo:rustc-link-lib=static={link_name}");
-            linked = true;
+            let link_name = if is_msvc {
+                name.trim_end_matches(".lib")
+            } else {
+                stem
+            };
+            link_names.push(link_name.to_string());
         }
     }
-    assert!(linked, "no static libneoradio2/hidapi archive found under {}", build_dir.display());
+    assert!(
+        !link_names.is_empty(),
+        "no static libneoradio2/hidapi archive found under {}",
+        build_dir.display()
+    );
+    // `neoradio2` first, then everything else (`hidapi`), in stable order.
+    link_names.sort_by_key(|name| !name.contains("neoradio2"));
+    for link_name in &link_names {
+        println!("cargo:rustc-link-lib=static={link_name}");
+    }
 
     // --- 4. C++ runtime + hidapi's platform libraries ---
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
@@ -76,7 +100,11 @@ fn walk(dir: &Path) -> Vec<PathBuf> {
     if let Ok(rd) = std::fs::read_dir(dir) {
         for e in rd.flatten() {
             let p = e.path();
-            if p.is_dir() { out.extend(walk(&p)); } else { out.push(p); }
+            if p.is_dir() {
+                out.extend(walk(&p));
+            } else {
+                out.push(p);
+            }
         }
     }
     out
@@ -100,5 +128,7 @@ fn regenerate_bindings() {
         .layout_tests(false)
         .generate()
         .expect("bindgen failed");
-    bindings.write_to_file("src/ffi.rs").expect("write src/ffi.rs");
+    bindings
+        .write_to_file("src/ffi.rs")
+        .expect("write src/ffi.rs");
 }

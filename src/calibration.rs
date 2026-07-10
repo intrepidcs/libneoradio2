@@ -1,59 +1,96 @@
-use std::os::raw::c_int;
 use crate::{check, ffi, Device, Result};
+use std::os::raw::c_int;
 
 type CalHeader = ffi::neoRADIO2frame_calHeader;
 
 impl Device {
     /// Request calibration data (fills nothing; pair with `read_calibration_array`).
-    pub fn request_calibration(&self, device: i32, bank: i32, header: &mut CalHeader) -> Result<()> {
+    pub fn request_calibration(
+        &self,
+        device: i32,
+        bank: i32,
+        header: &mut CalHeader,
+    ) -> Result<()> {
         let mut h = self.handle;
         check(unsafe { ffi::neoradio2_request_calibration(&mut h, device, bank, header) })
     }
 
     /// Read calibration values into a `Vec<f32>`.
-    pub fn read_calibration_array(&self, device: i32, bank: i32, header: &mut CalHeader)
-        -> Result<Vec<f32>>
-    {
+    pub fn read_calibration_array(
+        &self,
+        device: i32,
+        bank: i32,
+        header: &mut CalHeader,
+    ) -> Result<Vec<f32>> {
         let mut arr = [0f32; 64];
         let mut len: c_int = arr.len() as c_int;
         let mut h = self.handle;
         check(unsafe {
-            ffi::neoradio2_read_calibration_array(&mut h, device, bank, header, arr.as_mut_ptr(), &mut len)
+            ffi::neoradio2_read_calibration_array(
+                &mut h,
+                device,
+                bank,
+                header,
+                arr.as_mut_ptr(),
+                &mut len,
+            )
         })?;
         let n = (len.max(0) as usize).min(arr.len());
         Ok(arr[..n].to_vec())
     }
 
     /// Request calibration points.
-    pub fn request_calibration_points(&self, device: i32, bank: i32, header: &mut CalHeader)
-        -> Result<()>
-    {
+    pub fn request_calibration_points(
+        &self,
+        device: i32,
+        bank: i32,
+        header: &mut CalHeader,
+    ) -> Result<()> {
         let mut h = self.handle;
         check(unsafe { ffi::neoradio2_request_calibration_points(&mut h, device, bank, header) })
     }
 
     /// Read calibration points into a `Vec<f32>`.
-    pub fn read_calibration_points_array(&self, device: i32, bank: i32, header: &mut CalHeader)
-        -> Result<Vec<f32>>
-    {
+    pub fn read_calibration_points_array(
+        &self,
+        device: i32,
+        bank: i32,
+        header: &mut CalHeader,
+    ) -> Result<Vec<f32>> {
         let mut arr = [0f32; 64];
         let mut len: c_int = arr.len() as c_int;
         let mut h = self.handle;
         check(unsafe {
-            ffi::neoradio2_read_calibration_points_array(&mut h, device, bank, header, arr.as_mut_ptr(), &mut len)
+            ffi::neoradio2_read_calibration_points_array(
+                &mut h,
+                device,
+                bank,
+                header,
+                arr.as_mut_ptr(),
+                &mut len,
+            )
         })?;
         let n = (len.max(0) as usize).min(arr.len());
         Ok(arr[..n].to_vec())
     }
 
     /// Write calibration values.
-    pub fn write_calibration(&self, device: i32, bank: i32, header: &mut CalHeader, values: &[f32])
-        -> Result<()>
-    {
+    pub fn write_calibration(
+        &self,
+        device: i32,
+        bank: i32,
+        header: &mut CalHeader,
+        values: &[f32],
+    ) -> Result<()> {
         let mut h = self.handle;
         check(unsafe {
             ffi::neoradio2_write_calibration(
-                &mut h, device, bank, header, values.as_ptr() as *mut f32, values.len() as c_int,
+                &mut h,
+                device,
+                bank,
+                header,
+                values.as_ptr() as *mut f32,
+                values.len() as c_int,
             )
         })
     }
@@ -65,13 +102,22 @@ impl Device {
     }
 
     /// Write calibration points.
-    pub fn write_calibration_points(&self, device: i32, bank: i32, header: &mut CalHeader, values: &[f32])
-        -> Result<()>
-    {
+    pub fn write_calibration_points(
+        &self,
+        device: i32,
+        bank: i32,
+        header: &mut CalHeader,
+        values: &[f32],
+    ) -> Result<()> {
         let mut h = self.handle;
         check(unsafe {
             ffi::neoradio2_write_calibration_points(
-                &mut h, device, bank, header, values.as_ptr() as *mut f32, values.len() as c_int,
+                &mut h,
+                device,
+                bank,
+                header,
+                values.as_ptr() as *mut f32,
+                values.len() as c_int,
             )
         })
     }

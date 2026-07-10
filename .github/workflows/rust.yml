@@ -1,0 +1,42 @@
+name: Rust
+
+on:
+  push:
+    paths: ['src/**', 'build.rs', 'Cargo.toml', 'tests/**', 'examples/**', '.github/workflows/rust.yml']
+  pull_request:
+    paths: ['src/**', 'build.rs', 'Cargo.toml', 'tests/**', 'examples/**', '.github/workflows/rust.yml']
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install Linux build deps
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev libusb-1.0-0-dev
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo build --verbose
+      - run: cargo test --verbose
+
+  bindgen-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - run: sudo apt-get update && sudo apt-get install -y libudev-dev libusb-1.0-0-dev llvm-dev libclang-dev clang
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Regenerate bindings and check for drift
+        run: |
+          cargo build --features bindgen
+          git diff --exit-code src/ffi.rs

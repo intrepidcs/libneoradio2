@@ -1,11 +1,11 @@
-use std::time::Duration;
 use crate::ffi;
+use std::time::Duration;
 
 macro_rules! int_enum {
-    ($(#[$m:meta])* $name:ident { $($variant:ident = $val:expr),* $(,)? }) => {
+    ($(#[$m:meta])* $name:ident { $($(#[$vm:meta])* $variant:ident = $val:expr),* $(,)? }) => {
         $(#[$m])*
         #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-        pub enum $name { $($variant = $val),* }
+        pub enum $name { $($(#[$vm])* $variant = $val),* }
         impl $name {
             /// Convert from the C integer value.
             pub fn from_raw(v: i32) -> Option<Self> {
@@ -19,27 +19,88 @@ macro_rules! int_enum {
 
 int_enum!(
     /// neoRAD-IO2 device type.
-    DeviceType { Tc = 0, Dio = 1, PwrRly = 2, Ain = 3, Aout = 4, CanHub = 5, Badge = 6, Host = 0xFF }
+    DeviceType {
+        /// Thermocouple module.
+        Tc = 0,
+        /// Digital I/O module.
+        Dio = 1,
+        /// Power relay module.
+        PwrRly = 2,
+        /// Analog input module.
+        Ain = 3,
+        /// Analog output module.
+        Aout = 4,
+        /// CAN hub module.
+        CanHub = 5,
+        /// Badge module.
+        Badge = 6,
+        /// Host (non-module) device.
+        Host = 0xFF
+    }
 );
 int_enum!(
     /// Sensor read calibration mode.
-    CalType { Enabled = 0, NoCal = 1, NoCalEnhanced = 2 }
+    CalType {
+        /// Apply stored calibration.
+        Enabled = 0,
+        /// Return raw, uncalibrated data.
+        NoCal = 1,
+        /// Return raw data with enhanced (extended-range) scaling.
+        NoCalEnhanced = 2
+    }
 );
 int_enum!(
     /// LED toggle mode.
-    LedMode { Off = 0, On = 1, BlinkOnce = 2, BlinkDurationMs = 3 }
+    LedMode {
+        /// Turn the LED(s) off.
+        Off = 0,
+        /// Turn the LED(s) on.
+        On = 1,
+        /// Blink the LED(s) once.
+        BlinkOnce = 2,
+        /// Blink the LED(s) for a given duration in milliseconds.
+        BlinkDurationMs = 3
+    }
 );
 int_enum!(
     /// Status query type (see `Device::status`).
     StatusType {
-        Chain = 0, AppStart = 1, Pcbsn = 2, SensorRead = 3, SensorWrite = 4,
-        SettingsRead = 5, SettingsWrite = 6, Calibration = 7, CalibrationPoints = 8,
-        CalibrationStored = 9, CalibrationInfo = 10, LedToggle = 11,
+        /// Chain identification status.
+        Chain = 0,
+        /// Application firmware start status.
+        AppStart = 1,
+        /// PCB serial number read status.
+        Pcbsn = 2,
+        /// Sensor read status.
+        SensorRead = 3,
+        /// Sensor write status.
+        SensorWrite = 4,
+        /// Settings read status.
+        SettingsRead = 5,
+        /// Settings write status.
+        SettingsWrite = 6,
+        /// Calibration write status.
+        Calibration = 7,
+        /// Calibration points write status.
+        CalibrationPoints = 8,
+        /// Calibration stored status.
+        CalibrationStored = 9,
+        /// Calibration info status.
+        CalibrationInfo = 10,
+        /// LED toggle status.
+        LedToggle = 11,
     }
 );
 int_enum!(
     /// Command status returned by `Device::status`.
-    CommandStatus { InProgress = 0, Finished = 1, Error = 2 }
+    CommandStatus {
+        /// The command has not yet finished.
+        InProgress = 0,
+        /// The command completed successfully.
+        Finished = 1,
+        /// The command failed.
+        Error = 2
+    }
 );
 
 /// Set process-global blocking mode. In blocking mode, calls wait up to
@@ -59,7 +120,11 @@ mod tests {
     use super::*;
     #[test]
     fn device_type_round_trip() {
-        for (v, t) in [(0, DeviceType::Tc), (3, DeviceType::Ain), (6, DeviceType::Badge)] {
+        for (v, t) in [
+            (0, DeviceType::Tc),
+            (3, DeviceType::Ain),
+            (6, DeviceType::Badge),
+        ] {
             assert_eq!(DeviceType::from_raw(v), Some(t));
             assert_eq!(t.as_raw(), v);
         }

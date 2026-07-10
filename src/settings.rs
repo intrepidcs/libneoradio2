@@ -1,11 +1,16 @@
-use std::os::raw::c_int;
 use crate::{check, ffi, CommandStatus, Device, LedMode, Result, StatusType};
+use std::os::raw::c_int;
 
 impl Device {
     /// Toggle LEDs on `device`/`bank`.
-    pub fn toggle_led(&self, device: i32, bank: i32, mode: LedMode, led_enables: i32, ms: i32)
-        -> Result<()>
-    {
+    pub fn toggle_led(
+        &self,
+        device: i32,
+        bank: i32,
+        mode: LedMode,
+        led_enables: i32,
+        ms: i32,
+    ) -> Result<()> {
         let mut h = self.handle;
         check(unsafe {
             ffi::neoradio2_toggle_led(&mut h, device, bank, mode.as_raw(), led_enables, ms)
@@ -33,9 +38,12 @@ impl Device {
     }
 
     /// Write the raw device settings struct.
-    pub fn write_settings(&self, device: i32, bank: i32, settings: &ffi::neoRADIO2_settings)
-        -> Result<()>
-    {
+    pub fn write_settings(
+        &self,
+        device: i32,
+        bank: i32,
+        settings: &ffi::neoRADIO2_settings,
+    ) -> Result<()> {
         let mut s = *settings;
         let mut h = self.handle;
         check(unsafe { ffi::neoradio2_write_settings(&mut h, device, bank, &mut s) })
@@ -60,9 +68,7 @@ impl Device {
     }
 
     /// Read raw performance statistics.
-    pub fn read_statistics(&self, device: i32, bank: i32)
-        -> Result<ffi::neoRADIO2_PerfStatistics>
-    {
+    pub fn read_statistics(&self, device: i32, bank: i32) -> Result<ffi::neoRADIO2_PerfStatistics> {
         let mut s: ffi::neoRADIO2_PerfStatistics = unsafe { std::mem::zeroed() };
         let mut h = self.handle;
         check(unsafe { ffi::neoradio2_read_statistics(&mut h, device, bank, &mut s) })?;
@@ -70,14 +76,23 @@ impl Device {
     }
 
     /// Query a command status.
-    pub fn status(&self, device: i32, bank: i32, bitfield: bool, ty: StatusType)
-        -> Result<CommandStatus>
-    {
+    pub fn status(
+        &self,
+        device: i32,
+        bank: i32,
+        bitfield: bool,
+        ty: StatusType,
+    ) -> Result<CommandStatus> {
         let mut out: ffi::CommandStatus = 0;
         let mut h = self.handle;
         check(unsafe {
             ffi::neoradio2_get_status(
-                &mut h, device, bank, bitfield as c_int, ty.as_raw() as ffi::StatusType, &mut out,
+                &mut h,
+                device,
+                bank,
+                bitfield as c_int,
+                ty.as_raw() as ffi::StatusType,
+                &mut out,
             )
         })?;
         Ok(CommandStatus::from_raw(out as i32).unwrap_or(CommandStatus::Error))
