@@ -2,6 +2,8 @@
 
 pub mod ffi;
 mod error;
+mod types;
 
 pub use error::{Error, Result};
 pub(crate) use error::check;
+pub use types::{CalType, CommandStatus, DeviceType, LedMode, StatusType, is_blocking, set_blocking};
