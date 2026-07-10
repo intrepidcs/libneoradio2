@@ -3,6 +3,7 @@
 pub mod ffi;
 mod device;
 mod error;
+mod settings;
 mod types;
 
 pub use device::{Device, DeviceInfo};
