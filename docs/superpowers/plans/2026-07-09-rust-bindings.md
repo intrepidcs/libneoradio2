@@ -16,6 +16,7 @@
 - C API is `libneoradio2/include/libneoradio2.h` + `libneoradio2common.h`. Handle: `#define neoradio2_handle long`. Return codes: `NEORADIO2_SUCCESS=0`, `NEORADIO2_FAILURE=1`, `NEORADIO2_ERR_WBLOCK=2`, `NEORADIO2_ERR_INPROGRESS=3`, `NEORADIO2_ERR_FAILURE=4`. `NEORADIO2_MAX_DEVS=8`.
 - The library is C++ — every link config must pull in the C++ runtime (`stdc++` on GNU/Linux, `c++` on macOS, auto on MSVC).
 - Do not modify the existing C/CMake/Python build files except `.gitignore`.
+- **crates.io-publishable:** explicit `include` list bundles the C sources + both submodules (~2.7 MB, under the 10 MB limit); `bindgen` stays optional so the default build needs no libclang; `build.rs` skips the native build when `DOCS_RS` is set; full manifest metadata; crate version starts at **0.1.0** (pre-1.0, API unproven). Acceptance gate: `cargo publish --dry-run` builds the extracted tarball on all three OSes.
 
 ## File structure
 
@@ -51,23 +52,48 @@
 ```toml
 [package]
 name = "neoradio2"
-version = "1.4.1"
+version = "0.1.0"
 edition = "2021"
 rust-version = "1.70"
 license = "MIT"
-description = "Rust bindings for Intrepid Control Systems neoRAD-IO2 devices"
+description = "Safe Rust bindings for Intrepid Control Systems neoRAD-IO2 DAQ devices"
 repository = "https://github.com/intrepidcs/libneoradio2"
-readme = "python/README.md"
+homepage = "https://www.intrepidcs.com/products/analog-daq-devices/rad-io2-series/"
+documentation = "https://docs.rs/neoradio2"
+readme = "README.md"
+keywords = ["daq", "usb", "hardware", "instrumentation", "neoradio2"]
+categories = ["hardware-support", "api-bindings", "science"]
 build = "build.rs"
-exclude = ["python/*", "doc/*", "libneoradio2/hidapi/tests/*"]
+# Explicit include list: bundles the vendored C sources + both submodules so the
+# published tarball builds without git/submodules. Excludes python/, doc/,
+# example/, test/ (incl. the test/ice submodule) and other repo-only trees.
+include = [
+    "/Cargo.toml",
+    "/build.rs",
+    "/README.md",
+    "/LICENSE",
+    "/src/**",
+    "/examples/**",
+    "/tests/**",
+    "/libneoradio2/CMakeLists.txt",
+    "/libneoradio2/src/**",
+    "/libneoradio2/include/**",
+    "/libneoradio2/neoRAD-IO2-FrameDescription/**",
+    "/libneoradio2/hidapi/**",
+]
 
 [features]
-# Regenerate src/ffi.rs at build time (needs libclang). Off by default.
+# Regenerate src/ffi.rs at build time (needs libclang). Off by default so the
+# published crate builds with no libclang dependency.
 bindgen = ["dep:bindgen"]
 
 [build-dependencies]
 cmake = "0.1"
 bindgen = { version = "0.70", optional = true }
+
+# docs.rs builds docs only; build.rs skips the native build there (DOCS_RS guard).
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-linux-gnu"
 ```
 
 - [ ] **Step 2: Add `/target` to `.gitignore`**
@@ -86,6 +112,13 @@ use std::env;
 use std::path::{Path, PathBuf};
 
 fn main() {
+    // --- 0. docs.rs builds documentation only (no linking). Skip the native
+    //        build so doc builds succeed without CMake/libudev/network. ---
+    if env::var("DOCS_RS").is_ok() {
+        println!("cargo:warning=DOCS_RS set: skipping native libneoradio2 build");
+        return;
+    }
+
     // --- 1. Optionally regenerate the committed FFI (needs libclang) ---
     #[cfg(feature = "bindgen")]
     regenerate_bindings();
@@ -1301,6 +1334,70 @@ git commit -m "feat(rust): crate docs, clippy-clean, CI workflow"
 
 ---
 
+### Task 12: crates.io packaging readiness
+
+**Files:**
+- Modify: `README.md` (add a Rust section for the crates.io landing page)
+
+**Interfaces:** none new. Deliverable: `cargo publish --dry-run` succeeds and the package contains the C sources + both submodules.
+
+- [ ] **Step 1: Add a "## Rust" section to the root `README.md`**
+
+Insert this section immediately after the existing `## Install (Python)` block (before `## Build from source`):
+
+```markdown
+## Rust
+
+Safe Rust bindings are published as the [`neoradio2`](https://crates.io/crates/neoradio2) crate.
+
+```toml
+[dependencies]
+neoradio2 = "0.1"
+```
+
+```rust
+use neoradio2::{Device, CalType};
+
+for info in Device::find()? {
+    let dev = Device::open(&info)?;
+    dev.chain_identify()?;
+    dev.app_start(0, 0xFF)?;
+    dev.request_sensor_data(0, 0xFF, CalType::Enabled)?;
+    println!("{} = {}", info.serial(), dev.read_sensor_float(0, 0)?);
+}
+# Ok::<(), neoradio2::Error>(())
+```
+
+Building the crate compiles the bundled C library from source, so it needs CMake
+and a C/C++ toolchain (the same as a source build above); no libclang is
+required. On Linux install `libudev-dev`.
+```
+
+(The triple-backtick fences inside the section are part of the README content — keep them.)
+
+- [ ] **Step 2: List the package contents and verify the C sources + submodules are present**
+
+Run: `cargo package --list --allow-dirty`
+Expected: output includes `libneoradio2/src/libneoradio2.cpp`, `libneoradio2/include/libneoradio2.h`, `libneoradio2/neoRAD-IO2-FrameDescription/radio2_frames.h`, and `libneoradio2/hidapi/CMakeLists.txt`. It must NOT include `python/`, `doc/`, `libneoradio2/example/`, or `libneoradio2/test/`. If a needed C file is missing, add its glob to `include` in `Cargo.toml` and re-run.
+
+- [ ] **Step 3: Build the packaged tarball (the real acceptance gate)**
+
+Run: `cargo publish --dry-run --allow-dirty`
+Expected: cargo packages the crate, extracts it to `target/package/neoradio2-0.1.0/`, and builds it from there — PASS. A failure here means the `include` list is missing a C source the CMake build needs; add it and re-run. (This is the authoritative check that the crate builds from the published tarball, not the working tree.)
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add README.md Cargo.toml
+git commit -m "feat(rust): crates.io packaging (include list, README, dry-run verified)"
+```
+
+- [ ] **Step 5 (do NOT run in CI or unattended): actual publish is a separate manual step**
+
+Publishing is intentionally NOT automated here. When the user decides to release, they run `cargo publish` (after `cargo login` with a crates.io token). Leave this unchecked; it is a human action, mentioned for completeness.
+
+---
+
 ## Self-Review
 
 **Spec coverage:**
@@ -1311,6 +1408,7 @@ git commit -m "feat(rust): crate docs, clippy-clean, CI workflow"
 - §4 coverage map (all ~50 fns) → find/open/close/state (4), chain/app/boot (5), identity (6), sensor (7), LED/settings/stats/status (8), calibration (9). Every C function in the map has a method. ✓
 - §5 testing (no-hardware always-run + adaptive hardware skip) → Task 4 (`tests/api.rs`), Task 10 (`tests/hardware.rs`). ✓
 - §6 CI → Task 11. ✓
+- §7 crates.io (include list, optional bindgen, DOCS_RS guard, metadata, version 0.1.0, README Rust section, dry-run gate) → Task 1 (Cargo.toml + build.rs guard) + Task 12 (README, package-list, dry-run). ✓
 
 **Placeholder scan:** No TBD/TODO; every code step shows complete code. One explicit *verification* note (Task 8 Step 3) about matching `ffi::CommandStatus`/`StatusType`'s generated Rust type — this is a real inspection step, not a placeholder, because bindgen may emit those either as `c_int` type aliases or as newtype enums depending on version; the implementer reads `src/ffi.rs` and matches. ✓
 

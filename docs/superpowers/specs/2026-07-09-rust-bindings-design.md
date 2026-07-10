@@ -193,6 +193,48 @@ A Rust workflow (`.github/workflows/rust.yml`) on Linux/Windows/macOS:
   `cargo fmt --check`, `cargo clippy -- -D warnings`.
 - A `bindgen`-sync job: `cargo build --features bindgen` then `git diff --exit-code src/ffi.rs`.
 
+## §7 — Publishing to crates.io
+
+The crate must be publishable to crates.io, which packages the crate directory
+into a self-contained tarball that any user builds without our git history or
+submodules. This drives several requirements:
+
+- **Bundle the C sources.** `build.rs` compiles the vendored C/C++ library, so
+  the tarball must contain `libneoradio2/{src,include,CMakeLists.txt}` plus the
+  two submodules' working-tree files (`neoRAD-IO2-FrameDescription/`, `hidapi/`).
+  Use an explicit `include = [...]` list in `Cargo.toml` — explicit includes pull
+  in submodule files regardless of git-submodule/`.gitignore` status, and exclude
+  the unrelated `python/`, `doc/`, `example/`, `test/` (incl. the `test/ice`
+  submodule) trees. Bundled payload is ~2.7 MB, well under the crates.io 10 MB
+  limit. hidapi is vendored wholesale (its own CMakeLists references many of its
+  subdirs) minus nothing needed — robustness over minimalism.
+- **Committed FFI is the crates.io-safe path.** `src/ffi.rs` is committed, so a
+  default `cargo build`/`cargo install neoradio2` never needs libclang. `bindgen`
+  stays an **optional** build-dependency behind the `bindgen` feature; it is never
+  compiled on the default path, so it does not gate publication or downstream
+  builds.
+- **docs.rs.** docs.rs builds documentation in a sandbox without libudev/network
+  and only needs `cargo doc` (which compiles but does not link the native lib).
+  `build.rs` returns early when the `DOCS_RS` env var is set, skipping the CMake
+  build and all link directives so doc builds succeed. `extern` declarations need
+  no symbols at doc-compile time.
+- **Manifest metadata** (required/expected for a good crates.io page): `name`,
+  `version`, `edition`, `license = "MIT"`, `description`, `repository`,
+  `documentation = "https://docs.rs/neoradio2"`, `homepage`, `readme = "README.md"`,
+  `keywords`, `categories`, `rust-version`. A Rust "## Rust" section is added to
+  the root `README.md` so the crates.io landing page has Rust-focused install/use
+  content (the existing README is C/Python-oriented).
+- **Versioning.** The Rust API is new and unproven, so the crate starts at
+  **0.1.0** (SemVer: pre-1.0 signals the API may change) rather than tracking the
+  C library's 1.4.x. This is independent of the C/Python package version.
+- **Bundled-license note.** Our wrapper is MIT. Vendored hidapi is tri-licensed
+  (BSD / GPLv3 / original HIDAPI) — the permissive BSD option applies; its license
+  files ship in the tarball. The frame-description headers are Intrepid's.
+- **Acceptance gate.** `cargo publish --dry-run` (which packages *and* builds the
+  extracted tarball) must succeed on Linux/Windows/macOS, and `cargo package
+  --list` must show the C sources + both submodules. The `include` list is tuned
+  against that output until the packaged crate builds cleanly.
+
 ## Open questions / risks
 
 - Static-linking a C++ library into a Rust binary requires the correct C++ runtime
@@ -201,3 +243,8 @@ A Rust workflow (`.github/workflows/rust.yml`) on Linux/Windows/macOS:
   CI bindgen-sync check.
 - `NEORADIO2_MAX_DEVS` (8) bounds the `find` buffer; more than 8 USB devices would
   be truncated (matches the C/Python behavior after the review fixes).
+- The `include` list can omit a C source hidapi's CMake needs, breaking the
+  packaged build even when the in-repo build works; the `cargo publish --dry-run`
+  acceptance gate (§7) catches this because it builds the extracted tarball.
+- docs.rs would fail if `build.rs` tried the native build there; mitigated by the
+  `DOCS_RS` early return (§7).
