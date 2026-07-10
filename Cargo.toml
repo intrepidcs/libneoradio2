@@ -1,0 +1,44 @@
+[package]
+name = "neoradio2"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+license = "MIT"
+description = "Safe Rust bindings for Intrepid Control Systems neoRAD-IO2 DAQ devices"
+repository = "https://github.com/intrepidcs/libneoradio2"
+homepage = "https://www.intrepidcs.com/products/analog-daq-devices/rad-io2-series/"
+documentation = "https://docs.rs/neoradio2"
+readme = "README.md"
+keywords = ["daq", "usb", "hardware", "instrumentation", "neoradio2"]
+categories = ["hardware-support", "api-bindings", "science"]
+build = "build.rs"
+# Explicit include list: bundles the vendored C sources + both submodules so the
+# published tarball builds without git/submodules. Excludes python/, doc/,
+# example/, test/ (incl. the test/ice submodule) and other repo-only trees.
+include = [
+    "/Cargo.toml",
+    "/build.rs",
+    "/README.md",
+    "/LICENSE",
+    "/src/**",
+    "/examples/**",
+    "/tests/**",
+    "/libneoradio2/CMakeLists.txt",
+    "/libneoradio2/src/**",
+    "/libneoradio2/include/**",
+    "/libneoradio2/neoRAD-IO2-FrameDescription/**",
+    "/libneoradio2/hidapi/**",
+]
+
+[features]
+# Regenerate src/ffi.rs at build time (needs libclang). Off by default so the
+# published crate builds with no libclang dependency.
+bindgen = ["dep:bindgen"]
+
+[build-dependencies]
+cmake = "0.1"
+bindgen = { version = "0.70", optional = true }
+
+# docs.rs builds docs only; build.rs skips the native build there (DOCS_RS guard).
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-linux-gnu"

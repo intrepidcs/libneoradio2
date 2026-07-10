@@ -351,3 +351,6 @@ dist/neoradio2-1.1.0-py3.8-win-amd64.egg
 neoradio2.egg-info/SOURCES.txt
 
 
+
+# Rust
+/target
