@@ -5,7 +5,7 @@ macro_rules! int_enum {
     ($(#[$m:meta])* $name:ident { $($variant:ident = $val:expr),* $(,)? }) => {
         $(#[$m])*
         #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-        pub enum $name { $($variant),* }
+        pub enum $name { $($variant = $val),* }
         impl $name {
             /// Convert from the C integer value.
             pub fn from_raw(v: i32) -> Option<Self> {
@@ -64,6 +64,18 @@ mod tests {
             assert_eq!(t.as_raw(), v);
         }
         assert_eq!(DeviceType::from_raw(42), None);
+        // Host uses a non-sequential C value (0xFF); verify accessors and the
+        // native discriminant cast all agree.
+        assert_eq!(DeviceType::from_raw(0xFF), Some(DeviceType::Host));
+        assert_eq!(DeviceType::Host.as_raw(), 0xFF);
+        assert_eq!(DeviceType::Host as i32, 0xFF);
+    }
+    #[test]
+    fn blocking_round_trips() {
+        set_blocking(true, std::time::Duration::from_millis(500));
+        assert!(is_blocking());
+        set_blocking(false, std::time::Duration::from_millis(500));
+        assert!(!is_blocking());
     }
     #[test]
     fn caltype_values() {
