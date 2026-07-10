@@ -1,0 +1,982 @@
+#![allow(non_camel_case_types, non_snake_case, non_upper_case_globals, dead_code, clippy::all)]
+
+#[repr(C)]
+#[derive(Copy, Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
+pub struct __BindgenBitfieldUnit<Storage> {
+    storage: Storage,
+}
+impl<Storage> __BindgenBitfieldUnit<Storage> {
+    #[inline]
+    pub const fn new(storage: Storage) -> Self {
+        Self { storage }
+    }
+}
+impl<Storage> __BindgenBitfieldUnit<Storage>
+where
+    Storage: AsRef<[u8]> + AsMut<[u8]>,
+{
+    #[inline]
+    fn extract_bit(byte: u8, index: usize) -> bool {
+        let bit_index = if cfg!(target_endian = "big") {
+            7 - (index % 8)
+        } else {
+            index % 8
+        };
+        let mask = 1 << bit_index;
+        byte & mask == mask
+    }
+    #[inline]
+    pub fn get_bit(&self, index: usize) -> bool {
+        debug_assert!(index / 8 < self.storage.as_ref().len());
+        let byte_index = index / 8;
+        let byte = self.storage.as_ref()[byte_index];
+        Self::extract_bit(byte, index)
+    }
+    #[inline]
+    pub unsafe fn raw_get_bit(this: *const Self, index: usize) -> bool {
+        debug_assert!(index / 8 < core::mem::size_of::<Storage>());
+        let byte_index = index / 8;
+        let byte = unsafe {
+            *(core::ptr::addr_of!((*this).storage) as *const u8).offset(byte_index as isize)
+        };
+        Self::extract_bit(byte, index)
+    }
+    #[inline]
+    fn change_bit(byte: u8, index: usize, val: bool) -> u8 {
+        let bit_index = if cfg!(target_endian = "big") {
+            7 - (index % 8)
+        } else {
+            index % 8
+        };
+        let mask = 1 << bit_index;
+        if val { byte | mask } else { byte & !mask }
+    }
+    #[inline]
+    pub fn set_bit(&mut self, index: usize, val: bool) {
+        debug_assert!(index / 8 < self.storage.as_ref().len());
+        let byte_index = index / 8;
+        let byte = &mut self.storage.as_mut()[byte_index];
+        *byte = Self::change_bit(*byte, index, val);
+    }
+    #[inline]
+    pub unsafe fn raw_set_bit(this: *mut Self, index: usize, val: bool) {
+        debug_assert!(index / 8 < core::mem::size_of::<Storage>());
+        let byte_index = index / 8;
+        let byte = unsafe {
+            (core::ptr::addr_of_mut!((*this).storage) as *mut u8).offset(byte_index as isize)
+        };
+        unsafe { *byte = Self::change_bit(*byte, index, val) };
+    }
+    #[inline]
+    pub fn get(&self, bit_offset: usize, bit_width: u8) -> u64 {
+        debug_assert!(bit_width <= 64);
+        debug_assert!(bit_offset / 8 < self.storage.as_ref().len());
+        debug_assert!((bit_offset + (bit_width as usize)) / 8 <= self.storage.as_ref().len());
+        let mut val = 0;
+        for i in 0..(bit_width as usize) {
+            if self.get_bit(i + bit_offset) {
+                let index = if cfg!(target_endian = "big") {
+                    bit_width as usize - 1 - i
+                } else {
+                    i
+                };
+                val |= 1 << index;
+            }
+        }
+        val
+    }
+    #[inline]
+    pub unsafe fn raw_get(this: *const Self, bit_offset: usize, bit_width: u8) -> u64 {
+        debug_assert!(bit_width <= 64);
+        debug_assert!(bit_offset / 8 < core::mem::size_of::<Storage>());
+        debug_assert!((bit_offset + (bit_width as usize)) / 8 <= core::mem::size_of::<Storage>());
+        let mut val = 0;
+        for i in 0..(bit_width as usize) {
+            if unsafe { Self::raw_get_bit(this, i + bit_offset) } {
+                let index = if cfg!(target_endian = "big") {
+                    bit_width as usize - 1 - i
+                } else {
+                    i
+                };
+                val |= 1 << index;
+            }
+        }
+        val
+    }
+    #[inline]
+    pub fn set(&mut self, bit_offset: usize, bit_width: u8, val: u64) {
+        debug_assert!(bit_width <= 64);
+        debug_assert!(bit_offset / 8 < self.storage.as_ref().len());
+        debug_assert!((bit_offset + (bit_width as usize)) / 8 <= self.storage.as_ref().len());
+        for i in 0..(bit_width as usize) {
+            let mask = 1 << i;
+            let val_bit_is_set = val & mask == mask;
+            let index = if cfg!(target_endian = "big") {
+                bit_width as usize - 1 - i
+            } else {
+                i
+            };
+            self.set_bit(index + bit_offset, val_bit_is_set);
+        }
+    }
+    #[inline]
+    pub unsafe fn raw_set(this: *mut Self, bit_offset: usize, bit_width: u8, val: u64) {
+        debug_assert!(bit_width <= 64);
+        debug_assert!(bit_offset / 8 < core::mem::size_of::<Storage>());
+        debug_assert!((bit_offset + (bit_width as usize)) / 8 <= core::mem::size_of::<Storage>());
+        for i in 0..(bit_width as usize) {
+            let mask = 1 << i;
+            let val_bit_is_set = val & mask == mask;
+            let index = if cfg!(target_endian = "big") {
+                bit_width as usize - 1 - i
+            } else {
+                i
+            };
+            unsafe { Self::raw_set_bit(this, index + bit_offset, val_bit_is_set) };
+        }
+    }
+}
+pub const NEORADIO2_SETTINGS_PARTSIZE: u32 = 32;
+pub const NEORADIO2_DESTINATION_BANK1: u32 = 1;
+pub const NEORADIO2_DESTINATION_BANK2: u32 = 2;
+pub const NEORADIO2_DESTINATION_BANK3: u32 = 4;
+pub const NEORADIO2_DESTINATION_BANK4: u32 = 8;
+pub const NEORADIO2_DESTINATION_BANK5: u32 = 16;
+pub const NEORADIO2_DESTINATION_BANK6: u32 = 32;
+pub const NEORADIO2_DESTINATION_BANK7: u32 = 64;
+pub const NEORADIO2_DESTINATION_BANK8: u32 = 128;
+pub const NEORADIO2_SUCCESS: u32 = 0;
+pub const NEORADIO2_FAILURE: u32 = 1;
+pub const NEORADIO2_ERR_WBLOCK: u32 = 2;
+pub const NEORADIO2_ERR_INPROGRESS: u32 = 3;
+pub const NEORADIO2_ERR_FAILURE: u32 = 4;
+pub const NEORADIO2_MAX_DEVS: u32 = 8;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_TC: _neoRADIO2_deviceTypes = 0;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_DIO: _neoRADIO2_deviceTypes = 1;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_PWRRLY: _neoRADIO2_deviceTypes = 2;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_AIN: _neoRADIO2_deviceTypes = 3;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_AOUT: _neoRADIO2_deviceTypes = 4;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_CANHUB: _neoRADIO2_deviceTypes = 5;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_BADGE: _neoRADIO2_deviceTypes = 6;
+pub const _neoRADIO2_deviceTypes_NEORADIO2_DEVTYPE_HOST: _neoRADIO2_deviceTypes = 255;
+pub type _neoRADIO2_deviceTypes = ::std::os::raw::c_int;
+pub use self::_neoRADIO2_deviceTypes as neoRADIO2_deviceTypes;
+#[repr(C, packed)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2frame_identifyResponse {
+    pub serial_number: u32,
+    pub manufacture_year: u16,
+    pub manufacture_month: u8,
+    pub manufacture_day: u8,
+    pub device_type: u8,
+    pub device_number: u8,
+    pub device_bank: u8,
+    pub firmwareVersion_major: u8,
+    pub firmwareVersion_minor: u8,
+    pub hardware_revMinor: u8,
+    pub hardware_revMajor: u8,
+    pub current_state: u8,
+}
+pub type neoRADIO2frame_identifyResponse = _neoRADIO2frame_identifyResponse;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2frame_header {
+    pub start_of_frame: u8,
+    pub command_status: u8,
+    pub device: u8,
+    pub bank: u8,
+    pub len: u8,
+}
+pub type neoRADIO2frame_header = _neoRADIO2frame_header;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2frame {
+    pub header: neoRADIO2frame_header,
+    pub data: [u8; 64usize],
+    pub crc: u8,
+}
+pub type neoRADIO2frame = _neoRADIO2frame;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2frame_identify {
+    pub device_type: u8,
+    pub device_number: u8,
+    pub bank_number: u8,
+}
+pub type neoRADIO2frame_identify = _neoRADIO2frame_identify;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_START: _neoRADIO2frame_commands = 1;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_IDENTIFY: _neoRADIO2frame_commands = 2;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_WRITE_DATA: _neoRADIO2frame_commands = 3;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_READ_DATA: _neoRADIO2frame_commands = 4;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_WRITE_SETTINGS: _neoRADIO2frame_commands = 5;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_READ_SETTINGS: _neoRADIO2frame_commands = 6;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_DEFAULT_SETTINGS: _neoRADIO2frame_commands = 7;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_READ_FAST: _neoRADIO2frame_commands = 8;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_TOGGLE_LED: _neoRADIO2frame_commands = 9;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_SET_BAUD: _neoRADIO2frame_commands = 10;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_READ_PCBSN: _neoRADIO2frame_commands = 16;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_READ_CAL: _neoRADIO2frame_commands = 32;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_WRITE_CAL: _neoRADIO2frame_commands = 33;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_WRITE_CALPOINTS: _neoRADIO2frame_commands = 34;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_STORE_CAL: _neoRADIO2frame_commands = 35;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_READ_CALPOINTS: _neoRADIO2frame_commands = 36;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_READ_CAL_INFO: _neoRADIO2frame_commands = 37;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_CLEAR_CAL: _neoRADIO2frame_commands = 38;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_PERF_STATS: _neoRADIO2frame_commands = 48;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_BL_WRITEBUFFER: _neoRADIO2frame_commands = 250;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_BL_WRITETOFLASH: _neoRADIO2frame_commands =
+    251;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_BL_VERIFY: _neoRADIO2frame_commands = 252;
+pub const _neoRADIO2frame_commands_NEORADIO2_COMMAND_ENTERBOOT: _neoRADIO2frame_commands = 255;
+pub type _neoRADIO2frame_commands = ::std::os::raw::c_int;
+pub use self::_neoRADIO2frame_commands as neoRADIO2frame_commands;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_SENSOR: _neoRADIO2frame_deviceStatus = 0;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_FIRMWARE: _neoRADIO2frame_deviceStatus = 1;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_IDENTIFY: _neoRADIO2frame_deviceStatus = 2;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_READ_SETTINGS:
+    _neoRADIO2frame_deviceStatus = 3;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_WRITE_SETTINGS:
+    _neoRADIO2frame_deviceStatus = 4;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_READ_PCBSN: _neoRADIO2frame_deviceStatus =
+    5;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_CAL: _neoRADIO2frame_deviceStatus = 6;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_CAL_STORE: _neoRADIO2frame_deviceStatus = 7;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_CAL_INFO: _neoRADIO2frame_deviceStatus = 8;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_CALPOINTS: _neoRADIO2frame_deviceStatus = 9;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_PERF_STATS: _neoRADIO2frame_deviceStatus =
+    16;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_SETBAUD: _neoRADIO2frame_deviceStatus = 10;
+pub const _neoRADIO2frame_deviceStatus_NEORADIO2_STATUS_NEED_ID: _neoRADIO2frame_deviceStatus = 255;
+pub type _neoRADIO2frame_deviceStatus = ::std::os::raw::c_int;
+pub use self::_neoRADIO2frame_deviceStatus as neoRADIO2frame_deviceStatus;
+#[repr(C, packed)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2_deviceSettings {
+    pub poll_rate_ms: u32,
+    pub channel_1_config: u32,
+    pub channel_2_config: u32,
+    pub channel_3_config: u32,
+}
+pub type neoRADIO2_deviceSettings = _neoRADIO2_deviceSettings;
+pub const _neoRADIO2states_NEORADIO2STATE_RUNNING: _neoRADIO2states = 0;
+pub const _neoRADIO2states_NEORADIO2STATE_INBOOTLOADER: _neoRADIO2states = 1;
+pub type _neoRADIO2states = ::std::os::raw::c_int;
+pub use self::_neoRADIO2states as neoRADIO2states;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2frame_calHeader {
+    pub num_of_pts: u8,
+    pub channel: u8,
+    pub range: u8,
+    pub cal_is_valid: u8,
+}
+pub type neoRADIO2frame_calHeader = _neoRADIO2frame_calHeader;
+pub const _neoRADIO2CalType_NEORADIO2CALTYPE_ENABLED: _neoRADIO2CalType = 0;
+pub const _neoRADIO2CalType_NEORADIO2CALTYPE_NOCAL: _neoRADIO2CalType = 1;
+pub const _neoRADIO2CalType_NEORADIO2CALTYPE_NOCAL_ENHANCED: _neoRADIO2CalType = 2;
+pub type _neoRADIO2CalType = ::std::os::raw::c_int;
+pub use self::_neoRADIO2CalType as neoRADIO2CalType;
+pub const _neoRADIO2_CANMsgType_NEORADIO2_CANMSGTYPE_SID_CLASSIC: _neoRADIO2_CANMsgType = 0;
+pub const _neoRADIO2_CANMsgType_NEORADIO2_CANMSGTYPE_XID_CLASSIC: _neoRADIO2_CANMsgType = 1;
+pub const _neoRADIO2_CANMsgType_NEORADIO2_CANMSGTYPE_SID_FD: _neoRADIO2_CANMsgType = 2;
+pub const _neoRADIO2_CANMsgType_NEORADIO2_CANMSGTYPE_XID_FD: _neoRADIO2_CANMsgType = 3;
+pub type _neoRADIO2_CANMsgType = ::std::os::raw::c_int;
+pub use self::_neoRADIO2_CANMsgType as neoRADIO2_CANMsgType;
+#[repr(C, packed)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2settings_CAN {
+    pub Arbid: u32,
+    pub Location: u8,
+    pub msgType: u8,
+}
+pub type neoRADIO2settings_CAN = _neoRADIO2settings_CAN;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct _neoRADIO2settings_ChannelName {
+    pub length: u8,
+    pub charSize: u8,
+    pub chars: _neoRADIO2settings_ChannelName__bindgen_ty_1,
+}
+#[repr(C, packed)]
+#[derive(Copy, Clone)]
+pub union _neoRADIO2settings_ChannelName__bindgen_ty_1 {
+    pub u32_: [u32; 16usize],
+    pub u16_: [u16; 32usize],
+    pub u8_: [u8; 64usize],
+}
+pub type neoRADIO2Settings_ChannelName = _neoRADIO2settings_ChannelName;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct _neoRADIO2_settings {
+    pub config: neoRADIO2_deviceSettings,
+    pub name1: neoRADIO2Settings_ChannelName,
+    pub name2: neoRADIO2Settings_ChannelName,
+    pub name3: neoRADIO2Settings_ChannelName,
+    pub can: neoRADIO2settings_CAN,
+}
+pub type neoRADIO2_settings = _neoRADIO2_settings;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2_SettingsPart {
+    pub part: u8,
+    pub data: [u8; 32usize],
+}
+pub type neoRADIO2_SettingsPart = _neoRADIO2_SettingsPart;
+#[repr(C, packed)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2frame_SetBaudrate {
+    pub baud: u32,
+}
+pub type neoRADIO2frame_SetBaudrate = _neoRADIO2frame_SetBaudrate;
+pub const _neoRADIO2_LEDMode_LEDMODE_OFF: _neoRADIO2_LEDMode = 0;
+pub const _neoRADIO2_LEDMode_LEDMODE_ON: _neoRADIO2_LEDMode = 1;
+pub const _neoRADIO2_LEDMode_LEDMODE_BLINK_ONCE: _neoRADIO2_LEDMode = 2;
+pub const _neoRADIO2_LEDMode_LEDMODE_BLINK_DURATION_MS: _neoRADIO2_LEDMode = 3;
+pub type _neoRADIO2_LEDMode = ::std::os::raw::c_int;
+pub use self::_neoRADIO2_LEDMode as neoRADIO2_LEDMode;
+#[repr(C, packed)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2_PerfStatistics {
+    pub comm_timeout_reset_cnt: u8,
+    pub cmd_process_time_ms: u16,
+    pub max_cmd_process_time_ms: u8,
+    pub bytes_rx: u32,
+    pub bytes_tx: u32,
+    pub ignored_rx: u16,
+    pub checksum_error_cnt: u16,
+    pub last_cmd: u8,
+    pub buffer_current: u8,
+    pub buffer_max: u8,
+    pub _reserved: [u8; 10usize],
+}
+pub type neoRADIO2_PerfStatistics = _neoRADIO2_PerfStatistics;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub union _neoRADIO2AOUT_header {
+    pub byte: u8,
+    pub bits: _neoRADIO2AOUT_header__bindgen_ty_1,
+}
+#[repr(C)]
+#[repr(align(4))]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2AOUT_header__bindgen_ty_1 {
+    pub _bitfield_align_1: [u8; 0],
+    pub _bitfield_1: __BindgenBitfieldUnit<[u8; 1usize]>,
+    pub __bindgen_padding_0: [u8; 3usize],
+}
+impl _neoRADIO2AOUT_header__bindgen_ty_1 {
+    #[inline]
+    pub fn ch1(&self) -> ::std::os::raw::c_uint {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u32) }
+    }
+    #[inline]
+    pub fn set_ch1(&mut self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(0usize, 1u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn ch1_raw(this: *const Self) -> ::std::os::raw::c_uint {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 1usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                0usize,
+                1u8,
+            ) as u32)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_ch1_raw(this: *mut Self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 1usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                0usize,
+                1u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn ch2(&self) -> ::std::os::raw::c_uint {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(1usize, 1u8) as u32) }
+    }
+    #[inline]
+    pub fn set_ch2(&mut self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(1usize, 1u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn ch2_raw(this: *const Self) -> ::std::os::raw::c_uint {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 1usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                1usize,
+                1u8,
+            ) as u32)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_ch2_raw(this: *mut Self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 1usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                1usize,
+                1u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn ch3(&self) -> ::std::os::raw::c_uint {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(2usize, 1u8) as u32) }
+    }
+    #[inline]
+    pub fn set_ch3(&mut self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(2usize, 1u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn ch3_raw(this: *const Self) -> ::std::os::raw::c_uint {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 1usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                2usize,
+                1u8,
+            ) as u32)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_ch3_raw(this: *mut Self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 1usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                2usize,
+                1u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn reserved(&self) -> ::std::os::raw::c_uint {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(3usize, 4u8) as u32) }
+    }
+    #[inline]
+    pub fn set_reserved(&mut self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(3usize, 4u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn reserved_raw(this: *const Self) -> ::std::os::raw::c_uint {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 1usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                3usize,
+                4u8,
+            ) as u32)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_reserved_raw(this: *mut Self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 1usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                3usize,
+                4u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn noCal(&self) -> ::std::os::raw::c_uint {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(7usize, 1u8) as u32) }
+    }
+    #[inline]
+    pub fn set_noCal(&mut self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(7usize, 1u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn noCal_raw(this: *const Self) -> ::std::os::raw::c_uint {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 1usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                7usize,
+                1u8,
+            ) as u32)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_noCal_raw(this: *mut Self, val: ::std::os::raw::c_uint) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 1usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                7usize,
+                1u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn new_bitfield_1(
+        ch1: ::std::os::raw::c_uint,
+        ch2: ::std::os::raw::c_uint,
+        ch3: ::std::os::raw::c_uint,
+        reserved: ::std::os::raw::c_uint,
+        noCal: ::std::os::raw::c_uint,
+    ) -> __BindgenBitfieldUnit<[u8; 1usize]> {
+        let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 1usize]> = Default::default();
+        __bindgen_bitfield_unit.set(0usize, 1u8, {
+            let ch1: u32 = unsafe { ::std::mem::transmute(ch1) };
+            ch1 as u64
+        });
+        __bindgen_bitfield_unit.set(1usize, 1u8, {
+            let ch2: u32 = unsafe { ::std::mem::transmute(ch2) };
+            ch2 as u64
+        });
+        __bindgen_bitfield_unit.set(2usize, 1u8, {
+            let ch3: u32 = unsafe { ::std::mem::transmute(ch3) };
+            ch3 as u64
+        });
+        __bindgen_bitfield_unit.set(3usize, 4u8, {
+            let reserved: u32 = unsafe { ::std::mem::transmute(reserved) };
+            reserved as u64
+        });
+        __bindgen_bitfield_unit.set(7usize, 1u8, {
+            let noCal: u32 = unsafe { ::std::mem::transmute(noCal) };
+            noCal as u64
+        });
+        __bindgen_bitfield_unit
+    }
+}
+pub type neoRADIO2AOUT_header = _neoRADIO2AOUT_header;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub union _neoRADIO2AOUT_channelConfig {
+    pub u32_: u32,
+    pub data: _neoRADIO2AOUT_channelConfig__bindgen_ty_1,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _neoRADIO2AOUT_channelConfig__bindgen_ty_1 {
+    pub initOutputValue: u16,
+    pub initEnabled: u8,
+    pub enabled: u8,
+}
+pub type neoRADIO2AOUT_channelConfig = _neoRADIO2AOUT_channelConfig;
+pub const _CommandStatus_StatusInProgress: _CommandStatus = 0;
+pub const _CommandStatus_StatusFinished: _CommandStatus = 1;
+pub const _CommandStatus_StatusError: _CommandStatus = 2;
+pub type _CommandStatus = ::std::os::raw::c_int;
+pub use self::_CommandStatus as CommandStatus;
+pub const _CommandStateType_CommandStateHost: _CommandStateType = 0;
+pub const _CommandStateType_CommandStateDevice: _CommandStateType = 1;
+pub const _CommandStateType_CommandStateUnknown: _CommandStateType = -1;
+pub type _CommandStateType = ::std::os::raw::c_int;
+pub use self::_CommandStateType as CommandStateType;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _Neoradio2DeviceInfo {
+    pub name: [::std::os::raw::c_char; 64usize],
+    pub serial_str: [::std::os::raw::c_char; 64usize],
+    pub vendor_id: ::std::os::raw::c_int,
+    pub product_id: ::std::os::raw::c_int,
+    pub _reserved: [u8; 32usize],
+}
+pub type Neoradio2DeviceInfo = _Neoradio2DeviceInfo;
+pub const _StatusType_StatusChain: _StatusType = 0;
+pub const _StatusType_StatusAppStart: _StatusType = 1;
+pub const _StatusType_StatusPCBSN: _StatusType = 2;
+pub const _StatusType_StatusSensorRead: _StatusType = 3;
+pub const _StatusType_StatusSensorWrite: _StatusType = 4;
+pub const _StatusType_StatusSettingsRead: _StatusType = 5;
+pub const _StatusType_StatusSettingsWrite: _StatusType = 6;
+pub const _StatusType_StatusCalibration: _StatusType = 7;
+pub const _StatusType_StatusCalibrationPoints: _StatusType = 8;
+pub const _StatusType_StatusCalibrationStored: _StatusType = 9;
+pub const _StatusType_StatusCalibrationInfo: _StatusType = 10;
+pub const _StatusType_StatusLedToggle: _StatusType = 11;
+pub const _StatusType_StatusMax: _StatusType = 12;
+pub type _StatusType = ::std::os::raw::c_int;
+pub use self::_StatusType as StatusType;
+unsafe extern "C" {
+    pub fn neoradio2_set_blocking(
+        blocking: ::std::os::raw::c_int,
+        ms_timeout: ::std::os::raw::c_longlong,
+    );
+}
+unsafe extern "C" {
+    pub fn neoradio2_find(
+        devices: *mut Neoradio2DeviceInfo,
+        device_count: *mut ::std::os::raw::c_uint,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_is_blocking() -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_open(
+        handle: *mut ::std::os::raw::c_long,
+        device: *mut Neoradio2DeviceInfo,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_is_opened(
+        handle: *mut ::std::os::raw::c_long,
+        is_opened: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_close(handle: *mut ::std::os::raw::c_long) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_is_closed(
+        handle: *mut ::std::os::raw::c_long,
+        is_closed: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_chain_is_identified(
+        handle: *mut ::std::os::raw::c_long,
+        is_identified: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_chain_identify(handle: *mut ::std::os::raw::c_long) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_app_is_started(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        is_started: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_app_start(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_enter_bootloader(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_serial_number(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        serial_number: *mut ::std::os::raw::c_uint,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_manufacturer_date(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        year: *mut ::std::os::raw::c_int,
+        month: *mut ::std::os::raw::c_int,
+        day: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_firmware_version(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        major: *mut ::std::os::raw::c_int,
+        minor: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_hardware_revision(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        major: *mut ::std::os::raw::c_int,
+        minor: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_device_type(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        device_type: *mut ::std::os::raw::c_uint,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_request_pcbsn(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_pcbsn(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        pcb_sn: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_request_sensor_data(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        enable_cal: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_read_sensor_float(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        value: *mut f32,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_read_sensor_array(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        arr: *mut ::std::os::raw::c_int,
+        arr_size: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_sensor(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        data: *mut u8,
+        len: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_sensor_successful(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_request_settings(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_read_settings(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        settings: *mut neoRADIO2_settings,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_settings(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        settings: *mut neoRADIO2_settings,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_settings_successful(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_chain_count(
+        handle: *mut ::std::os::raw::c_long,
+        count: *mut ::std::os::raw::c_int,
+        identify: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_request_calibration(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        header: *mut neoRADIO2frame_calHeader,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_read_calibration_array(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        header: *mut neoRADIO2frame_calHeader,
+        arr: *mut f32,
+        arr_size: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_request_calibration_points(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        header: *mut neoRADIO2frame_calHeader,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_read_calibration_points_array(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        header: *mut neoRADIO2frame_calHeader,
+        arr: *mut f32,
+        arr_size: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_calibration(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        header: *mut neoRADIO2frame_calHeader,
+        arr: *mut f32,
+        arr_size: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_calibration_successful(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_calibration_points(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        header: *mut neoRADIO2frame_calHeader,
+        arr: *mut f32,
+        arr_size: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_calibration_points_successful(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_store_calibration(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_is_calibration_stored(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        stored: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_calibration_is_valid(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        is_valid: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_clear_calibration(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_request_calibration_info(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_read_calibration_info(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        header: *mut neoRADIO2frame_calHeader,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_toggle_led(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        mode: ::std::os::raw::c_int,
+        led_enables: ::std::os::raw::c_int,
+        ms: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_toggle_led_successful(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_get_status(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        bitfield: ::std::os::raw::c_int,
+        type_: StatusType,
+        status: *mut CommandStatus,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_write_default_settings(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_request_statistics(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn neoradio2_read_statistics(
+        handle: *mut ::std::os::raw::c_long,
+        device: ::std::os::raw::c_int,
+        bank: ::std::os::raw::c_int,
+        stats: *mut neoRADIO2_PerfStatistics,
+    ) -> ::std::os::raw::c_int;
+}

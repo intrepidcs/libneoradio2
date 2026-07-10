@@ -10,11 +10,17 @@ on:
       - 'python/src/**'
       - 'python/docs/**'
       - 'pyproject.toml'
+      - 'src/**'
+      - 'build.rs'
+      - 'Cargo.toml'
       - '.github/workflows/docs.yml'
   pull_request:
     paths:
       - 'python/src/**'
       - 'python/docs/**'
+      - 'src/**'
+      - 'build.rs'
+      - 'Cargo.toml'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 
@@ -48,7 +54,7 @@ jobs:
           pip install .
           pip install -r python/docs/requirements.txt
 
-      - name: Build the docs
+      - name: Build the Python docs
         working-directory: python/docs
         run: |
           python generate_function_rst.py
@@ -57,17 +63,32 @@ jobs:
           rm -rf html/.doctrees
           touch html/.nojekyll
 
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build the Rust API docs
+        env:
+          # Tells build.rs to skip the native CMake build — rustdoc compiles the
+          # crate but never links, so the C library isn't needed for docs.
+          DOCS_RS: '1'
+        run: |
+          cargo doc --no-deps --lib
+          rm -rf rust/doc
+          mkdir -p rust
+          cp -r target/doc rust/doc
+          # Redirect rust/doc/ to the crate index for a clean landing URL.
+          printf '<meta http-equiv="refresh" content="0; url=neoradio2/index.html">\n' > rust/doc/index.html
+
       - name: Commit refreshed docs
         # Only publish on pushes to master / manual runs, not on PRs.
         if: github.event_name != 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add python/docs/html python/docs/functions.rst python/docs/classes.rst
+          git add python/docs/html python/docs/functions.rst python/docs/classes.rst rust/doc
           if git diff --cached --quiet; then
             echo "Docs already up to date."
           else
             # [skip ci] keeps this auto-commit from re-triggering the workflow.
-            git commit -m "docs: rebuild Python API docs [skip ci]"
+            git commit -m "docs: rebuild Python + Rust API docs [skip ci]"
             git push
           fi

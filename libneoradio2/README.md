@@ -5,11 +5,19 @@
 
 # Documentation
 
-libneoradio2 is a library to interface to Intrepid Control Systems, Inc. neoRAD-IO-2 product line. This library is a C library with binding to Python. More language bindings are in the works but unfinished currently.
+libneoradio2 is a library to interface to Intrepid Control Systems, Inc. neoRAD-IO-2 product line. This library is a C library with Python and Rust bindings.
 
 ## C Library documentation:
 
 https://intrepidcs.github.io/libneoradio2/doc/html/libneoradio2_8h.html
+
+## Python documentation:
+
+https://intrepidcs.github.io/libneoradio2/python/docs/html/
+
+## Rust documentation:
+
+https://intrepidcs.github.io/libneoradio2/rust/doc/neoradio2/
 
 
 # Quick Start
