@@ -199,6 +199,55 @@ impl Device {
     }
 }
 
+use crate::CalType;
+
+impl Device {
+    /// Request a fresh sensor sample for `device`/`bank`.
+    pub fn request_sensor_data(&self, device: i32, bank: i32, cal: CalType) -> Result<()> {
+        let mut h = self.handle;
+        check(unsafe {
+            ffi::neoradio2_request_sensor_data(&mut h, device, bank, cal.as_raw())
+        })
+    }
+
+    /// Read a single sensor value as `f32`.
+    pub fn read_sensor_float(&self, device: i32, bank: i32) -> Result<f32> {
+        let mut out: f32 = 0.0;
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_read_sensor_float(&mut h, device, bank, &mut out) })?;
+        Ok(out)
+    }
+
+    /// Read the raw sensor sample as an array of integers (one per byte).
+    pub fn read_sensor_array(&self, device: i32, bank: i32) -> Result<Vec<i32>> {
+        let mut arr = [0 as c_int; 64];
+        let mut len: c_int = arr.len() as c_int;
+        let mut h = self.handle;
+        check(unsafe {
+            ffi::neoradio2_read_sensor_array(&mut h, device, bank, arr.as_mut_ptr(), &mut len)
+        })?;
+        let n = (len.max(0) as usize).min(arr.len());
+        Ok(arr[..n].to_vec())
+    }
+
+    /// Write sensor/actuator data for `device`/`bank`.
+    pub fn write_sensor(&self, device: i32, bank: i32, data: &[u8]) -> Result<()> {
+        let mut h = self.handle;
+        check(unsafe {
+            ffi::neoradio2_write_sensor(
+                &mut h, device, bank,
+                data.as_ptr() as *mut u8, data.len() as c_int,
+            )
+        })
+    }
+
+    /// Whether the last [`write_sensor`](Device::write_sensor) completed.
+    pub fn write_sensor_successful(&self, device: i32, bank: i32) -> Result<()> {
+        let mut h = self.handle;
+        check(unsafe { ffi::neoradio2_write_sensor_successful(&mut h, device, bank) })
+    }
+}
+
 impl Drop for Device {
     fn drop(&mut self) {
         unsafe { ffi::neoradio2_close(&mut self.handle) };
